@@ -3,20 +3,20 @@ import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 
 // Styles
-import { height, width, space, colors, fontSize } from '../../../styles/variables'
+import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
+import { transition } from '../../../styles/animation'
 import { SearchBarContainer } from '../../atoms'
 
-const SearchBar: React.FC = () => {
+interface Props {
+  placeholder: string
+}
+
+const SearchBar: React.FC<Props> = ({ placeholder }) => {
+  const [searchIsFocused, setSearchIsFocused] = React.useState(false)
+
   return (
     <SearchBarContainer>
       <motion.input
-        // initial={{
-        //   opacity: 0
-        // }}
-        // animate={{
-        //   opacity: 1
-        // }}
-        type="text"
         css={css`
           width: ${width.searchBar}px;
           height: ${height.searchBar}px;
@@ -27,6 +27,7 @@ const SearchBar: React.FC = () => {
 
           color: ${colors.textColorPrimary};
           font-size: ${fontSize.md};
+          font-weight: ${fontWeight.sm};
 
           outline: none;
 
@@ -37,7 +38,17 @@ const SearchBar: React.FC = () => {
             font-size: inherit;
           }
         `}
-        placeholder="test"
+        animate={{
+          paddingLeft: searchIsFocused ? space[2] : space[10],
+          transition: transition.primary
+        }}
+        initial={{
+          paddingLeft: space[10]
+        }}
+        onFocus={() => setSearchIsFocused(true)}
+        onBlur={() => setSearchIsFocused(false)}
+        type="text"
+        placeholder={placeholder}
       />
     </SearchBarContainer>
   )

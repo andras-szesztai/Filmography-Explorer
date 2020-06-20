@@ -1,15 +1,15 @@
-export const TRANSITION = {
+export const transition = {
   primary: {
     type: 'spring',
     damping: 12
   }
 }
 
-export const WHILE_HOVER = {
+export const whileHover = {
   scale: 1.25
 }
 
-export const OPACITY_VARIANT = {
+export const opacityVariant = {
   initial: {
     opacity: 0
   },
@@ -21,7 +21,7 @@ export const OPACITY_VARIANT = {
   }
 }
 
-export const ANIMATE_PROPS = {
+export const animateProps = {
   initial: 'initial',
   animate: 'animate',
   exit: 'exit'

@@ -18,8 +18,11 @@ const Header: React.FC = () => {
         padding: 0 ${space[7]}px;
 
         border-bottom: 1px solid ${colors.textColorPrimary};
+        border-right: 1px solid ${colors.textColorPrimary};
 
         font-size: ${fontSize.md}px;
+
+        border-radius: 0 0 30px 0;
       `}
     >
       <NavItem text="Explore" />

@@ -2,6 +2,7 @@ import * as React from 'react'
 import Helmet from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 import { Global, css } from '@emotion/core'
+import { motion } from 'framer-motion'
 
 // Components
 import { Header } from '../../molecules'
@@ -9,7 +10,7 @@ import { Header } from '../../molecules'
 // Styles
 import 'modern-normalize'
 import '../../../styles/main.css'
-import { colors } from '../../../styles/variables'
+import { colors, space } from '../../../styles/variables'
 
 const Layout: React.FC = ({ children }) => {
   const {
@@ -45,8 +46,18 @@ const Layout: React.FC = ({ children }) => {
           }
         `}
       />
-      <Header>Hello</Header>
-      {children}
+      <motion.div
+        css={css`
+          height: 100vh;
+          width: 100vw;
+
+          display: grid;
+          grid-template-rows: ${space[11]}px 1fr ${space[11]}px;
+        `}
+      >
+        <Header>Hello</Header>
+        {children}
+      </motion.div>
     </>
   )
 }

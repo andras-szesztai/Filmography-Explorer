@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@emotion/core'
 
 // Styles
-import { spaces, colors, fontSize, fontWeight } from '../../../styles/variables'
+import { space, colors, fontSize, fontWeight } from '../../../styles/variables'
 
 interface Props {
   text: string
@@ -17,13 +17,13 @@ const NavItem: React.FC<Props> = ({ text }) => {
         color: ${colors.textColorPrimary};
         font-size: ${fontSize.lg};
         font-weight: ${fontWeight.md};
-        letter-spacing: ${spaces[1]}px;
+        letter-spacing: ${space[1]}px;
 
         background: transparent;
         border: none;
 
         user-select: none;
-        border-radius: ${spaces[1]}px;
+        border-radius: ${space[1]}px;
 
         :focus {
           box-shadow: 0 0 0 1px ${colors.accentPrimary};

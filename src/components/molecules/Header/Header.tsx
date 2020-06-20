@@ -5,7 +5,7 @@ import { css } from '@emotion/core'
 import { NavItem } from '../../atoms'
 
 // Styles
-import { spaces, colors, fontSize } from '../../../styles/variables'
+import { space, colors, fontSize } from '../../../styles/variables'
 
 const Header: React.FC = () => {
   return (
@@ -15,14 +15,14 @@ const Header: React.FC = () => {
         top: 0px;
         left: 0px;
 
-        height: ${spaces[11]}px;
-        width: 100vw;
+        height: 100%;
+        width: 100%;
 
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        padding: 0 ${spaces[11]}px 0 ${spaces[11]}px;
+        padding: 0 ${space[11]}px 0 ${space[11]}px;
 
         border-bottom: 1px solid ${colors.textColorPrimary};
 

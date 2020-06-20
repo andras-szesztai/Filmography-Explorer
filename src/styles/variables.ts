@@ -23,7 +23,7 @@ export const colors = {
   accentSecondary: '#FEC33F'
 }
 
-export const spaces = {
+export const space = {
   0: 0,
   1: 4,
   2: 8,
@@ -42,4 +42,8 @@ export const spaces = {
   15: 80,
   16: 88,
   17: 96
+}
+
+export const zIndex = {
+  mainSearchBar: 50
 }

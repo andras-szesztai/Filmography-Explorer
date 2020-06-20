@@ -10,9 +10,10 @@ interface Props {
   isVisible: boolean
   animateProps: { x: number; rotateY: number }
   isLeft?: boolean
+  onClick?: () => void
 }
 
-const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProps, isLeft }) => {
+const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProps, isLeft, onClick }) => {
   const variants = {
     enter: {
       ...animateProps,
@@ -65,6 +66,7 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
           exit="exit"
           whileHover={{ ...whileHover, transition: transition.whileHover }}
           transition={transition.primary}
+          onClick={onClick}
         >
           {children}
         </motion.button>
@@ -74,11 +76,3 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
 }
 
 export default SearchIconContainer
-
-// export const SearchIconContainer = styled(motion.div)`
-//   position: absolute;
-//   top: ${space[2]}px;
-//   left: ${space[2]}px;
-//   cursor: default;
-//   z-index: ${({ z }) => z + 1};
-// `

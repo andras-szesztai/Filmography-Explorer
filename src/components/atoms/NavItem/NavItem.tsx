@@ -19,7 +19,7 @@ const NavItem: React.FC<Props> = ({ text, isActive }) => {
         font-size: ${fontSize.md}px;
         color: ${colors.textColorPrimary};
         font-size: ${fontSize.lg};
-        font-weight: ${fontWeight.md};
+        font-weight: ${fontWeight.lg};
         letter-spacing: ${space[1]}px;
 
         background: transparent;

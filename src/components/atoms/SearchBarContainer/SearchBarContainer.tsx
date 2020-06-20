@@ -17,7 +17,7 @@ const SearchBarContainer: React.FC = ({ children }) => {
       css={css`
         position: absolute;
         left: ${space[7]}px;
-        top: ${space[4]}px;
+        top: ${space[5]}px;
         z-index: ${zIndex.mainSearchBar};
       `}
     >

@@ -1,0 +1,18 @@
+@import url('https://use.typekit.net/sds6vgg.css');
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  font-family: gill-sans-nova, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 8px;
+}

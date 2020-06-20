@@ -1,12 +1,14 @@
 import * as React from 'react'
 
 // Components
-import { Layout, SearchDashboardDesktop } from '../components'
+import { Layout, SearchDashboardDesktop, SearchBar } from '../components'
 
 const IndexPage = () => {
   return (
     <Layout>
-      <SearchDashboardDesktop />
+      <SearchDashboardDesktop>
+        <SearchBar />
+      </SearchDashboardDesktop>
     </Layout>
   )
 }

@@ -47,3 +47,14 @@ export const space = {
 export const zIndex = {
   mainSearchBar: 50
 }
+
+export const width = {
+  searchBar: 350,
+  detailsCard: 400
+}
+
+export const height = {
+  personCard: 240,
+  movieCard: 480,
+  searchBar: 40
+}

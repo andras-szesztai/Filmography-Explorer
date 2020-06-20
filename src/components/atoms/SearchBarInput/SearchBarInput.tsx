@@ -12,9 +12,23 @@ interface Props {
   placeholder: string
   inputValue: string
   setInputText: (text: string) => void
+  setResults: (arr: []) => void
+  setActiveResult: (index: number) => void
+  activeResult: number
+  results: any[]
 }
 
-const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, placeholder, inputValue, setInputText }) => {
+const SearchBarInput: React.FC<Props> = ({
+  searchIsFocused,
+  setSearchIsFocused,
+  placeholder,
+  inputValue,
+  setInputText,
+  setResults,
+  results,
+  setActiveResult,
+  activeResult
+}) => {
   return (
     <motion.input
       css={css`
@@ -49,12 +63,19 @@ const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, 
       placeholder={placeholder}
       value={inputValue}
       onFocus={() => setSearchIsFocused(true)}
-      onBlur={() => setSearchIsFocused(false)}
+      onBlur={() => {
+        setInputText('')
+        setResults([])
+        setSearchIsFocused(false)
+      }}
       onChange={(e: React.FormEvent<HTMLInputElement>) => {
-        // setResults([])
-        // setActiveSearchResult(0)
         setInputText(e.currentTarget.value)
-        // !searchIsFocused && setSearchIsFocused(true)
+        if (results.length) {
+          setResults([])
+        }
+        if (activeResult !== 0) {
+          setActiveResult(0)
+        }
       }}
     />
   )

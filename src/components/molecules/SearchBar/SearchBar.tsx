@@ -9,8 +9,8 @@ import { SearchBarContainer, SearchBarInput, SearchIconContainer } from '../../a
 
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
-import { transition } from '../../../styles/animation'
-import { useDebouncedSearch } from '../../../hooks'
+import { transition, duration } from '../../../styles/animation'
+import { useDebouncedSearch, useStateWithPrevious } from '../../../hooks'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
@@ -22,17 +22,21 @@ interface Props {
 const SearchBar: React.FC<Props> = ({ placeholder }) => {
   const [nameSearchResults, setNameSearchResults] = React.useState([])
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
+  const [activeResult, setActiveResult, prevActiveResult] = useStateWithPrevious(0)
 
   const fetchNames = (text: string) => {
     if (text) {
-      return axios
+      axios
         .get(`${API_ROOT}/search/person?api_key=${process.env.MDB_API_KEY}&language=en-US&query=${text}&page=1&include_adult=false`)
-        .then(response => setNameSearchResults(response.data.results.filter((el: {}, i: number) => i < 5)))
+        .then(response => {
+          setNameSearchResults(response.data.results.filter((el: {}, i: number) => i < 5))
+        })
         .catch(error => console.log(error))
+    } else {
+      setNameSearchResults([])
     }
-    return setNameSearchResults([])
   }
-  const { inputText, setInputText } = useDebouncedSearch(fetchNames, 500)
+  const { inputText, setInputText } = useDebouncedSearch(fetchNames, duration.md)
 
   return (
     <SearchBarContainer>
@@ -42,6 +46,10 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
         setSearchIsFocused={setSearchIsFocused}
         inputValue={inputText}
         setInputText={setInputText}
+        results={nameSearchResults}
+        setResults={setNameSearchResults}
+        setActiveResult={setActiveResult}
+        activeResult={activeResult}
       />
       <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
         <IoIosSearch size={22} color={colors.textColorPrimary} />
@@ -61,5 +69,3 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
 }
 
 export default SearchBar
-
-// outline: none;

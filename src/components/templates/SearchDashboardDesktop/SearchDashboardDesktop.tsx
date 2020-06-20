@@ -10,6 +10,8 @@ const SearchDashboardDesktop: React.FC = ({ children }) => {
       css={css`
         position: relative;
         padding: 0 ${space[7]}px;
+
+        overflow: hidden;
       `}
     >
       {children}

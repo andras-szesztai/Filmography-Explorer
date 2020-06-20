@@ -10,9 +10,10 @@ const useDebouncedSearch = (searchFunction: (text: string) => void, debounceTime
 
   useAsync(async () => {
     if (inputText.length > 0) {
-      return debouncedSearchFunction(inputText)
+      debouncedSearchFunction(inputText)
+    } else {
+      debouncedSearchFunction('')
     }
-    return debouncedSearchFunction('')
   }, [debouncedSearchFunction, inputText])
 
   return {

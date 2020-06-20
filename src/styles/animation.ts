@@ -31,3 +31,10 @@ export const animateProps = {
   animate: 'animate',
   exit: 'exit'
 }
+
+export const duration = {
+  xs: 150,
+  sm: 300,
+  md: 500,
+  lg: 1000
+}

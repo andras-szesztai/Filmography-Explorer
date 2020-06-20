@@ -3,8 +3,9 @@ import Helmet from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 import { Global, css } from '@emotion/core'
 
-// import 'modern-normalize'
-// import '../../styles/main.css'
+import 'modern-normalize'
+import '../../styles/main.css'
+import { colors } from '../../styles/variables'
 
 const Layout: React.FC = ({ children }) => {
   const {
@@ -34,22 +35,9 @@ const Layout: React.FC = ({ children }) => {
       />
       <Global
         styles={css`
-          @import url('https://use.typekit.net/sds6vgg.css');
-          html {
-            box-sizing: border-box;
-          }
-
-          *,
-          *::before,
-          *::after {
-            box-sizing: inherit;
-          }
-
-          html {
-            font-family: gill-sans-nova, sans-serif;
-            font-weight: 300;
-            font-style: normal;
-            font-size: 8px;
+          body {
+            background-color: ${colors.bgColor};
+            color: ${colors.textColor};
           }
         `}
       />

@@ -1,25 +1,23 @@
-'use strict'
-
 module.exports = {
   siteMetadata: {
-    title: 'gatsby-starter-typescript-plus',
-    description: 'A starter kit for TypeScript-based Gatsby projects with sensible defaults.',
-    keywords: 'gatsbyjs, gatsby, javascript, sample, something',
+    title: 'Filmography Explorer',
+    description: '------------------------',
+    keywords: 'gatsbyjs, gatsby, javascript, react, d3.js, films, movies, series',
     siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',
     author: {
-      name: 'Resi Respati',
-      url: 'https://twitter.com/resir014',
-      email: 'resir014@gmail.com'
+      name: 'András Szesztai',
+      url: 'https://twitter.com/AndSzesztai',
+      email: 'and.szesztai@gmail.com'
     }
   },
   plugins: [
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'content',
-        path: `${__dirname}/src/content`
-      }
-    },
+    // {
+    //   resolve: 'gatsby-source-filesystem',
+    //   options: {
+    //     name: 'content',
+    //     path: `${__dirname}/src/content`
+    //   }
+    // },
     {
       resolve: 'gatsby-transformer-remark',
       options: {

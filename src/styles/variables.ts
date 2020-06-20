@@ -15,8 +15,29 @@ export const fontWeight = {
 }
 
 export const colors = {
-  bgColor: '#2C232F',
+  bgColor: '#211A23',
   textColor: '#FEFEFE',
   primaryAccent: '#FF4E47',
   secondaryAccent: '#FEC33F'
+}
+
+export const spaces = {
+  0: 0,
+  1: 4,
+  2: 8,
+  3: 12,
+  4: 16,
+  5: 20,
+  6: 24,
+  7: 28,
+  8: 32,
+  9: 36,
+  10: 40,
+  11: 48,
+  12: 56,
+  13: 64,
+  14: 72,
+  15: 80,
+  16: 88,
+  17: 96
 }

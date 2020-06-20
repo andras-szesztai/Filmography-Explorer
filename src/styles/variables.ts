@@ -56,5 +56,5 @@ export const width = {
 export const height = {
   personCard: 240,
   movieCard: 480,
-  searchBar: 40
+  searchBar: space[10]
 }

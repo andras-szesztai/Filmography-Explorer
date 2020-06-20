@@ -24,11 +24,11 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
         css={css`
           right: ${space[1]}px;
         `}
-        isVisible
+        isVisible={!searchIsFocused}
         isLeft
         animateProps={{ x: 0, rotateY: 0 }}
       >
-        <IoIosSearch size={25} color="#FFF" />
+        <IoIosSearch size={22} color="#FFF" />
       </SearchIconContainer>
     </SearchBarContainer>
   )

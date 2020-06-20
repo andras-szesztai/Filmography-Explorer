@@ -11,6 +11,10 @@ const Header: React.FC = () => {
   return (
     <header
       css={css`
+        position: fixed;
+        top: 0px;
+        left: 0px;
+
         height: ${spaces[11]}px;
         width: 100vw;
 
@@ -20,7 +24,7 @@ const Header: React.FC = () => {
 
         padding: 0 ${spaces[11]}px 0 ${spaces[11]}px;
 
-        border-bottom: 1px solid ${colors.textColor};
+        border-bottom: 1px solid ${colors.textColorPrimary};
 
         font-size: ${fontSize.md}px;
       `}

@@ -15,10 +15,12 @@ export const fontWeight = {
 }
 
 export const colors = {
-  bgColor: '#161117',
-  textColor: '#FEFEFE',
-  primaryAccent: '#FF4E47',
-  secondaryAccent: '#FEC33F'
+  bgColorPrimary: '#161117',
+  bgColorSecondary: '#FEFEFE',
+  textColorPrimary: '#FEFEFE',
+  textColorSecondary: '#161117',
+  accentPrimary: '#FF4E47',
+  accentSecondary: '#FEC33F'
 }
 
 export const spaces = {

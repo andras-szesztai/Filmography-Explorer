@@ -37,8 +37,8 @@ const Layout: React.FC = ({ children }) => {
       <Global
         styles={css`
           body {
-            background-color: ${colors.bgColor};
-            color: ${colors.textColor};
+            background-color: ${colors.bgColorPrimary};
+            color: ${colors.textColorPrimary};
           }
         `}
       />

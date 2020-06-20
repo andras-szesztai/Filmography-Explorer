@@ -15,7 +15,7 @@ const Header: React.FC = () => {
         align-items: center;
         justify-content: space-between;
 
-        padding: 0 ${space[7]}px 0 ${space[7]}px;
+        padding: 0 ${space[7]}px;
 
         border-bottom: 1px solid ${colors.textColorPrimary};
 

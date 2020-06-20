@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 
 // Styles
-import { height, width, space, colors } from '../../../styles/variables'
+import { height, width, space, colors, fontSize } from '../../../styles/variables'
 import { SearchBarContainer } from '../../atoms'
 
 const SearchBar: React.FC = () => {
@@ -22,11 +22,19 @@ const SearchBar: React.FC = () => {
           height: ${height.searchBar}px;
 
           border-radius: ${space[1]}px;
-          color: ${colors.textColorPrimary};
           background: transparent;
           border: 1px solid ${colors.textColorPrimary};
+
+          color: ${colors.textColorPrimary};
+          font-size: ${fontSize.md};
+
+          outline: none;
+
+          padding: ${space[1]}px ${space[2]}px;
+
           &::placeholder {
-            font: inherit;
+            color: inherit;
+            font-size: inherit;
           }
         `}
         placeholder="test"

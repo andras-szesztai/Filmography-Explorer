@@ -1,11 +1,14 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
+import { IoIosSearch, IoIosClose } from 'react-icons/io'
+
+// Components
+import { SearchBarContainer, SearchBarInput, SearchIconContainer } from '../../atoms'
 
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
-import { SearchBarContainer } from '../../atoms'
 
 interface Props {
   placeholder: string
@@ -16,40 +19,17 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
 
   return (
     <SearchBarContainer>
-      <motion.input
+      <SearchBarInput placeholder={placeholder} searchIsFocused={searchIsFocused} setSearchIsFocused={setSearchIsFocused} />
+      <SearchIconContainer
         css={css`
-          width: ${width.searchBar}px;
-          height: ${height.searchBar}px;
-
-          border-radius: ${space[1]}px;
-          background: transparent;
-          border: 1px solid ${colors.textColorPrimary};
-
-          color: ${colors.textColorPrimary};
-          font-size: ${fontSize.md};
-          font-weight: ${fontWeight.sm};
-
-          outline: none;
-
-          padding: ${space[1]}px ${space[2]}px;
-
-          &::placeholder {
-            color: inherit;
-            font-size: inherit;
-          }
+          right: ${space[1]}px;
         `}
-        animate={{
-          paddingLeft: searchIsFocused ? space[2] : space[10],
-          transition: transition.primary
-        }}
-        initial={{
-          paddingLeft: space[10]
-        }}
-        onFocus={() => setSearchIsFocused(true)}
-        onBlur={() => setSearchIsFocused(false)}
-        type="text"
-        placeholder={placeholder}
-      />
+        isVisible
+        isLeft
+        animateProps={{ x: 0, rotateY: 0 }}
+      >
+        <IoIosSearch size={25} color="#FFF" />
+      </SearchIconContainer>
     </SearchBarContainer>
   )
 }

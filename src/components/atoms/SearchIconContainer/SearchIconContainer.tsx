@@ -1,32 +1,31 @@
 import React from 'react'
-
 import { css } from '@emotion/core'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Styles
 import { space, colors } from '../../../styles/variables'
+import { transition, whileHover } from '../../../styles/animation'
 
 interface Props {
   isVisible: boolean
   animateProps: { x: number; rotateY: number }
-  isLeft: boolean
+  isLeft?: boolean
 }
 
 const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProps, isLeft }) => {
   const variants = {
-    initial: {
-      rotateY: 0,
-      x: 0,
-      opacity: 1
+    enter: {
+      ...animateProps,
+      opacity: 0
     },
     animate: {
       opacity: 1,
-      ...animateProps
+      rotateY: 0,
+      x: 0
     },
     exit: {
-      rotateY: 0,
-      x: 0,
-      opacity: 1
+      ...animateProps,
+      opacity: 0
     }
   }
   return (
@@ -39,10 +38,10 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
             top: ${space[2]}px;
             ${isLeft
               ? css`
-                  left: 0px;
+                  left: ${space[1]}px;
                 `
               : css`
-                  right: 0px;
+                  right: ${space[1]}px;
                 `}
 
             background: transparent;
@@ -64,6 +63,8 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
           initial="enter"
           animate="animate"
           exit="exit"
+          whileHover={whileHover}
+          transition={transition.primary}
         >
           {children}
         </motion.button>

@@ -20,15 +20,11 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
   return (
     <SearchBarContainer>
       <SearchBarInput placeholder={placeholder} searchIsFocused={searchIsFocused} setSearchIsFocused={setSearchIsFocused} />
-      <SearchIconContainer
-        css={css`
-          right: ${space[1]}px;
-        `}
-        isVisible={!searchIsFocused}
-        isLeft
-        animateProps={{ x: 0, rotateY: 0 }}
-      >
-        <IoIosSearch size={22} color="#FFF" />
+      <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
+        <IoIosSearch size={22} color={colors.textColorPrimary} />
+      </SearchIconContainer>
+      <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }}>
+        <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
     </SearchBarContainer>
   )

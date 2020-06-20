@@ -29,7 +29,7 @@ const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, 
 
         outline: none;
 
-        padding: ${space[1]}px ${space[2]}px;
+        padding: ${space[1]}px ${space[3]}px;
 
         &::placeholder {
           color: inherit;
@@ -37,7 +37,7 @@ const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, 
         }
       `}
       animate={{
-        paddingLeft: searchIsFocused ? space[2] : space[10],
+        paddingLeft: searchIsFocused ? space[3] : space[10],
         transition: transition.primary
       }}
       initial={{

@@ -1,5 +1,5 @@
 import { NavItem } from './atoms'
 import { Header } from './molecules'
-import { Layout } from './templates'
+import { Layout, SearchDashboardDesktop } from './templates'
 
-export { Layout, Header, NavItem }
+export { Layout, Header, NavItem, SearchDashboardDesktop }

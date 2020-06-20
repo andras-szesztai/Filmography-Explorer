@@ -1,11 +1,14 @@
 import * as React from 'react'
-import { Link } from 'gatsby'
 
 // Components
-import { Layout } from '../components'
+import { Layout, SearchDashboardDesktop } from '../components'
 
 const IndexPage = () => {
-  return <Layout />
+  return (
+    <Layout>
+      <SearchDashboardDesktop />
+    </Layout>
+  )
 }
 
 export default IndexPage

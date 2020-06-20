@@ -11,18 +11,11 @@ const Header: React.FC = () => {
   return (
     <header
       css={css`
-        position: fixed;
-        top: 0px;
-        left: 0px;
-
-        height: 100%;
-        width: 100%;
-
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        padding: 0 ${space[11]}px 0 ${space[11]}px;
+        padding: 0 ${space[7]}px 0 ${space[7]}px;
 
         border-bottom: 1px solid ${colors.textColorPrimary};
 

@@ -52,7 +52,7 @@ const Layout: React.FC = ({ children }) => {
           width: 100vw;
 
           display: grid;
-          grid-template-rows: ${space[11]}px 1fr ${space[11]}px;
+          grid-template-rows: ${space[12]}px 1fr ${space[12]}px;
         `}
       >
         <Header>Hello</Header>

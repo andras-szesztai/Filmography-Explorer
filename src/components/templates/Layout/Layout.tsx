@@ -4,9 +4,9 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { Global, css } from '@emotion/core'
 
 import 'modern-normalize'
-import '../../styles/main.css'
-import { colors } from '../../styles/variables'
-import { Header } from '../molecules'
+import '../../../styles/main.css'
+import { colors } from '../../../styles/variables'
+import { Header } from '../../molecules'
 
 const Layout: React.FC = ({ children }) => {
   const {

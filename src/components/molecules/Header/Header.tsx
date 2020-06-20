@@ -1,8 +1,13 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { spaces, colors, fontSize } from '../../styles/variables'
 
-const Header: React.FC = ({ children }) => {
+// Components
+import { NavItem } from '../../atoms'
+
+// Styles
+import { spaces, colors, fontSize } from '../../../styles/variables'
+
+const Header: React.FC = () => {
   return (
     <header
       css={css`
@@ -20,7 +25,7 @@ const Header: React.FC = ({ children }) => {
         font-size: ${fontSize.md}px;
       `}
     >
-      {children}
+      <NavItem text="Explore" />
     </header>
   )
 }

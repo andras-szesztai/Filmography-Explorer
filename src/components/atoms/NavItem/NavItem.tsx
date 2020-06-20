@@ -23,9 +23,11 @@ const NavItem: React.FC<Props> = ({ text }) => {
         border: none;
 
         user-select: none;
+        border-radius: ${spaces[1]}px;
 
         :focus {
-          outline: 1px solid ${colors.accentPrimary};
+          box-shadow: 0 0 0 1px ${colors.accentPrimary};
+          outline: none;
         }
       `}
     >

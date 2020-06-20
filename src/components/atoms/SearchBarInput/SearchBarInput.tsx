@@ -10,9 +10,11 @@ interface Props {
   searchIsFocused: boolean
   setSearchIsFocused: (isFocused: boolean) => void
   placeholder: string
+  inputValue: string
+  setInputText: (text: string) => void
 }
 
-const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, placeholder }) => {
+const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, placeholder, inputValue, setInputText }) => {
   return (
     <motion.input
       css={css`
@@ -43,10 +45,17 @@ const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, 
       initial={{
         paddingLeft: space[3]
       }}
-      onFocus={() => setSearchIsFocused(true)}
-      onBlur={() => setSearchIsFocused(false)}
       type="text"
       placeholder={placeholder}
+      value={inputValue}
+      onFocus={() => setSearchIsFocused(true)}
+      onBlur={() => setSearchIsFocused(false)}
+      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+        // setResults([])
+        // setActiveSearchResult(0)
+        setInputText(e.currentTarget.value)
+        // !searchIsFocused && setSearchIsFocused(true)
+      }}
     />
   )
 }

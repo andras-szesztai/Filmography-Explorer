@@ -3,7 +3,7 @@ import useConstant from 'use-constant'
 import { useAsync } from 'react-async-hook'
 import { useState } from 'react'
 
-const useDebouncedSearch = (searchFunction, debounceTime) => {
+const useDebouncedSearch = (searchFunction: (text: string) => void, debounceTime: number) => {
   const [inputText, setInputText] = useState('')
 
   const debouncedSearchFunction = useConstant(() => AwesomeDebouncePromise(searchFunction, debounceTime))
@@ -12,7 +12,7 @@ const useDebouncedSearch = (searchFunction, debounceTime) => {
     if (inputText.length > 0) {
       return debouncedSearchFunction(inputText)
     }
-    return debouncedSearchFunction(undefined)
+    return debouncedSearchFunction('')
   }, [debouncedSearchFunction, inputText])
 
   return {

@@ -1,32 +1,38 @@
 import * as React from 'react'
 import Helmet from 'react-helmet'
-import { StaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'gatsby'
 
 import 'modern-normalize'
+import '../../styles/main.css'
 
-interface DataProps {
-  data: {
-    site: {
-      siteMetadata: {
-        title: string
-        description: string
-        keywords: string
+const Layout: React.FC = ({ children }) => {
+  const {
+    site: { siteMetadata }
+  } = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          author {
+            email
+            name
+            url
+          }
+          description
+          keywords
+          siteUrl
+          title
+        }
       }
     }
-  }
+  `)
+  return (
+    <>
+      <Helmet
+        title={siteMetadata.title}
+        meta={[{ name: 'description', content: siteMetadata.description }, { name: 'keywords', content: siteMetadata.keywords }]}
+      />
+      {children}
+    </>
+  )
 }
-
-const IndexLayout: React.FC<DataProps> = ({ children, data }) => (
-  <>
-    <Helmet
-      title={data.site.siteMetadata.title}
-      meta={[
-        { name: 'description', content: data.site.siteMetadata.description },
-        { name: 'keywords', content: data.site.siteMetadata.keywords }
-      ]}
-    />
-    {children}
-  </>
-)
-
-export default IndexLayout
+export default Layout

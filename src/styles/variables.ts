@@ -13,3 +13,10 @@ export const fontWeight = {
   lg: 500,
   xl: 600
 }
+
+export const colors = {
+  bgColor: '#2C232F',
+  textColor: '#FEFEFE',
+  primaryAccent: '#FF4E47',
+  secondaryAccent: '#FEC33F'
+}

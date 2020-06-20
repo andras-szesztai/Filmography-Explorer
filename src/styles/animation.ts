@@ -2,6 +2,11 @@ export const transition = {
   primary: {
     type: 'spring',
     damping: 12
+  },
+  whileHover: {
+    type: 'spring',
+    damping: 12,
+    stiffness: 200
   }
 }
 

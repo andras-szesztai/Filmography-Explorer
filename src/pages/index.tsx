@@ -7,7 +7,7 @@ const IndexPage = () => {
   return (
     <Layout>
       <SearchDashboardDesktop>
-        <SearchBar />
+        <SearchBar placeholder="Search for a director, actor, writer . . . " />
       </SearchDashboardDesktop>
     </Layout>
   )

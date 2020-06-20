@@ -22,7 +22,7 @@ const Header: React.FC = () => {
         font-size: ${fontSize.md}px;
       `}
     >
-      <NavItem text="Explore" />
+      <NavItem text="Explore" isActive />
     </header>
   )
 }

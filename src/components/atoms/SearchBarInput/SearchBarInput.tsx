@@ -41,7 +41,7 @@ const SearchBarInput: React.FC<Props> = ({ searchIsFocused, setSearchIsFocused, 
         transition: transition.primary
       }}
       initial={{
-        paddingLeft: space[10]
+        paddingLeft: space[3]
       }}
       onFocus={() => setSearchIsFocused(true)}
       onBlur={() => setSearchIsFocused(false)}

@@ -1,17 +1,20 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import { motion } from 'framer-motion'
 
 // Styles
 import { space, colors, fontSize, fontWeight } from '../../../styles/variables'
 
 interface Props {
   text: string
+  isActive: boolean
 }
 
-const NavItem: React.FC<Props> = ({ text }) => {
+const NavItem: React.FC<Props> = ({ text, isActive }) => {
   return (
-    <button
+    <motion.button
       type="button"
+      animate={{ color: isActive ? colors.accentPrimary : colors.textColorPrimary }}
       css={css`
         font-size: ${fontSize.md}px;
         color: ${colors.textColorPrimary};
@@ -32,7 +35,7 @@ const NavItem: React.FC<Props> = ({ text }) => {
       `}
     >
       {text}
-    </button>
+    </motion.button>
   )
 }
 

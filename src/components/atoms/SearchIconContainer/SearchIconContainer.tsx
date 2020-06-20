@@ -63,7 +63,7 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
           initial="enter"
           animate="animate"
           exit="exit"
-          whileHover={whileHover}
+          whileHover={{ ...whileHover, transition: transition.whileHover }}
           transition={transition.primary}
         >
           {children}

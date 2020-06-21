@@ -17,6 +17,7 @@ export const fontWeight = {
 export const colors = {
   bgColorPrimary: '#232931',
   bgColorSecondary: '#FEFEFE',
+  bgColorSecondaryDark: '#E0E0E0',
   textColorPrimary: '#FEFEFE',
   textColorSecondary: '#232931',
   accentPrimary: '#FF4E47',

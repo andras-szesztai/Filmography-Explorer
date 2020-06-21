@@ -3,3 +3,4 @@ export { default as SearchBarContainer } from './SearchBarContainer/SearchBarCon
 export { default as SearchBarInput } from './SearchBarInput/SearchBarInput'
 export { default as SearchIconContainer } from './SearchIconContainer/SearchIconContainer'
 export { default as SearchResultsContainer } from './SearchResultsContainer/SearchResultsContainer'
+export { default as Image } from './Image/Image'

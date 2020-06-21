@@ -18,13 +18,13 @@ const variants = {
 }
 
 type Props = {
-  results: {}[]
+  isVisible: boolean
 }
 
-const SearchResultsContainer: React.FC<Props> = ({ results, children }) => {
+const SearchResultsContainer: React.FC<Props> = ({ isVisible, children }) => {
   return (
     <AnimatePresence>
-      {results.length && (
+      {isVisible && (
         <motion.div
           css={css`
             position: absolute;
@@ -34,7 +34,7 @@ const SearchResultsContainer: React.FC<Props> = ({ results, children }) => {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            pointer-events: ${results.length ? 'all' : 'none'};
+            pointer-events: ${isVisible ? 'all' : 'none'};
 
             overflow: hidden;
             padding-bottom: ${space[1]}px;

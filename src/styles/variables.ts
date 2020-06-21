@@ -46,7 +46,8 @@ export const space = {
 }
 
 export const zIndex = {
-  mainSearchBar: 50
+  mainSearchBar: 50,
+  searchResultHover: 10
 }
 
 export const width = {
@@ -57,5 +58,7 @@ export const width = {
 export const height = {
   personCard: 240,
   movieCard: 480,
-  searchBar: space[10]
+  searchBar: space[10],
+  searchResultHeight: space[13],
+  searchResultHoverHeight: space[14]
 }

@@ -6,7 +6,7 @@ import { css } from '@emotion/core'
 import { Image } from '../../atoms'
 
 // Styles
-import { space, colors, fontSize, fontWeight } from '../../../styles/variables'
+import { space, colors, fontSize, fontWeight, height } from '../../../styles/variables'
 import { ResultData } from '../SearchBar/SearchBar'
 
 const containerStyle = css`
@@ -20,7 +20,7 @@ const containerStyle = css`
 
   align-self: start;
   width: calc(100% - ${space[2]}px);
-  height: ${space[13]}px;
+  height: ${height.searchResultHeight}px;
   border-radius: ${space[1]}px;
   background-color: ${colors.bgColorSecondary};
   margin: ${space[1]}px;
@@ -75,11 +75,12 @@ const variants = {
 
 interface Props {
   handleClick: () => void
+  handleMouseover: () => void
   zIndex: number
   data: ResultData
 }
 
-const SearchResultContent = ({ data, handleClick, zIndex }: Props) => {
+const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex }: Props) => {
   return (
     <motion.div
       css={css`
@@ -88,6 +89,7 @@ const SearchResultContent = ({ data, handleClick, zIndex }: Props) => {
       `}
       variants={variants}
       onClick={handleClick}
+      onMouseOver={handleMouseover}
     >
       <Image height={52} url={data.profile_path} alt={data.name} />
       <span css={nameContainerStyle}>{data.name}</span>

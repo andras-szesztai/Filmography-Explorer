@@ -26,6 +26,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.12",
+    "@types/chroma-js": "^2.0.0",
     "@types/lodash": "^4.14.155",
     "awesome-debounce-promise": "^2.1.0",
     "axios": "^0.19.2",

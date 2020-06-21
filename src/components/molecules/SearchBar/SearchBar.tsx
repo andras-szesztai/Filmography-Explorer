@@ -5,7 +5,8 @@ import { IoIosSearch, IoIosClose } from 'react-icons/io'
 import axios from 'axios'
 
 // Components
-import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer } from '../../atoms'
+import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
+import { SearchResultContent } from '..'
 
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
@@ -14,7 +15,6 @@ import { useDebouncedSearch, useStateWithPrevious } from '../../../hooks'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
-import { SearchResultContent } from '..'
 
 interface Props {
   placeholder: string
@@ -72,7 +72,8 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
       >
         <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
-      <SearchResultsContainer results={nameSearchResults}>
+      <ActiveSearchResultIndicator isVisible={!!nameSearchResults.length} activeResult={activeResult} />
+      <SearchResultsContainer isVisible={!!nameSearchResults.length}>
         {nameSearchResults.map((res: ResultData, i: number) => (
           <SearchResultContent
             key={res.id}
@@ -84,6 +85,9 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
               setInputText('')
               setSearchIsFocused(false)
               setActiveResult(0)
+            }}
+            handleMouseover={() => {
+              setActiveResult(i)
             }}
           />
         ))}

@@ -14,9 +14,17 @@ import { useDebouncedSearch, useStateWithPrevious } from '../../../hooks'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
+import { SearchResultContent } from '..'
 
 interface Props {
   placeholder: string
+}
+
+export interface ResultData {
+  id: string
+  profile_path: string
+  name: string
+  known_for_department: string
 }
 
 const SearchBar: React.FC<Props> = ({ placeholder }) => {
@@ -24,7 +32,6 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult, prevActiveResult] = useStateWithPrevious(0)
 
-  console.log('nameSearchResults', nameSearchResults)
   const fetchNames = (text: string) => {
     if (text) {
       axios
@@ -66,7 +73,19 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
         <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
       <SearchResultsContainer results={nameSearchResults}>
-        <div>Hello</div>
+        {nameSearchResults.map((res: ResultData) => (
+          <SearchResultContent
+            key={res.id}
+            data={res}
+            handleClick={() => {
+              // handleResultSelect(res.id) // set active name id
+              setNameSearchResults([])
+              setInputText('')
+              setSearchIsFocused(false)
+              setActiveResult(0)
+            }}
+          />
+        ))}
       </SearchResultsContainer>
     </SearchBarContainer>
   )

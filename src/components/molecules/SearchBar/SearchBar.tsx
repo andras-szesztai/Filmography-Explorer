@@ -5,7 +5,7 @@ import { IoIosSearch, IoIosClose } from 'react-icons/io'
 import axios from 'axios'
 
 // Components
-import { SearchBarContainer, SearchBarInput, SearchIconContainer } from '../../atoms'
+import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer } from '../../atoms'
 
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
@@ -24,6 +24,7 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult, prevActiveResult] = useStateWithPrevious(0)
 
+  console.log('nameSearchResults', nameSearchResults)
   const fetchNames = (text: string) => {
     if (text) {
       axios
@@ -64,6 +65,9 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
       >
         <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
+      <SearchResultsContainer results={nameSearchResults}>
+        <div>Hello</div>
+      </SearchResultsContainer>
     </SearchBarContainer>
   )
 }

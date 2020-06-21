@@ -3,17 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { css } from '@emotion/core'
 
 const variants = {
-  initial: {
-    pointerEvents: 'auto'
-  },
   animate: {
-    pointerEvents: 'auto',
     transition: {
       staggerChildren: 0.25
     }
   },
   exit: {
-    pointerEvents: 'none',
     transition: {
       staggerChildren: 0.1,
       staggerDirection: -1
@@ -21,12 +16,8 @@ const variants = {
   }
 }
 
-interface ResultsObj {
-  name: string
-}
-
 type Props = {
-  results: ResultsObj[]
+  results: {}[]
 }
 
 const SearchResultsContainer: React.FC<Props> = ({ results, children }) => {
@@ -44,6 +35,7 @@ const SearchResultsContainer: React.FC<Props> = ({ results, children }) => {
             flex-direction: column;
             align-items: flex-start;
             z-index: -1;
+            pointer-events: ${results.length ? 'all' : 'none'};
           `}
           initial="initial"
           animate="animate"

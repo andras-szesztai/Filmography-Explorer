@@ -5,17 +5,17 @@ import { groupBy, uniqBy } from 'lodash'
 import { PersonCreditDataObject } from '../types/person'
 
 interface Params {
-  personCreditData: PersonCreditDataObject[]
+  data: PersonCreditDataObject[]
   type: string
 }
 
-export const makeUniqData = ({ personCreditData, type }: Params) => {
-  const jobs = personCreditData.map(el => ({
+export const makeUniqData = ({ data, type }: Params) => {
+  const jobs = data.map(el => ({
     id: el.id,
     job: el[type === 'cast' ? 'character' : 'job']
   }))
   const groupped = groupBy(jobs, 'id')
-  const uniq = uniqBy(personCreditData, 'id')
+  const uniq = uniqBy(data, 'id')
   const enrichedUniq = uniq.map(el => ({
     ...el,
     job: groupped[el.id].map(d => d.job)
@@ -23,7 +23,7 @@ export const makeUniqData = ({ personCreditData, type }: Params) => {
   return enrichedUniq
 }
 
-export const makeFilteredData = ({ personCreditData, type }: Params) => {
+export const makeFilteredData = ({ data, type }: Params) => {
   const accessor = type === 'cast' ? 'character' : 'job'
   const ceremonies = [
     'The Academy Awards',
@@ -40,7 +40,7 @@ export const makeFilteredData = ({ personCreditData, type }: Params) => {
     'The Graham Norton Show',
     'The Bill Engvall Show'
   ]
-  const filteredData = personCreditData
+  const filteredData = data
     .filter(
       d =>
         (!!d.release_date || !!d.first_air_date) &&

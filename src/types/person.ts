@@ -3,6 +3,20 @@ export interface Person {
   name: string
 }
 
+export interface PersonDetails extends Person {
+  birthday: string
+  place_of_birth: string
+  deathday?: string
+  known_for_department: string
+  also_known_as: string[]
+  gender: number
+  biography: string
+  popularity: number
+  profile_path: string
+  imdb_id: string
+  homepage?: string
+}
+
 export interface PersonCreditDataObject extends Person {
   release_date: string
   first_air_date: string
@@ -23,8 +37,4 @@ export interface FormattedPersonCreditDataObject extends Person {
   title: string
   character?: string | undefined
   job: (string | undefined)[]
-}
-
-export interface PersonDetailsObject extends Person {
-  release_date: string
 }

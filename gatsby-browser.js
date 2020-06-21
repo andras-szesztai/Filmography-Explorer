@@ -5,3 +5,7 @@
  */
 
 // You can delete this file if you're not using it
+
+import wrapWithProvider from './src/reducer/index'
+
+export const wrapRootElement = wrapWithProvider

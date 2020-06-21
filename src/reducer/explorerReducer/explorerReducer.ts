@@ -19,16 +19,15 @@ export const CLOSE_PERSON_DETAILS_CARD = 'CLOSE_PERSON_DETAILS_CARD'
 export function setActiveNameID(id: number) {
   return {
     type: SET_ACTIVE_NAME_ID,
-    payload: id
-  }
+    id
+  } as const
 }
 
-function openCard(id: boolean) {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  return <const>{
+function openCard(bool: boolean) {
+  return {
     type: OPEN_PERSON_DETAILS_CARD,
-    payload: id
-  }
+    bool
+  } as const
 }
 
 interface PersonDetails {
@@ -80,12 +79,11 @@ type State = {
 type Action = ReturnType<typeof setActiveNameID | typeof openCard>
 
 const moviesDashboardReducer = (state: State, action: Action) => {
-  const { type, payload } = action
-  switch (type) {
+  switch (action.type) {
     case SET_ACTIVE_NAME_ID:
-      return { ...state, activeNameID: payload }
+      return { ...state, activeNameID: action.id }
     case OPEN_PERSON_DETAILS_CARD:
-      return { ...state, personDetailsCard: { isOpen: payload } }
+      return { ...state, personDetailsCard: { isOpen: action.bool } }
     default:
       return state
   }
@@ -93,7 +91,7 @@ const moviesDashboardReducer = (state: State, action: Action) => {
 
 export default function useExplorerReducer() {
   const [state, dispatch] = useReducer(moviesDashboardReducer, initialState)
-  // const { activeNameID } = state
+  const { activeNameID } = state
   const prevState = usePrevious(state)
 
   // useEffect(() => {

@@ -1,8 +1,13 @@
 import { useReducer } from 'react'
-
-// import { LOCAL_STORE_ACCESSORS, NO_ACTIVE_MOVIE } from '../../constants/moviesDashboard'
+import { usePrevious } from 'react-use'
 
 // import { useActiveMovieCredits, useFetchGenres, useFetchPersonCredit } from './hooks'
+
+// Actions
+import { setActiveNameID } from './actions'
+
+// Constants
+import { NO_ACTIVE_MOVIE } from '../../constants/stateValues'
 
 const initialState = {
   activeNameID: undefined,
@@ -31,169 +36,82 @@ const initialState = {
 }
 
 type State = typeof initialState
+type Action = ReturnType<typeof setActiveNameID>
 
-export const SET_ACTIVE_ID = 'SET_ACTIVE_ID'
-export const SET_ACTIVE_MOVIE = 'SET_ACTIVE_MOVIE'
-export const SET_ACTIVE_MOVIE_CREDITS = 'SET_ACTIVE_MOVIE_CREDITS'
-export const FETCH_INFO_BY_ID = 'FETCH_INFO_BY_ID'
-export const FETCH_INFO_BY_ID_SUCCESS = 'FETCH_INFO_BY_ID_SUCCESS'
-export const FETCH_INFO_BY_ID_FAIL = 'FETCH_INFO_BY_ID_FAIL'
-export const OPEN_PERSON_DETAILS_CARD = 'OPEN_PERSON_DETAILS_CARD'
-export const CLOSE_PERSON_DETAILS_CARD = 'CLOSE_PERSON_DETAILS_CARD'
-
-function moviesDashboardReducer(state, { type, payload }) {
+const moviesDashboardReducer = (state: State, action: Action) => {
+  const { type, payload } = action
   const types = {
-    FETCH_GENRES: () => ({
-      ...state,
-      loading: {
-        ...state.loading,
-        genres: true
-      }
-    }),
-    FETCH_GENRES_SUCCESS: () => ({
-      ...state,
-      loading: {
-        ...state.loading,
-        genres: false
-      },
-      dataSets: {
-        ...state.dataSets,
-        genres: payload
-      }
-    }),
-    FETCH_GENRES_FAIL: () => ({
-      ...state,
-      loading: {
-        ...state.loading,
-        genres: false
-      },
-      dataSets: {
-        ...state.dataSets,
-        genres: undefined
-      },
-      error: {
-        ...state.error,
-        genres: payload
-      }
-    }),
     SET_ACTIVE_ID: () => ({
       ...state,
       activeNameID: payload.id,
       activeMovie: payload.isActiveMovieClicked ? state.activeMovie : NO_ACTIVE_MOVIE
-    }),
-    SET_ACTIVE_MOVIE: () => ({
-      ...state,
-      activeMovie: {
-        id: payload.id,
-        data: payload.data || {},
-        position: payload.position,
-        cast: [],
-        crew: []
-      }
-    }),
-    SET_ACTIVE_MOVIE_CREDITS: () => ({
-      ...state,
-      activeMovie: {
-        ...state.activeMovie,
-        cast: payload.cast || [],
-        crew: payload.crew || []
-      }
-    }),
-    FETCH_INFO_BY_ID: () => ({
-      ...state,
-      loading: {
-        ...state.loading,
-        personDetails: true,
-        personCredits: true
-      }
-    }),
-    FETCH_INFO_BY_ID_SUCCESS: () => ({
-      ...state,
-      loading: {
-        ...state.loading,
-        personDetails: false,
-        personCredits: false
-      },
-      dataSets: {
-        ...state.dataSets,
-        personDetails: payload.details,
-        personCredits: payload.credits
-      }
-    }),
-    FETCH_INFO_BY_ID_FAIL: () => ({
-      ...state,
-      loading: {
-        ...state.loading,
-        personDetails: false,
-        personCredits: false
-      },
-      dataSets: {
-        ...state.dataSets,
-        personDetails: undefined,
-        personCredits: undefined
-      },
-      error: {
-        ...state.error,
-        personDetails: payload.details,
-        personCredits: payload.credits
-      }
-    }),
-    OPEN_PERSON_DETAILS_CARD: () => ({
-      ...state,
-      personDetailsCard: {
-        ...state.personDetailsCard,
-        isOpen: true
-      }
-    }),
-    CLOSE_PERSON_DETAILS_CARD: () => ({
-      ...state,
-      personDetailsCard: {
-        ...state.personDetailsCard,
-        isOpen: false
-      }
     })
+    // FETCH_INFO_BY_ID: () => ({
+    //   ...state,
+    //   loading: {
+    //     ...state.loading,
+    //     personDetails: true,
+    //     personCredits: true
+    //   }
+    // }),
+    // FETCH_INFO_BY_ID_SUCCESS: () => ({
+    //   ...state,
+    //   loading: {
+    //     ...state.loading,
+    //     personDetails: false,
+    //     personCredits: false
+    //   },
+    //   dataSets: {
+    //     ...state.dataSets,
+    //     personDetails: payload.details,
+    //     personCredits: payload.credits
+    //   }
+    // }),
+    // FETCH_INFO_BY_ID_FAIL: () => ({
+    //   ...state,
+    //   loading: {
+    //     ...state.loading,
+    //     personDetails: false,
+    //     personCredits: false
+    //   },
+    //   dataSets: {
+    //     ...state.dataSets,
+    //     personDetails: undefined,
+    //     personCredits: undefined
+    //   },
+    //   error: {
+    //     ...state.error,
+    //     personDetails: payload.details,
+    //     personCredits: payload.credits
+    //   }
+    // }),
+    // OPEN_PERSON_DETAILS_CARD: () => ({
+    //   ...state,
+    //   personDetailsCard: {
+    //     ...state.personDetailsCard,
+    //     isOpen: true
+    //   }
+    // }),
+    // CLOSE_PERSON_DETAILS_CARD: () => ({
+    //   ...state,
+    //   personDetailsCard: {
+    //     ...state.personDetailsCard,
+    //     isOpen: false
+    //   }
+    // })
   }
   return types[type] ? types[type]() : state
 }
 
-export default function useMoviesDashboardReducer() {
+export default function useExplorerReducer() {
   const [state, dispatch] = useReducer(moviesDashboardReducer, initialState)
   const prevState = usePrevious(state)
 
-  const [favoritePersons, setFavoritePersons] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoritePersons, [])
+  // useFetchPersonCredit({
+  //   activeNameID: state.activeNameID,
+  //   prevActiveNameID: prevState && prevState.activeNameID,
+  //   dispatch
+  // })
 
-  const [favoriteMovies, setFavoriteMovies] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoriteMovies, [])
-
-  const localStorageValues = {
-    favoritePersons,
-    favoriteMovies
-  }
-
-  const localStorageSetters = {
-    setFavoritePersons,
-    setFavoriteMovies
-  }
-
-  const actions = {
-    setActiveNameID: payload => dispatch({ type: SET_ACTIVE_ID, payload }),
-    setActiveMovie: payload => dispatch({ type: SET_ACTIVE_MOVIE, payload }),
-    openPersonDetails: () => dispatch({ type: OPEN_PERSON_DETAILS_CARD }),
-    closePersonDetails: () => dispatch({ type: CLOSE_PERSON_DETAILS_CARD })
-  }
-
-  type Action = ReturnType<typeof updateName | typeof addPoints | typeof setLikesGames>
-
-  useFetchGenres(dispatch)
-  useFetchPersonCredit({
-    activeNameID: state.activeNameID,
-    prevActiveNameID: prevState && prevState.activeNameID,
-    dispatch
-  })
-  useActiveMovieCredits({
-    activeMovie: state.activeMovie,
-    prevActiveMovie: prevState && prevState.activeMovie,
-    dispatch
-  })
-
-  return { state, prevState, actions, localStorageValues, localStorageSetters }
+  return { state, prevState, dispatch }
 }

@@ -1,11 +1,12 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { css } from '@emotion/core'
+import { height, space } from '../../../styles/variables'
 
 const variants = {
   animate: {
     transition: {
-      staggerChildren: 0.25
+      staggerChildren: 0.2
     }
   },
   exit: {
@@ -27,15 +28,17 @@ const SearchResultsContainer: React.FC<Props> = ({ results, children }) => {
         <motion.div
           css={css`
             position: absolute;
-            padding-top: 35px;
-            top: 10px;
+            top: ${height.searchBar}px;
             width: 100%;
 
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            z-index: -1;
             pointer-events: ${results.length ? 'all' : 'none'};
+
+            overflow: hidden;
+            padding-bottom: ${space[1]}px;
+            padding-top: ${space[1]}px;
           `}
           initial="initial"
           animate="animate"

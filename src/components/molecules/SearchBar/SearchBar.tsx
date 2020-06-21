@@ -21,7 +21,7 @@ interface Props {
 }
 
 export interface ResultData {
-  id: string
+  id: number
   profile_path: string
   name: string
   known_for_department: string
@@ -73,9 +73,10 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
         <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
       <SearchResultsContainer results={nameSearchResults}>
-        {nameSearchResults.map((res: ResultData) => (
+        {nameSearchResults.map((res: ResultData, i: number) => (
           <SearchResultContent
             key={res.id}
+            zIndex={Math.abs(i - 4)}
             data={res}
             handleClick={() => {
               // handleResultSelect(res.id) // set active name id

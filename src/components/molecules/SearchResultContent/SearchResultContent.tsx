@@ -11,7 +11,7 @@ import { ResultData } from '../SearchBar/SearchBar'
 
 const containerStyle = css`
   display: grid;
-  grid-template-columns: ${space[1]}px 1fr;
+  grid-template-columns: ${space[9]}px 1fr;
   grid-template-rows: repeat(2, 50%);
   grid-template-areas:
     'photo name'
@@ -19,7 +19,7 @@ const containerStyle = css`
   grid-column-gap: ${space[3]}px;
 
   align-self: start;
-  width: calc(100% - ${space[1]}px);
+  width: calc(100% - ${space[2]}px);
   height: ${space[13]}px;
   border-radius: ${space[1]}px;
   background-color: ${colors.bgColorSecondary};
@@ -28,8 +28,33 @@ const containerStyle = css`
   color: ${colors.textColorSecondary};
 `
 
+const nameContainerStyle = css`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: ${fontSize.md};
+  font-weight: ${fontWeight.lg};
+
+  grid-area: name;
+  margin-top: ${space[1]}px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const jobContainerStyle = css`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: ${fontSize.sm};
+  font-weight: ${fontWeight.sm};
+  grid-area: job;
+  margin-bottom: ${space[1]}px;
+`
+
 const variants = {
-  enter: { y: '-100%', opacity: 0 },
+  initial: { y: '-100%', opacity: 0 },
   animate: {
     y: '0%',
     opacity: 1,
@@ -50,44 +75,23 @@ const variants = {
 
 interface Props {
   handleClick: () => void
+  zIndex: number
   data: ResultData
 }
 
-const SearchResultContent = ({ data, handleClick }: Props) => {
+const SearchResultContent = ({ data, handleClick, zIndex }: Props) => {
   return (
-    <motion.div css={containerStyle} variants={variants} onClick={handleClick}>
+    <motion.div
+      css={css`
+        ${containerStyle}
+        z-index: ${zIndex};
+      `}
+      variants={variants}
+      onClick={handleClick}
+    >
       <Image height={52} url={data.profile_path} alt={data.name} />
-      <span
-        css={css`
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          font-size: ${fontSize.md};
-          font-weight: ${fontWeight.lg};
-
-          grid-area: name;
-          margin-top: ${space[1]}px;
-
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        `}
-      >
-        {data.name}
-      </span>
-      <span
-        css={css`
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          font-size: ${fontSize.sm};
-          font-weight: ${fontWeight.sm};
-          grid-area: job;
-          margin-bottom: 3px;
-        `}
-      >
-        Known for:&nbsp;{data.known_for_department}
-      </span>
+      <span css={nameContainerStyle}>{data.name}</span>
+      <span css={jobContainerStyle}>Known for:&nbsp;{data.known_for_department}</span>
     </motion.div>
   )
 }

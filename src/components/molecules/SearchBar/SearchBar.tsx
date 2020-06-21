@@ -30,6 +30,8 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult] = React.useState(0)
 
+  const inputRef = React.useRef<HTMLInputElement>(null)
+
   const fetchNames = (text: string) => {
     if (text) {
       axios
@@ -49,6 +51,9 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
     setInputText('')
     setSearchIsFocused(false)
     setActiveResult(0)
+    if (inputRef && inputRef.current) {
+      inputRef.current.blur()
+    }
   }
 
   return (
@@ -64,6 +69,7 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
         setActiveResult={setActiveResult}
         activeResult={activeResult}
         resetSearch={resetSearch}
+        inputRef={inputRef}
       />
       <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
         <IoIosSearch size={22} color={colors.textColorPrimary} />

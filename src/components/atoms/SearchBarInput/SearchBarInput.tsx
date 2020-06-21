@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { RefObject } from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 
@@ -17,9 +17,10 @@ interface Props {
   resetSearch: () => void
   activeResult: number
   resultsLength: number
+  inputRef: RefObject<HTMLInputElement>
 }
 
-const SearchBarInput: React.FC<Props> = ({
+const SearchBarInput = ({
   searchIsFocused,
   setSearchIsFocused,
   placeholder,
@@ -29,9 +30,9 @@ const SearchBarInput: React.FC<Props> = ({
   resultsLength,
   setActiveResult,
   activeResult,
-  resetSearch
-}) => {
-  const inputRef = React.useRef<HTMLInputElement>(null)
+  resetSearch,
+  inputRef
+}: Props) => {
   return (
     <motion.input
       ref={inputRef}
@@ -95,9 +96,6 @@ const SearchBarInput: React.FC<Props> = ({
         if (keyCode === 13) {
           // handleResultSelect(results[activeSearchResult].id)
           resetSearch()
-          if (inputRef && inputRef.current) {
-            inputRef.current.blur()
-          }
         }
       }}
     />

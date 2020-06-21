@@ -14,8 +14,9 @@ interface Props {
   setInputText: (text: string) => void
   setResults: (arr: []) => void
   setActiveResult: (index: number) => void
+  resetSearch: () => void
   activeResult: number
-  results: any[]
+  resultsLength: number
 }
 
 const SearchBarInput: React.FC<Props> = ({
@@ -25,12 +26,15 @@ const SearchBarInput: React.FC<Props> = ({
   inputValue,
   setInputText,
   setResults,
-  results,
+  resultsLength,
   setActiveResult,
-  activeResult
+  activeResult,
+  resetSearch
 }) => {
+  const inputRef = React.useRef<HTMLInputElement>(null)
   return (
     <motion.input
+      ref={inputRef}
       css={css`
         width: ${width.searchBar}px;
         height: ${height.searchBar}px;
@@ -63,18 +67,37 @@ const SearchBarInput: React.FC<Props> = ({
       placeholder={placeholder}
       value={inputValue}
       onFocus={() => setSearchIsFocused(true)}
-      onBlur={() => {
-        setInputText('')
-        setResults([])
-        setSearchIsFocused(false)
-      }}
+      onBlur={resetSearch}
       onChange={(e: React.FormEvent<HTMLInputElement>) => {
         setInputText(e.currentTarget.value)
-        if (results.length) {
+        if (resultsLength) {
           setResults([])
         }
         if (activeResult !== 0) {
           setActiveResult(0)
+        }
+      }}
+      onKeyDown={({ keyCode }) => {
+        if (keyCode === 38) {
+          if (activeResult === 0) {
+            setActiveResult(resultsLength - 1)
+          } else {
+            setActiveResult(activeResult - 1)
+          }
+        }
+        if (keyCode === 40) {
+          if (activeResult === resultsLength - 1) {
+            setActiveResult(0)
+          } else {
+            setActiveResult(activeResult + 1)
+          }
+        }
+        if (keyCode === 13) {
+          // handleResultSelect(results[activeSearchResult].id)
+          resetSearch()
+          if (inputRef && inputRef.current) {
+            inputRef.current.blur()
+          }
         }
       }}
     />

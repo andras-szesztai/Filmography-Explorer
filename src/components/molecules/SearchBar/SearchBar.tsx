@@ -1,6 +1,4 @@
 import React from 'react'
-import { css } from '@emotion/core'
-import { motion } from 'framer-motion'
 import { IoIosSearch, IoIosClose } from 'react-icons/io'
 import axios from 'axios'
 
@@ -9,9 +7,9 @@ import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsC
 import { SearchResultContent } from '..'
 
 // Styles
-import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
-import { transition, duration } from '../../../styles/animation'
-import { useDebouncedSearch, useStateWithPrevious } from '../../../hooks'
+import { colors } from '../../../styles/variables'
+import { duration } from '../../../styles/animation'
+import { useDebouncedSearch } from '../../../hooks'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
@@ -30,7 +28,7 @@ export interface ResultData {
 const SearchBar: React.FC<Props> = ({ placeholder }) => {
   const [nameSearchResults, setNameSearchResults] = React.useState([])
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
-  const [activeResult, setActiveResult, prevActiveResult] = useStateWithPrevious(0)
+  const [activeResult, setActiveResult] = React.useState(0)
 
   const fetchNames = (text: string) => {
     if (text) {
@@ -46,6 +44,13 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
   }
   const { inputText, setInputText } = useDebouncedSearch(fetchNames, duration.md)
 
+  const resetSearch = () => {
+    setNameSearchResults([])
+    setInputText('')
+    setSearchIsFocused(false)
+    setActiveResult(0)
+  }
+
   return (
     <SearchBarContainer>
       <SearchBarInput
@@ -54,22 +59,16 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
         setSearchIsFocused={setSearchIsFocused}
         inputValue={inputText}
         setInputText={setInputText}
-        results={nameSearchResults}
+        resultsLength={nameSearchResults.length}
         setResults={setNameSearchResults}
         setActiveResult={setActiveResult}
         activeResult={activeResult}
+        resetSearch={resetSearch}
       />
       <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
         <IoIosSearch size={22} color={colors.textColorPrimary} />
       </SearchIconContainer>
-      <SearchIconContainer
-        isVisible={searchIsFocused}
-        animateProps={{ x: 10, rotateY: 75 }}
-        onClick={() => {
-          setInputText('')
-          setNameSearchResults([])
-        }}
-      >
+      <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
         <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
       <ActiveSearchResultIndicator isVisible={!!nameSearchResults.length} activeResult={activeResult} />
@@ -81,10 +80,7 @@ const SearchBar: React.FC<Props> = ({ placeholder }) => {
             data={res}
             handleClick={() => {
               // handleResultSelect(res.id) // set active name id
-              setNameSearchResults([])
-              setInputText('')
-              setSearchIsFocused(false)
-              setActiveResult(0)
+              resetSearch()
             }}
             handleMouseover={() => {
               setActiveResult(i)

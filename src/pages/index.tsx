@@ -10,7 +10,6 @@ import { CombinedState } from '../types/state'
 const IndexPage = () => {
   const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
   const dispatch = useDispatch()
-  console.log('IndexPage -> activeNameID', activeNameID)
   return (
     <Layout>
       <SearchDashboardDesktop>

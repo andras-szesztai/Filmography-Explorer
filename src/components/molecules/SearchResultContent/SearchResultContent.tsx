@@ -5,9 +5,11 @@ import { css } from '@emotion/core'
 // Components
 import { Image } from '../../atoms'
 
+// Types
+import { PersonDetails } from '../../../types/person'
+
 // Styles
 import { space, colors, fontSize, fontWeight, height } from '../../../styles/variables'
-import { ResultData } from '../SearchBar/SearchBar'
 
 const containerStyle = css`
   display: grid;
@@ -77,7 +79,7 @@ interface Props {
   handleClick: () => void
   handleMouseover: () => void
   zIndex: number
-  data: ResultData
+  data: PersonDetails
 }
 
 const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex }: Props) => {

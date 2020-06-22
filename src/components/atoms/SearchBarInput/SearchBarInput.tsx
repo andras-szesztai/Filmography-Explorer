@@ -6,15 +6,19 @@ import { motion } from 'framer-motion'
 import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
+// Types
+import { ResultArray } from '../../molecules/SearchBar/SearchBar'
+
 interface Props {
   searchIsFocused: boolean
   setSearchIsFocused: (isFocused: boolean) => void
   placeholder: string
   inputValue: string
   setInputText: (text: string) => void
-  setResults: (arr: []) => void
+  setResults: (obj: ResultArray) => void
   setActiveResult: (index: number) => void
   resetSearch: () => void
+  handleResultSelect: (index: number) => void
   activeResult: number
   resultsLength: number
   inputRef: RefObject<HTMLInputElement>
@@ -31,7 +35,8 @@ const SearchBarInput = ({
   setActiveResult,
   activeResult,
   resetSearch,
-  inputRef
+  inputRef,
+  handleResultSelect
 }: Props) => {
   return (
     <motion.input
@@ -72,7 +77,7 @@ const SearchBarInput = ({
       onChange={(e: React.FormEvent<HTMLInputElement>) => {
         setInputText(e.currentTarget.value)
         if (resultsLength) {
-          setResults([])
+          setResults({ resultArray: [] })
         }
         if (activeResult !== 0) {
           setActiveResult(0)
@@ -94,7 +99,7 @@ const SearchBarInput = ({
           }
         }
         if (keyCode === 13) {
-          // handleResultSelect(results[activeSearchResult].id)
+          handleResultSelect(activeResult)
           resetSearch()
         }
       }}

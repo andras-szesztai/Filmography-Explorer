@@ -9,13 +9,11 @@ import { CombinedState } from '../types/state'
 
 const IndexPage = () => {
   const personState = useSelector((state: CombinedState) => state.personReducer)
+  console.log('IndexPage -> personState', personState)
 
   return (
     <Layout>
       <SearchDashboardDesktop>
-        {/* <button onClick={() => dispatch({ type: 'increment-counter' })}>
-        Increment counter
-      </button> */}
         <SearchBar placeholder="Search for a director, actor, writer . . . " />
       </SearchDashboardDesktop>
     </Layout>

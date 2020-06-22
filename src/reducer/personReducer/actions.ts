@@ -33,4 +33,8 @@ export function fetchNameCreditsSuccess(data: Data) {
   } as const
 }
 
-// TODO: Add fail message
+export function fetchNameCreditsFail() {
+  return {
+    type: FETCH_NAME_CREDITS_BY_ID_FAIL
+  } as const
+}

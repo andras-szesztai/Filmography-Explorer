@@ -23,7 +23,12 @@ export interface ResultArray {
   resultArray: PersonDetails[]
 }
 
-const SearchBar = ({ placeholder }: { placeholder: string }) => {
+interface Props {
+  placeholder: string
+  activeNameID: number
+}
+
+const SearchBar = ({ placeholder, activeNameID }: Props) => {
   const dispatch = useDispatch()
   const [nameSearchResults, setNameSearchResults] = React.useState<ResultArray>({ resultArray: [] })
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
@@ -68,7 +73,12 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
         activeResult={activeResult}
         resetSearch={resetSearch}
         inputRef={inputRef}
-        handleResultSelect={(index: number) => dispatch(setActiveNameID(nameSearchResults.resultArray[index].id))}
+        handleResultSelect={(index: number) => {
+          const newID = nameSearchResults.resultArray[index].id
+          if (activeNameID !== newID) {
+            dispatch(setActiveNameID(newID))
+          }
+        }}
       />
       <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
         <IoIosSearch size={22} color={colors.textColorPrimary} />
@@ -84,7 +94,9 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
             zIndex={Math.abs(i - 4)}
             data={res}
             handleClick={() => {
-              dispatch(setActiveNameID(res.id))
+              if (res.id !== activeNameID) {
+                dispatch(setActiveNameID(res.id))
+              }
               resetSearch()
             }}
             handleMouseover={() => {

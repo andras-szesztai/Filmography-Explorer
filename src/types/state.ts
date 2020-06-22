@@ -13,10 +13,7 @@ export interface PersonState {
     personDetails: boolean
     personCredits: boolean
   }
-  error: {
-    personDetails: boolean
-    personCredits: boolean
-  }
+  error: string
 }
 
 export interface CombinedState {

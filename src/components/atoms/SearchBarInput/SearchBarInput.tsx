@@ -9,6 +9,28 @@ import { transition } from '../../../styles/animation'
 // Types
 import { ResultArray } from '../../molecules/SearchBar/SearchBar'
 
+const inputStyles = css`
+  width: ${width.searchBar}px;
+  height: ${height.searchBar}px;
+
+  border-radius: ${space[1]}px;
+  background: transparent;
+  border: 1px solid ${colors.textColorPrimary};
+
+  color: ${colors.textColorPrimary};
+  font-size: ${fontSize.md};
+  font-weight: ${fontWeight.sm};
+
+  outline: none;
+
+  padding: ${space[1]}px ${space[3]}px;
+
+  &::placeholder {
+    color: inherit;
+    font-size: inherit;
+  }
+`
+
 interface Props {
   searchIsFocused: boolean
   setSearchIsFocused: (isFocused: boolean) => void
@@ -41,27 +63,7 @@ const SearchBarInput = ({
   return (
     <motion.input
       ref={inputRef}
-      css={css`
-        width: ${width.searchBar}px;
-        height: ${height.searchBar}px;
-
-        border-radius: ${space[1]}px;
-        background: transparent;
-        border: 1px solid ${colors.textColorPrimary};
-
-        color: ${colors.textColorPrimary};
-        font-size: ${fontSize.md};
-        font-weight: ${fontWeight.sm};
-
-        outline: none;
-
-        padding: ${space[1]}px ${space[3]}px;
-
-        &::placeholder {
-          color: inherit;
-          font-size: inherit;
-        }
-      `}
+      css={inputStyles}
       animate={{
         paddingLeft: searchIsFocused ? space[3] : space[10],
         transition: transition.primary

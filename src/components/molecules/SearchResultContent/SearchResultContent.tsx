@@ -12,14 +12,6 @@ import { PersonDetails } from '../../../types/person'
 import { space, colors, fontSize, fontWeight, height } from '../../../styles/variables'
 
 const containerStyle = css`
-  display: grid;
-  grid-template-columns: ${space[9]}px 1fr;
-  grid-template-rows: repeat(2, 50%);
-  grid-template-areas:
-    'photo name'
-    'photo job';
-  grid-column-gap: ${space[3]}px;
-
   align-self: start;
   width: calc(100% - ${space[2]}px);
   height: ${height.searchResultHeight}px;
@@ -28,6 +20,21 @@ const containerStyle = css`
   margin: ${space[1]}px;
   padding: ${space[1]}px ${space[2]}px;
   color: ${colors.textColorSecondary};
+`
+
+const gridContainerStyle = css`
+  display: grid;
+  grid-template-columns: ${space[9]}px 1fr;
+  grid-template-rows: repeat(2, 50%);
+  grid-template-areas:
+    'photo name'
+    'photo job';
+  grid-column-gap: ${space[3]}px;
+`
+
+const flexContainerStyle = css`
+  display: flex;
+  align-items: center;
 `
 
 const nameContainerStyle = css`
@@ -76,26 +83,34 @@ const variants = {
 }
 
 interface Props {
-  handleClick: () => void
-  handleMouseover: () => void
-  zIndex: number
-  data: PersonDetails
+  handleClick?: () => void
+  handleMouseover?: () => void
+  zIndex?: number
+  data?: PersonDetails
+  noResult?: boolean
+  inputText?: string
 }
 
-const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex }: Props) => {
+const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex, noResult, inputText }: Props) => {
   return (
     <motion.div
       css={css`
-        ${containerStyle}
+      ${containerStyle}
+        ${noResult ? flexContainerStyle : gridContainerStyle}
         z-index: ${zIndex};
       `}
       variants={variants}
       onClick={handleClick}
       onMouseOver={handleMouseover}
     >
-      <Image height={52} url={data.profile_path} alt={data.name} />
-      <span css={nameContainerStyle}>{data.name}</span>
-      <span css={jobContainerStyle}>Known for:&nbsp;{data.known_for_department}</span>
+      {data && (
+        <>
+          <Image height={52} url={data.profile_path} alt={data.name} />
+          <span css={nameContainerStyle}>{data.name}</span>
+          <span css={jobContainerStyle}>Known for:&nbsp;{data.known_for_department}</span>
+        </>
+      )}
+      {noResult && <span css={nameContainerStyle}>Sorry, there is no result for {inputText}</span>}
     </motion.div>
   )
 }

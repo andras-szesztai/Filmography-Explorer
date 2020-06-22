@@ -33,6 +33,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
   const [nameSearchResults, setNameSearchResults] = React.useState<ResultArray>({ resultArray: [] })
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult] = React.useState(0)
+  const [noResult, setNoResult] = React.useState(false)
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
@@ -41,8 +42,13 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
       axios
         .get(`${API_ROOT}/search/person?api_key=${process.env.MDB_API_KEY}&language=en-US&query=${text}&page=1&include_adult=false`)
         .then(response => {
-          setNameSearchResults({ resultArray: response.data.results.filter((el: {}, i: number) => i < 5) })
+          if (response.data.total_results) {
+            setNameSearchResults({ resultArray: response.data.results.filter((el: {}, i: number) => i < 5) })
+          } else {
+            setNoResult(true)
+          }
         })
+        .catch(error => console.log(error))
     } else {
       setNameSearchResults({ resultArray: [] })
     }
@@ -57,8 +63,12 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
     if (inputRef && inputRef.current) {
       inputRef.current.blur()
     }
+    if (noResult) {
+      setNoResult(false)
+    }
   }
 
+  const isResultVisible = !!nameSearchResults.resultArray.length
   return (
     <SearchBarContainer>
       <SearchBarInput
@@ -86,24 +96,26 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
       <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
         <IoIosClose size={22} color={colors.accentPrimary} />
       </SearchIconContainer>
-      <ActiveSearchResultIndicator isVisible={!!nameSearchResults.resultArray.length} activeResult={activeResult} />
-      <SearchResultsContainer isVisible={!!nameSearchResults.resultArray.length}>
-        {nameSearchResults.resultArray.map((res: PersonDetails, i: number) => (
-          <SearchResultContent
-            key={res.id}
-            zIndex={Math.abs(i - 4)}
-            data={res}
-            handleClick={() => {
-              if (res.id !== activeNameID) {
-                dispatch(setActiveNameID(res.id))
-              }
-              resetSearch()
-            }}
-            handleMouseover={() => {
-              setActiveResult(i)
-            }}
-          />
-        ))}
+      <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
+      <SearchResultsContainer isVisible={isResultVisible || noResult}>
+        {!noResult &&
+          nameSearchResults.resultArray.map((res: PersonDetails, i: number) => (
+            <SearchResultContent
+              key={res.id}
+              zIndex={Math.abs(i - 4)}
+              data={res}
+              handleClick={() => {
+                if (res.id !== activeNameID) {
+                  dispatch(setActiveNameID(res.id))
+                }
+                resetSearch()
+              }}
+              handleMouseover={() => {
+                setActiveResult(i)
+              }}
+            />
+          ))}
+        {noResult && <SearchResultContent noResult inputText={inputText} />}
       </SearchResultsContainer>
     </SearchBarContainer>
   )

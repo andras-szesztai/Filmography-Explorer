@@ -2,12 +2,12 @@ import React, { RefObject } from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 
+// Types
+import { ResultArray } from '../../molecules/SearchBar/SearchBar'
+
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
-
-// Types
-import { ResultArray } from '../../molecules/SearchBar/SearchBar'
 
 const inputStyles = css`
   width: ${width.searchBar}px;
@@ -39,6 +39,8 @@ interface Props {
   setInputText: (text: string) => void
   setResults: (obj: ResultArray) => void
   setActiveResult: (index: number) => void
+  setNoResult: (set: boolean) => void
+  noResult: boolean
   resetSearch: () => void
   handleResultSelect: (index: number) => void
   activeResult: number
@@ -58,7 +60,9 @@ const SearchBarInput = ({
   activeResult,
   resetSearch,
   inputRef,
-  handleResultSelect
+  handleResultSelect,
+  noResult,
+  setNoResult
 }: Props) => {
   return (
     <motion.input
@@ -78,6 +82,9 @@ const SearchBarInput = ({
       onBlur={resetSearch}
       onChange={(e: React.FormEvent<HTMLInputElement>) => {
         setInputText(e.currentTarget.value)
+        if (noResult) {
+          setNoResult(false)
+        }
         if (resultsLength) {
           setResults({ resultArray: [] })
         }

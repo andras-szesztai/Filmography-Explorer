@@ -72,9 +72,12 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
   return (
     <SearchBarContainer>
       <SearchBarInput
+        inputRef={inputRef}
         placeholder={placeholder}
         searchIsFocused={searchIsFocused}
         setSearchIsFocused={setSearchIsFocused}
+        setNoResult={setNoResult}
+        noResult={noResult}
         inputValue={inputText}
         setInputText={setInputText}
         resultsLength={nameSearchResults.resultArray.length}
@@ -82,7 +85,6 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         setActiveResult={setActiveResult}
         activeResult={activeResult}
         resetSearch={resetSearch}
-        inputRef={inputRef}
         handleResultSelect={(index: number) => {
           const newID = nameSearchResults.resultArray[index].id
           if (activeNameID !== newID) {

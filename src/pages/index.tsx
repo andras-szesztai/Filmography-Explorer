@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 // Components
 import { Layout, SearchDashboardDesktop, SearchBar } from '../components'
@@ -8,8 +8,8 @@ import { Layout, SearchDashboardDesktop, SearchBar } from '../components'
 import { CombinedState } from '../types/state'
 
 const IndexPage = () => {
-  const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
-  const dispatch = useDispatch()
+  const personState = useSelector((state: CombinedState) => state.personReducer)
+
   return (
     <Layout>
       <SearchDashboardDesktop>

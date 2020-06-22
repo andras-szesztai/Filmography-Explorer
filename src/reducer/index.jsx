@@ -9,5 +9,10 @@ const rootReducer = combineReducers({ personReducer })
 
 // eslint-disable-next-line react/prop-types
 export default function({ element }) {
-  return <Provider store={createStore(rootReducer)}>{element}</Provider>
+  return (
+    /* eslint-disable no-underscore-dangle */
+    <Provider store={createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
+      {element}
+    </Provider>
+  )
 }

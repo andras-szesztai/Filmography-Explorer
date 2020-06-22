@@ -1,16 +1,3 @@
-import { useReducer, useEffect } from 'react'
-import { usePrevious } from 'react-use'
-import axios from 'axios'
-
-// Constants
-import { API_ROOT } from '../../constants/url'
-
-// Helpers
-import { makeFilteredData, makeUniqData } from '../../utils/dataHelpers'
-
-// Types
-import { FormattedPersonCreditDataObject, PersonDetails } from '../../types/person'
-
 // Actions
 import {
   setActiveNameID,
@@ -20,6 +7,7 @@ import {
   FETCH_NAME_CREDITS_BY_ID,
   FETCH_NAME_CREDITS_BY_ID_SUCCESS
 } from './actions'
+
 import { PersonState } from '../../types/state'
 
 const initialState = {

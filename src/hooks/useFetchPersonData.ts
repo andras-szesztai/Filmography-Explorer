@@ -45,7 +45,7 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
         )
         .catch(() => dispatch(fetchNameCreditsFail()))
     }
-  })
+  }, [activeNameID])
 }
 
 export default useFetchPersonData

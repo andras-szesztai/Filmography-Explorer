@@ -10,8 +10,12 @@ import { CombinedState } from '../../../types/state'
 
 const PersonDetailCard = () => {
   const personDetails = useSelector((state: CombinedState) => state.personReducer.dataSets.details)
-  console.log('PersonDetailCard -> personDetails', personDetails)
-  return <AnimatePresence>{personDetails && <PersonDetailCardContainer>Hello</PersonDetailCardContainer>}</AnimatePresence>
+
+  return (
+    <PersonDetailCardContainer isPopulated={!!personDetails} isOpen>
+      <div>Hello</div>
+    </PersonDetailCardContainer>
+  )
 }
 
 export default PersonDetailCard

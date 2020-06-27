@@ -5,7 +5,7 @@ import { css } from '@emotion/core'
 import { NavItem } from '../../atoms'
 
 // Styles
-import { space, colors, fontSize } from '../../../styles/variables'
+import { space, colors, fontSize, zIndex } from '../../../styles/variables'
 
 const Header: React.FC = () => {
   return (
@@ -16,10 +16,12 @@ const Header: React.FC = () => {
         justify-content: space-between;
 
         padding: 0 ${space[7]}px;
+        background: ${colors.bgColorPrimary};
 
         border-bottom: 1px solid ${colors.textColorPrimary};
 
         font-size: ${fontSize.md}px;
+        z-index: ${zIndex.header};
       `}
     >
       <NavItem text="Explore" isActive />

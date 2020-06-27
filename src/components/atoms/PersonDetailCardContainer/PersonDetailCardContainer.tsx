@@ -4,23 +4,39 @@ import { css } from '@emotion/core'
 
 // Styles
 import { space, colors, width, height } from '../../../styles/variables'
+import { transition } from '../../../styles/animation'
 
-const PersonDetailCardContainer: React.FC = ({ children }) => {
+interface Props {
+  isPopulated: boolean
+  isOpen: boolean
+}
+
+const extraHeight = -40
+const PersonDetailCardContainer: React.FC<Props> = ({ children, isOpen, isPopulated }) => {
+  const [yPos, setYPos] = React.useState(-height.personCardOpen)
+  React.useEffect(() => {
+    if (isPopulated && isOpen && yPos === -height.personCardOpen) {
+      setYPos(extraHeight)
+    }
+    if (isPopulated && !isOpen && (yPos === extraHeight || yPos === -height.personCardOpen)) {
+      setYPos(-height.personCardOpen + height.personCardClosed)
+    }
+  }, [isOpen, isPopulated])
+
   return (
     <motion.div
-      // initial="initial"
-      // animate={animateCard}
-      // exit="exit"
-      // variants={variants}
+      initial={{ y: -height.personCardOpen }}
+      animate={{ y: yPos }}
+      transition={transition.primary}
       css={css`
         position: fixed;
 
         background-color: ${colors.bgColorSecondary};
-        border-radius: ${space[1]}px;
+        border-radius: 0 0 ${space[1]}px ${space[1]}px;
 
-        right: ${space[2]}px;
+        right: ${space[8]}px;
         width: ${width.detailsCard}px;
-        height: ${height.personCard}px;
+        height: ${height.personCardOpen}px;
         z-index: 5;
       `}
     >

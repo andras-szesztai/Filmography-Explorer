@@ -2,11 +2,11 @@ import { PersonDetails, FormattedPersonCreditDataObject } from './person'
 
 export interface PersonState {
   activeNameID: number
-  dataSets?: {
-    details: PersonDetails[]
+  dataSets: {
+    details: PersonDetails | undefined
     credits: {
-      cast: FormattedPersonCreditDataObject[]
-      crew: FormattedPersonCreditDataObject[]
+      cast: FormattedPersonCreditDataObject[] | undefined
+      crew: FormattedPersonCreditDataObject[] | undefined
     }
   }
   loading: {

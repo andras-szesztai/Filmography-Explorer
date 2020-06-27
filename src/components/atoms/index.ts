@@ -5,3 +5,4 @@ export { default as SearchIconContainer } from './SearchIconContainer/SearchIcon
 export { default as SearchResultsContainer } from './SearchResultsContainer/SearchResultsContainer'
 export { default as Image } from './Image/Image'
 export { default as ActiveSearchResultIndicator } from './ActiveSearchResultIndicator/ActiveSearchResultIndicator'
+export { default as PersonDetailCardContainer } from './PersonDetailCardContainer/PersonDetailCardContainer'

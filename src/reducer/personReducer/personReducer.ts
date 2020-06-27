@@ -15,10 +15,10 @@ import { PersonState } from '../../types/state'
 const initialState = {
   activeNameID: 0,
   dataSets: {
-    details: [],
+    details: undefined,
     credits: {
-      cast: [],
-      crew: []
+      cast: undefined,
+      crew: undefined
     }
   },
   loading: {

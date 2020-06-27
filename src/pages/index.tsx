@@ -1,8 +1,8 @@
-import * as React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 // Components
-import { Layout, SearchDashboardDesktop, SearchBar } from '../components'
+import { Layout, SearchDashboardDesktop, SearchBar, PersonDetailCard } from '../components'
 
 // Types
 import { CombinedState } from '../types/state'
@@ -24,6 +24,7 @@ const IndexPage = () => {
     <Layout>
       <SearchDashboardDesktop>
         <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
+        <PersonDetailCard />
       </SearchDashboardDesktop>
     </Layout>
   )

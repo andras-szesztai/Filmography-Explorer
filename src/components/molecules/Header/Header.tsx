@@ -5,7 +5,7 @@ import { css } from '@emotion/core'
 import { NavItem } from '../../atoms'
 
 // Styles
-import { space, colors, fontSize, zIndex, dropShadow } from '../../../styles/variables'
+import { space, colors, fontSize, zIndex } from '../../../styles/variables'
 
 const Header: React.FC = () => {
   return (
@@ -15,13 +15,12 @@ const Header: React.FC = () => {
         align-items: center;
         justify-content: space-between;
 
+        position: relative;
+
         padding: 0 ${space[7]}px;
         background: ${colors.bgColorPrimary};
 
         border-bottom: 1px solid ${colors.textColorPrimary};
-
-        filter: drop-shadow(${dropShadow.header.primary}) drop-shadow(${dropShadow.header.secondary})
-          drop-shadow(${dropShadow.header.ternary});
 
         font-size: ${fontSize.md}px;
         z-index: ${zIndex.header};

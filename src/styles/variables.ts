@@ -18,7 +18,8 @@ export const fontWeight = {
 }
 
 export const colors = {
-  bgColorPrimary: '#232931',
+  bgColorPrimary: '#fff',
+  bgColorPrimaryShadow: '#281E46',
   bgColorSecondary: '#FEFEFE',
   bgColorSecondaryDark: '#E0E0E0',
   textColorPrimary: '#FEFEFE',
@@ -50,6 +51,8 @@ export const space = {
 
 export const zIndex = {
   header: 60,
+  headerShadow: 59,
+  personDetailCard: 55,
   mainSearchBar: 50,
   searchResultHover: 10
 }
@@ -60,6 +63,7 @@ export const width = {
 }
 
 export const height = {
+  header: space[12],
   personCardOpen: 280,
   personCardClosed: 80,
   personCardExtra: 40,
@@ -71,9 +75,9 @@ export const height = {
 
 export const dropShadow = {
   header: {
-    primary: `0 4px 8px ${chroma(colors.bgColorPrimary).alpha(0.2)}`,
-    secondary: `0 3px 6px ${chroma(colors.bgColorPrimary).alpha(0.35)}`,
-    ternary: `0 2px 4px ${chroma(colors.bgColorPrimary).alpha(0.5)}`
+    primary: `0 4px 8px ${chroma(colors.bgColorPrimaryShadow).alpha(0.2)}`,
+    secondary: `0 3px 6px ${chroma(colors.bgColorPrimaryShadow).alpha(0.35)}`,
+    ternary: `0 2px 4px ${chroma(colors.bgColorPrimaryShadow).alpha(0.5)}`
   }
 }
 

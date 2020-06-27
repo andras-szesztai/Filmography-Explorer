@@ -10,7 +10,7 @@ import { Header } from '../../molecules'
 // Styles
 import 'modern-normalize'
 import '../../../styles/main.css'
-import { colors, space } from '../../../styles/variables'
+import { colors, height } from '../../../styles/variables'
 
 const Layout: React.FC = ({ children }) => {
   const {
@@ -52,7 +52,7 @@ const Layout: React.FC = ({ children }) => {
           width: 100vw;
 
           display: grid;
-          grid-template-rows: ${space[12]}px 1fr ${space[12]}px;
+          grid-template-rows: ${height.header}px 1fr ${height.header}px;
         `}
       >
         <Header>Hello</Header>

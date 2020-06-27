@@ -8,25 +8,10 @@ import { space, colors, width, height } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
 interface Props {
-  isPopulated: boolean
-  isOpen: boolean
+  yPos: number
 }
 
-const PersonDetailCardContainer: React.FC<Props> = props => {
-  const prevProps = usePrevious(props)
-  const { isOpen, isPopulated, children } = props
-  const [yPos, setYPos] = React.useState(-height.personCardOpen)
-  React.useEffect(() => {
-    if (isPopulated && prevProps) {
-      if ((!prevProps.isPopulated && isOpen) || (isOpen && !prevProps.isOpen)) {
-        setYPos(-height.personCardExtra)
-      }
-      if ((!prevProps.isPopulated && !isOpen) || (!isOpen && prevProps.isOpen)) {
-        setYPos(-height.personCardOpen + height.personCardClosed)
-      }
-    }
-  }, [isOpen, isPopulated])
-
+const PersonDetailCardContainer: React.FC<Props> = ({ yPos, children }) => {
   return (
     <motion.div
       initial={{ y: -height.personCardOpen }}
@@ -43,6 +28,8 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
         height: ${height.personCardOpen}px;
         z-index: 5;
         padding: 0 ${space[3]}px ${space[3]}px ${space[3]}px;
+
+        overflow: hidden;
       `}
     >
       {children}

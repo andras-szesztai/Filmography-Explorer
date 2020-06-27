@@ -1,4 +1,5 @@
 import chroma from 'chroma-js'
+import { css } from '@emotion/core'
 
 export const fontSize = {
   xs: '1rem',
@@ -75,3 +76,16 @@ export const dropShadow = {
     ternary: `0 2px 4px ${chroma(colors.bgColorPrimary).alpha(0.5)}`
   }
 }
+
+export const buttonStyle = css`
+  background: transparent;
+  border: none;
+
+  user-select: none;
+  border-radius: ${space[1]}px;
+
+  :focus {
+    box-shadow: 0 0 0 1px ${colors.accentPrimary};
+    outline: none;
+  }
+`

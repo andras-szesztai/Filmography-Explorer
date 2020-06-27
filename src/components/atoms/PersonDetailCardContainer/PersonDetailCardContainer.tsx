@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { css } from '@emotion/core'
+import { usePrevious } from 'react-use'
 
 // Styles
 import { space, colors, width, height } from '../../../styles/variables'
@@ -11,14 +12,18 @@ interface Props {
   isOpen: boolean
 }
 
-const PersonDetailCardContainer: React.FC<Props> = ({ children, isOpen, isPopulated }) => {
+const PersonDetailCardContainer: React.FC<Props> = props => {
+  const prevProps = usePrevious(props)
+  const { isOpen, isPopulated, children } = props
   const [yPos, setYPos] = React.useState(-height.personCardOpen)
   React.useEffect(() => {
-    if (isPopulated && isOpen && yPos === -height.personCardOpen) {
-      setYPos(-height.personCardExtra)
-    }
-    if (isPopulated && !isOpen && (yPos === -height.personCardExtra || yPos === -height.personCardOpen)) {
-      setYPos(-height.personCardOpen + height.personCardClosed)
+    if (isPopulated && prevProps) {
+      if ((!prevProps.isPopulated && isOpen) || (isOpen && !prevProps.isOpen)) {
+        setYPos(-height.personCardExtra)
+      }
+      if ((!prevProps.isPopulated && !isOpen) || (!isOpen && prevProps.isOpen)) {
+        setYPos(-height.personCardOpen + height.personCardClosed)
+      }
     }
   }, [isOpen, isPopulated])
 
@@ -37,7 +42,7 @@ const PersonDetailCardContainer: React.FC<Props> = ({ children, isOpen, isPopula
         width: ${width.detailsCard}px;
         height: ${height.personCardOpen}px;
         z-index: 5;
-        padding: 0 ${space[3]}px;
+        padding: 0 ${space[3]}px ${space[3]}px ${space[3]}px;
       `}
     >
       {children}

@@ -88,8 +88,15 @@ export const buttonStyle = css`
   user-select: none;
   border-radius: ${space[1]}px;
 
-  :focus {
-    box-shadow: 0 0 0 1px ${colors.accentPrimary};
+  /* :focus:not(.focus-visible) {
+    outline: none;
+  } */
+
+  [data-whatintent='mouse'] *:focus{
     outline: none;
   }
+  /* :focus {
+    box-shadow: 0 0 0 1px ${colors.accentPrimary};
+    outline: none;
+  } */
 `

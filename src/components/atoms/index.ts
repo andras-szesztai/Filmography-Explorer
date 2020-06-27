@@ -6,3 +6,4 @@ export { default as SearchResultsContainer } from './SearchResultsContainer/Sear
 export { default as Image } from './Image/Image'
 export { default as ActiveSearchResultIndicator } from './ActiveSearchResultIndicator/ActiveSearchResultIndicator'
 export { default as PersonDetailCardContainer } from './PersonDetailCardContainer/PersonDetailCardContainer'
+export { default as PersonDetaiCardShadow } from './PersonDetaiCardShadow/PersonDetaiCardShadow'

@@ -4,70 +4,29 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
+import 'what-input'
+import useWhatInput from 'react-use-what-input'
 
 // Components
 import { IoIosArrowUp } from 'react-icons/io'
-import { PersonDetailCardContainer } from '../../atoms'
+import { PersonDetailCardContainer, PersonDetaiCardShadow } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import { space, height, colors, buttonStyle, dropShadow, width, zIndex } from '../../../styles/variables'
+import { space, height, colors, buttonStyle } from '../../../styles/variables'
 
 const PersonDetailCard = () => {
   const personDetails = useSelector((state: CombinedState) => state.personReducer.dataSets.details)
 
   const [isOpen, setIsOpen] = React.useState(true)
-  const [isHovered, setIsHovered] = React.useState(false)
+  const [isArrowHovered, setIsArrowHovered] = React.useState(false)
+
+  const [currentInput] = useWhatInput()
+  console.log('PersonDetailCard -> currentInput', currentInput)
 
   return (
     <>
-      <div
-        css={css`
-          position: fixed;
-
-          background: ${colors.bgColorPrimary};
-
-          width: ${space[8]}px;
-          height: ${space[8]}px;
-
-          z-index: ${zIndex.headerShadow + 1};
-
-          top: ${height.header}px;
-          right: ${space[8] + width.detailsCard}px;
-        `}
-      />
-      <div
-        css={css`
-          position: fixed;
-
-          background: ${colors.bgColorPrimary};
-
-          width: ${space[8]}px;
-          height: ${space[8]}px;
-
-          z-index: ${zIndex.headerShadow + 1};
-
-          top: ${height.header}px;
-          right: 0px;
-        `}
-      />
-      <div
-        css={css`
-          position: fixed;
-          filter: drop-shadow(${dropShadow.header.primary}) drop-shadow(${dropShadow.header.secondary})
-            drop-shadow(${dropShadow.header.ternary});
-
-          background: ${colors.bgColorSecondary};
-
-          width: ${width.detailsCard + space[8]}px;
-          height: ${height.personCardExtra}px;
-
-          z-index: ${zIndex.headerShadow};
-
-          top: ${height.header - height.personCardExtra}px;
-          right: ${space[4]}px;
-        `}
-      />
+      {personDetails && <PersonDetaiCardShadow />}
       <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={isOpen}>
         <motion.div
           initial={{ opacity: 0 }}
@@ -89,6 +48,10 @@ const PersonDetailCard = () => {
         >
           <button
             onClick={() => setIsOpen(!isOpen)}
+            onMouseOver={() => setIsArrowHovered(true)}
+            onMouseOut={() => setIsArrowHovered(false)}
+            onFocus={() => setIsArrowHovered(true)}
+            onBlur={() => setIsArrowHovered(false)}
             css={css`
               display: flex;
               align-items: center;
@@ -100,7 +63,9 @@ const PersonDetailCard = () => {
               ${buttonStyle}
             `}
           >
-            <IoIosArrowUp size="24" color={colors.bgColorPrimary} />
+            <motion.div animate={{ scale: isArrowHovered ? 1.3 : 1 }}>
+              <IoIosArrowUp size="24" color={colors.bgColorPrimary} />
+            </motion.div>
           </button>
         </motion.div>
       </PersonDetailCardContainer>

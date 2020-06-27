@@ -1,3 +1,5 @@
+import chroma from 'chroma-js'
+
 export const fontSize = {
   xs: '1rem',
   sm: '1.5rem',
@@ -59,8 +61,17 @@ export const width = {
 export const height = {
   personCardOpen: 280,
   personCardClosed: 80,
+  personCardExtra: 40,
   movieCard: 480,
   searchBar: space[10],
   searchResultHeight: space[13],
   searchResultHoverHeight: space[14]
+}
+
+export const dropShadow = {
+  header: {
+    primary: `0 4px 8px ${chroma(colors.bgColorPrimary).alpha(0.2)}`,
+    secondary: `0 3px 6px ${chroma(colors.bgColorPrimary).alpha(0.35)}`,
+    ternary: `0 2px 4px ${chroma(colors.bgColorPrimary).alpha(0.5)}`
+  }
 }

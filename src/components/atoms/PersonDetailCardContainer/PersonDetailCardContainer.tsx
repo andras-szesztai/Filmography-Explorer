@@ -11,14 +11,13 @@ interface Props {
   isOpen: boolean
 }
 
-const extraHeight = -40
 const PersonDetailCardContainer: React.FC<Props> = ({ children, isOpen, isPopulated }) => {
   const [yPos, setYPos] = React.useState(-height.personCardOpen)
   React.useEffect(() => {
     if (isPopulated && isOpen && yPos === -height.personCardOpen) {
-      setYPos(extraHeight)
+      setYPos(-height.personCardExtra)
     }
-    if (isPopulated && !isOpen && (yPos === extraHeight || yPos === -height.personCardOpen)) {
+    if (isPopulated && !isOpen && (yPos === -height.personCardExtra || yPos === -height.personCardOpen)) {
       setYPos(-height.personCardOpen + height.personCardClosed)
     }
   }, [isOpen, isPopulated])
@@ -38,6 +37,7 @@ const PersonDetailCardContainer: React.FC<Props> = ({ children, isOpen, isPopula
         width: ${width.detailsCard}px;
         height: ${height.personCardOpen}px;
         z-index: 5;
+        padding: 0 ${space[3]}px;
       `}
     >
       {children}

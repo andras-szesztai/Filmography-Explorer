@@ -20,30 +20,52 @@ const PersonDetailCard = () => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   return (
-    <div
-      css={css`
-        position: fixed;
-        top: ${height.header - height.personCardExtra}px;
-        right: ${space[8]}px;
-        width: ${width.detailsCard}px;
-        height: ${height.personCardExtra}px;
-      `}
-    >
+    <>
       <div
         css={css`
-          position: absolute;
+          position: fixed;
+
+          background: ${colors.bgColorPrimary};
+
+          width: ${space[8]}px;
+          height: ${space[8]}px;
+
+          z-index: ${zIndex.headerShadow + 1};
+
+          top: ${height.header}px;
+          right: ${space[8] + width.detailsCard}px;
+        `}
+      />
+      <div
+        css={css`
+          position: fixed;
+
+          background: ${colors.bgColorPrimary};
+
+          width: ${space[8]}px;
+          height: ${space[8]}px;
+
+          z-index: ${zIndex.headerShadow + 1};
+
+          top: ${height.header}px;
+          right: 0px;
+        `}
+      />
+      <div
+        css={css`
+          position: fixed;
           filter: drop-shadow(${dropShadow.header.primary}) drop-shadow(${dropShadow.header.secondary})
             drop-shadow(${dropShadow.header.ternary});
 
           background: ${colors.bgColorSecondary};
 
-          width: ${width.detailsCard + space[4]}px;
+          width: ${width.detailsCard + space[8]}px;
           height: ${height.personCardExtra}px;
 
           z-index: ${zIndex.headerShadow};
 
-          top: 0px;
-          left: -${space[4]}px;
+          top: ${height.header - height.personCardExtra}px;
+          right: ${space[4]}px;
         `}
       />
       <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={isOpen}>
@@ -82,7 +104,7 @@ const PersonDetailCard = () => {
           </button>
         </motion.div>
       </PersonDetailCardContainer>
-    </div>
+    </>
   )
 }
 

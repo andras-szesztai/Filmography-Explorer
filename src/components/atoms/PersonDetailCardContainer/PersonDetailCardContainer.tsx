@@ -29,11 +29,12 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
 
   return (
     <motion.div
-      // initial={{ y: -height.personCardOpen }}
-      // animate={{ y: yPos }}
+      initial={{ y: -height.personCardOpen }}
+      animate={{ y: yPos }}
       transition={transition.primary}
       css={css`
-        position: absolute;
+        position: fixed;
+        right: ${space[8]}px;
 
         background-color: ${colors.bgColorSecondary};
         border-radius: 0 0 ${space[1]}px ${space[1]}px;

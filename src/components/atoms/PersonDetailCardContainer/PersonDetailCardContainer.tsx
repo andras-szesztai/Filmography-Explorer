@@ -41,7 +41,7 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
 
         width: ${width.detailsCard}px;
         height: ${height.personCardOpen}px;
-        padding: 0 ${space[3]}px ${space[3]}px ${space[3]}px;
+        padding: 0 ${space[3]}px ${space[2]}px ${space[3]}px;
         z-index: ${zIndex.personDetailCard};
       `}
     >

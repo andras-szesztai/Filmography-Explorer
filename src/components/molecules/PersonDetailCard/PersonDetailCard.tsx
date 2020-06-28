@@ -13,7 +13,7 @@ import { PersonDetailCardContainer, PersonDetaiCardShadow } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import { space, height, colors, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { space, height, colors, buttonStyle, buttonNoFocus, buttonFocus, fontWeight, fontSize } from '../../../styles/variables'
 import { delay } from '../../../styles/animation'
 
 const PersonDetailCard = () => {
@@ -36,7 +36,7 @@ const PersonDetailCard = () => {
             grid-template-columns: repeat(3, 1fr);
             grid-column-gap: ${space[3]}px;
             place-items: center;
-            grid-template-rows: ${height.personCardExtra}px 1fr ${height.personCardClosed}px;
+            grid-template-rows: ${height.personCardExtra}px 1fr ${height.personCardClosed - space[2]}px;
             grid-template-areas:
               '. . .'
               'bio bio photo'
@@ -75,6 +75,27 @@ const PersonDetailCard = () => {
               <IoIosArrowUp size="24" color={colors.bgColorPrimary} />
             </motion.div>
           </motion.button>
+          <div
+            css={css`
+              grid-area: name;
+              font-weight: ${fontWeight.xs};
+              font-size: ${fontSize.xxl};
+              color: ${colors.textColorPrimary};
+              border-radius: ${space[1]}px;
+              background: ${colors.bgColorPrimary};
+              white-space: nowrap;
+              letter-spacing: 1.25px;
+              margin-bottom: ${space[1]}px;
+
+              place-self: end end;
+
+              padding: ${space[1]}px ${space[12]}px ${space[1] + 2}px ${space[4]}px;
+
+              cursor: pointer;
+            `}
+          >
+            <span>{personDetails && personDetails.name}</span>
+          </div>
         </motion.div>
       </PersonDetailCardContainer>
     </>

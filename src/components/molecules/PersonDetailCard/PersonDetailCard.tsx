@@ -1,24 +1,25 @@
 /* eslint-disable react/button-has-type */
-
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
 import useWhatInput from 'react-use-what-input'
+import { useLocalStorage } from 'react-use'
+import { IoIosArrowUp } from 'react-icons/io'
 
 // Components
-import { IoIosArrowUp } from 'react-icons/io'
 import { PersonDetailCardContainer, PersonDetaiCardShadow } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
 import { space, height, colors, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { delay } from '../../../styles/animation'
 
 const PersonDetailCard = () => {
   const personDetails = useSelector((state: CombinedState) => state.personReducer.dataSets.details)
 
-  const [isOpen, setIsOpen] = React.useState(true)
+  const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage('personCardIsOpen', true)
   const [isArrowHovered, setIsArrowHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
@@ -26,10 +27,10 @@ const PersonDetailCard = () => {
   return (
     <>
       {personDetails && <PersonDetaiCardShadow />}
-      <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={isOpen}>
+      <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={personCardIsOpen}>
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: personDetails ? 1 : 0, transition: { delay: 0.8 } }}
+          animate={{ opacity: personDetails ? 1 : 0, transition: { delay: delay.md } }}
           css={css`
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -45,8 +46,8 @@ const PersonDetailCard = () => {
             height: 100%;
           `}
         >
-          <button
-            onClick={() => setIsOpen(!isOpen)}
+          <motion.button
+            onClick={() => setPersonCardIsOpen(!personCardIsOpen)}
             onMouseOver={() => setIsArrowHovered(true)}
             onMouseOut={() => setIsArrowHovered(false)}
             onFocus={() => setIsArrowHovered(true)}
@@ -62,11 +63,18 @@ const PersonDetailCard = () => {
               ${buttonStyle}
               ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
             `}
+            initial={{ rotate: !personCardIsOpen ? 180 : 0 }}
+            animate={{
+              rotate: !personCardIsOpen ? 180 : 0,
+              transition: {
+                delay: delay.md
+              }
+            }}
           >
             <motion.div animate={{ scale: isArrowHovered ? 1.3 : 1 }}>
               <IoIosArrowUp size="24" color={colors.bgColorPrimary} />
             </motion.div>
-          </button>
+          </motion.button>
         </motion.div>
       </PersonDetailCardContainer>
     </>

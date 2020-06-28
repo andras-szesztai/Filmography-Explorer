@@ -38,3 +38,7 @@ export const duration = {
   md: 500,
   lg: 1000
 }
+
+export const delay = {
+  md: 0.8
+}

@@ -9,7 +9,7 @@ import { transition } from '../../../styles/animation'
 
 interface Props {
   isPopulated: boolean
-  isOpen: boolean
+  isOpen?: boolean
 }
 
 const PersonDetailCardContainer: React.FC<Props> = props => {

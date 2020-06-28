@@ -13,7 +13,7 @@ import { PersonDetailCardContainer, PersonDetaiCardShadow } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import { space, height, colors, buttonStyle } from '../../../styles/variables'
+import { space, height, colors, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 
 const PersonDetailCard = () => {
   const personDetails = useSelector((state: CombinedState) => state.personReducer.dataSets.details)
@@ -22,7 +22,6 @@ const PersonDetailCard = () => {
   const [isArrowHovered, setIsArrowHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
-  console.log('PersonDetailCard -> currentInput', currentInput)
 
   return (
     <>
@@ -61,6 +60,7 @@ const PersonDetailCard = () => {
               place-self: end start;
 
               ${buttonStyle}
+              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
             `}
           >
             <motion.div animate={{ scale: isArrowHovered ? 1.3 : 1 }}>

@@ -84,19 +84,21 @@ export const dropShadow = {
 export const buttonStyle = css`
   background: transparent;
   border: none;
+  cursor: pointer;
 
   user-select: none;
   border-radius: ${space[1]}px;
+`
 
-  /* :focus:not(.focus-visible) {
-    outline: none;
-  } */
-
-  [data-whatintent='mouse'] *:focus{
-    outline: none;
-  }
-  /* :focus {
+export const buttonFocus = css`
+  :focus {
     box-shadow: 0 0 0 1px ${colors.accentPrimary};
     outline: none;
-  } */
+  }
+`
+
+export const buttonNoFocus = css`
+  :focus {
+    outline: none;
+  }
 `

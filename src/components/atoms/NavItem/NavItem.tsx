@@ -1,9 +1,10 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import useWhatInput from 'react-use-what-input'
 import { motion } from 'framer-motion'
 
 // Styles
-import { space, colors, fontSize, fontWeight } from '../../../styles/variables'
+import { space, colors, fontSize, fontWeight, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 
 interface Props {
   text: string
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const NavItem: React.FC<Props> = ({ text, isActive }) => {
+  const [currentInput] = useWhatInput()
   return (
     <motion.button
       type="button"
@@ -22,16 +24,8 @@ const NavItem: React.FC<Props> = ({ text, isActive }) => {
         font-weight: ${fontWeight.lg};
         letter-spacing: ${space[1]}px;
 
-        background: transparent;
-        border: none;
-
-        user-select: none;
-        border-radius: ${space[1]}px;
-
-        :focus {
-          box-shadow: 0 0 0 1px ${colors.accentPrimary};
-          outline: none;
-        }
+        ${buttonStyle}
+        ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
       `}
     >
       {text}

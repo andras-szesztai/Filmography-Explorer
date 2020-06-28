@@ -1,9 +1,10 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { motion, AnimatePresence } from 'framer-motion'
+import useWhatInput from 'react-use-what-input'
 
 // Styles
-import { space, colors } from '../../../styles/variables'
+import { space, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 import { transition, whileHover } from '../../../styles/animation'
 
 interface Props {
@@ -29,6 +30,9 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
       opacity: 0
     }
   }
+
+  const [currentInput] = useWhatInput()
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -37,28 +41,18 @@ const SearchIconContainer: React.FC<Props> = ({ isVisible, children, animateProp
           css={css`
             position: absolute;
             top: ${space[2]}px;
-            ${isLeft
-              ? css`
-                  left: ${space[1]}px;
-                `
-              : css`
-                  right: ${space[1]}px;
-                `}
-
-            background: transparent;
-
-            cursor: pointer;
-
-            background: transparent;
-            border: none;
-
-            user-select: none;
-            border-radius: ${space[1]}px;
-
-            :focus {
-              box-shadow: 0 0 0 1px ${colors.accentPrimary};
-              outline: none;
+            ${
+              isLeft
+                ? css`
+                    left: ${space[1]}px;
+                  `
+                : css`
+                    right: ${space[1]}px;
+                  `
             }
+
+                ${buttonStyle}
+              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
           `}
           variants={variants}
           initial="enter"

@@ -4,55 +4,35 @@ import { colors, space, zIndex, height, width, dropShadow } from '../../../style
 
 const PersonDetaiCardShadow = () => {
   return (
-    <>
+    <div
+      css={css`
+        position: fixed;
+        overflow-x: hidden;
+
+        width: ${width.detailsCard}px;
+        height: ${height.personCardExtra}px;
+
+        z-index: ${zIndex.headerShadow};
+
+        top: ${height.header - height.personCardExtra}px;
+        right: ${space[8]}px;
+        transform: translateY(100%);
+      `}
+    >
       <div
         css={css`
-          position: fixed;
+          position: absolute;
+          background: ${colors.bgColorSecondary};
 
-          background: ${colors.bgColorPrimary};
-
-          width: ${space[8]}px;
-          height: ${space[8]}px;
-
-          z-index: ${zIndex.headerShadow + 1};
-
-          top: ${height.header}px;
-          right: ${space[8] + width.detailsCard}px;
-        `}
-      />
-      <div
-        css={css`
-          position: fixed;
-
-          background: ${colors.bgColorPrimary};
-
-          width: ${space[8]}px;
-          height: ${space[8]}px;
-
-          z-index: ${zIndex.headerShadow + 1};
-
-          top: ${height.header}px;
-          right: 0px;
-        `}
-      />
-      <div
-        css={css`
-          position: fixed;
+          width: calc(100% + ${space[8]}px);
+          height: 100%;
           filter: drop-shadow(${dropShadow.header.primary}) drop-shadow(${dropShadow.header.secondary})
             drop-shadow(${dropShadow.header.ternary});
 
-          background: ${colors.bgColorSecondary};
-
-          width: ${width.detailsCard + space[8]}px;
-          height: ${height.personCardExtra}px;
-
-          z-index: ${zIndex.headerShadow};
-
-          top: ${height.header - height.personCardExtra}px;
-          right: ${space[4]}px;
+          transform: translate(-${space[4]}px, -100%);
         `}
       />
-    </>
+    </div>
   )
 }
 

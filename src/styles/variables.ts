@@ -66,8 +66,8 @@ export const width = {
 export const height = {
   header: space[12],
   personCardOpen: 280,
-  personCardClosed: 80,
-  personCardExtra: 40,
+  personCardClosed: space[14],
+  personCardExtra: space[10],
   movieCard: 480,
   searchBar: space[10],
   searchResultHeight: space[13],

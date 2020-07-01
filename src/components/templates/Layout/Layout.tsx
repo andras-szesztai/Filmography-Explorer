@@ -55,7 +55,7 @@ const Layout: React.FC = ({ children }) => {
           grid-template-rows: ${height.header}px 1fr ${height.header}px;
         `}
       >
-        <Header>Hello</Header>
+        <Header />
         {children}
       </motion.div>
     </>

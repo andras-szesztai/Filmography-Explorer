@@ -89,7 +89,7 @@ const PersonDetailCard = () => {
 
               place-self: end end;
 
-              padding: ${space[1]}px ${space[12]}px ${space[1] + 2}px ${space[4]}px;
+              padding: ${space[1]}px ${space[12]}px ${space[1] + 3}px ${space[4]}px;
 
               cursor: pointer;
             `}
@@ -101,5 +101,6 @@ const PersonDetailCard = () => {
     </>
   )
 }
+// TODO: add favorite star, rest of content + loader gradient
 
 export default PersonDetailCard

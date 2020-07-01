@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
-import chroma from 'chroma-js'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import { IoIosArrowUp } from 'react-icons/io'
@@ -103,7 +102,7 @@ const PersonDetailCard = () => {
 
               place-self: end start;
 
-              padding: ${space[1]}px ${space[12]}px ${space[1] + 3}px ${space[4]}px;
+              padding: ${space[1]}px ${space[12]}px ${space[1] + 3}px ${space[3]}px;
 
               cursor: pointer;
             `}
@@ -120,16 +119,19 @@ const PersonDetailCard = () => {
               overflow-y: auto;
               ${dentedStyle};
 
-              padding: ${space[1]}px ${space[2]}px;
               border-radius: 2px;
 
               color: ${colors.textColorSecondary};
               font-size: ${fontSize.sm};
-              padding: ${space[1]}px ${space[2]}px;
+              padding: ${space[2]}px ${space[3]}px ${space[0]}px ${space[2]}px;
 
               p {
                 margin-top: 0;
                 line-height: 1.4;
+              }
+
+              ::-webkit-scrollbar {
+                width: ${space[1]}px;
               }
 
               ::-webkit-scrollbar-track {

@@ -4,16 +4,27 @@ import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
+import chroma from 'chroma-js'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import { IoIosArrowUp } from 'react-icons/io'
 
 // Components
-import { PersonDetailCardContainer, PersonDetaiCardShadow } from '../../atoms'
+import { PersonDetailCardContainer, PersonDetailCardShadow } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import { space, height, colors, buttonStyle, buttonNoFocus, buttonFocus, fontWeight, fontSize } from '../../../styles/variables'
+import {
+  height,
+  colors,
+  buttonStyle,
+  buttonNoFocus,
+  buttonFocus,
+  fontWeight,
+  fontSize,
+  dentedStyle,
+  space
+} from '../../../styles/variables'
 import { delay } from '../../../styles/animation'
 
 const PersonDetailCard = () => {
@@ -26,7 +37,7 @@ const PersonDetailCard = () => {
 
   return (
     <>
-      {personDetails && <PersonDetaiCardShadow />}
+      {personDetails && <PersonDetailCardShadow />}
       <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={personCardIsOpen}>
         <motion.div
           initial={{ opacity: 0 }}
@@ -36,11 +47,11 @@ const PersonDetailCard = () => {
             grid-template-columns: repeat(3, 1fr);
             grid-column-gap: ${space[3]}px;
             place-items: center;
-            grid-template-rows: ${height.personCardExtra}px 1fr ${height.personCardClosed - space[2]}px;
+            grid-template-rows: ${height.personCardExtra + space[4]}px 1fr ${height.personCardClosed - space[2]}px;
             grid-template-areas:
               '. . .'
               'bio bio photo'
-              'icon name name';
+              'name name icon';
 
             width: 100%;
             height: 100%;
@@ -58,7 +69,7 @@ const PersonDetailCard = () => {
               grid-area: icon;
               cursor: pointer;
 
-              place-self: end start;
+              place-self: end end;
 
               ${buttonStyle}
               ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
@@ -78,16 +89,19 @@ const PersonDetailCard = () => {
           <div
             css={css`
               grid-area: name;
+              position: relative;
+
               font-weight: ${fontWeight.xs};
               font-size: ${fontSize.xxl};
               color: ${colors.textColorPrimary};
+
               border-radius: ${space[1]}px;
               background: ${colors.bgColorPrimary};
               white-space: nowrap;
               letter-spacing: 1.25px;
               margin-bottom: ${space[1]}px;
 
-              place-self: end end;
+              place-self: end start;
 
               padding: ${space[1]}px ${space[12]}px ${space[1] + 3}px ${space[4]}px;
 
@@ -95,6 +109,40 @@ const PersonDetailCard = () => {
             `}
           >
             <span>{personDetails && personDetails.name}</span>
+          </div>
+          <div
+            css={css`
+              grid-area: bio;
+              place-self: stretch;
+              margin-top: ${space[1]}px;
+              border-radius: ${space[1]}px;
+
+              overflow-y: auto;
+              ${dentedStyle};
+
+              padding: ${space[1]}px ${space[2]}px;
+              border-radius: 2px;
+
+              color: ${colors.textColorSecondary};
+              font-size: ${fontSize.sm};
+              padding: ${space[1]}px ${space[2]}px;
+
+              p {
+                margin-top: 0;
+                line-height: 1.4;
+              }
+
+              ::-webkit-scrollbar-track {
+                background: ${colors.bgColorSecondaryDark};
+              }
+
+              ::-webkit-scrollbar-thumb {
+                background: ${colors.bgColorPrimary};
+                border-radius: ${space[1]}px;
+              }
+            `}
+          >
+            <p>{personDetails && personDetails.biography}</p>
           </div>
         </motion.div>
       </PersonDetailCardContainer>

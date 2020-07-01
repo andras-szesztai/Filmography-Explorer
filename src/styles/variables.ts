@@ -82,6 +82,26 @@ export const dropShadow = {
   }
 }
 
+export const boxShadow = {
+  inset: {
+    top: {
+      primary: `inset 0 3px 6px ${chroma(colors.bgColorPrimaryShadow).alpha(0.2)}`,
+      secondary: `inset 0 2px 4px ${chroma(colors.bgColorPrimaryShadow).alpha(0.35)}`,
+      ternary: `inset 0 1px 2px ${chroma(colors.bgColorPrimaryShadow).alpha(0.5)}`
+    },
+    bottom: {
+      primary: `inset 0 -3px 6px ${chroma(colors.bgColorSecondary).alpha(0.2)}`,
+      secondary: `inset 0 -2px 4px ${chroma(colors.bgColorSecondary).alpha(0.35)}`,
+      ternary: `inset 0 -1px 2px ${chroma(colors.bgColorSecondary).alpha(0.5)}`
+    }
+  }
+}
+
+export const dentedStyle = css`
+  box-shadow: ${boxShadow.inset.top.primary}, ${boxShadow.inset.top.secondary}, ${boxShadow.inset.top.ternary},
+    ${boxShadow.inset.bottom.primary}, ${boxShadow.inset.bottom.secondary}, ${boxShadow.inset.bottom.ternary};
+`
+
 export const buttonStyle = css`
   background: transparent;
   border: none;

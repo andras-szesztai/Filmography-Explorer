@@ -18,7 +18,7 @@ const containerStyle = css`
   border-radius: ${space[1]}px;
   background-color: ${colors.bgColorSecondary};
   margin: ${space[1]}px;
-  padding: ${space[1]}px ${space[2]}px;
+  padding: ${space[1] + 2}px ${space[2]}px;
   color: ${colors.textColorSecondary};
 `
 

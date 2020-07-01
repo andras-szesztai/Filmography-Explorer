@@ -9,7 +9,7 @@ import { useLocalStorage } from 'react-use'
 import { IoIosArrowUp } from 'react-icons/io'
 
 // Components
-import { PersonDetailCardContainer, PersonDetailCardShadow } from '../../atoms'
+import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -33,6 +33,8 @@ const PersonDetailCard = () => {
   const [isArrowHovered, setIsArrowHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
+
+  console.log(personDetails)
 
   return (
     <>
@@ -113,7 +115,6 @@ const PersonDetailCard = () => {
             css={css`
               grid-area: bio;
               place-self: stretch;
-              margin-top: ${space[1]}px;
               border-radius: ${space[1]}px;
 
               overflow-y: auto;
@@ -146,6 +147,7 @@ const PersonDetailCard = () => {
           >
             <p>{personDetails && personDetails.biography}</p>
           </div>
+          {personDetails && <Image url={personDetails.profile_path} alt={personDetails.name} />}
         </motion.div>
       </PersonDetailCardContainer>
     </>

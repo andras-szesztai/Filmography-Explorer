@@ -1,13 +1,13 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import { IoIosArrowUp } from 'react-icons/io'
-import chroma from 'chroma-js'
+import ContentLoader from 'react-content-loader'
 
 // Components
 import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
@@ -16,19 +16,21 @@ import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../
 import { CombinedState } from '../../../types/state'
 import {
   height,
-  colors,
   buttonStyle,
   buttonNoFocus,
   buttonFocus,
   fontWeight,
   fontSize,
   dentedStyle,
-  space
+  space,
+  width,
+  colors
 } from '../../../styles/variables'
 import { delay } from '../../../styles/animation'
 
 const PersonDetailCard = () => {
   const personDetails = useSelector((state: CombinedState) => state.personReducer.dataSets.details)
+  const loading = useSelector((state: CombinedState) => state.personReducer.loading.personDetails)
 
   const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage('personCardIsOpen', true)
   const [isArrowHovered, setIsArrowHovered] = React.useState(false)
@@ -39,13 +41,39 @@ const PersonDetailCard = () => {
     <>
       {personDetails && <PersonDetailCardShadow />}
       <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={personCardIsOpen}>
+        <AnimatePresence>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              css={css`
+                position: absolute;
+                top: ${height.personCardExtra}px;
+                left: 0;
+                z-index: 1;
+              `}
+            >
+              <ContentLoader
+                speed={2}
+                width={width.detailsCard}
+                height={height.personCardOpen - height.personCardExtra}
+                backgroundColor={colors.bgColorSecondaryDark}
+                foregroundColor={colors.bgColorPrimary}
+              >
+                <rect x="12" y="14" rx="4" ry="4" width="255" height="165" />
+                <rect x="280" y="14" rx="4" ry="4" width="110" height="165" />
+                <rect x="12" y="190" rx="4" ry="4" width="320" height="40" />
+              </ContentLoader>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: personDetails ? 1 : 0, transition: { delay: delay.md } }}
           css={css`
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-column-gap: ${space[2]}px;
             place-items: center;
             grid-template-rows: ${height.personCardExtra + space[4]}px 1fr ${height.personCardClosed - space[2]}px;
             grid-template-areas:
@@ -128,7 +156,12 @@ const PersonDetailCard = () => {
 
               p {
                 margin-top: 0;
-                line-height: 1.4;
+                line-height: 1.5;
+
+                ::selection {
+                  background: ${colors.textColorSecondary};
+                  color: ${colors.textColorPrimary};
+                }
               }
 
               ::-webkit-scrollbar {

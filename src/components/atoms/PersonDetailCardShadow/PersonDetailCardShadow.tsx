@@ -17,6 +17,8 @@ const PersonDetaiCardShadow = () => {
         top: ${height.header - height.personCardExtra}px;
         right: ${space[8]}px;
         transform: translateY(100%);
+
+        pointer-events: none;
       `}
     >
       <div

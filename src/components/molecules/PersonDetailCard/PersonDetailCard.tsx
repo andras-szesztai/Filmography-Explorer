@@ -7,6 +7,7 @@ import 'what-input'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import { IoIosArrowUp } from 'react-icons/io'
+import chroma from 'chroma-js'
 
 // Components
 import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
@@ -34,8 +35,6 @@ const PersonDetailCard = () => {
 
   const [currentInput] = useWhatInput()
 
-  console.log(personDetails)
-
   return (
     <>
       {personDetails && <PersonDetailCardShadow />}
@@ -46,7 +45,7 @@ const PersonDetailCard = () => {
           css={css`
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-column-gap: ${space[3]}px;
+            grid-column-gap: ${space[2]}px;
             place-items: center;
             grid-template-rows: ${height.personCardExtra + space[4]}px 1fr ${height.personCardClosed - space[2]}px;
             grid-template-areas:
@@ -71,6 +70,7 @@ const PersonDetailCard = () => {
               cursor: pointer;
 
               place-self: end end;
+              padding: 0;
 
               ${buttonStyle}
               ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
@@ -93,7 +93,7 @@ const PersonDetailCard = () => {
               position: relative;
 
               font-weight: ${fontWeight.xs};
-              font-size: ${fontSize.xxl};
+              font-size: ${fontSize.xl};
               color: ${colors.textColorPrimary};
 
               border-radius: ${space[1]}px;
@@ -104,7 +104,7 @@ const PersonDetailCard = () => {
 
               place-self: end start;
 
-              padding: ${space[1]}px ${space[12]}px ${space[1] + 3}px ${space[3]}px;
+              padding: ${space[1]}px ${space[11]}px ${space[1] + 2}px ${space[3]}px;
 
               cursor: pointer;
             `}
@@ -120,7 +120,7 @@ const PersonDetailCard = () => {
               overflow-y: auto;
               ${dentedStyle};
 
-              border-radius: 2px;
+              border-radius: ${space[1]}px;
 
               color: ${colors.textColorSecondary};
               font-size: ${fontSize.sm};
@@ -147,7 +147,7 @@ const PersonDetailCard = () => {
           >
             <p>{personDetails && personDetails.biography}</p>
           </div>
-          {personDetails && <Image url={personDetails.profile_path} alt={personDetails.name} />}
+          {personDetails && <Image url={personDetails.profile_path} alt={personDetails.name} borderRadius={space[1]} />}
         </motion.div>
       </PersonDetailCardContainer>
     </>

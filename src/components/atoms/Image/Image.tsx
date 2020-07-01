@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import { useMeasure } from 'react-use'
 
 import { IMAGE_ROOT } from '../../../constants/url'
 import { colors } from '../../../styles/variables'
@@ -12,23 +13,22 @@ type Props = {
 }
 
 export default function Image({ url, alt, gridArea = 'photo', borderRadius = 2 }: Props) {
+  const [divRef, { height }] = useMeasure<HTMLDivElement>()
+  const sharedStyle = css`
+    grid-area: ${gridArea};
+    justify-self: end;
+    height: 100%;
+    border-radius: ${borderRadius}px;
+  `
   return url ? (
-    <img
-      css={css`
-        height: 100%;
-        grid-area: ${gridArea};
-        border-radius: ${borderRadius}px;
-      `}
-      src={`${IMAGE_ROOT}/${url}`}
-      alt={alt}
-    />
+    <img css={sharedStyle} src={`${IMAGE_ROOT}/${url}`} alt={alt} />
   ) : (
     <div
+      ref={divRef}
       css={css`
-        grid-area: ${gridArea};
-        place-self: stretch;
+        ${sharedStyle}
+        width: ${height * 0.66}px;
         background: ${colors.bgColorSecondaryDark};
-        border-radius: ${borderRadius}px;
       `}
     />
   )

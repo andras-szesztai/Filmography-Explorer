@@ -105,7 +105,7 @@ const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex, noRes
     >
       {data && (
         <>
-          <Image height={52} url={data.profile_path} alt={data.name} />
+          <Image url={data.profile_path} alt={data.name} />
           <span css={nameContainerStyle}>{data.name}</span>
           <span css={jobContainerStyle}>Known for:&nbsp;{data.known_for_department}</span>
         </>

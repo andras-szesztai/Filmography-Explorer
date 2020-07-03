@@ -1,38 +1,45 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useSelector, useDispatch } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
-import { IoIosArrowUp } from 'react-icons/io'
-import ContentLoader from 'react-content-loader'
 import uniq from 'lodash/uniq'
 import last from 'lodash/last'
 import omit from 'lodash/omit'
 
 // Components
-import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
+import { PersonDetailCardContainer, PersonDetailCardShadow, Image, PersonDetailContentLoader, PersonContainerArrow } from '../../atoms'
 import FavoriteStar from '../../molecules/FavoriteStar/FavoriteStar'
+
+// Actions
+import { setActiveNameID } from '../../../reducer/personReducer/actions'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import {
-  height,
-  buttonStyle,
-  buttonNoFocus,
-  buttonFocus,
-  fontWeight,
-  fontSize,
-  dentedStyle,
-  space,
-  width,
-  colors
-} from '../../../styles/variables'
-import { delay } from '../../../styles/animation'
+
+// Constants
 import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
-import { setActiveNameID } from '../../../reducer/personReducer/actions'
+
+// Styles
+import { height, buttonNoFocus, buttonFocus, fontWeight, fontSize, dentedStyle, space, colors } from '../../../styles/variables'
+import { delay } from '../../../styles/animation'
+
+const contentGridStyle = css`
+  display: grid;
+  grid-template-columns: repeat(3, 33.33%);
+  place-items: center;
+  grid-template-rows: ${height.personCardExtra + space[4]}px 1fr ${height.personCardClosed - space[2]}px;
+  grid-template-areas:
+    '. . .'
+    'bio bio photo'
+    'name name icon';
+
+  width: 100%;
+  height: 100%;
+`
 
 interface FavoritePersonsObject {
   [id: number]: number[]
@@ -44,14 +51,13 @@ const PersonDetailCard = () => {
   const dispatch = useDispatch()
 
   const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage('personCardIsOpen', true)
-  const [isArrowHovered, setIsArrowHovered] = React.useState(false)
+  const [favoritePersons, setFavoritePersons] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoritePersons, {} as FavoritePersonsObject)
 
   const [currentInput] = useWhatInput()
 
   const [isNameHovered, setIsNameHovered] = React.useState(false)
 
-  const [favoritePersons, setFavoritePersons] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoritePersons, {} as FavoritePersonsObject)
-
+  // TODO: Move it to its hook
   const init = React.useRef(true)
   React.useEffect(() => {
     if (init.current) {
@@ -78,84 +84,20 @@ const PersonDetailCard = () => {
     }
   }
 
+  // TODO: move PersonContainerArrow to molecules
+  // TODO: make PersonContainerAtoms folder in Atoms
+  // TODO: make PersonContainerMolecules folder in Molecules if needed
   return (
     <>
       {personData.details && <PersonDetailCardShadow />}
       <PersonDetailCardContainer isPopulated={!!personData.details} isOpen={personCardIsOpen}>
-        <AnimatePresence>
-          {loading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              css={css`
-                position: absolute;
-                top: ${height.personCardExtra}px;
-                left: 0;
-                z-index: 1;
-              `}
-            >
-              <ContentLoader
-                speed={2}
-                width={width.detailsCard}
-                height={height.personCardOpen - height.personCardExtra}
-                backgroundColor={colors.bgColorSecondaryDark}
-                foregroundColor={colors.bgColorPrimary}
-              >
-                <rect x="12" y="14" rx="4" ry="4" width="255" height="165" />
-                <rect x="280" y="14" rx="4" ry="4" width="110" height="165" />
-                <rect x="12" y="190" rx="4" ry="4" width="320" height="40" />
-              </ContentLoader>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <PersonDetailContentLoader loading={loading} />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: personData.details ? 1 : 0, transition: { delay: delay.md } }}
-          css={css`
-            display: grid;
-            grid-template-columns: repeat(3, 33.33%);
-            place-items: center;
-            grid-template-rows: ${height.personCardExtra + space[4]}px 1fr ${height.personCardClosed - space[2]}px;
-            grid-template-areas:
-              '. . .'
-              'bio bio photo'
-              'name name icon';
-
-            width: 100%;
-            height: 100%;
-          `}
+          css={contentGridStyle}
         >
-          <motion.button
-            onClick={() => setPersonCardIsOpen(!personCardIsOpen)}
-            onMouseOver={() => setIsArrowHovered(true)}
-            onMouseOut={() => setIsArrowHovered(false)}
-            onFocus={() => setIsArrowHovered(true)}
-            onBlur={() => setIsArrowHovered(false)}
-            css={css`
-              display: flex;
-              align-items: center;
-              grid-area: icon;
-              cursor: pointer;
-
-              place-self: end end;
-              padding: 0;
-
-              ${buttonStyle}
-              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-            `}
-            initial={{ rotate: !personCardIsOpen ? 180 : 0 }}
-            animate={{
-              rotate: !personCardIsOpen ? 180 : 0,
-              transition: {
-                delay: delay.md
-              }
-            }}
-          >
-            <motion.div animate={{ scale: isArrowHovered ? 1.3 : 1 }}>
-              <IoIosArrowUp size="24" color={colors.bgColorPrimary} />
-            </motion.div>
-          </motion.button>
+          <PersonContainerArrow setPersonCardIsOpen={setPersonCardIsOpen} personCardIsOpen={personCardIsOpen} currentInput={currentInput} />
           <div
             css={css`
               grid-area: name;

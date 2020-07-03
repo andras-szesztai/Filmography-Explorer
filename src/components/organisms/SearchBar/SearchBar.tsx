@@ -11,13 +11,15 @@ import { SearchResultContent } from '../../molecules'
 import { API_ROOT } from '../../../constants/url'
 import { setActiveNameID } from '../../../reducer/personReducer/actions'
 
+// Hooks
+import { useDebouncedSearch } from '../../../hooks'
+
 // Types
 import { PersonDetails } from '../../../types/person'
 
 // Styles
 import { colors } from '../../../styles/variables'
 import { duration } from '../../../styles/animation'
-import { useDebouncedSearch } from '../../../hooks'
 
 export interface ResultArray {
   resultArray: PersonDetails[]

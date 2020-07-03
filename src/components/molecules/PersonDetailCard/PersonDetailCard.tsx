@@ -158,14 +158,14 @@ const PersonDetailCard = () => {
             <span>{personDetails && personDetails.name}</span>
             <motion.span
               initial={{ originX: 0.5 }}
-              animate={{ scale: isNameHovered ? 1.3 : 1 }}
+              animate={{ scale: isNameHovered ? 1.2 : 1 }}
               css={css`
                 position: absolute;
                 right: 4px;
                 top: 1px;
               `}
             >
-              <FavoriteStar isFavorited={isFavorited} />
+              <FavoriteStar isFavorited={isFavorited} isHovered={isNameHovered} />
             </motion.span>
           </div>
           <div

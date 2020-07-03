@@ -3,6 +3,7 @@ import { combineReducers, createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 // Reducers
+// eslint-disable-next-line import/extensions
 import personReducer from './personReducer/personReducer'
 
 const rootReducer = combineReducers({ personReducer })

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 
 // Components
 import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
-import { SearchResultContent } from '..'
+import SearchResultContent from '../SearchResultContent/SearchResultContent'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'

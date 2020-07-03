@@ -114,7 +114,7 @@ const PersonDetailCard = () => {
           animate={{ opacity: personData.details ? 1 : 0, transition: { delay: delay.md } }}
           css={css`
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 33.33%);
             place-items: center;
             grid-template-rows: ${height.personCardExtra + space[4]}px 1fr ${height.personCardClosed - space[2]}px;
             grid-template-areas:
@@ -231,6 +231,9 @@ const PersonDetailCard = () => {
                   color: ${colors.textColorPrimary};
                 }
               }
+
+              scrollbar-width: thin;
+              scrollbar-color: rebeccapurple green;
 
               ::-webkit-scrollbar {
                 width: ${space[1]}px;

@@ -27,6 +27,7 @@ const inputStyles = css`
 
   &::placeholder {
     color: inherit;
+    opacity: 1;
     font-size: inherit;
   }
 `

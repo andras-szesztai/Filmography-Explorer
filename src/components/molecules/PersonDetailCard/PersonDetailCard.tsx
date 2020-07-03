@@ -1,13 +1,16 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import { IoIosArrowUp } from 'react-icons/io'
 import ContentLoader from 'react-content-loader'
+import uniq from 'lodash/uniq'
+import last from 'lodash/last'
+import omit from 'lodash/omit'
 
 // Components
 import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
@@ -28,10 +31,17 @@ import {
   colors
 } from '../../../styles/variables'
 import { delay } from '../../../styles/animation'
+import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
+import { setActiveNameID } from '../../../reducer/personReducer/actions'
+
+interface FavoritePersonsObject {
+  [id: number]: number[]
+}
 
 const PersonDetailCard = () => {
-  const personDetails = useSelector((state: CombinedState) => state.personReducer.dataSets.details)
+  const personData = useSelector((state: CombinedState) => state.personReducer.dataSets)
   const loading = useSelector((state: CombinedState) => state.personReducer.loading.personDetails)
+  const dispatch = useDispatch()
 
   const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage('personCardIsOpen', true)
   const [isArrowHovered, setIsArrowHovered] = React.useState(false)
@@ -39,12 +49,39 @@ const PersonDetailCard = () => {
   const [currentInput] = useWhatInput()
 
   const [isNameHovered, setIsNameHovered] = React.useState(false)
-  const [isFavorited, setIsFavorited] = React.useState(false)
+
+  const [favoritePersons, setFavoritePersons] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoritePersons, {} as FavoritePersonsObject)
+
+  const init = React.useRef(true)
+  React.useEffect(() => {
+    if (init.current) {
+      init.current = false
+      if (favoritePersons && Object.keys(favoritePersons).length) {
+        const lastID = last(Object.keys(favoritePersons))
+        if (lastID) {
+          dispatch(setActiveNameID(+lastID))
+        }
+      }
+    }
+  })
+
+  const handleFavoriteToggle = () => {
+    const currId = personData.details?.id
+    if (favoritePersons && currId) {
+      if (favoritePersons[currId]) {
+        setFavoritePersons(omit(favoritePersons, currId.toString()))
+      } else {
+        const castIDs = personData.credits.cast ? personData.credits.cast.map(d => d.id) : []
+        const crewIDs = personData.credits.crew ? personData.credits.crew.map(d => d.id) : []
+        setFavoritePersons({ ...favoritePersons, [currId]: uniq([...castIDs, ...crewIDs]) })
+      }
+    }
+  }
 
   return (
     <>
-      {personDetails && <PersonDetailCardShadow />}
-      <PersonDetailCardContainer isPopulated={!!personDetails} isOpen={personCardIsOpen}>
+      {personData.details && <PersonDetailCardShadow />}
+      <PersonDetailCardContainer isPopulated={!!personData.details} isOpen={personCardIsOpen}>
         <AnimatePresence>
           {loading && (
             <motion.div
@@ -74,7 +111,7 @@ const PersonDetailCard = () => {
         </AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: personDetails ? 1 : 0, transition: { delay: delay.md } }}
+          animate={{ opacity: personData.details ? 1 : 0, transition: { delay: delay.md } }}
           css={css`
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -148,14 +185,14 @@ const PersonDetailCard = () => {
             onFocus={() => setIsNameHovered(true)}
             onMouseLeave={() => setIsNameHovered(false)}
             onBlur={() => setIsNameHovered(false)}
-            onClick={() => setIsFavorited(!isFavorited)}
+            onClick={() => handleFavoriteToggle()}
             onKeyDown={({ keyCode }) => {
               if (keyCode === 13) {
-                setIsFavorited(!isFavorited)
+                handleFavoriteToggle()
               }
             }}
           >
-            <span>{personDetails && personDetails.name}</span>
+            <span>{personData.details && personData.details.name}</span>
             <motion.span
               initial={{ originX: 0.5 }}
               animate={{ scale: isNameHovered ? 1.2 : 1 }}
@@ -165,7 +202,9 @@ const PersonDetailCard = () => {
                 top: 1px;
               `}
             >
-              <FavoriteStar isFavorited={isFavorited} isHovered={isNameHovered} />
+              {favoritePersons && personData.details && (
+                <FavoriteStar isFavorited={!!favoritePersons[personData.details?.id]} isHovered={isNameHovered} />
+              )}
             </motion.span>
           </div>
           <div
@@ -207,9 +246,9 @@ const PersonDetailCard = () => {
               }
             `}
           >
-            <p>{personDetails && personDetails.biography}</p>
+            <p>{personData.details && personData.details.biography}</p>
           </div>
-          {personDetails && <Image url={personDetails.profile_path} alt={personDetails.name} borderRadius={space[1]} />}
+          {personData.details && <Image url={personData.details.profile_path} alt={personData.details.name} borderRadius={space[1]} />}
         </motion.div>
       </PersonDetailCardContainer>
     </>

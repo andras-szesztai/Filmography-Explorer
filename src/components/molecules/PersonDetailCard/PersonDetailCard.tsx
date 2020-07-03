@@ -139,6 +139,8 @@ const PersonDetailCard = () => {
               padding: ${space[1]}px ${space[10]}px ${space[1] + 2}px ${space[3]}px;
 
               cursor: pointer;
+
+              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
             `}
             role="button"
             tabIndex={0}
@@ -163,7 +165,7 @@ const PersonDetailCard = () => {
                 top: 1px;
               `}
             >
-              <FavoriteStar />
+              <FavoriteStar isFavorited={isFavorited} />
             </motion.span>
           </div>
           <div
@@ -213,6 +215,5 @@ const PersonDetailCard = () => {
     </>
   )
 }
-// TODO: add favorite star, rest of content + loader gradient
 
 export default PersonDetailCard

@@ -115,4 +115,13 @@ const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex, noRes
   )
 }
 
+SearchResultContent.defaultProps = {
+  handleClick: () => null,
+  handleMouseover: () => null,
+  zIndex: 0,
+  data: {},
+  noResult: false,
+  inputText: ''
+}
+
 export default SearchResultContent

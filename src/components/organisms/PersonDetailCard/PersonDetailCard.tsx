@@ -14,7 +14,7 @@ import omit from 'lodash/omit'
 
 // Components
 import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
-import FavoriteStar from '../FavoriteStar/FavoriteStar'
+import FavoriteStar from '../../molecules/FavoriteStar/FavoriteStar'
 
 // Types
 import { CombinedState } from '../../../types/state'

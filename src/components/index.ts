@@ -1,5 +1,6 @@
 import { NavItem } from './atoms'
-import { Header, SearchBar, PersonDetailCard } from './molecules'
+import { Header } from './molecules'
+import { PersonDetailCard, SearchBar } from './organisms'
 import { Layout, SearchDashboardDesktop } from './templates'
 
 export { Layout, Header, NavItem, SearchDashboardDesktop, SearchBar, PersonDetailCard }

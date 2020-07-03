@@ -11,6 +11,7 @@ import ContentLoader from 'react-content-loader'
 
 // Components
 import { PersonDetailCardContainer, PersonDetailCardShadow, Image } from '../../atoms'
+import FavoriteStar from '../FavoriteStar/FavoriteStar'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -36,6 +37,9 @@ const PersonDetailCard = () => {
   const [isArrowHovered, setIsArrowHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
+
+  const [isNameHovered, setIsNameHovered] = React.useState(false)
+  const [isFavorited, setIsFavorited] = React.useState(false)
 
   return (
     <>
@@ -132,12 +136,35 @@ const PersonDetailCard = () => {
 
               place-self: end start;
 
-              padding: ${space[1]}px ${space[11]}px ${space[1] + 2}px ${space[3]}px;
+              padding: ${space[1]}px ${space[10]}px ${space[1] + 2}px ${space[3]}px;
 
               cursor: pointer;
             `}
+            role="button"
+            tabIndex={0}
+            onMouseOver={() => setIsNameHovered(true)}
+            onFocus={() => setIsNameHovered(true)}
+            onMouseLeave={() => setIsNameHovered(false)}
+            onBlur={() => setIsNameHovered(false)}
+            onClick={() => setIsFavorited(!isFavorited)}
+            onKeyDown={({ keyCode }) => {
+              if (keyCode === 13) {
+                setIsFavorited(!isFavorited)
+              }
+            }}
           >
             <span>{personDetails && personDetails.name}</span>
+            <motion.span
+              initial={{ originX: 0.5 }}
+              animate={{ scale: isNameHovered ? 1.3 : 1 }}
+              css={css`
+                position: absolute;
+                right: 4px;
+                top: 1px;
+              `}
+            >
+              <FavoriteStar />
+            </motion.span>
           </div>
           <div
             css={css`

@@ -1,8 +1,9 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { motion, AnimateSharedLayout } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 // Styles
+import { useMeasure } from 'react-use'
 import { space, colors, height, fontSize, dentedStyle } from '../../../styles/variables'
 
 const ContainerStyle = css`
@@ -22,27 +23,46 @@ const ContainerStyle = css`
   font-size: ${fontSize.md};
 `
 
-const ListItem = () => (
-  <motion.li
-    layoutId="list-item"
-    css={css`
-      white-space: nowrap;
-      list-style-type: none;
+const ListItem = () => {
+  const [isHovered, setIsHovered] = React.useState(false)
+  return (
+    <motion.li
+      onMouseOver={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      layoutId="list-item"
+      css={css`
+        white-space: nowrap;
+        list-style-type: none;
 
-      background: ${colors.bgColorPrimary};
-      color: ${colors.textColorPrimary};
+        background: ${colors.bgColorPrimary};
+        color: ${colors.textColorPrimary};
 
-      border-radius: ${space[1]}px;
-      padding: ${space[1]}px ${space[3]}px;
-      margin: 0 ${space[1]}px;
-      user-select: none;
-    `}
-  >
-    Lorem, ipsum.
-  </motion.li>
-)
+        border-radius: ${space[1]}px;
+        padding: ${space[1]}px ${space[3]}px ${space[1] + 1}px ${space[3]}px;
+        margin: 0 ${space[1]}px;
+        user-select: none;
+      `}
+    >
+      Lorem, ipsum dolor.
+    </motion.li>
+  )
+}
+
+const PlaceHolder = () => {
+  return (
+    <motion.li
+      layoutId="list-item"
+      css={css`
+        opacity: 0;
+        padding: ${space[1]}px;
+        pointer-events: none;
+      `}
+    />
+  )
+}
 
 const FavoritePersonsList = () => {
+  const [ref, { width }] = useMeasure<HTMLDivElement>()
   return (
     <div css={ContainerStyle}>
       <div
@@ -54,23 +74,30 @@ const FavoritePersonsList = () => {
       >
         My recent favorites
       </div>
-      <AnimateSharedLayout>
-        <motion.ul
-          css={css`
-            justify-self: center;
-            align-self: center;
+      <div
+        ref={ref}
+        css={css`
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+        `}
+      >
+        {width && (
+          <ul
+            css={css`
+            position: absolute;
             ${dentedStyle}
-            overflow-x: auto;
             border-radius: ${space[1]}px;
-            height: 60%;
-            width: 100%;
+            overflow-x: auto;
+            height: 75%;
+            width: ${width}px;
 
             display: flex;
             align-items: center;
 
             padding-left: ${space[2]}px;
-
-            color: red;
+            margin: 0;
 
             ::-webkit-scrollbar {
               height: ${space[1]}px;
@@ -81,22 +108,23 @@ const FavoritePersonsList = () => {
             }
 
             ::-webkit-scrollbar-thumb {
-              background: ${colors.bgColorPrimary};
+              background: ${colors.accentSecondary};
               border-radius: ${space[1]}px;
             }
-
-            li {
-            }
           `}
-        >
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-        </motion.ul>
-      </AnimateSharedLayout>
+          >
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <PlaceHolder />
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

@@ -2,10 +2,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
-import 'what-input'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import isEmpty from 'lodash/isEmpty'
+import 'what-input'
 
 // Components
 import {
@@ -46,12 +46,12 @@ const PersonDetailCard = () => {
 
   return (
     <>
-      {personData.details && <PersonDetailCardShadow />}
+      {!isEmpty(personData.details) && <PersonDetailCardShadow />}
       <PersonDetailCardContainer isPopulated={!isEmpty(personData.details)} isOpen={personCardIsOpen}>
         <PersonDetailContentLoader loading={loading} />
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: personData.details ? 1 : 0, transition: { delay: delay.md } }}
+          animate={{ opacity: !isEmpty(personData.details) ? 1 : 0, transition: { delay: delay.md } }}
           css={contentGridStyle}
         >
           <PersonContainerArrow setPersonCardIsOpen={setPersonCardIsOpen} personCardIsOpen={personCardIsOpen} currentInput={currentInput} />

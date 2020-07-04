@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 
 // Styles
 import { useMeasure } from 'react-use'
+import { IoIosSearch } from 'react-icons/io'
 import { space, colors, height, fontSize, dentedStyle } from '../../../styles/variables'
 
 const ContainerStyle = css`
@@ -26,13 +27,15 @@ const ContainerStyle = css`
 const ListItem = () => {
   const [isHovered, setIsHovered] = React.useState(false)
   return (
-    <motion.li
+    <li
       onMouseOver={() => setIsHovered(true)}
+      onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      layoutId="list-item"
+      onBlur={() => setIsHovered(false)}
       css={css`
         white-space: nowrap;
         list-style-type: none;
+        position: relative;
 
         background: ${colors.bgColorPrimary};
         color: ${colors.textColorPrimary};
@@ -41,10 +44,40 @@ const ListItem = () => {
         padding: ${space[1]}px ${space[3]}px ${space[1] + 1}px ${space[3]}px;
         margin: 0 ${space[1]}px;
         user-select: none;
+        cursor: pointer;
+        /* TODO: change for non-active only */
       `}
     >
+      <motion.div
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        css={css`
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: ${space[1]}px ${space[2]}px;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background: ${colors.accentSecondary};
+          color: ${colors.bgColorPrimary};
+          border-radius: ${space[1]}px;
+
+          pointer-events: none;
+        `}
+      >
+        <IoIosSearch size={18} color={colors.bgColorPrimary} />
+        <span
+          css={css`
+            margin-left: ${space[2]}px;
+          `}
+        >
+          Search
+        </span>
+      </motion.div>
       Lorem, ipsum dolor.
-    </motion.li>
+    </li>
   )
 }
 
@@ -113,6 +146,9 @@ const FavoritePersonsList = () => {
             }
           `}
           >
+            <ListItem />
+            <ListItem />
+            <ListItem />
             <ListItem />
             <ListItem />
             <ListItem />

@@ -37,7 +37,7 @@ const PersonDetailCard = () => {
   const personData = useSelector((state: CombinedState) => state.personReducer.dataSets)
   const loading = useSelector((state: CombinedState) => state.personReducer.loading.personDetails)
 
-  const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage('personCardIsOpen', true)
+  const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage(LOCAL_STORE_ACCESSORS.personCardIsOpen, true)
   const [favoritePersons, setFavoritePersons] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoritePersons, {} as FavoritePersonsObject)
 
   const [currentInput] = useWhatInput()

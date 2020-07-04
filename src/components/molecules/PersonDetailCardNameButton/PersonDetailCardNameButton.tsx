@@ -31,7 +31,10 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
       } else {
         const castIDs = personData?.credits.cast ? personData?.credits.cast.map(d => d.id) : []
         const crewIDs = personData?.credits.crew ? personData?.credits.crew.map(d => d.id) : []
-        setFavoritePersons({ ...favoritePersons, [currId]: uniq([...castIDs, ...crewIDs]) })
+        setFavoritePersons({
+          ...favoritePersons,
+          [currId]: { name: personData?.details?.name || '', credits: uniq([...castIDs, ...crewIDs]) }
+        })
       }
     }
   }

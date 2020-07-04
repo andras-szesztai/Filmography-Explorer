@@ -48,5 +48,8 @@ export interface PersonDataSets {
 }
 
 export interface FavoritePersonsObject {
-  [id: number]: number[]
+  [id: number]: {
+    name: string
+    credits: number[]
+  }
 }

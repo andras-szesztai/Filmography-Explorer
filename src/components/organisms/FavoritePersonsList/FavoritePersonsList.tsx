@@ -1,11 +1,14 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
+import { useMeasure, useLocalStorage } from 'react-use'
+import { IoIosSearch } from 'react-icons/io'
 
 // Styles
-import { useMeasure } from 'react-use'
-import { IoIosSearch } from 'react-icons/io'
 import { space, colors, height, fontSize, dentedStyle } from '../../../styles/variables'
+import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
+import { FavoritePersonsObject } from '../../../types/person'
+import { getObjectValues } from '../../../utils/dataHelpers'
 
 const ContainerStyle = css`
   position: fixed;
@@ -96,6 +99,11 @@ const PlaceHolder = () => {
 
 const FavoritePersonsList = () => {
   const [ref, { width }] = useMeasure<HTMLDivElement>()
+
+  const [favoritePersons] = useLocalStorage<FavoritePersonsObject>(LOCAL_STORE_ACCESSORS.favoritePersons)
+
+  console.log(getObjectValues(favoritePersons))
+
   return (
     <div css={ContainerStyle}>
       <div

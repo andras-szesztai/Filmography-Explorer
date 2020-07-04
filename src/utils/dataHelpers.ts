@@ -2,7 +2,7 @@
 import { groupBy, uniqBy } from 'lodash'
 
 // Types
-import { PersonCreditDataObject } from '../types/person'
+import { PersonCreditDataObject, FavoritePersonsObject } from '../types/person'
 
 interface Params {
   data: PersonCreditDataObject[]
@@ -59,3 +59,7 @@ export const makeFilteredData = ({ data, type }: Params) => {
     .sort((a, b) => b.vote_count - a.vote_count)
   return filteredData
 }
+
+export const getObjectKeys = (obj?: FavoritePersonsObject) => (obj ? Object.keys(obj) : [])
+
+export const getObjectValues = (obj?: FavoritePersonsObject) => (obj ? Object.values(obj) : [])

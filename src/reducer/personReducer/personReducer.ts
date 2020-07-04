@@ -17,6 +17,7 @@ import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject }
 
 const initialState = {
   activeNameID: 0,
+  isBoth: false,
   dataSets: {
     details: {} as PersonDetails,
     credits: {
@@ -56,6 +57,7 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
     case FETCH_NAME_CREDITS_BY_ID_SUCCESS:
       return {
         ...state,
+        isBoth: !!(action.data.credits.cast.length && action.data.credits.cast.length),
         loading: {
           personDetails: false,
           personCredits: false

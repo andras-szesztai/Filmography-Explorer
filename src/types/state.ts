@@ -2,6 +2,7 @@ import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject }
 
 export interface PersonState {
   activeNameID: number
+  isBoth: boolean
   dataSets: {
     details: PersonDetails | undefined
     credits: {

@@ -1,7 +1,7 @@
 import { css } from '@emotion/core'
 
 // Styles
-import { space, colors, height, fontSize, dentedStyle } from '../../../styles/variables'
+import { space, colors, height, fontSize, dentedStyle, zIndex } from '../../../styles/variables'
 
 export const ContainerStyle = css`
   position: fixed;
@@ -19,6 +19,8 @@ export const ContainerStyle = css`
 
   font-size: ${fontSize.md};
   letter-spacing: 1px;
+  user-select: none;
+  z-index: ${zIndex.mainSearchBar};
 `
 
 export const ScrollableContainerStyle = css`

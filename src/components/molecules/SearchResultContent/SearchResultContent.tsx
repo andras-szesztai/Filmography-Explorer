@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { css } from '@emotion/core'
+import isEmpty from 'lodash/isEmpty'
 
 // Components
 import { Image } from '../../atoms'
@@ -103,7 +104,7 @@ const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex, noRes
       onClick={handleClick}
       onMouseOver={handleMouseover}
     >
-      {data && (
+      {data && !isEmpty(data) && (
         <>
           <Image url={data.profile_path} alt={data.name} />
           <span css={nameContainerStyle}>{data.name}</span>

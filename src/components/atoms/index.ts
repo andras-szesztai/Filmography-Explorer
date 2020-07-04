@@ -1,5 +1,6 @@
 import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from './SearchAtoms'
 import { PersonDetailCardContainer, PersonDetailCardShadow, PersonDetailContentLoader, PersonContainerArrow } from './PersonDetailCardAtoms'
+import { LabelContainer } from './ChartAtoms'
 
 export { default as NavItem } from './NavItem/NavItem'
 export { default as Image } from './Image/Image'
@@ -14,5 +15,6 @@ export {
   PersonDetailCardContainer,
   PersonDetailCardShadow,
   PersonDetailContentLoader,
-  PersonContainerArrow
+  PersonContainerArrow,
+  LabelContainer
 }

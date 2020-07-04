@@ -29,6 +29,7 @@ const inputStyles = css`
     color: inherit;
     opacity: 1;
     font-size: inherit;
+    letter-spacing: 1px;
   }
 `
 

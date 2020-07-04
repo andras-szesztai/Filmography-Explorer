@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux'
 
 import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'
+import { DateAxis } from '../../molecules'
 
 const PersonCreditsChart = () => {
   const personReducer = useSelector((state: CombinedState) => state.personReducer)
-  console.log('PersonCreditsChart -> personReducer', personReducer)
+  // console.log('PersonCreditsChart -> personReducer', personReducer)
 
   return (
     <div
@@ -42,18 +43,16 @@ const PersonCreditsChart = () => {
             align-items: center;
             justify-content: center;
           `}
-        >
-          Filters
-        </div>
+        />
         <div
           css={css`
             display: grid;
-            grid-template-rows: ${personReducer.isBoth ? '1fr 25px 1fr' : '1fr 25px'};
+            grid-template-rows: ${personReducer.isBoth ? '1fr 30px 1fr' : '1fr 25px'};
           `}
         >
-          <div>First</div>
-          <div>Date</div>
-          <div>Second</div>
+          <div />
+          <DateAxis />
+          <div />
         </div>
       </div>
     </div>

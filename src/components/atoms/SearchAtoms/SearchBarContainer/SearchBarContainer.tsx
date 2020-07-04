@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 
 // Styles
-import { space, zIndex } from '../../../styles/variables'
+import { space, zIndex } from '../../../../styles/variables'
 
 const SearchBarContainer: React.FC = ({ children }) => {
   return (

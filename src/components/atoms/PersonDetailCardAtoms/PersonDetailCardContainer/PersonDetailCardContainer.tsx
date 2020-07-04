@@ -4,8 +4,8 @@ import { css } from '@emotion/core'
 import { usePrevious } from 'react-use'
 
 // Styles
-import { space, colors, width, height, zIndex } from '../../../styles/variables'
-import { transition } from '../../../styles/animation'
+import { space, colors, width, height, zIndex } from '../../../../styles/variables'
+import { transition } from '../../../../styles/animation'
 
 interface Props {
   isPopulated: boolean

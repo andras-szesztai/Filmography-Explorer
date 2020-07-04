@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import useWhatInput from 'react-use-what-input'
 
 // Styles
-import { space, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
-import { transition, whileHover } from '../../../styles/animation'
+import { space, buttonStyle, buttonNoFocus, buttonFocus } from '../../../../styles/variables'
+import { transition, whileHover } from '../../../../styles/animation'
 
 interface Props {
   isVisible: boolean

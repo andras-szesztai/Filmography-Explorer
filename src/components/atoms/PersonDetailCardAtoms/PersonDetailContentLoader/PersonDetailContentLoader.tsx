@@ -4,7 +4,7 @@ import { css } from '@emotion/core'
 import ContentLoader from 'react-content-loader'
 
 // Styles
-import { height, width, colors } from '../../../styles/variables'
+import { height, width, colors } from '../../../../styles/variables'
 
 interface Props {
   loading: boolean

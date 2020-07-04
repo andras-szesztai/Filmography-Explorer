@@ -4,8 +4,8 @@ import { css } from '@emotion/core'
 import { IoIosArrowUp } from 'react-icons/io'
 
 // Styles
-import { buttonStyle, buttonNoFocus, buttonFocus, colors } from '../../../styles/variables'
-import { delay } from '../../../styles/animation'
+import { buttonStyle, buttonNoFocus, buttonFocus, colors } from '../../../../styles/variables'
+import { delay } from '../../../../styles/animation'
 
 interface Props {
   setPersonCardIsOpen: (bool: boolean) => void

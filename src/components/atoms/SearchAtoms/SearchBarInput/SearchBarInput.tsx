@@ -6,8 +6,8 @@ import { motion } from 'framer-motion'
 import { ResultArray } from '../../molecules/SearchBar/SearchBar'
 
 // Styles
-import { height, width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
-import { transition } from '../../../styles/animation'
+import { height, width, space, colors, fontSize, fontWeight } from '../../../../styles/variables'
+import { transition } from '../../../../styles/animation'
 
 const inputStyles = css`
   width: ${width.searchBar}px;

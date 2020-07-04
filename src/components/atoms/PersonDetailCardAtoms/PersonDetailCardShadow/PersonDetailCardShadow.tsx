@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { colors, space, zIndex, height, width, dropShadow } from '../../../styles/variables'
+import { colors, space, zIndex, height, width, dropShadow } from '../../../../styles/variables'
 
 const PersonDetaiCardShadow = () => {
   return (

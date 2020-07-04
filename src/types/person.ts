@@ -38,3 +38,7 @@ export interface FormattedPersonCreditDataObject extends Person {
   character?: string | undefined
   job: (string | undefined)[]
 }
+
+export interface FavoritePersonsObject {
+  [id: number]: number[]
+}

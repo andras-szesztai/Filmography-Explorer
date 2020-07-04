@@ -4,8 +4,8 @@ import { css } from '@emotion/core'
 import chroma from 'chroma-js'
 
 // Styles
-import { space, zIndex, colors, height } from '../../../styles/variables'
-import { transition } from '../../../styles/animation'
+import { space, zIndex, colors, height } from '../../../../styles/variables'
+import { transition } from '../../../../styles/animation'
 
 type Props = {
   isVisible: boolean

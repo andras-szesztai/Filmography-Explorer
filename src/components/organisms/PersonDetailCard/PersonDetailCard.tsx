@@ -1,27 +1,28 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 import 'what-input'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import uniq from 'lodash/uniq'
-import last from 'lodash/last'
+
 import omit from 'lodash/omit'
 
 // Components
 import { PersonDetailCardContainer, PersonDetailCardShadow, Image, PersonDetailContentLoader, PersonContainerArrow } from '../../atoms'
 import FavoriteStar from '../../molecules/FavoriteStar/FavoriteStar'
 
-// Actions
-import { setActiveNameID } from '../../../reducer/personReducer/actions'
-
 // Types
 import { CombinedState } from '../../../types/state'
+import { FavoritePersonsObject } from '../../../types/person'
 
 // Constants
 import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
+
+// Hooks
+import useSetActiveNameIDOnMount from './hooks/useSetActiveNameIDOnMount'
 
 // Styles
 import { height, buttonNoFocus, buttonFocus, fontWeight, fontSize, dentedStyle, space, colors } from '../../../styles/variables'
@@ -41,14 +42,9 @@ const contentGridStyle = css`
   height: 100%;
 `
 
-interface FavoritePersonsObject {
-  [id: number]: number[]
-}
-
 const PersonDetailCard = () => {
   const personData = useSelector((state: CombinedState) => state.personReducer.dataSets)
   const loading = useSelector((state: CombinedState) => state.personReducer.loading.personDetails)
-  const dispatch = useDispatch()
 
   const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage('personCardIsOpen', true)
   const [favoritePersons, setFavoritePersons] = useLocalStorage(LOCAL_STORE_ACCESSORS.favoritePersons, {} as FavoritePersonsObject)
@@ -57,19 +53,7 @@ const PersonDetailCard = () => {
 
   const [isNameHovered, setIsNameHovered] = React.useState(false)
 
-  // TODO: Move it to its hook
-  const init = React.useRef(true)
-  React.useEffect(() => {
-    if (init.current) {
-      init.current = false
-      if (favoritePersons && Object.keys(favoritePersons).length) {
-        const lastID = last(Object.keys(favoritePersons))
-        if (lastID) {
-          dispatch(setActiveNameID(+lastID))
-        }
-      }
-    }
-  })
+  useSetActiveNameIDOnMount({ favoritePersons })
 
   const handleFavoriteToggle = () => {
     const currId = personData.details?.id
@@ -84,9 +68,6 @@ const PersonDetailCard = () => {
     }
   }
 
-  // TODO: move PersonContainerArrow to molecules
-  // TODO: make PersonContainerAtoms folder in Atoms
-  // TODO: make PersonContainerMolecules folder in Molecules if needed
   return (
     <>
       {personData.details && <PersonDetailCardShadow />}

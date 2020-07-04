@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { css } from '@emotion/core'
-import { height, space } from '../../../styles/variables'
+import { height, space } from '../../../../styles/variables'
 
 const variants = {
   animate: {

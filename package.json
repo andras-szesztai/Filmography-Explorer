@@ -34,7 +34,7 @@
     "babel-plugin-styled-components": "^1.10.1",
     "chroma-js": "^2.1.0",
     "classnames": "^2.2.6",
-    "framer-motion": "^1.11.1",
+    "framer-motion": "^2.0.0-beta.77",
     "gatsby": "^2.10.0",
     "gatsby-image": "^2.2.1",
     "gatsby-plugin-canonical-urls": "^2.1.0",

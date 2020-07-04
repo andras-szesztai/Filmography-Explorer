@@ -56,6 +56,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
         padding: ${space[1]}px ${space[10]}px ${space[1] + 2}px ${space[3]}px;
 
         cursor: pointer;
+        user-select: none;
 
         ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
       `}

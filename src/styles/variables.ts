@@ -131,6 +131,6 @@ export const buttonNoFocus = css`
 `
 
 export const chartSideMargins = {
-  left: 25,
-  right: 25
+  left: space[8],
+  right: space[8]
 }

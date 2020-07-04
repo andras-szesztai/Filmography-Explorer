@@ -59,7 +59,7 @@ const PersonCreditsChart = () => {
     >
       <div
         css={css`
-          background: ${colors.bgColorPrimaryLight};
+          background: ${colors.bgColorPrimary};
 
           height: 80%;
           width: calc(100% - ${space[13]}px);

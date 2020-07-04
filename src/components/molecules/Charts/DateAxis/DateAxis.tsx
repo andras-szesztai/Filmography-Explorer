@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import chroma from 'chroma-js'
 import { select, Selection } from 'd3-selection'
@@ -11,7 +12,7 @@ import { scaleTime, ScaleTime } from 'd3-scale'
 import { css } from '@emotion/core'
 import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
 import { LabelContainer } from '../../../atoms'
-import { chartSideMargins } from '../../../../styles/variables'
+import { chartSideMargins, colors, fontSize } from '../../../../styles/variables'
 
 const margin = {
   top: 20,
@@ -23,15 +24,15 @@ interface Props {
   xScaleDomain: Date[]
 }
 
-interface StoredValues {
+export interface StoredValues {
   isInit: boolean
   xScale: ScaleTime<number, number>
   mainData: FormattedPersonCreditDataObject[]
   subData: FormattedPersonCreditDataObject[]
   uniqData: FormattedPersonCreditDataObject[]
-  svgArea: Selection<SVGSVGElement | null, unknown, null, undefined>
-  chartArea: Selection<SVGGElement | null, unknown, null, undefined>
-  voronoiArea: Selection<SVGGElement | null, unknown, null, undefined>
+  svgArea: Selection<SVGSVGElement | any, any, any, any>
+  chartArea: Selection<SVGGElement | any, any, any, any>
+  voronoiArea: Selection<SVGGElement | any, any, any, any>
 }
 
 export default function DateAxis(props: Props) {
@@ -42,6 +43,28 @@ export default function DateAxis(props: Props) {
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
   const voronoiRef = React.useRef<SVGGElement>(null)
+
+  // function createUpdateVoronoi() {
+  //   const { currXScale, filteredData, voronoiArea } = storedValues.current
+  //   const setXPos = d => currXScale(new Date(d.unified_date)) + margin.left
+  //   const delaunay = Delaunay.from(filteredData, setXPos, () => dims.height / 2).voronoi([0, 0, dims.width, dims.height])
+
+  //   voronoiArea
+  //     .selectAll('.voronoi-path')
+  //     .data(filteredData, d => d.id)
+  //     .join(
+  //       enter =>
+  //         enter
+  //           .append('path')
+  //           .attr('class', 'voronoi-path')
+  //           .attr('fill', 'transparent')
+  //           .attr('cursor', d => (props.activeMovie.id === d.id ? 'default' : 'pointer'))
+  //           .attr('d', (_, i) => delaunay.renderCell(i))
+  //           .call(enter => enter),
+  //       update => update.call(update => update.transition().attr('d', (_, i) => delaunay.renderCell(i)))
+  //     )
+  //   addUpdateInteractions()
+  // }
 
   React.useEffect(() => {
     if (storedValues.current.isInit && dims.width) {
@@ -66,8 +89,8 @@ export default function DateAxis(props: Props) {
         svgArea,
         voronoiArea
       }
-      // createDateAxis()
-      // createUpdateVoronoi()
+      createDateAxis()
+      createUpdateVoronoi()
       // createRefElements('hovered')
       // createRefElements('selected')
       // if (activeMovie.id) {
@@ -82,22 +105,6 @@ export default function DateAxis(props: Props) {
       // }
     }
   })
-
-  function createDateAxis() {
-    const { xScale, chartArea } = storedValues.current
-    const axis = axisBottom(xScale)
-    select(chartAreaRef.current).call(g axis)
-    // .ticks(dims.width / 100)
-    // .tickSize(0)
-
-    // .call(g => {
-    //   g.select('.domain').remove()
-    //   g.selectAll('text')
-    //     .attr('dy', 0)
-    //     .attr('fill', COLORS.gridColor)
-    //     .attr('font-size', fontSize[1])
-    // })
-  }
 
   // function createRefElements(className) {
   //   const { chartArea } = storedValues.current
@@ -201,28 +208,6 @@ export default function DateAxis(props: Props) {
   //         position: getXPosition(d)
   //       })
   //     })
-  // }
-
-  // function createUpdateVoronoi() {
-  //   const { currXScale, filteredData, voronoiArea } = storedValues.current
-  //   const setXPos = d => currXScale(new Date(d.unified_date)) + margin.left
-  //   const delaunay = Delaunay.from(filteredData, setXPos, () => dims.height / 2).voronoi([0, 0, dims.width, dims.height])
-
-  //   voronoiArea
-  //     .selectAll('.voronoi-path')
-  //     .data(filteredData, d => d.id)
-  //     .join(
-  //       enter =>
-  //         enter
-  //           .append('path')
-  //           .attr('class', 'voronoi-path')
-  //           .attr('fill', 'transparent')
-  //           .attr('cursor', d => (props.activeMovie.id === d.id ? 'default' : 'pointer'))
-  //           .attr('d', (_, i) => delaunay.renderCell(i))
-  //           .call(enter => enter),
-  //       update => update.call(update => update.transition().attr('d', (_, i) => delaunay.renderCell(i)))
-  //     )
-  //   addUpdateInteractions()
   // }
 
   // useChartResize({

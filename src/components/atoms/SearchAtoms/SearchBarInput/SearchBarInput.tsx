@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 
 // Types
-import { ResultArray } from '../../molecules/SearchBar/SearchBar'
+import { ResultArray } from '../../../organisms/SearchBar/SearchBar'
 
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../../styles/variables'

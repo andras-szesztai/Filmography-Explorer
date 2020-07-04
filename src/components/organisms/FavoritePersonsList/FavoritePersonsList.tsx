@@ -1,16 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { css } from '@emotion/core'
-import { motion } from 'framer-motion'
-import { useMeasure, useLocalStorage } from 'react-use'
+import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
+import { useMeasure } from 'react-use'
 import { IoIosSearch } from 'react-icons/io'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import useWhatInput from 'react-use-what-input'
+
+// Types
+import { CombinedState } from '../../../types/state'
+
+// Actions
+import { setActiveNameID } from '../../../reducer/personReducer/actions'
+
+// Helpers
+import { getObjectValues } from '../../../utils/dataHelpers'
 
 // Styles
-import { space, colors, height, fontSize, dentedStyle } from '../../../styles/variables'
-import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
-import { FavoritePersonsObject } from '../../../types/person'
-import { getObjectValues } from '../../../utils/dataHelpers'
-import { CombinedState } from '../../../types/state'
+import {
+  space,
+  colors,
+  height,
+  fontSize,
+  dentedStyle,
+  buttonStyle,
+  buttonNoFocus,
+  buttonFocus,
+  fontWeight
+} from '../../../styles/variables'
 
 const ContainerStyle = css`
   position: fixed;
@@ -22,44 +38,63 @@ const ContainerStyle = css`
   background-color: ${colors.bgColorSecondary};
   display: grid;
   grid-template-columns: max-content 1fr;
-  grid-column-gap: ${space[4]}px;
-  padding: 0 ${space[4]}px;
+  grid-column-gap: ${space[5]}px;
+  padding: 0 ${space[3]}px 0 ${space[5]}px;
   border-radius: ${space[1]}px ${space[1]}px 0 0;
 
   font-size: ${fontSize.md};
 `
 
 interface Props {
-  name: string
-  id: number
+  text: string
+  id?: number
 }
 
-const ListItem = ({ name, id }: Props) => {
+const ListItem = ({ text, id }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
+  const dispatch = useDispatch()
+  const [currentInput] = useWhatInput()
   return (
-    <li
+    <motion.button
+      type="button"
       onMouseOver={() => setIsHovered(true)}
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
+      onClick={() => id && dispatch(setActiveNameID(id))}
+      onKeyDown={({ keyCode }) => {
+        if (keyCode === 13 && id) {
+          dispatch(setActiveNameID(id))
+        }
+      }}
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1
+      }}
+      exit={{ y: 50, opacity: 0 }}
       css={css`
         white-space: nowrap;
         list-style-type: none;
         position: relative;
 
-        background: ${colors.bgColorPrimary};
-        color: ${colors.textColorPrimary};
-
+        font-weight: ${fontWeight.xs};
         border-radius: ${space[1]}px;
-        padding: ${space[1]}px ${space[3]}px ${space[1] + 1}px ${space[3]}px;
+        padding: ${space[1]}px ${space[4]}px ${space[1] + 1}px ${space[4]}px;
         margin: 0 ${space[1]}px;
         user-select: none;
-        cursor: pointer;
         letter-spacing: 1px;
+
+        ${buttonStyle}
+        background: ${colors.bgColorPrimary};
+        color: ${colors.textColorPrimary};
+        ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+
+        cursor: pointer;
         /* TODO: change for non-active only */
       `}
     >
       <motion.div
+        initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 1 : 0 }}
         css={css`
           display: flex;
@@ -79,15 +114,18 @@ const ListItem = ({ name, id }: Props) => {
       >
         <IoIosSearch size={18} color={colors.textColorPrimary} />
       </motion.div>
-      {name}
-    </li>
+      {text}
+    </motion.button>
   )
+}
+
+ListItem.defaultProps = {
+  id: undefined
 }
 
 const PlaceHolder = () => {
   return (
-    <motion.li
-      layoutId="list-item"
+    <div
       css={css`
         opacity: 0;
         padding: ${space[1]}px;
@@ -123,14 +161,15 @@ const FavoritePersonsList = () => {
           align-items: center;
         `}
       >
-        {width && (
-          <ul
+        <AnimateSharedLayout>
+          <motion.div
             css={css`
             position: absolute;
             ${dentedStyle}
             border-radius: ${space[1]}px;
             overflow-x: auto;
-            height: 75%;
+            overflow-y: hidden;
+            height: 70%;
             width: ${width}px;
 
             display: flex;
@@ -153,10 +192,29 @@ const FavoritePersonsList = () => {
             }
           `}
           >
-            {favs.length ? [...favs].reverse().map(({ name, id }) => <ListItem name={name} id={id} key={id} />) : <div>None</div>}
+            <AnimatePresence>
+              {favs.length &&
+                [...favs].reverse().map(({ name, id }) => (
+                  <motion.span key={`${id}-favlist`} animate>
+                    <ListItem text={name} id={id} />
+                  </motion.span>
+                ))}
+            </AnimatePresence>
             <PlaceHolder />
-          </ul>
-        )}
+          </motion.div>
+        </AnimateSharedLayout>
+        <AnimatePresence>
+          {!favs.length && (
+            <motion.div
+              css={css`
+                padding-left: ${space[4]}px;
+                color: ${colors.textColorSecondary};
+              `}
+            >
+              Please start the list by marking a person as your favorite
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

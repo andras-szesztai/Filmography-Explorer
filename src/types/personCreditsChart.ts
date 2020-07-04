@@ -1,16 +1,11 @@
-export interface MovieObject {
-  id: number
-  popularity: number
-  title: string
-  release_date: string
-}
+import { FormattedPersonCreditDataObject } from './person'
 
 export interface ChartSettings {
   nameId: number
-  movieSearchData: MovieObject[]
+  movieSearchData: FormattedPersonCreditDataObject[]
   isBoth: boolean
   scales: {
-    xScaleDomain: Date[]
-    sizeScale: number[]
+    xScaleDomain: Date[] | undefined[]
+    sizeScaleDomain: number[] | undefined[]
   }
 }

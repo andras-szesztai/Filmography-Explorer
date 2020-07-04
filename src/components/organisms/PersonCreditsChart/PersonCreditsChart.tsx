@@ -1,16 +1,43 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import chroma from 'chroma-js'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import isEqual from 'lodash/isEqual'
+import uniqBy from 'lodash/uniqBy'
+import { usePrevious } from 'react-use'
+import { extent } from 'd3-array'
 
 import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'
 import { DateAxis } from '../../molecules'
+import { updateChartSettings } from '../../../reducer/personCreditsChartReducer/actions'
 
 const PersonCreditsChart = () => {
-  const personReducer = useSelector((state: CombinedState) => state.personReducer)
-  // console.log('PersonCreditsChart -> personReducer', personReducer)
+  const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
+  const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
+  const dispatch = useDispatch()
+  const prevPersonDetails = usePrevious(personDataSets.details)
 
+  React.useEffect(() => {
+    if (prevPersonDetails && !isEqual(personDataSets.details, prevPersonDetails)) {
+      const movieSearchData = uniqBy([...personDataSets.credits.cast, ...personDataSets.credits.crew], 'id')
+      const xScaleDomain = extent(movieSearchData, d => new Date(d.unified_date))
+      const sizeScaleDomain = extent(movieSearchData, d => d.vote_count)
+      const isBoth = !!(personDataSets.credits.cast.length && personDataSets.credits.crew.length)
+      dispatch(
+        updateChartSettings({
+          nameId: personDataSets.details.id,
+          movieSearchData,
+          isBoth,
+          scales: {
+            xScaleDomain,
+            sizeScaleDomain
+          }
+        })
+      )
+    }
+  }, [personDataSets.details])
+
+  console.log('PersonCreditsChart -> chartState', chartState)
   return (
     <div
       css={css`
@@ -24,9 +51,7 @@ const PersonCreditsChart = () => {
     >
       <div
         css={css`
-          background: ${chroma(colors.bgColorPrimary)
-            .brighten(0.5)
-            .hex()};
+          background: ${colors.bgColorPrimaryLight};
 
           height: 80%;
           width: calc(100% - ${space[13]}px);
@@ -44,19 +69,17 @@ const PersonCreditsChart = () => {
             justify-content: center;
           `}
         />
-        {/* {personReducer.isFetched && (
+        {chartState.nameId && (
           <div
             css={css`
               display: grid;
-              grid-template-rows: ${personReducer.isBoth ? '1fr 50px 1fr' : '1fr 30px'};
+              grid-template-rows: ${chartState.isBoth ? '1fr 35px 1fr' : '1fr 35px'};
             `}
           >
-            <>
-              <div />
-              <DateAxis dataSets={personReducer.dataSets.credits} />
-            </>
+            <div />
+            <DateAxis dataSets={personDataSets.credits} />
           </div>
-        )} */}
+        )}
       </div>
     </div>
   )

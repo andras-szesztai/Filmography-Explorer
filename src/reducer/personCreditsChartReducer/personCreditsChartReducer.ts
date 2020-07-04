@@ -11,7 +11,7 @@ const initialState = {
   isBoth: false,
   scales: {
     xScaleDomain: [] as Date[],
-    sizeScale: [] as number[]
+    sizeScaleDomain: [] as number[]
   },
   isYDomainSynced: true,
   isSizeDynamic: true,

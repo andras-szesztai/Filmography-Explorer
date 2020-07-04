@@ -18,13 +18,19 @@ export const fontWeight = {
   xl: 600
 }
 
+const colorDark = '#232931'
+const colorLight = '#FEFEFE'
+
 export const colors = {
-  bgColorPrimary: '#232931',
-  bgColorPrimaryShadow: '#2D204A',
-  bgColorSecondary: '#FEFEFE',
+  bgColorPrimary: colorDark,
+  bgColorPrimaryLight: chroma(colorDark)
+    .brighten(0.4)
+    .hex(),
+  bgColorSecondary: colorLight,
+  textColorPrimary: colorLight,
+  textColorSecondary: colorDark,
   bgColorSecondaryDark: '#E0E0E0',
-  textColorPrimary: '#FEFEFE',
-  textColorSecondary: '#232931',
+  bgColorPrimaryShadow: '#2D204A',
   accentPrimary: '#FF4E47',
   accentSecondary: '#FEC33F'
 }

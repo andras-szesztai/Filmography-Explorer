@@ -7,11 +7,13 @@ import {
   FETCH_NAME_CREDITS_BY_ID,
   FETCH_NAME_CREDITS_BY_ID_SUCCESS,
   FETCH_NAME_CREDITS_BY_ID_FAIL,
-  fetchNameCreditsFail
+  fetchNameCreditsFail,
+  UPDATE_FAVORITE_PERSONS,
+  updateFavoritePersons
 } from './actions'
 
 import { PersonState } from '../../types/state'
-import { PersonDetails, FormattedPersonCreditDataObject } from '../../types/person'
+import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from '../../types/person'
 
 const initialState = {
   activeNameID: 0,
@@ -26,10 +28,17 @@ const initialState = {
     personDetails: false,
     personCredits: false
   },
+  favorites: {} as FavoritePersonsObject,
   error: ''
 }
 
-type Action = ReturnType<typeof setActiveNameID | typeof fetchNameCredits | typeof fetchNameCreditsSuccess | typeof fetchNameCreditsFail>
+type Action = ReturnType<
+  | typeof setActiveNameID
+  | typeof fetchNameCredits
+  | typeof fetchNameCreditsSuccess
+  | typeof fetchNameCreditsFail
+  | typeof updateFavoritePersons
+>
 
 const personReducer = (state: PersonState = initialState, action: Action) => {
   switch (action.type) {
@@ -55,6 +64,7 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
       }
     case FETCH_NAME_CREDITS_BY_ID_FAIL:
       return {
+        ...state,
         activeNameID: 0,
         dataSets: {
           details: [],
@@ -68,6 +78,11 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
           personCredits: false
         },
         error: 'Sorry, we were unable to load the data'
+      }
+    case UPDATE_FAVORITE_PERSONS:
+      return {
+        ...state,
+        favorites: action.favoritesObject
       }
     default:
       return state

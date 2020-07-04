@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 import { useMeasure, useLocalStorage } from 'react-use'
 import { IoIosSearch } from 'react-icons/io'
+import { useSelector } from 'react-redux'
 
 // Styles
 import { space, colors, height, fontSize, dentedStyle } from '../../../styles/variables'
 import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
 import { FavoritePersonsObject } from '../../../types/person'
 import { getObjectValues } from '../../../utils/dataHelpers'
+import { CombinedState } from '../../../types/state'
 
 const ContainerStyle = css`
   position: fixed;
@@ -27,7 +29,12 @@ const ContainerStyle = css`
   font-size: ${fontSize.md};
 `
 
-const ListItem = () => {
+interface Props {
+  name: string
+  id: number
+}
+
+const ListItem = ({ name, id }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
   return (
     <li
@@ -48,6 +55,7 @@ const ListItem = () => {
         margin: 0 ${space[1]}px;
         user-select: none;
         cursor: pointer;
+        letter-spacing: 1px;
         /* TODO: change for non-active only */
       `}
     >
@@ -63,23 +71,15 @@ const ListItem = () => {
           height: 100%;
           top: 0;
           left: 0;
-          background: ${colors.accentSecondary};
-          color: ${colors.bgColorPrimary};
+          background: ${colors.bgColorPrimary};
           border-radius: ${space[1]}px;
 
           pointer-events: none;
         `}
       >
-        <IoIosSearch size={18} color={colors.bgColorPrimary} />
-        <span
-          css={css`
-            margin-left: ${space[2]}px;
-          `}
-        >
-          Search
-        </span>
+        <IoIosSearch size={18} color={colors.textColorPrimary} />
       </motion.div>
-      Lorem, ipsum dolor.
+      {name}
     </li>
   )
 }
@@ -99,10 +99,9 @@ const PlaceHolder = () => {
 
 const FavoritePersonsList = () => {
   const [ref, { width }] = useMeasure<HTMLDivElement>()
+  const favorites = useSelector((state: CombinedState) => state.personReducer.favorites)
 
-  const [favoritePersons] = useLocalStorage<FavoritePersonsObject>(LOCAL_STORE_ACCESSORS.favoritePersons)
-
-  console.log(getObjectValues(favoritePersons))
+  const favs = getObjectValues(favorites).map(({ name, id }) => ({ name, id }))
 
   return (
     <div css={ContainerStyle}>
@@ -154,17 +153,7 @@ const FavoritePersonsList = () => {
             }
           `}
           >
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
+            {favs.length ? [...favs].reverse().map(({ name, id }) => <ListItem name={name} id={id} key={id} />) : <div>None</div>}
             <PlaceHolder />
           </ul>
         )}

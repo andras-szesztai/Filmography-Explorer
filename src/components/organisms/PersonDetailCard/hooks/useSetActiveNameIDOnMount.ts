@@ -3,7 +3,7 @@ import last from 'lodash/last'
 import { useDispatch } from 'react-redux'
 
 // Actions
-import { setActiveNameID } from '../../../../reducer/personReducer/actions'
+import { setActiveNameID, updateFavoritePersons } from '../../../../reducer/personReducer/actions'
 
 // Types
 import { FavoritePersonsObject } from '../../../../types/person'
@@ -22,6 +22,7 @@ function useSetActiveNameIDOnMount({ favoritePersons }: Params) {
         const lastID = last(Object.keys(favoritePersons))
         if (lastID) {
           dispatch(setActiveNameID(+lastID))
+          dispatch(updateFavoritePersons(favoritePersons))
         }
       }
     }

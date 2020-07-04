@@ -50,6 +50,7 @@ export interface PersonDataSets {
 export interface FavoritePersonsObject {
   [id: number]: {
     name: string
+    id: number
     credits: number[]
   }
 }

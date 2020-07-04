@@ -3,6 +3,7 @@ import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 import uniq from 'lodash/uniq'
 import omit from 'lodash/omit'
+import { useDispatch } from 'react-redux'
 
 // Components
 import { FavoriteStar } from '../../atoms'
@@ -12,6 +13,7 @@ import { FavoritePersonsObject, PersonDataSets } from '../../../types/person'
 
 // Styles
 import { fontWeight, fontSize, colors, space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { updateFavoritePersons } from '../../../reducer/personReducer/actions'
 
 interface Props {
   currentInput: string
@@ -22,20 +24,24 @@ interface Props {
 
 function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavoritePersons, personData }: Props) {
   const [isNameHovered, setIsNameHovered] = React.useState(false)
+  const dispatch = useDispatch()
 
   const handleFavoriteToggle = () => {
     const currId = personData?.details?.id
     if (favoritePersons && currId) {
+      let newObject
       if (favoritePersons[currId]) {
-        setFavoritePersons(omit(favoritePersons, currId.toString()))
+        newObject = omit(favoritePersons, currId.toString())
       } else {
         const castIDs = personData?.credits.cast ? personData?.credits.cast.map(d => d.id) : []
         const crewIDs = personData?.credits.crew ? personData?.credits.crew.map(d => d.id) : []
-        setFavoritePersons({
+        newObject = {
           ...favoritePersons,
-          [currId]: { name: personData?.details?.name || '', credits: uniq([...castIDs, ...crewIDs]) }
-        })
+          [currId]: { name: personData?.details?.name || '', id: currId, credits: uniq([...castIDs, ...crewIDs]) }
+        }
       }
+      setFavoritePersons(newObject)
+      dispatch(updateFavoritePersons(newObject))
     }
   }
   return (

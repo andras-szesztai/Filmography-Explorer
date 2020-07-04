@@ -1,4 +1,4 @@
-import { PersonDetails, FormattedPersonCreditDataObject } from './person'
+import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from './person'
 
 export interface PersonState {
   activeNameID: number
@@ -9,6 +9,7 @@ export interface PersonState {
       crew: FormattedPersonCreditDataObject[] | undefined
     }
   }
+  favorites: FavoritePersonsObject
   loading: {
     personDetails: boolean
     personCredits: boolean

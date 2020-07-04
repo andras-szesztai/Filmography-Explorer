@@ -48,7 +48,7 @@ const PersonCreditsChart = () => {
           <div
             css={css`
               display: grid;
-              grid-template-rows: ${personReducer.isBoth ? '1fr 30px 1fr' : '1fr 25px'};
+              grid-template-rows: ${personReducer.isBoth ? '1fr 50px 1fr' : '1fr 30px'};
             `}
           >
             <>

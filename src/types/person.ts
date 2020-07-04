@@ -20,6 +20,7 @@ export interface PersonDetails extends Person {
 export interface PersonCreditDataObject extends Person {
   release_date: string
   first_air_date: string
+  popularity: number
   vote_count: number
   vote_average: number
   title: string
@@ -32,6 +33,8 @@ export interface FormattedPersonCreditDataObject extends Person {
   name: string
   release_date: string
   first_air_date: string
+  unified_date: string
+  unified_year: string
   vote_count: number
   vote_average: number
   title: string

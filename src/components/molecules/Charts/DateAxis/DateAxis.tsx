@@ -3,6 +3,7 @@ import chroma from 'chroma-js'
 import { select } from 'd3-selection'
 import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
+import uniqBy from 'lodash/uniqBy'
 import { axisBottom } from 'd3-axis'
 import { Delaunay } from 'd3-delaunay'
 
@@ -31,7 +32,8 @@ export default function DateAxis(props: Props) {
       const isCast = dataSets.cast.length >= dataSets.crew.length
       const mainData = isCast ? dataSets.cast : dataSets.crew
       const subData = isCast ? dataSets.crew : dataSets.cast
-      // const filteredData = _.uniqBy([...mainData, ...subData], 'id')
+      const filteredData = uniqBy([...mainData, ...subData], 'id')
+      console.log('DateAxis -> filteredData', filteredData)
       // const currXScale = xScale.range([0, dims.width - margin.left - margin.right])
       // const chartArea = select(chartAreaRef.current)
       // const svgArea = select(svgAreaRef.current)

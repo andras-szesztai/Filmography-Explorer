@@ -6,7 +6,7 @@ import { IMAGE_ROOT } from '../../../constants/url'
 import { colors } from '../../../styles/variables'
 
 type Props = {
-  alt: string
+  alt?: string
   gridArea?: string
   url?: string
   borderRadius?: number

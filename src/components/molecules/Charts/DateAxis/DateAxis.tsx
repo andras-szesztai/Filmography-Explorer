@@ -1,15 +1,14 @@
 import React from 'react'
 import chroma from 'chroma-js'
-import { select } from 'd3-selection'
+import { select, Selection } from 'd3-selection'
 import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
 import uniqBy from 'lodash/uniqBy'
 import { axisBottom } from 'd3-axis'
 import { Delaunay } from 'd3-delaunay'
-import { scaleTime } from 'd3-scale'
+import { scaleTime, ScaleTime } from 'd3-scale'
 
 import { css } from '@emotion/core'
-import { Margin } from '../../../../types/chart'
 import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
 import { LabelContainer } from '../../../atoms'
 import { chartSideMargins } from '../../../../styles/variables'
@@ -24,10 +23,21 @@ interface Props {
   xScaleDomain: Date[]
 }
 
+interface StoredValues {
+  isInit: boolean
+  xScale: ScaleTime<number, number>
+  mainData: FormattedPersonCreditDataObject[]
+  subData: FormattedPersonCreditDataObject[]
+  uniqData: FormattedPersonCreditDataObject[]
+  svgArea: Selection<SVGSVGElement | null, unknown, null, undefined>
+  chartArea: Selection<SVGGElement | null, unknown, null, undefined>
+  voronoiArea: Selection<SVGGElement | null, unknown, null, undefined>
+}
+
 export default function DateAxis(props: Props) {
   const { dataSets, xScaleDomain } = props
   const prevProps = usePrevious(props)
-  const storedValues = React.useRef({ isInit: true })
+  const storedValues = React.useRef({ isInit: true } as StoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
@@ -39,24 +49,23 @@ export default function DateAxis(props: Props) {
       const isCast = dataSets.cast.length >= dataSets.crew.length
       const mainData = isCast ? dataSets.cast : dataSets.crew
       const subData = isCast ? dataSets.crew : dataSets.cast
-      const filteredData = uniqBy([...mainData, ...subData], 'id')
-      let xScale
-      if (xScaleDomain[0] instanceof Date && xScaleDomain[1] instanceof Date) {
-        xScale = scaleTime()
-          .domain(xScaleDomain)
-          .range([0, dims.width - margin.left - margin.right])
+      const uniqData = uniqBy([...mainData, ...subData], 'id')
+      const xScale = scaleTime()
+        .domain(xScaleDomain)
+        .range([0, dims.width - margin.left - margin.right])
+      const chartArea = select(chartAreaRef.current)
+      const svgArea = select(svgRef.current)
+      const voronoiArea = select(voronoiRef.current)
+      storedValues.current = {
+        isInit: false,
+        xScale,
+        mainData,
+        subData,
+        uniqData,
+        chartArea,
+        svgArea,
+        voronoiArea
       }
-      // const chartArea = select(chartAreaRef.current)
-      // const svgArea = select(svgAreaRef.current)
-      // const voronoiArea = select(voronoiRef.current)
-      // storedValues.current = {
-      //   isInit: true,
-      //   currXScale,
-      //   filteredData,
-      //   chartArea,
-      //   svgArea,
-      //   voronoiArea
-      // }
       // createDateAxis()
       // createUpdateVoronoi()
       // createRefElements('hovered')
@@ -74,22 +83,21 @@ export default function DateAxis(props: Props) {
     }
   })
 
-  // function createDateAxis() {
-  //   const { currXScale, chartArea } = storedValues.current
-  //   chartArea
-  //     .call(
-  //       axisBottom(currXScale)
-  //         .ticks(dims.width / 100)
-  //         .tickSize(0)
-  //     )
-  //     .call(g => {
-  //       g.select('.domain').remove()
-  //       g.selectAll('text')
-  //         .attr('dy', 0)
-  //         .attr('fill', COLORS.gridColor)
-  //         .attr('font-size', fontSize[1])
-  //     })
-  // }
+  function createDateAxis() {
+    const { xScale, chartArea } = storedValues.current
+    const axis = axisBottom(xScale)
+    select(chartAreaRef.current).call(g axis)
+    // .ticks(dims.width / 100)
+    // .tickSize(0)
+
+    // .call(g => {
+    //   g.select('.domain').remove()
+    //   g.selectAll('text')
+    //     .attr('dy', 0)
+    //     .attr('fill', COLORS.gridColor)
+    //     .attr('font-size', fontSize[1])
+    // })
+  }
 
   // function createRefElements(className) {
   //   const { chartArea } = storedValues.current

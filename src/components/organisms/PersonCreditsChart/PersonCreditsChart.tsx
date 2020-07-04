@@ -85,7 +85,7 @@ const PersonCreditsChart = () => {
             `}
           >
             <div />
-            <DateAxis dataSets={personDataSets.credits} />
+            <DateAxis xScaleDomain={chartState.scales.xScaleDomain} dataSets={personDataSets.credits} />
           </div>
         )}
       </div>

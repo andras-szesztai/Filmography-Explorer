@@ -5,7 +5,7 @@ export interface ChartSettings {
   movieSearchData: FormattedPersonCreditDataObject[]
   isBoth: boolean
   scales: {
-    xScaleDomain: Date[] | undefined[]
-    sizeScaleDomain: number[] | undefined[]
+    xScaleDomain: Date[]
+    sizeScaleDomain: number[]
   }
 }

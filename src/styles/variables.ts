@@ -129,3 +129,8 @@ export const buttonNoFocus = css`
     outline: none;
   }
 `
+
+export const chartSideMargins = {
+  left: 25,
+  right: 25
+}

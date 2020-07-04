@@ -6,19 +6,26 @@ import 'd3-transition'
 import uniqBy from 'lodash/uniqBy'
 import { axisBottom } from 'd3-axis'
 import { Delaunay } from 'd3-delaunay'
+import { scaleTime } from 'd3-scale'
 
 import { css } from '@emotion/core'
 import { Margin } from '../../../../types/chart'
 import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
 import { LabelContainer } from '../../../atoms'
+import { chartSideMargins } from '../../../../styles/variables'
 
+const margin = {
+  top: 20,
+  bottom: 20,
+  ...chartSideMargins
+}
 interface Props {
-  margin?: Margin
   dataSets: PersonCredits
+  xScaleDomain: Date[]
 }
 
 export default function DateAxis(props: Props) {
-  const { margin, dataSets } = props
+  const { dataSets, xScaleDomain } = props
   const prevProps = usePrevious(props)
   const storedValues = React.useRef({ isInit: true })
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -33,8 +40,12 @@ export default function DateAxis(props: Props) {
       const mainData = isCast ? dataSets.cast : dataSets.crew
       const subData = isCast ? dataSets.crew : dataSets.cast
       const filteredData = uniqBy([...mainData, ...subData], 'id')
-      console.log('DateAxis -> filteredData', filteredData)
-      // const currXScale = xScale.range([0, dims.width - margin.left - margin.right])
+      let xScale
+      if (xScaleDomain[0] instanceof Date && xScaleDomain[1] instanceof Date) {
+        xScale = scaleTime()
+          .domain(xScaleDomain)
+          .range([0, dims.width - margin.left - margin.right])
+      }
       // const chartArea = select(chartAreaRef.current)
       // const svgArea = select(svgAreaRef.current)
       // const voronoiArea = select(voronoiRef.current)
@@ -269,13 +280,4 @@ export default function DateAxis(props: Props) {
 
     // <Tooltip xScale={storedValues && storedValues.current.currXScale} hoveredMovie={props.hoveredMovie} activeMovieID={activeMovie.id} />
   )
-}
-
-DateAxis.defaultProps = {
-  margin: {
-    top: 20,
-    bottom: 20,
-    left: 20,
-    rigth: 20
-  }
 }

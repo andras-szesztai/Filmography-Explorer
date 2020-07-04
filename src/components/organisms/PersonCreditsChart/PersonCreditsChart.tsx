@@ -5,6 +5,8 @@ import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
 import { usePrevious } from 'react-use'
 import { extent } from 'd3-array'
+import maxBy from 'lodash/maxBy'
+import minBy from 'lodash/minBy'
 
 import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'
@@ -20,8 +22,15 @@ const PersonCreditsChart = () => {
   React.useEffect(() => {
     if (prevPersonDetails && !isEqual(personDataSets.details, prevPersonDetails)) {
       const movieSearchData = uniqBy([...personDataSets.credits.cast, ...personDataSets.credits.crew], 'id')
-      const xScaleDomain = extent(movieSearchData, d => new Date(d.unified_date))
-      const sizeScaleDomain = extent(movieSearchData, d => d.vote_count)
+      const xScaleMax = maxBy(movieSearchData, d => new Date(d.unified_date))
+      const xScaleMin = minBy(movieSearchData, d => new Date(d.unified_date))
+      const xScaleDomain = [
+        (xScaleMin && new Date(xScaleMin.unified_date)) || new Date(),
+        (xScaleMax && new Date(xScaleMax.unified_date)) || new Date()
+      ]
+      const sizeMax = maxBy(movieSearchData, d => d.vote_count)
+      const sizeMin = minBy(movieSearchData, d => d.vote_count)
+      const sizeScaleDomain = [sizeMin?.vote_count || 0, sizeMax?.vote_count || 0]
       const isBoth = !!(personDataSets.credits.cast.length && personDataSets.credits.crew.length)
       dispatch(
         updateChartSettings({
@@ -37,7 +46,6 @@ const PersonCreditsChart = () => {
     }
   }, [personDataSets.details])
 
-  console.log('PersonCreditsChart -> chartState', chartState)
   return (
     <div
       css={css`

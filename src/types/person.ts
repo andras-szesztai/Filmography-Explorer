@@ -39,12 +39,14 @@ export interface FormattedPersonCreditDataObject extends Person {
   job: (string | undefined)[]
 }
 
+export interface PersonCredits {
+  cast: FormattedPersonCreditDataObject[]
+  crew: FormattedPersonCreditDataObject[]
+}
+
 export interface PersonDataSets {
   details?: PersonDetails
-  credits: {
-    cast?: FormattedPersonCreditDataObject[]
-    crew?: FormattedPersonCreditDataObject[]
-  }
+  credits: PersonCredits
 }
 
 export interface FavoritePersonsObject {

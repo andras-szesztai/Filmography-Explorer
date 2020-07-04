@@ -26,6 +26,7 @@ const LabelContainer = ({ label, top, left, right, bottom }: Props) => {
         line-height: 1.2;
         width: 50px;
         letter-spacing: 1px;
+        user-select: none;
       `}
     >
       {label}

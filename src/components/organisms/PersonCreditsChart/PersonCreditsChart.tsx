@@ -25,7 +25,7 @@ const PersonCreditsChart = () => {
       <div
         css={css`
           background: ${chroma(colors.bgColorPrimary)
-            .brighten(0.6)
+            .brighten(0.5)
             .hex()};
 
           height: 80%;
@@ -44,16 +44,19 @@ const PersonCreditsChart = () => {
             justify-content: center;
           `}
         />
-        <div
-          css={css`
-            display: grid;
-            grid-template-rows: ${personReducer.isBoth ? '1fr 30px 1fr' : '1fr 25px'};
-          `}
-        >
-          <div />
-          <DateAxis />
-          <div />
-        </div>
+        {personReducer.isFetched && (
+          <div
+            css={css`
+              display: grid;
+              grid-template-rows: ${personReducer.isBoth ? '1fr 30px 1fr' : '1fr 25px'};
+            `}
+          >
+            <>
+              <div />
+              <DateAxis dataSets={personReducer.dataSets.credits} />
+            </>
+          </div>
+        )}
       </div>
     </div>
   )

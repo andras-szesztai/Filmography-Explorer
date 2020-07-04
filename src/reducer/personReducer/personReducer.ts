@@ -18,6 +18,7 @@ import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject }
 const initialState = {
   activeNameID: 0,
   isBoth: false,
+  isFetched: false,
   dataSets: {
     details: {} as PersonDetails,
     credits: {
@@ -57,7 +58,8 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
     case FETCH_NAME_CREDITS_BY_ID_SUCCESS:
       return {
         ...state,
-        isBoth: !!(action.data.credits.cast.length && action.data.credits.cast.length),
+        isBoth: !!(action.data.credits.cast.length && action.data.credits.crew.length),
+        isFetched: true,
         loading: {
           personDetails: false,
           personCredits: false
@@ -68,6 +70,7 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
       return {
         ...state,
         activeNameID: 0,
+        isFetched: false,
         dataSets: {
           details: [],
           credits: {

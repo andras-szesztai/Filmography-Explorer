@@ -1,6 +1,5 @@
 import React from 'react'
 import chroma from 'chroma-js'
-import _ from 'lodash'
 import { select } from 'd3-selection'
 import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
@@ -9,59 +8,58 @@ import { Delaunay } from 'd3-delaunay'
 
 import { css } from '@emotion/core'
 import { Margin } from '../../../../types/chart'
-import { FormattedPersonCreditDataObject } from '../../../../types/person'
+import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
 import { LabelContainer } from '../../../atoms'
 
 interface Props {
   margin?: Margin
-  // subData: FormattedPersonCreditDataObject[]
-  // mainData: FormattedPersonCreditDataObject[]
+  dataSets: PersonCredits
 }
 
 export default function DateAxis(props: Props) {
-  const { margin } = props
-  // const prevProps = usePrevious(props)
-  // const storedValues = useRef({ isInit: false })
-  // const chartAreaRef = useRef(null)
-  // const svgAreaRef = useRef(null)
-  // const voronoiRef = useRef(null)
-  // const [ref, dims] = useMeasure()
+  const { margin, dataSets } = props
+  const prevProps = usePrevious(props)
+  const storedValues = React.useRef({ isInit: true })
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
   const voronoiRef = React.useRef<SVGGElement>(null)
 
-  // useEffect(() => {
-  //   if (!storedValues.current.isInit && dims.width) {
-  //     const filteredData = _.uniqBy([...mainData, ...subData], 'id')
-  //     const currXScale = xScale.range([0, dims.width - margin.left - margin.right])
-  //     const chartArea = select(chartAreaRef.current)
-  //     const svgArea = select(svgAreaRef.current)
-  //     const voronoiArea = select(voronoiRef.current)
-  //     storedValues.current = {
-  //       isInit: true,
-  //       currXScale,
-  //       filteredData,
-  //       chartArea,
-  //       svgArea,
-  //       voronoiArea
-  //     }
-  //     createDateAxis()
-  //     createUpdateVoronoi()
-  //     createRefElements('hovered')
-  //     createRefElements('selected')
-  //     if (activeMovie.id) {
-  //       showRefElements({
-  //         storedValues,
-  //         activeMovieID: activeMovie.id,
-  //         filteredData,
-  //         mainData,
-  //         subData,
-  //         height: dims.height
-  //       })
-  //     }
-  //   }
-  // })
+  React.useEffect(() => {
+    if (storedValues.current.isInit && dims.width) {
+      storedValues.current.isInit = false
+      const isCast = dataSets.cast.length >= dataSets.crew.length
+      const mainData = isCast ? dataSets.cast : dataSets.crew
+      const subData = isCast ? dataSets.crew : dataSets.cast
+      // const filteredData = _.uniqBy([...mainData, ...subData], 'id')
+      // const currXScale = xScale.range([0, dims.width - margin.left - margin.right])
+      // const chartArea = select(chartAreaRef.current)
+      // const svgArea = select(svgAreaRef.current)
+      // const voronoiArea = select(voronoiRef.current)
+      // storedValues.current = {
+      //   isInit: true,
+      //   currXScale,
+      //   filteredData,
+      //   chartArea,
+      //   svgArea,
+      //   voronoiArea
+      // }
+      // createDateAxis()
+      // createUpdateVoronoi()
+      // createRefElements('hovered')
+      // createRefElements('selected')
+      // if (activeMovie.id) {
+      //   showRefElements({
+      //     storedValues,
+      //     activeMovieID: activeMovie.id,
+      //     filteredData,
+      //     mainData,
+      //     subData,
+      //     height: dims.height
+      //   })
+      // }
+    }
+  })
 
   // function createDateAxis() {
   //   const { currXScale, chartArea } = storedValues.current
@@ -239,7 +237,6 @@ export default function DateAxis(props: Props) {
   //   }
   // })
 
-  console.log(dims)
   return (
     <div
       css={css`
@@ -268,17 +265,7 @@ export default function DateAxis(props: Props) {
       <LabelContainer label="Release year" left={5} />
     </div>
 
-    // <ChartSvg ref={svgAreaRef}>
-    //   <g
-    //     ref={chartAreaRef}
-    //     style={{
-    //       transform: `translate(${margin.left}px,${dims.height / 2}px)`
-    //     }}
-    //   />
-    //   <g ref={voronoiRef} />
-    // </ChartSvg>
     // <Tooltip xScale={storedValues && storedValues.current.currXScale} hoveredMovie={props.hoveredMovie} activeMovieID={activeMovie.id} />
-    // <LabelContainer>Release year</LabelContainer>
   )
 }
 

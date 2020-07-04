@@ -3,11 +3,12 @@ import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject }
 export interface PersonState {
   activeNameID: number
   isBoth: boolean
+  isFetched: boolean
   dataSets: {
-    details: PersonDetails | undefined
+    details: PersonDetails
     credits: {
-      cast: FormattedPersonCreditDataObject[] | undefined
-      crew: FormattedPersonCreditDataObject[] | undefined
+      cast: FormattedPersonCreditDataObject[]
+      crew: FormattedPersonCreditDataObject[]
     }
   }
   favorites: FavoritePersonsObject

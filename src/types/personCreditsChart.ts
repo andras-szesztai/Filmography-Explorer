@@ -4,3 +4,13 @@ export interface MovieObject {
   title: string
   release_date: string
 }
+
+export interface ChartSettings {
+  nameId: number
+  movieSearchData: MovieObject[]
+  isBoth: boolean
+  scales: {
+    xScaleDomain: Date[]
+    sizeScale: number[]
+  }
+}

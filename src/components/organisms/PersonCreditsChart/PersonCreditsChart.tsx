@@ -44,7 +44,7 @@ const PersonCreditsChart = () => {
             justify-content: center;
           `}
         />
-        {personReducer.isFetched && (
+        {/* {personReducer.isFetched && (
           <div
             css={css`
               display: grid;
@@ -56,7 +56,7 @@ const PersonCreditsChart = () => {
               <DateAxis dataSets={personReducer.dataSets.credits} />
             </>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )

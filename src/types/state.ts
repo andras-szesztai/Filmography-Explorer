@@ -1,10 +1,8 @@
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from './person'
-import { MovieObject } from './personCreditsChart'
+import { ChartSettings } from './personCreditsChart'
 
 export interface PersonState {
   activeNameID: number
-  isBoth: boolean
-  isFetched: boolean
   dataSets: {
     details: PersonDetails
     credits: {
@@ -20,14 +18,7 @@ export interface PersonState {
   error: string
 }
 
-export interface PersonCreditsChartState {
-  nameId: number
-  movieSearchData: MovieObject[]
-  isBoth: boolean
-  scales: {
-    xScaleDomain: Date[]
-    sizeScale: number[]
-  }
+export interface PersonCreditsChartState extends ChartSettings {
   isYDomainSynced: boolean
   isSizeDynamic: boolean
   hoveredMovie: {

@@ -1,8 +1,8 @@
 // Actions
-import { UPDATE_CHART_START_SETTINGS, SET_IS_Y_DOMAIN_SYNCED, SET_IS_SIZE_DYNAMIC, SET_HOVERED_MOVIE, SET_SELECTED_MOVIE } from './actions'
+import { UPDATE_CHART_SETTINGS, updateChartSettings } from './actions'
 
-import { PersonState, PersonCreditsChartState } from '../../types/state'
-import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from '../../types/person'
+import { PersonCreditsChartState } from '../../types/state'
+import { FormattedPersonCreditDataObject } from '../../types/person'
 import { MovieObject } from '../../types/personCreditsChart'
 
 const initialState = {
@@ -23,19 +23,21 @@ const initialState = {
   }
 }
 
-// type Action = ReturnType<
-//   // | typeof setActiveNameID
-//   // | typeof fetchNameCredits
-//   // | typeof fetchNameCreditsSuccess
-//   // | typeof fetchNameCreditsFail
-//   // | typeof updateFavoritePersons
-// >
+type Action = ReturnType<typeof updateChartSettings>
 
-const personCreditsChartReducer = (state: PersonCreditsChartState = initialState) => {
-  // switch (action.type) {
-  //   default:
-  //     return state
-  // }
+const personCreditsChartReducer = (state: PersonCreditsChartState = initialState, action: Action) => {
+  switch (action.type) {
+    case UPDATE_CHART_SETTINGS:
+      return {
+        ...state,
+        nameId: action.settings.nameId,
+        movieSearchData: action.settings.movieSearchData,
+        isBoth: action.settings.isBoth,
+        scales: action.settings.scales
+      }
+    default:
+      return state
+  }
 }
 
 export default personCreditsChartReducer

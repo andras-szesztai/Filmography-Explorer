@@ -11,14 +11,15 @@ import {
 } from './actions'
 
 import { PersonState } from '../../types/state'
+import { PersonDetails, FormattedPersonCreditDataObject } from '../../types/person'
 
 const initialState = {
   activeNameID: 0,
   dataSets: {
-    details: undefined,
+    details: {} as PersonDetails,
     credits: {
-      cast: undefined,
-      crew: undefined
+      cast: [] as FormattedPersonCreditDataObject[],
+      crew: [] as FormattedPersonCreditDataObject[]
     }
   },
   loading: {

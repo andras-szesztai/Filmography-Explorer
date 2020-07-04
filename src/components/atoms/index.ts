@@ -1,11 +1,17 @@
+import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from './SearchAtoms'
+import { PersonDetailCardContainer, PersonDetailCardShadow, PersonDetailContentLoader, PersonContainerArrow } from './PersonDetailCardAtoms'
+
 export { default as NavItem } from './NavItem/NavItem'
-export { default as SearchBarContainer } from './SearchAtoms/SearchBarContainer/SearchBarContainer'
-export { default as SearchBarInput } from './SearchAtoms/SearchBarInput/SearchBarInput'
-export { default as SearchIconContainer } from './SearchAtoms/SearchIconContainer/SearchIconContainer'
-export { default as SearchResultsContainer } from './SearchAtoms/SearchResultsContainer/SearchResultsContainer'
 export { default as Image } from './Image/Image'
-export { default as ActiveSearchResultIndicator } from './SearchAtoms/SearchResultHoverIndicator/SearchResultHoverIndicator'
-export { default as PersonDetailCardContainer } from './PersonDetailCardAtoms/PersonDetailCardContainer/PersonDetailCardContainer'
-export { default as PersonDetailCardShadow } from './PersonDetailCardAtoms/PersonDetailCardShadow/PersonDetailCardShadow'
-export { default as PersonDetailContentLoader } from './PersonDetailCardAtoms/PersonDetailContentLoader/PersonDetailContentLoader'
-export { default as PersonContainerArrow } from './PersonDetailCardAtoms/PersonDetailArrowButton/PersonDetailArrowButton'
+export { default as FavoriteStar } from './FavoriteStar/FavoriteStar'
+export {
+  SearchBarContainer,
+  SearchBarInput,
+  SearchIconContainer,
+  SearchResultsContainer,
+  ActiveSearchResultIndicator,
+  PersonDetailCardContainer,
+  PersonDetailCardShadow,
+  PersonDetailContentLoader,
+  PersonContainerArrow
+}

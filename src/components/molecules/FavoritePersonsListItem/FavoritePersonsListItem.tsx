@@ -45,7 +45,7 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
         list-style-type: none;
         position: relative;
 
-        font-weight: ${fontWeight.xs};
+        font-weight: ${fontWeight.sm};
         border-radius: ${space[1]}px;
         padding: ${space[1]}px ${space[4]}px ${space[1] + 1}px ${space[4]}px;
         margin: 0 ${space[1]}px;

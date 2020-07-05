@@ -1,34 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import chroma from 'chroma-js'
-import { select, Selection, ValueFn } from 'd3-selection'
+import { select } from 'd3-selection'
 import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
 import uniqBy from 'lodash/uniqBy'
-import { axisBottom } from 'd3-axis'
-import { Delaunay } from 'd3-delaunay'
-import { scaleTime, ScaleTime } from 'd3-scale'
-
+import { scaleTime } from 'd3-scale'
 import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
-import { LabelContainer } from '../../../atoms'
-import { chartSideMargins, colors, circleSizeRange, circleAdjust } from '../../../../styles/variables'
-import { duration } from '../../../../styles/animation'
-import { AxisStoredValues } from '../../../../types/chart'
-import { createDateAxis, createUpdateVoronoi, createRefElements, showRefElements } from './functions/elementFunctions'
-import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
-import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
-import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
-import { useChartResize } from './hooks'
-import { CombinedState } from '../../../../types/state'
 
-// TODO: set it up, fix optional chaining instances
+// Uitls
+import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
+import { createDateAxis, createUpdateVoronoi, createRefElements, showRefElements } from './functions/elementFunctions'
+
+// Actions
+import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
+import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+
+// Hooks
+import { useChartResize, useSelectedUpdate, useHoveredUpdate } from './hooks'
+
+// Types
+import { CombinedState } from '../../../../types/state'
+import { AxisStoredValues } from '../../../../types/chart'
+import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
+
+// Styles
+import { chartSideMargins } from '../../../../styles/variables'
+import { duration } from '../../../../styles/animation'
+
 const margin = {
   top: 20,
   bottom: 20,
   ...chartSideMargins
 }
+
 interface Props {
   dataSets: PersonCredits
   xScaleDomain: Date[]
@@ -40,6 +45,7 @@ interface Props {
 export default function DateAxis(props: Props) {
   const { dataSets, xScaleDomain } = props
   const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
+  const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
   const dispatch = useDispatch()
   const prevProps = usePrevious(props)
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
@@ -137,6 +143,7 @@ export default function DateAxis(props: Props) {
       }
     }
   })
+
   useChartResize({
     width: dims.width,
     storedValues,
@@ -144,30 +151,25 @@ export default function DateAxis(props: Props) {
     runElementUpdate
   })
 
-  // useSelectedUpdate({
-  //   storedValues,
-  //   activeMovieID: activeMovie.id,
-  //   prevActiveMovieID: prevProps && prevProps.activeMovie.id,
-  //   type: props.type,
-  //   data: { mainData, subData },
-  //   dims,
-  //   addUpdateInteractions
-  // })
+  useSelectedUpdate({
+    storedValues,
+    activeMovieID,
+    height: dims.height,
+    addUpdateInteractions
+  })
 
-  // useHoveredUpdate({
-  //   storedValues,
-  //   hoveredMovie,
-  //   prevHoveredMovie: prevProps && prevProps.hoveredMovie,
-  //   dims,
-  //   mainData,
-  //   addUpdateInteractions
-  // })
+  useHoveredUpdate({
+    storedValues,
+    hoveredMovie,
+    height: dims.height,
+    addUpdateInteractions
+  })
 
-  // useEffect(() => {
-  //   if (storedValues.current.isInit && props.isFirstEntered !== prevProps.isFirstEntered) {
-  //     addUpdateInteractions()
-  //   }
-  // })
+  React.useEffect(() => {
+    if (storedValues.current.isInit && prevProps && props.isFirstEntered !== prevProps.isFirstEntered) {
+      addUpdateInteractions()
+    }
+  })
 
   return (
     <div
@@ -195,7 +197,6 @@ export default function DateAxis(props: Props) {
         />
         <g ref={voronoiRef} />
       </svg>
-      <LabelContainer label="Release year" left={0} />
     </div>
 
     // <Tooltip xScale={storedValues && storedValues.current.currXScale} hoveredMovie={props.hoveredMovie} activeMovieID={activeMovie.id} />

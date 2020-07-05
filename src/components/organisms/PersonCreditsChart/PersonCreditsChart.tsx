@@ -5,13 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'
 import { DateAxis } from '../../molecules'
-import { updateChartSettings } from '../../../reducer/personCreditsChartReducer/actions'
 import { useUpdateChartSettings } from './hooks'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
-
   useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 

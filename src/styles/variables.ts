@@ -66,11 +66,13 @@ export const zIndex = {
 
 export const width = {
   searchBar: 350,
-  detailsCard: 400
+  detailsCard: 400,
+  tooltipWidth: 320
 }
 
 export const height = {
   header: space[12],
+  tooltip: 160,
   personCardOpen: 280,
   personCardClosed: space[13],
   personCardExtra: space[10],
@@ -79,6 +81,8 @@ export const height = {
   searchResultHeight: space[13],
   searchResultHoverHeight: space[14]
 }
+
+export const tooltipOffset = space[3]
 
 export const dropShadow = {
   header: {

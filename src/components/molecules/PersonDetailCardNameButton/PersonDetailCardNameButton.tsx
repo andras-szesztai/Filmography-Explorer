@@ -27,17 +27,17 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
   const dispatch = useDispatch()
 
   const handleFavoriteToggle = () => {
-    const currId = personData?.details?.id
+    const currId = personData.details && personData.details.id
     if (favoritePersons && currId) {
       let newObject
       if (favoritePersons[currId]) {
         newObject = omit(favoritePersons, currId.toString())
       } else {
-        const castIDs = personData?.credits.cast ? personData?.credits.cast.map(d => d.id) : []
-        const crewIDs = personData?.credits.crew ? personData?.credits.crew.map(d => d.id) : []
+        const castIDs = personData.credits.cast ? personData.credits.cast.map(d => d.id) : []
+        const crewIDs = personData.credits.crew ? personData.credits.crew.map(d => d.id) : []
         newObject = {
           ...favoritePersons,
-          [currId]: { name: personData?.details?.name || '', id: currId, credits: uniq([...castIDs, ...crewIDs]) }
+          [currId]: { name: (personData.details && personData.details.name) || '', id: currId, credits: uniq([...castIDs, ...crewIDs]) }
         }
       }
       setFavoritePersons(newObject)
@@ -82,7 +82,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
         }
       }}
     >
-      <span>{personData?.details && personData?.details.name}</span>
+      <span>{personData.details && personData.details.name}</span>
       <motion.span
         initial={{ originX: 0.5 }}
         animate={{ scale: isNameHovered ? 1.2 : 1 }}
@@ -92,8 +92,8 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
           top: 1px;
         `}
       >
-        {favoritePersons && personData?.details && (
-          <FavoriteStar isFavorited={!!favoritePersons[personData?.details?.id]} isHovered={isNameHovered} />
+        {favoritePersons && personData.details && (
+          <FavoriteStar isFavorited={!!favoritePersons[personData.details.id]} isHovered={isNameHovered} />
         )}
       </motion.span>
     </div>

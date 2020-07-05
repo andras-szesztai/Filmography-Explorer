@@ -27,6 +27,7 @@
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.12",
     "@types/chroma-js": "^2.0.0",
+    "@types/d3": "^5.7.2",
     "@types/d3-array": "^2.0.0",
     "@types/d3-axis": "^1.0.12",
     "@types/d3-delaunay": "^4.1.0",

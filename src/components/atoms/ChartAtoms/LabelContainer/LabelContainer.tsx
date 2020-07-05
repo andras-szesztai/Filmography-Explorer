@@ -23,8 +23,9 @@ const LabelContainer = ({ label, top, left, right, bottom }: Props) => {
         right: ${right}px;
         color: ${colors.textColorPrimary};
         font-size: ${fontSize.sm};
-        line-height: 1.2;
-        width: 50px;
+        background: ${colors.bgColorPrimary};
+        line-height: 1.25s;
+        width: 40px;
         letter-spacing: 1px;
         user-select: none;
       `}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import chroma from 'chroma-js'
 import { select, Selection } from 'd3-selection'
@@ -13,7 +12,10 @@ import { css } from '@emotion/core'
 import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
 import { LabelContainer } from '../../../atoms'
 import { chartSideMargins, colors, fontSize } from '../../../../styles/variables'
+import { AxisStoredValues } from '../../../../types/chart'
+import { createDateAxis } from './functions/elementFunctions'
 
+// TODO: set it up, fix optional chaining instances
 const margin = {
   top: 20,
   bottom: 20,
@@ -24,47 +26,38 @@ interface Props {
   xScaleDomain: Date[]
 }
 
-export interface StoredValues {
-  isInit: boolean
-  xScale: ScaleTime<number, number>
-  mainData: FormattedPersonCreditDataObject[]
-  subData: FormattedPersonCreditDataObject[]
-  uniqData: FormattedPersonCreditDataObject[]
-  svgArea: Selection<SVGSVGElement | any, any, any, any>
-  chartArea: Selection<SVGGElement | any, any, any, any>
-  voronoiArea: Selection<SVGGElement | any, any, any, any>
+type DataType = {
+  id: any
 }
-
 export default function DateAxis(props: Props) {
   const { dataSets, xScaleDomain } = props
   const prevProps = usePrevious(props)
-  const storedValues = React.useRef({ isInit: true } as StoredValues)
+  const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
   const voronoiRef = React.useRef<SVGGElement>(null)
 
-  // function createUpdateVoronoi() {
-  //   const { currXScale, filteredData, voronoiArea } = storedValues.current
-  //   const setXPos = d => currXScale(new Date(d.unified_date)) + margin.left
-  //   const delaunay = Delaunay.from(filteredData, setXPos, () => dims.height / 2).voronoi([0, 0, dims.width, dims.height])
-
-  //   voronoiArea
-  //     .selectAll('.voronoi-path')
-  //     .data(filteredData, d => d.id)
-  //     .join(
-  //       enter =>
-  //         enter
-  //           .append('path')
-  //           .attr('class', 'voronoi-path')
-  //           .attr('fill', 'transparent')
-  //           .attr('cursor', d => (props.activeMovie.id === d.id ? 'default' : 'pointer'))
-  //           .attr('d', (_, i) => delaunay.renderCell(i))
-  //           .call(enter => enter),
-  //       update => update.call(update => update.transition().attr('d', (_, i) => delaunay.renderCell(i)))
-  //     )
-  //   addUpdateInteractions()
-  // }
+  function createUpdateVoronoi() {
+    const { xScale, uniqData, voronoiArea } = storedValues.current
+    const setXPos = (d: FormattedPersonCreditDataObject) => xScale(new Date(d.unified_date)) + margin.left
+    const delaunay = Delaunay.from(uniqData, setXPos, () => dims.height / 2).voronoi([0, 0, dims.width, dims.height])
+    voronoiArea
+      .selectAll('.voronoi-path')
+      .data(uniqData, (d: FormattedPersonCreditDataObject[]) => d.id)
+      .join(
+        enter =>
+          enter
+            .append('path')
+            .attr('class', 'voronoi-path')
+            .attr('fill', 'none')
+            // .attr('cursor', d => (props.activeMovie.id === d.id ? 'default' : 'pointer'))
+            .attr('d', (_, i) => delaunay.renderCell(i))
+            .call(e => e),
+        update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
+      )
+    // addUpdateInteractions()
+  }
 
   React.useEffect(() => {
     if (storedValues.current.isInit && dims.width) {
@@ -89,7 +82,7 @@ export default function DateAxis(props: Props) {
         svgArea,
         voronoiArea
       }
-      createDateAxis()
+      createDateAxis({ storedValues: storedValues.current, width: dims.width })
       createUpdateVoronoi()
       // createRefElements('hovered')
       // createRefElements('selected')
@@ -263,12 +256,12 @@ export default function DateAxis(props: Props) {
         <g
           ref={chartAreaRef}
           style={{
-            transform: `translate(${margin?.left}px,${dims.height / 2}px)`
+            transform: `translate(${margin.left}px,${dims.height / 2}px)`
           }}
         />
         <g ref={voronoiRef} />
       </svg>
-      <LabelContainer label="Release year" left={5} />
+      <LabelContainer label="Release year" left={0} />
     </div>
 
     // <Tooltip xScale={storedValues && storedValues.current.currXScale} hoveredMovie={props.hoveredMovie} activeMovieID={activeMovie.id} />

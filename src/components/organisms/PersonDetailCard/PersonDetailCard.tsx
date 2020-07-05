@@ -61,8 +61,8 @@ const PersonDetailCard = () => {
             setFavoritePersons={setFavoritePersons}
             personData={personData}
           />
-          <TextArea gridArea="bio" text={personData?.details?.biography} />
-          <Image url={personData?.details?.profile_path} alt={personData?.details?.name} borderRadius={space[1]} />
+          <TextArea gridArea="bio" text={personData.details.biography} />
+          <Image url={personData.details.profile_path} alt={personData.details.name} borderRadius={space[1]} />
         </motion.div>
       </PersonDetailCardContainer>
     </>

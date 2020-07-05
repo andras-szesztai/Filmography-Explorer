@@ -30,7 +30,7 @@ const PersonCreditsChart = () => {
       ]
       const sizeMax = maxBy(movieSearchData, d => d.vote_count)
       const sizeMin = minBy(movieSearchData, d => d.vote_count)
-      const sizeScaleDomain = [sizeMin?.vote_count || 0, sizeMax?.vote_count || 0]
+      const sizeScaleDomain = [(sizeMin && sizeMin.vote_count) || 0, (sizeMax && sizeMax.vote_count) || 0]
       const isBoth = !!(personDataSets.credits.cast.length && personDataSets.credits.crew.length)
       dispatch(
         updateChartSettings({

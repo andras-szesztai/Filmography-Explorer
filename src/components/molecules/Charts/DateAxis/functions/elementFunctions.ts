@@ -26,5 +26,6 @@ export function createDateAxis({ storedValues, width }: Params) {
         .attr('dy', 0)
         .attr('fill', colors.textColorPrimary)
         .attr('font-size', fontSize.sm)
+        .attr('letter-spacing', 1)
     })
 }

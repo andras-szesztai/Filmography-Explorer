@@ -20,6 +20,7 @@ import {
 
 const initialState = {
   activeMovieID: 0,
+  position: 0,
   genres: {
     data: [] as GenreObject[],
     error: ''
@@ -27,7 +28,6 @@ const initialState = {
   activeMovieData: {
     id: 0,
     details: {} as MovieDetails,
-    position: 0,
     cast: [] as MovieCastObject[],
     crew: [] as MovieCrewObject[]
   },
@@ -53,7 +53,7 @@ const personReducer = (state: MovieState = initialState, action: Action) => {
     case FETCH_GENRE_LIST_SUCCESS:
       return { ...state, genres: { data: action.genres, error: '' } }
     case SET_ACTIVE_MOVIE_ID:
-      return { ...state, activeMovieID: action.movieID }
+      return { ...state, activeMovieID: action.info.id, position: action.info.position }
     case FETCH_ACTIVE_MOVIE_DETAILS:
       return { ...state, loading: { activeMovieData: true } }
     case FETCH_ACTIVE_MOVIE_DETAILS_FAIL:

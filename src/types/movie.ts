@@ -6,7 +6,6 @@ export interface GenreObject {
 export interface ActiveMovieDataObject {
   id: number
   details: MovieDetails
-  position: number
   cast: MovieCastObject[]
   crew: MovieCrewObject[]
 }

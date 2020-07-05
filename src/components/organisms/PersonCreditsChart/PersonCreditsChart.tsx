@@ -11,40 +11,13 @@ import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'
 import { DateAxis } from '../../molecules'
 import { updateChartSettings } from '../../../reducer/personCreditsChartReducer/actions'
+import { useUpdateChartSettings } from './hooks'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
-  const dispatch = useDispatch()
-  const prevPersonDetails = usePrevious(personDataSets.details)
 
-  React.useEffect(() => {
-    if (prevPersonDetails && !isEqual(personDataSets.details, prevPersonDetails)) {
-      const movieSearchData = uniqBy([...personDataSets.credits.cast, ...personDataSets.credits.crew], 'id')
-      const xScaleMax = maxBy(movieSearchData, d => new Date(d.unified_date))
-      const xScaleMin = minBy(movieSearchData, d => new Date(d.unified_date))
-      const xScaleDomain = [
-        (xScaleMin && new Date(xScaleMin.unified_date)) || new Date(),
-        (xScaleMax && new Date(xScaleMax.unified_date)) || new Date()
-      ]
-      const sizeMax = maxBy(movieSearchData, d => d.vote_count)
-      const sizeMin = minBy(movieSearchData, d => d.vote_count)
-      const sizeScaleDomain = [(sizeMin && sizeMin.vote_count) || 0, (sizeMax && sizeMax.vote_count) || 0]
-      const isBoth = !!(personDataSets.credits.cast.length && personDataSets.credits.crew.length)
-      dispatch(
-        updateChartSettings({
-          nameId: personDataSets.details.id,
-          movieSearchData,
-          isBoth,
-          scales: {
-            xScaleDomain,
-            sizeScaleDomain
-          }
-        })
-      )
-    }
-  }, [personDataSets.details])
-
+  useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
   return (

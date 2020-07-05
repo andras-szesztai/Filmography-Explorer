@@ -27,6 +27,7 @@ export interface PersonCreditsChartState extends ChartSettings {
 
 export interface MovieState {
   activeMovieID: number
+  position: number
   genres: {
     data: GenreObject[]
     error: string

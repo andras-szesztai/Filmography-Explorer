@@ -19,6 +19,7 @@ import { AxisStoredValues } from '../../../../types/chart'
 import { createDateAxis, createUpdateVoronoi } from './functions/elementFunctions'
 import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 
 // TODO: set it up, fix optional chaining instances
 const margin = {
@@ -79,14 +80,19 @@ export default function DateAxis(props: Props) {
         clearTimeout(timeOut.current)
         dispatch(emptyHoveredMovie())
       })
-    // TODO: Setup click
-    // .on('click', d => {
-    //   props.setActiveMovie({
-    //     id: d.id,
-    //     data: d,
-    //     position: getXPosition(d)
-    //   })
-    // })
+      .on('click', (d: any) => {
+        dispatch(
+          setActiveMovieID({
+            id: d.id,
+            position: getXPosition({
+              data: d,
+              left: margin.left,
+              width: dims.width,
+              xScale
+            })
+          })
+        )
+      })
   }
 
   React.useEffect(() => {

@@ -26,12 +26,14 @@ export interface PersonCreditsChartState extends ChartSettings {
 }
 
 export interface MovieState {
-  activeNameID: number
+  activeMovieID: number
   genres: {
     data: GenreObject[]
     error: string
   }
   activeMovieData: ActiveMovieDataObject
+  loading: { activeMovieData: boolean }
+  error: { activeMovieData: string }
   favorites: SavedMovieObject
   bookmarks: SavedMovieObject
 }

@@ -6,8 +6,9 @@ import { Provider } from 'react-redux'
 // eslint-disable-next-line import/extensions
 import personReducer from './personReducer/personReducer'
 import personCreditsChartReducer from './personCreditsChartReducer/personCreditsChartReducer.ts'
+import movieReducer from './movieReducer/movieReducer.ts'
 
-const rootReducer = combineReducers({ personReducer, personCreditsChartReducer })
+const rootReducer = combineReducers({ personReducer, personCreditsChartReducer, movieReducer })
 
 // eslint-disable-next-line react/prop-types
 export default function({ element }) {

@@ -10,7 +10,7 @@ import { CombinedState } from '../types/state'
 // Actions
 
 // Hooks
-import { useFetchPersonData } from '../hooks'
+import { useFetchPersonData, useFetchGenreList } from '../hooks'
 
 // Constants
 
@@ -18,6 +18,8 @@ import { useFetchPersonData } from '../hooks'
 
 const IndexPage = () => {
   const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
+
+  useFetchGenreList()
   useFetchPersonData({ activeNameID })
 
   return (

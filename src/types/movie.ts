@@ -38,3 +38,17 @@ export interface MovieCrewObject {
   id: number
   name: string
 }
+
+export interface SavedMovieObject {
+  [id: number]: {
+    id: number
+    title: string
+    genreIDs: number[]
+    castIDs: number[]
+    crewIDs: number[]
+    poster_path?: string
+    vote_average: number
+    vote_count: number
+    original_title: string
+  }
+}

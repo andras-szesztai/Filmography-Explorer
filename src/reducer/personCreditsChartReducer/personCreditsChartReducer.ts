@@ -8,6 +8,7 @@ import {
   EMPTY_HOVERED_MOVIE
 } from './actions'
 
+// Types
 import { PersonCreditsChartState } from '../../types/state'
 import { FormattedPersonCreditDataObject } from '../../types/person'
 

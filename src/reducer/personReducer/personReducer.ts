@@ -12,6 +12,7 @@ import {
   updateFavoritePersons
 } from './actions'
 
+// Types
 import { PersonState } from '../../types/state'
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from '../../types/person'
 

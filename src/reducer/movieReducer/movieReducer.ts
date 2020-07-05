@@ -1,4 +1,4 @@
-import { GenreObject } from '../../types/movie'
+import { GenreObject, SavedMovieObject, MovieDetails, MovieCastObject, MovieCrewObject } from '../../types/movie'
 
 const initialState = {
   activeMovieID: 0,
@@ -7,12 +7,12 @@ const initialState = {
     error: ''
   },
   activeMovieData: {
-    id: undefined,
-    details: {},
-    position: undefined,
-    cast: [],
-    crew: []
+    id: 0,
+    details: {} as MovieDetails,
+    position: 0,
+    cast: [] as MovieCastObject[],
+    crew: [] as MovieCrewObject[]
   },
-  favorties: {},
-  bookmarks: {}
+  favorites: {} as SavedMovieObject,
+  bookmarks: {} as SavedMovieObject
 }

@@ -139,7 +139,8 @@ export const chartSideMargins = {
   right: space[8]
 }
 
-export const circleSizeRange = [2, 20]
+export const circleSizeRange = [space[1], space[6]]
+export const circlRadius = space[2]
 export const circleAdjust = space[1]
 export const handleSize = space[6]
-export const circleFillOpacity = 0.5
+export const circleFillOpacity = 0.7

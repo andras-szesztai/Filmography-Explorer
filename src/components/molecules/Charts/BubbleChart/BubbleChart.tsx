@@ -15,11 +15,11 @@ import { maxBy, minBy } from 'lodash'
 import { BubbleChartStoredValues } from '../../../../types/chart'
 import { chartSideMargins, circleSizeRange } from '../../../../styles/variables'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
-import { createGrid, createGridText } from './functions/elementFunctions'
+import { createGrid, createGridText, createCircles } from './functions/elementFunctions'
 
 const margin = {
-  top: 20,
-  bottom: 20,
+  top: 5,
+  bottom: 5,
   ...chartSideMargins
 }
 
@@ -28,6 +28,7 @@ interface Props {
   sizeScaleDomain: number[]
   isFirstEntered: boolean
   isYDomainSynced: boolean
+  isSizeDynamic: boolean
   data: FormattedPersonCreditDataObject[]
   // dataSets: PersonCredits
   // isBoth: boolean
@@ -55,13 +56,13 @@ export default function BubbleChart(props: Props) {
     if (storedValues.current.isInit && width) {
       const xScale = scaleTime()
         .domain(props.xScaleDomain)
-        .range([0, width - margin.left - margin.right])
-      const yMax = maxBy(props.data, d => d.vote_count)
-      const yMin = minBy(props.data, d => d.vote_count)
-      const yScaleDomain = [(yMin && yMin.vote_count) || 0, (yMax && yMax.vote_count) || 0]
+        .range([0, width - margin.right - margin.left])
+      const yMax = maxBy(props.data, d => d.vote_average)
+      const yMin = minBy(props.data, d => d.vote_average)
+      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
       const yScale = scaleLinear()
         .domain(props.isYDomainSynced ? [0, 10] : yScaleDomain)
-        .range([height - margin.top - margin.bottom, 0])
+        .range([height - margin.bottom - margin.top, 0])
       const sizeScale = scaleSqrt()
         .domain(props.sizeScaleDomain)
         .range(circleSizeRange)
@@ -84,8 +85,11 @@ export default function BubbleChart(props: Props) {
       const gridArgs = { storedValues, left: margin.left, width }
       createGrid(gridArgs)
       createGridText(gridArgs)
-      // createGridText()
-      // createCircles()
+      createCircles({
+        storedValues,
+        data,
+        isSizeDynamic: props.isSizeDynamic
+      })
       // createUpdateVoronoi()
       // setNumber(data.length)
       // if (props.activeMovie.id) {
@@ -100,28 +104,6 @@ export default function BubbleChart(props: Props) {
       // }
     }
   })
-
-  // function createCircles() {
-  //   const { currXScale, currSizeScale, yScale, chartArea } = storedValues.current
-
-  //   chartArea
-  //     .selectAll('.main-circle')
-  //     .data(data, d => d.id)
-  //     .enter()
-  //     .append('g')
-  //     .attr('class', 'main-circle')
-
-  //   chartArea
-  //     .selectAll('.main-circle')
-  //     .append('circle')
-  //     .attr('class', 'circle')
-  //     .attr('cx', ({ unified_date }) => currXScale(new Date(unified_date)))
-  //     .attr('cy', ({ vote_average }) => yScale(vote_average))
-  //     .attr('r', d => setRadius({ props, currSizeScale, isSizeDynamic })(d))
-  //     .attr('fill', ({ id }) => (favoriteMovies.includes(id) ? COLORS.favorite : COLORS.secondary))
-  //     .attr('stroke', ({ id }) => (favoriteMovies.includes(id) ? chroma(COLORS.favorite).darken() : chroma(COLORS.secondary).darken()))
-  //     .attr('stroke-width', 1)
-  // }
 
   // function getXPosition(d) {
   //   const { currXScale } = storedValues.current
@@ -271,16 +253,21 @@ export default function BubbleChart(props: Props) {
         `}
         ref={svgRef}
       >
-        <g ref={gridAreaRef} style={{ transform: `translate(${margin.left}px,${margin.top}px)` }} />
+        <g
+          ref={gridAreaRef}
+          css={css`
+            transform: translate(${margin.left}px, ${margin.top}px);
+          `}
+        />
         <g
           ref={chartAreaRef}
           css={css`
-            transform: translate(${margin.left}px, ${height / 2}px);
+            transform: translate(${margin.left}px, ${margin.top}px);
           `}
         />
         <g
           css={css`
-            transform: translate(${margin.left}px, ${height / 2}px);
+            transform: translate(${margin.left}px, ${margin.top}px);
           `}
           ref={hoverElementAreaRef}
         />

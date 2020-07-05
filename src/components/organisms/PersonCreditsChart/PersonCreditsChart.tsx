@@ -66,6 +66,7 @@ const PersonCreditsChart = () => {
               xScaleDomain={chartState.scales.xScaleDomain}
               sizeScaleDomain={chartState.scales.sizeScaleDomain}
               isYDomainSynced={chartState.isYDomainSynced}
+              isSizeDynamic={chartState.isSizeDynamic}
               data={
                 personDataSets.credits.cast.length >= personDataSets.credits.crew.length
                   ? personDataSets.credits.cast

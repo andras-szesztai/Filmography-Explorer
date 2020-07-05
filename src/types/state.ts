@@ -1,5 +1,6 @@
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from './person'
-import { ChartSettings } from './personCreditsChart'
+import { ChartSettings, HoveredMovie } from './personCreditsChart'
+import { GenreObject, ActiveMovieDataObject } from './movie'
 
 export interface PersonState {
   activeNameID: number
@@ -18,17 +19,19 @@ export interface PersonState {
   error: string
 }
 
-export interface HoveredMovie {
-  id: number
-  data: FormattedPersonCreditDataObject
-  yPosition: number
-  xPosition: number
-}
-
 export interface PersonCreditsChartState extends ChartSettings {
   isYDomainSynced: boolean
   isSizeDynamic: boolean
   hoveredMovie: HoveredMovie
+}
+
+export interface MovieState {
+  activeNameID: number
+  genres: {
+    data: GenreObject[]
+    error: string
+  }
+  activeMovieData: ActiveMovieDataObject
 }
 
 export interface CombinedState {

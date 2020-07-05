@@ -16,9 +16,9 @@ import { LabelContainer } from '../../../atoms'
 import { chartSideMargins, colors, fontSize } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
 import { AxisStoredValues } from '../../../../types/chart'
-import { createDateAxis } from './functions/elementFunctions'
+import { createDateAxis, createUpdateVoronoi } from './functions/elementFunctions'
 import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
-import { populateHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
 
 // TODO: set it up, fix optional chaining instances
 const margin = {
@@ -43,41 +43,43 @@ export default function DateAxis(props: Props) {
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
   const voronoiRef = React.useRef<SVGGElement>(null)
-  const timeOut = React.useRef(null)
+  const timeOut = React.useRef(null as any)
 
   function addUpdateInteractions() {
     const { voronoiArea, mainData, xScale } = storedValues.current
-
-    voronoiArea.selectAll('.voronoi-path').on('mouseover', (d: any) => {
-      const hovered = {
-        id: d.id as number,
-        data: d as FormattedPersonCreditDataObject,
-        yPosition: getYPosition({
-          data: d,
-          mainData,
-          isBoth: props.isBoth
-        }),
-        xPosition: getXPosition({
-          data: d,
-          left: margin.left,
-          width: dims.width,
-          xScale
-        })
-      }
-      if (!props.isFirstEntered) {
-        dispatch(populateHoveredMovie(hovered))
-      }
-      if (props.isFirstEntered) {
-        timeOut.current = setTimeout(() => {
-          props.setIsFirstEntered(false)
+    voronoiArea
+      .selectAll('.voronoi-path')
+      .on('mouseover', (d: any) => {
+        const hovered = {
+          id: d.id as number,
+          data: d as FormattedPersonCreditDataObject,
+          yPosition: getYPosition({
+            data: d,
+            mainData,
+            isBoth: props.isBoth
+          }),
+          xPosition: getXPosition({
+            data: d,
+            left: margin.left,
+            width: dims.width,
+            xScale
+          })
+        }
+        if (!props.isFirstEntered) {
           dispatch(populateHoveredMovie(hovered))
-        }, duration.sm)
-      }
-    })
-    // .on('mouseout', () => {
-    //   clearTimeout(timeOut.current)
-    //   props.setHoveredMovie(NO_HOVERED_MOVIE)
-    // })
+        }
+        if (props.isFirstEntered) {
+          timeOut.current = setTimeout(() => {
+            props.setIsFirstEntered(false)
+            dispatch(populateHoveredMovie(hovered))
+          }, duration.sm)
+        }
+      })
+      .on('mouseout', () => {
+        clearTimeout(timeOut.current)
+        dispatch(emptyHoveredMovie())
+      })
+    // TODO: Setup click
     // .on('click', d => {
     //   props.setActiveMovie({
     //     id: d.id,
@@ -85,27 +87,6 @@ export default function DateAxis(props: Props) {
     //     position: getXPosition(d)
     //   })
     // })
-  }
-
-  function createUpdateVoronoi() {
-    const { xScale, uniqData, voronoiArea } = storedValues.current
-    const setXPos = (d: FormattedPersonCreditDataObject) => xScale(new Date(d.unified_date)) + margin.left
-    const delaunay = Delaunay.from(uniqData, setXPos, () => dims.height / 2).voronoi([0, 0, dims.width, dims.height])
-    voronoiArea
-      .selectAll('.voronoi-path')
-      .data(uniqData, (d: any) => d.id)
-      .join(
-        enter =>
-          enter
-            .append('path')
-            .attr('class', 'voronoi-path')
-            .attr('fill', 'none')
-            // .attr('cursor', d => (props.activeMovie.id === d.id ? 'default' : 'pointer'))
-            .attr('d', (_, i) => delaunay.renderCell(i))
-            .call(e => e),
-        update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
-      )
-    addUpdateInteractions()
   }
 
   React.useEffect(() => {
@@ -132,7 +113,7 @@ export default function DateAxis(props: Props) {
         voronoiArea
       }
       createDateAxis({ storedValues: storedValues.current, width: dims.width })
-      createUpdateVoronoi()
+      createUpdateVoronoi({ addUpdateInteractions, storedValues, left: margin.left, height: dims.height, width: dims.width })
       // createRefElements('hovered')
       // createRefElements('selected')
       // if (activeMovie.id) {
@@ -205,13 +186,6 @@ export default function DateAxis(props: Props) {
   //   }
   // }
 
-  // function getXPosition(d) {
-  //   const { currXScale } = storedValues.current
-  //   return Number(currXScale(new Date(d.unified_date)) + margin.left >= dims.width / 2)
-  // }
-
-  // const timeOut = useRef(null)
-
   // useChartResize({
   //   dims,
   //   storedValues,
@@ -251,6 +225,7 @@ export default function DateAxis(props: Props) {
         position: relative;
         width: 100%;
         height: 100%;
+        user-select: none;
       `}
       ref={wrapperRef}
     >

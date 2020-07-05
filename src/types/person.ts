@@ -40,6 +40,9 @@ export interface FormattedPersonCreditDataObject extends Person {
   title: string
   character?: string | undefined
   job: (string | undefined)[]
+  genre_ids: number[]
+  poster_path: string
+  original_title: string
 }
 
 export interface PersonCredits {

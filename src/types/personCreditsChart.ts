@@ -9,3 +9,10 @@ export interface ChartSettings {
     sizeScaleDomain: number[]
   }
 }
+
+export interface HoveredMovie {
+  id: number
+  data: FormattedPersonCreditDataObject
+  yPosition: number
+  xPosition: number
+}

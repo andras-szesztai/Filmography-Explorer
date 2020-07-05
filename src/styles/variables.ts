@@ -7,7 +7,8 @@ export const fontSize = {
   md: '2rem',
   lg: '2.5rem',
   xl: '3rem',
-  xxl: '3.5rem'
+  xxl: '3.5rem',
+  charTitle: '10rem'
 }
 
 export const fontWeight = {
@@ -139,8 +140,8 @@ export const chartSideMargins = {
   right: space[8]
 }
 
-export const circleSizeRange = [space[1], space[6]]
+export const circleSizeRange = [space[1], space[7]]
 export const circlRadius = space[2]
 export const circleAdjust = space[1]
 export const handleSize = space[6]
-export const circleFillOpacity = 0.7
+export const circleFillOpacity = 0.5

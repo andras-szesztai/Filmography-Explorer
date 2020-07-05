@@ -13,9 +13,9 @@ import { useDispatch, useSelector } from 'react-redux'
 // Types
 import { maxBy, minBy } from 'lodash'
 import { BubbleChartStoredValues } from '../../../../types/chart'
-import { chartSideMargins, circleSizeRange } from '../../../../styles/variables'
+import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
-import { createGrid, createGridText, createCircles } from './functions/elementFunctions'
+import { createGrid, createGridText, createCircles, createUpdateVoronoi } from './functions/elementFunctions'
 
 const margin = {
   top: 5,
@@ -30,11 +30,11 @@ interface Props {
   isYDomainSynced: boolean
   isSizeDynamic: boolean
   data: FormattedPersonCreditDataObject[]
+  activeMovieID: number
   // dataSets: PersonCredits
   // isBoth: boolean
   // isFirstEntered: boolean
   // setIsFirstEntered: (bool: boolean) => void
-  // activeMovieID: number
 }
 
 export default function BubbleChart(props: Props) {
@@ -50,7 +50,7 @@ export default function BubbleChart(props: Props) {
   const gridAreaRef = React.useRef<SVGGElement>(null)
   const timeOut = React.useRef(null as any)
 
-  const [totalNumber, setTotalNumber] = useState(undefined)
+  const [totalNumber, setTotalNumber] = useState(0)
 
   React.useEffect(() => {
     if (storedValues.current.isInit && width) {
@@ -90,8 +90,15 @@ export default function BubbleChart(props: Props) {
         data,
         isSizeDynamic: props.isSizeDynamic
       })
-      // createUpdateVoronoi()
-      // setNumber(data.length)
+      createUpdateVoronoi({
+        storedValues,
+        margin,
+        data,
+        width,
+        height,
+        activeMovieID: props.activeMovieID
+      })
+      setTotalNumber(data.length)
       // if (props.activeMovie.id) {
       //   createRefElements({
       //     data,
@@ -105,11 +112,6 @@ export default function BubbleChart(props: Props) {
     }
   })
 
-  // function getXPosition(d) {
-  //   const { currXScale } = storedValues.current
-  //   return Number(currXScale(new Date(d.unified_date)) + margin.left >= dims.width / 2)
-  // }
-
   // function setActiveMovie(d) {
   //   props.activeMovie.id !== d.id &&
   //     props.setActiveMovie({
@@ -118,8 +120,6 @@ export default function BubbleChart(props: Props) {
   //       position: getXPosition(d)
   //     })
   // }
-
-  // const timeOut = useRef(null)
 
   // function addUpdateInteractions() {
   //   const { voronoiArea } = storedValues.current
@@ -149,29 +149,6 @@ export default function BubbleChart(props: Props) {
   //       props.setHoveredMovie(NO_HOVERED_MOVIE)
   //     })
   //     .on('click', setActiveMovie)
-  // }
-
-  // function createUpdateVoronoi() {
-  //   const { yScale, currXScale, voronoiArea } = storedValues.current
-  //   const setXPos = d => currXScale(new Date(d.unified_date)) + margin.left
-  //   const setYPos = d => yScale(d.vote_average) + margin.top
-  //   const delaunay = Delaunay.from(data, setXPos, setYPos).voronoi([0, 0, dims.width, dims.height])
-
-  //   voronoiArea
-  //     .selectAll('.voronoi-path')
-  //     .data(data, d => d.id)
-  //     .join(
-  //       enter =>
-  //         enter
-  //           .append('path')
-  //           .attr('class', 'voronoi-path')
-  //           .attr('fill', 'transparent')
-  //           .attr('cursor', d => (props.activeMovie.id === d.id ? 'default' : 'pointer'))
-  //           .attr('d', (_, i) => delaunay.renderCell(i))
-  //           .call(enter => enter),
-  //       update => update.call(update => update.transition().attr('d', (_, i) => delaunay.renderCell(i)))
-  //     )
-  //   addUpdateInteractions()
   // }
 
   // useYDomainSyncUpdate({
@@ -273,12 +250,44 @@ export default function BubbleChart(props: Props) {
         />
         <g ref={voronoiRef} />
       </svg>
-      {/* <ChartTitle>
-        <div style={{ position: 'absolute', opacity: 0.1 }}>{type}</div>
-        <div style={{ position: 'relative' }}>
-          <NumberContainer>{number && number.toString().padStart(3, '0')}</NumberContainer>
+      <div
+        css={css`
+          position: absolute;
+        `}
+      >
+        <div
+          css={css`
+            font-size: ${fontSize.charTitle};
+            line-height: 0.8;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: ${colors.bgColorPrimaryLight};
+            position: absolute;
+            opacity: ${circleFillOpacity};
+          `}
+        >
+          Cast
         </div>
-      </ChartTitle>  */}
+        <div
+          css={css`
+            position: relative;
+          `}
+        >
+          <div
+            css={css`
+              font-size: ${fontSize.xxl};
+              line-height: 0.75;
+              font-weight: 500;
+              text-transform: uppercase;
+              color: ${colors.bgColorSecondary};
+              position: absolute;
+              top: 8px;
+            `}
+          >
+            {totalNumber && totalNumber.toString().padStart(3, '0')}
+          </div>
+        </div>
+      </div>
       {/* <LabelContainer>Avg. user score</LabelContainer>  */}
     </div>
   )

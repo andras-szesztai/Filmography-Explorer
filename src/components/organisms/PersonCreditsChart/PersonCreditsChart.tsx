@@ -72,6 +72,7 @@ const PersonCreditsChart = () => {
                   ? personDataSets.credits.cast
                   : personDataSets.credits.crew
               }
+              activeMovieID={activeMovieID}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}

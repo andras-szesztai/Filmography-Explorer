@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Types
-import { BubbleChartStoredValues } from '../../../../../types/chart'
+import { Delaunay } from 'd3-delaunay'
+import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 
 // Styles
 import { colors, fontSize, circlRadius, circleFillOpacity } from '../../../../../styles/variables'
-import { opacityVariant } from '../../../../../styles/animation'
 
 const gridData = [0, 2, 4, 6, 8, 10]
 
@@ -66,10 +66,43 @@ export function createCircles({ storedValues, data, isSizeDynamic }: CircleParam
         .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circlRadius))
         .attr('fill', colors.bgColorPrimaryLight)
         .attr('fill-opacity', circleFillOpacity)
-        .attr('stroke', colors.bgColorPrimaryLight)
+        .attr('stroke', colors.bgColorSecondary)
         // TODO: setup when favoriting is back
         // .attr('fill',  => (favoriteMovies.includes(id) ? COLORS.favorite : COLORS.secondary))
         // .attr('stroke', ({ id }) => (favoriteMovies.includes(id) ? chroma(COLORS.favorite).darken() : chroma(COLORS.secondary).darken()))
         .call(e => e)
     )
+}
+
+interface VoronoiParams {
+  storedValues: { current: BubbleChartStoredValues }
+  data: FormattedPersonCreditDataObject[]
+  margin: Margin
+  width: number
+  height: number
+  activeMovieID: number
+  // addUpdateInteractions: () => void
+}
+
+export function createUpdateVoronoi({ storedValues, margin, data, width, height, activeMovieID }: VoronoiParams) {
+  const { yScale, xScale, voronoiArea } = storedValues.current
+  const setXPos = (d: any) => xScale(new Date(d.unified_date)) + margin.left
+  const setYPos = (d: any) => yScale(d.vote_average) + margin.top
+  const delaunay = Delaunay.from(data, setXPos, setYPos).voronoi([0, 0, width, height])
+
+  voronoiArea
+    .selectAll('.voronoi-path')
+    .data(data, (d: any) => d.id)
+    .join(
+      enter =>
+        enter
+          .append('path')
+          .attr('class', 'voronoi-path')
+          .attr('fill', 'transparent')
+          .attr('cursor', d => (activeMovieID === d.id ? 'default' : 'pointer'))
+          .attr('d', (_, i) => delaunay.renderCell(i))
+          .call(e => e),
+      update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
+    )
+  // addUpdateInteractions()
 }

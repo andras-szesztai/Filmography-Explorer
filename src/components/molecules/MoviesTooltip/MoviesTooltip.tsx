@@ -13,7 +13,8 @@ import { Image } from '../../atoms'
 import { CombinedState } from '../../../types/state'
 
 // Style
-import { width, space, colors, tooltipOffset, fontSize, fontWeight } from '../../../styles/variables'
+import { width, space, height, colors, tooltipOffset, fontSize, fontWeight } from '../../../styles/variables'
+import { ScrollableContainerStyle } from '../../organisms/FavoritePersonsList/style'
 
 interface Props {
   activeMovieID: number
@@ -24,15 +25,14 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
   const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
   if (!hoveredMovie.id) return null
   const { data, xPosition, yPosition } = hoveredMovie
+  const xPos = xScale(new Date(data.unified_date))
   return (
     <div
       css={css`
         position: absolute;
         width: ${width.tooltipWidth}px;
 
-        left: ${xPosition
-          ? xScale(new Date(data.unified_date)) - width.tooltipWidth - tooltipOffset + 20
-          : xScale(new Date(data.unified_date)) + tooltipOffset + 30}px;
+        left: ${xPosition ? xPos - width.tooltipWidth - tooltipOffset + 28 : xPos + tooltipOffset + 35}px;
         top: ${yPosition === 0 && 0}px;
         bottom: ${yPosition === 1 && 0}px;
 
@@ -42,47 +42,48 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
         padding: ${space[2]}px;
 
         border-radius: ${space[1]}px;
-        background-color: ${colors.bgColorPrimary};
+        background-color: ${colors.bgColorSecondary};
 
         display: grid;
-        grid-template-columns: minmax(105px, min-content) 1fr;
-        grid-column-gap: 12px;
+        grid-template-columns: 100px 1fr;
+        grid-template-areas: 'photo info';
+        grid-column-gap: ${space[4]}px;
       `}
     >
-      <Image url={data.poster_path} alt={`${data.title || data.name}-poster`} />
+      <div
+        css={css`
+          height: ${height.tooltip}px;
+        `}
+      >
+        <Image url={data.poster_path} alt={`${data.title || data.name}-poster`} />
+      </div>
       <div
         css={css`
           display: flex;
           flex-direction: column;
           position: relative;
 
-          .title {
-            font-size: ${fontSize.sm};
-            font-weight: ${fontWeight.lg};
-            color: ${colors.textColorSecondary};
-          }
-
           .section {
-            margin-top: ${space[1]}px;
+            margin-top: ${space[2]}px;
             font-size: ${fontSize.sm};
             font-weight: ${fontWeight.lg};
             color: ${colors.textColorSecondary};
 
             span {
-              font-weight: ${fontWeight.lg};
+              font-weight: ${fontWeight.sm};
             }
-          }
-
-          .score {
-            width: 100%;
-            height: 16px;
-            margin-top: 6px;
-            margin-bottom: 1px;
-            position: relative;
           }
         `}
       >
-        <div className="title">{data.title || data.name}</div>
+        <div
+          css={css`
+            font-size: ${fontSize.md};
+            font-weight: ${fontWeight.xl};
+            color: ${colors.textColorSecondary};
+          `}
+        >
+          {data.title || data.name}
+        </div>
         <div className="section">
           Release year: <span>{data.unified_year}</span>
         </div>
@@ -104,30 +105,36 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
             </span>
           </div>
         </div>
-        <div className="section score">
+        <div
+          className="section"
+          css={css`
+            height: ${space[4]}px;
+            position: relative;
+          `}
+        >
           <div
-            style={{
-              position: 'absolute',
-              width: `${data.vote_average * 10}%`,
-              height: '100%',
-              backgroundColor: 'red',
-              borderRadius: 2
-            }}
+            css={css`
+              ${ScrollableContainerStyle}
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              border-radius: 2px;
+            `}
           />
           <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              border: `1px solid red`,
-              borderRadius: 2
-            }}
+            css={css`
+              position: absolute;
+              width: ${data.vote_average * 10}%;
+              height: 100%;
+              background-color: ${colors.textColorSecondary};
+              border-radius: 2px 0 0 2px;
+            `}
           />
         </div>
         <AnimatePresence>
           {activeMovieID !== hoveredMovie.id && (
             <motion.div className="section hint" initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              Click<span> to explore the {data.media_type}!</span>
+              Click<span> to explore!</span>
             </motion.div>
           )}
         </AnimatePresence>

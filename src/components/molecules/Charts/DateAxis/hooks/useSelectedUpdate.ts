@@ -20,15 +20,15 @@ export default function useSelectedUpdate({ storedValues, activeMovieID, height,
   const prevActiveMovieID = usePrevious(activeMovieID)
   React.useEffect(() => {
     if (!storedValues.current.isInit && activeMovieID !== prevActiveMovieID) {
-      const { chartArea, voronoiArea } = storedValues.current
+      const { hoverElementArea, voronoiArea } = storedValues.current
       showRefElements({
         storedValues,
         activeMovieID,
         height
       })
       if (!activeMovieID) {
-        chartArea.selectAll('.selected-circle').attr('opacity', 0)
-        chartArea.selectAll('.selected-line').attr('opacity', 0)
+        hoverElementArea.selectAll('.selected-circle').attr('opacity', 0)
+        hoverElementArea.selectAll('.selected-line').attr('opacity', 0)
         voronoiArea.selectAll('.voronoi-path').attr('cursor', 'pointer')
       }
       addUpdateInteractions()

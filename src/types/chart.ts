@@ -19,6 +19,7 @@ export interface StoredValues {
   svgArea: Selection<SVGSVGElement | any, any, any, any>
   chartArea: Selection<SVGGElement | any, any, any, any>
   voronoiArea: Selection<SVGGElement | any, any, any, any>
+  hoverElementArea: Selection<SVGGElement | any, any, any, any>
 }
 
 export interface AxisStoredValues extends StoredValues {

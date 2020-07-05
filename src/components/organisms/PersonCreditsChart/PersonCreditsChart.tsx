@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'
@@ -46,6 +46,7 @@ const PersonCreditsChart = () => {
         />
         {chartState.nameId && (
           <div
+            key={chartState.nameId}
             css={css`
               display: grid;
               grid-template-rows: ${chartState.isBoth ? '1fr 35px 1fr' : '1fr 35px'};

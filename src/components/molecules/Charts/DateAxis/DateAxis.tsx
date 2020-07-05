@@ -58,6 +58,7 @@ export default function DateAxis(props: Props) {
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
   const voronoiRef = React.useRef<SVGGElement>(null)
+  const hoverElementAreaRef = React.useRef<SVGGElement>(null)
   const timeOut = React.useRef(null as any)
 
   function addUpdateInteractions() {
@@ -126,6 +127,7 @@ export default function DateAxis(props: Props) {
         .range([0, dims.width - margin.left - margin.right])
       const chartArea = select(chartAreaRef.current)
       const svgArea = select(svgRef.current)
+      const hoverElementArea = select(hoverElementAreaRef.current)
       const voronoiArea = select(voronoiRef.current)
       storedValues.current = {
         isInit: false,
@@ -135,7 +137,8 @@ export default function DateAxis(props: Props) {
         uniqData,
         chartArea,
         svgArea,
-        voronoiArea
+        voronoiArea,
+        hoverElementArea
       }
       createRefElements({ storedValues, className: 'hovered' })
       createRefElements({ storedValues, className: 'selected' })
@@ -195,9 +198,15 @@ export default function DateAxis(props: Props) {
       >
         <g
           ref={chartAreaRef}
-          style={{
-            transform: `translate(${margin.left}px,${dims.height / 2}px)`
-          }}
+          css={css`
+            transform: translate(${margin.left}px, ${dims.height / 2}px);
+          `}
+        />
+        <g
+          css={css`
+            transform: translate(${margin.left}px, ${dims.height / 2}px);
+          `}
+          ref={hoverElementAreaRef}
         />
         <g ref={voronoiRef} />
       </svg>

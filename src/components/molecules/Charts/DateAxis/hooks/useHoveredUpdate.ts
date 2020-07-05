@@ -25,20 +25,20 @@ export default function useHoveredUpdate({ storedValues, height, addUpdateIntera
 
   useEffect(() => {
     if (!storedValues.current.isInit && prevHoveredMovie && hoveredMovie.id !== prevHoveredMovie.id) {
-      const { chartArea, mainData, xScale } = storedValues.current
+      const { hoverElementArea, mainData, xScale } = storedValues.current
       const setX = (d: any) => xScale(new Date(d.unified_date))
       const isToTooltipTheRight = hoveredMovie.xPosition === 0
       const posAdjust = circleSizeRange[0] + circleAdjust
-      chartArea.selectAll('.hovered-circle').attr('opacity', 0)
-      chartArea.selectAll('.hovered-line').attr('opacity', 0)
+      hoverElementArea.selectAll('.hovered-circle').attr('opacity', 0)
+      hoverElementArea.selectAll('.hovered-line').attr('opacity', 0)
       if (hoveredMovie.id) {
         const isMain = !!mainData.find(d => isEqual(hoveredMovie.data, d))
-        chartArea
+        hoverElementArea
           .selectAll('.hovered-circle')
           .datum(hoveredMovie.data)
           .attr('cx', setX)
           .attr('opacity', 1)
-        chartArea
+        hoverElementArea
           .selectAll('.hovered-horizontal-line')
           .datum(hoveredMovie.data)
           .attr('x1', d => xScale(new Date(d.unified_date)) + (isToTooltipTheRight ? posAdjust : -posAdjust))
@@ -48,7 +48,7 @@ export default function useHoveredUpdate({ storedValues, height, addUpdateIntera
           )
           .attr('opacity', 1)
         if (isMain) {
-          chartArea
+          hoverElementArea
             .select('.hovered-top-line')
             .datum(hoveredMovie.data)
             .attr('y2', -height / 2)
@@ -56,7 +56,7 @@ export default function useHoveredUpdate({ storedValues, height, addUpdateIntera
             .attr('x2', setX)
             .attr('opacity', 1)
         } else {
-          chartArea
+          hoverElementArea
             .select('.hovered-bottom-line')
             .datum(hoveredMovie.data)
             .attr('y2', height / 2)

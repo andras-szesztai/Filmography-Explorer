@@ -4,10 +4,10 @@ import { Delaunay } from 'd3-delaunay'
 
 // Types
 import { AxisStoredValues } from '../../../../../types/chart'
+import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 
 // Styles
-import { colors, fontSize, circleSizeRange, circleAdjust } from '../../../../../styles/variables'
-import { FormattedPersonCreditDataObject } from '../../../../../types/person'
+import { colors, fontSize, circleSizeRange, circleAdjust, circleFillOpacity } from '../../../../../styles/variables'
 
 interface Params {
   storedValues: { current: AxisStoredValues }
@@ -72,29 +72,30 @@ export interface RefParams {
 }
 
 export function createRefElements({ storedValues, className }: RefParams) {
-  const { chartArea } = storedValues.current
+  const { hoverElementArea } = storedValues.current
   const strokeColor = colors.bgColorSecondary
-  chartArea
+  hoverElementArea
     .append('circle')
     .attr('class', `${className}-circle`)
     .attr('cy', 0)
     .attr('cx', 0)
     .attr('r', circleSizeRange[0] + circleAdjust)
-    .attr('fill', '#fff')
+    .attr('fill', colors.bgColorPrimary)
     .attr('stroke', strokeColor)
     .attr('stroke-width', 1)
     .attr('opacity', 0)
-  chartArea
+  hoverElementArea
     .append('circle')
     .attr('class', `${className}-circle`)
     .attr('cy', 0)
     .attr('cx', 0)
     .attr('r', circleSizeRange[0])
     .attr('fill', strokeColor)
+    .attr('fill-opacity', circleFillOpacity)
     .attr('stroke', strokeColor)
     .attr('stroke-width', 1)
     .attr('opacity', 0)
-  chartArea
+  hoverElementArea
     .append('line')
     .attr('class', `${className}-top-line ${className}-line`)
     .attr('y1', -circleSizeRange[0] - circleAdjust)
@@ -104,7 +105,7 @@ export function createRefElements({ storedValues, className }: RefParams) {
     .attr('x2', 0)
     .attr('stroke-width', 1)
     .attr('opacity', 0)
-  chartArea
+  hoverElementArea
     .append('line')
     .attr('class', `${className}-bottom-line ${className}-line`)
     .attr('y1', circleSizeRange[0] + circleAdjust)
@@ -115,7 +116,7 @@ export function createRefElements({ storedValues, className }: RefParams) {
     .attr('stroke-width', 1)
     .attr('opacity', 0)
   if (className === 'hovered') {
-    chartArea
+    hoverElementArea
       .append('line')
       .attr('class', `${className}-horizontal-line ${className}-line`)
       .attr('y1', 0)

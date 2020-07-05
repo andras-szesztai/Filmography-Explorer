@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Selection } from 'd3-selection'
 import 'd3-transition'
-import { ScaleTime } from 'd3-scale'
+import { ScaleTime, ScalePower, ScaleLinear } from 'd3-scale'
 
 // Types
 import { FormattedPersonCreditDataObject, PersonCredits } from './person'
@@ -29,7 +29,9 @@ export interface AxisStoredValues extends StoredValues {
 }
 
 export interface BubbleChartStoredValues extends StoredValues {
-  data: FormattedPersonCreditDataObject[]
+  sizeScale: ScalePower<number, number>
+  yScale: ScaleLinear<number, number>
+  gridArea: Selection<SVGGElement | any, any, any, any>
 }
 
 export interface DateAxisProps {

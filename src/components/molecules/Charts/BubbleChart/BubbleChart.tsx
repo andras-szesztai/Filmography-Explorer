@@ -15,14 +15,13 @@ import { maxBy, minBy } from 'lodash'
 import { BubbleChartStoredValues } from '../../../../types/chart'
 import { chartSideMargins, circleSizeRange } from '../../../../styles/variables'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
+import { createGrid, createGridText } from './functions/elementFunctions'
 
 const margin = {
   top: 20,
   bottom: 20,
   ...chartSideMargins
 }
-
-const gridData = [0, 2, 4, 6, 8, 10]
 
 interface Props {
   xScaleDomain: Date[]
@@ -42,44 +41,49 @@ export default function BubbleChart(props: Props) {
   const { data } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
-  const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
+  const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
   const svgRef = React.useRef<SVGSVGElement>(null)
   const chartAreaRef = React.useRef<SVGGElement>(null)
   const voronoiRef = React.useRef<SVGGElement>(null)
   const hoverElementAreaRef = React.useRef<SVGGElement>(null)
+  const gridAreaRef = React.useRef<SVGGElement>(null)
   const timeOut = React.useRef(null as any)
 
   const [totalNumber, setTotalNumber] = useState(undefined)
 
   React.useEffect(() => {
-    if (storedValues.current.isInit && dims.width) {
+    if (storedValues.current.isInit && width) {
       const xScale = scaleTime()
         .domain(props.xScaleDomain)
-        .range([0, dims.width - margin.left - margin.right])
+        .range([0, width - margin.left - margin.right])
       const yMax = maxBy(props.data, d => d.vote_count)
       const yMin = minBy(props.data, d => d.vote_count)
       const yScaleDomain = [(yMin && yMin.vote_count) || 0, (yMax && yMax.vote_count) || 0]
       const yScale = scaleLinear()
         .domain(props.isYDomainSynced ? [0, 10] : yScaleDomain)
-        .range([dims.height - margin.top - margin.bottom, 0])
+        .range([height - margin.top - margin.bottom, 0])
       const sizeScale = scaleSqrt()
         .domain(props.sizeScaleDomain)
         .range(circleSizeRange)
-      // const chartArea = select(chartAreaRef.current)
-      // const svgArea = select(svgAreaRef.current)
-      // const gridArea = select(gridAreaRef.current)
-      // const voronoiArea = select(voronoiRef.current)
-      // storedValues.current = {
-      //   isInit: true,
-      //   currXScale,
-      //   currSizeScale,
-      //   yScale,
-      //   chartArea,
-      //   svgArea,
-      //   gridArea,
-      //   voronoiArea
-      // }
-      // createGrid()
+      const chartArea = select(chartAreaRef.current)
+      const svgArea = select(svgRef.current)
+      const gridArea = select(gridAreaRef.current)
+      const hoverElementArea = select(hoverElementAreaRef.current)
+      const voronoiArea = select(voronoiRef.current)
+      storedValues.current = {
+        isInit: true,
+        sizeScale,
+        xScale,
+        yScale,
+        chartArea,
+        svgArea,
+        gridArea,
+        hoverElementArea,
+        voronoiArea
+      }
+      const gridArgs = { storedValues, left: margin.left, width }
+      createGrid(gridArgs)
+      createGridText(gridArgs)
       // createGridText()
       // createCircles()
       // createUpdateVoronoi()
@@ -117,37 +121,6 @@ export default function BubbleChart(props: Props) {
   //     .attr('fill', ({ id }) => (favoriteMovies.includes(id) ? COLORS.favorite : COLORS.secondary))
   //     .attr('stroke', ({ id }) => (favoriteMovies.includes(id) ? chroma(COLORS.favorite).darken() : chroma(COLORS.secondary).darken()))
   //     .attr('stroke-width', 1)
-  // }
-
-  // function createGrid() {
-  //   storedValues.current.gridArea
-  //     .selectAll('.grid-line')
-  //     .data(gridData, d => d)
-  //     .enter()
-  //     .append('line')
-  //     .attr('class', 'grid-line')
-  //     .attr('x1', -margin.left)
-  //     .attr('x2', dims.width)
-  //     .attr('y1', d => storedValues.current.yScale(d))
-  //     .attr('y2', d => storedValues.current.yScale(d))
-  //     .attr('stroke', COLORS.gridColor)
-  //     .attr('stroke-width', 0.25)
-  // }
-
-  // function createGridText() {
-  //   storedValues.current.gridArea
-  //     .selectAll('.grid-text')
-  //     .data(gridData, d => d)
-  //     .enter()
-  //     .append('text')
-  //     .attr('class', 'grid-text')
-  //     .attr('x', dims.width - margin.left)
-  //     .attr('y', d => storedValues.current.yScale(d))
-  //     .attr('dy', d => (d < 5 ? -4 : 12))
-  //     .attr('text-anchor', 'end')
-  //     .attr('font-size', fontSize[1])
-  //     .attr('fill', COLORS.gridColor)
-  //     .text(d => d)
   // }
 
   // function getXPosition(d) {
@@ -228,12 +201,14 @@ export default function BubbleChart(props: Props) {
   //   chart,
   //   data
   // })
+
   // useRadiusUpdate({
   //   storedValues,
   //   chart,
   //   isSizeDynamic,
   //   prevIsSizeDynamic: prevProps && prevProps.isSizeDynamic
   // })
+
   // useChartResize({
   //   dims,
   //   prevDims,
@@ -243,6 +218,7 @@ export default function BubbleChart(props: Props) {
   //   chart,
   //   isSizeDynamic
   // })
+
   // useActiveMovieIDUpdate({
   //   storedValues,
   //   setActiveMovie,
@@ -254,6 +230,7 @@ export default function BubbleChart(props: Props) {
   //   addUpdateInteractions,
   //   data
   // })
+
   // useHoveredUpdate({
   //   storedValues,
   //   isSizeDynamic,
@@ -294,15 +271,16 @@ export default function BubbleChart(props: Props) {
         `}
         ref={svgRef}
       >
+        <g ref={gridAreaRef} style={{ transform: `translate(${margin.left}px,${margin.top}px)` }} />
         <g
           ref={chartAreaRef}
           css={css`
-            transform: translate(${margin.left}px, ${dims.height / 2}px);
+            transform: translate(${margin.left}px, ${height / 2}px);
           `}
         />
         <g
           css={css`
-            transform: translate(${margin.left}px, ${dims.height / 2}px);
+            transform: translate(${margin.left}px, ${height / 2}px);
           `}
           ref={hoverElementAreaRef}
         />

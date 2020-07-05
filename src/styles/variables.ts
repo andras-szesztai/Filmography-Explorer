@@ -134,3 +134,7 @@ export const chartSideMargins = {
   left: space[8],
   right: space[8]
 }
+
+export const circleSizeRange = [2, 20]
+export const circleAdjust = 4
+export const handleSize = space[6]

@@ -1,11 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { useSelector, useDispatch } from 'react-redux'
-import isEqual from 'lodash/isEqual'
-import uniqBy from 'lodash/uniqBy'
-import { usePrevious } from 'react-use'
-import maxBy from 'lodash/maxBy'
-import minBy from 'lodash/minBy'
 
 import { space, colors } from '../../../styles/variables'
 import { CombinedState } from '../../../types/state'

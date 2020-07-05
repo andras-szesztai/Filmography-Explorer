@@ -10,16 +10,18 @@ import { Delaunay } from 'd3-delaunay'
 import { scaleTime, ScaleTime } from 'd3-scale'
 
 import { css } from '@emotion/core'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
 import { LabelContainer } from '../../../atoms'
-import { chartSideMargins, colors, fontSize } from '../../../../styles/variables'
+import { chartSideMargins, colors, circleSizeRange, circleAdjust } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
 import { AxisStoredValues } from '../../../../types/chart'
-import { createDateAxis, createUpdateVoronoi } from './functions/elementFunctions'
+import { createDateAxis, createUpdateVoronoi, createRefElements, showRefElements } from './functions/elementFunctions'
 import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
+import { useChartResize } from './hooks'
+import { CombinedState } from '../../../../types/state'
 
 // TODO: set it up, fix optional chaining instances
 const margin = {
@@ -37,6 +39,7 @@ interface Props {
 
 export default function DateAxis(props: Props) {
   const { dataSets, xScaleDomain } = props
+  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
   const dispatch = useDispatch()
   const prevProps = usePrevious(props)
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
@@ -95,6 +98,11 @@ export default function DateAxis(props: Props) {
       })
   }
 
+  function runElementUpdate() {
+    createDateAxis({ storedValues, width: dims.width })
+    createUpdateVoronoi({ addUpdateInteractions, storedValues, left: margin.left, height: dims.height, width: dims.width, activeMovieID })
+  }
+
   React.useEffect(() => {
     if (storedValues.current.isInit && dims.width) {
       storedValues.current.isInit = false
@@ -118,87 +126,23 @@ export default function DateAxis(props: Props) {
         svgArea,
         voronoiArea
       }
-      createDateAxis({ storedValues: storedValues.current, width: dims.width })
-      createUpdateVoronoi({ addUpdateInteractions, storedValues, left: margin.left, height: dims.height, width: dims.width })
-      // createRefElements('hovered')
-      // createRefElements('selected')
-      // if (activeMovie.id) {
-      //   showRefElements({
-      //     storedValues,
-      //     activeMovieID: activeMovie.id,
-      //     filteredData,
-      //     mainData,
-      //     subData,
-      //     height: dims.height
-      //   })
-      // }
+      createRefElements({ storedValues, className: 'hovered' })
+      createRefElements({ storedValues, className: 'selected' })
+      if (activeMovieID) {
+        showRefElements({
+          storedValues,
+          activeMovieID,
+          height: dims.height
+        })
+      }
     }
   })
-
-  // function createRefElements(className) {
-  //   const { chartArea } = storedValues.current
-  //   const strokeColor = className === 'hovered' ? COLORS.secondary : chroma(COLORS.secondary).darken()
-  //   chartArea
-  //     .append('circle')
-  //     .attr('class', `${className}-circle`)
-  //     .attr('cy', 0)
-  //     .attr('cx', 0)
-  //     .attr('r', SIZE_RANGE[0] + CIRCLE_ADJUST)
-  //     .attr('fill', '#fff')
-  //     .attr('stroke', strokeColor)
-  //     .attr('stroke-width', 1)
-  //     .attr('opacity', 0)
-  //   chartArea
-  //     .append('circle')
-  //     .attr('class', `${className}-circle`)
-  //     .attr('cy', 0)
-  //     .attr('cx', 0)
-  //     .attr('r', SIZE_RANGE[0])
-  //     .attr('fill', COLORS.secondary)
-  //     .attr('stroke', strokeColor)
-  //     .attr('stroke-width', 1)
-  //     .attr('opacity', 0)
-  //   chartArea
-  //     .append('line')
-  //     .attr('class', `${className}-top-line ${className}-line`)
-  //     .attr('y1', -SIZE_RANGE[0] - CIRCLE_ADJUST)
-  //     .attr('y2', -SIZE_RANGE[0] - CIRCLE_ADJUST)
-  //     .attr('stroke', strokeColor)
-  //     .attr('x1', 0)
-  //     .attr('x2', 0)
-  //     .attr('stroke-width', 1)
-  //     .attr('opacity', 0)
-  //   chartArea
-  //     .append('line')
-  //     .attr('class', `${className}-bottom-line ${className}-line`)
-  //     .attr('y1', SIZE_RANGE[0] + CIRCLE_ADJUST)
-  //     .attr('y2', SIZE_RANGE[0] + CIRCLE_ADJUST)
-  //     .attr('stroke', strokeColor)
-  //     .attr('x1', 0)
-  //     .attr('x2', 0)
-  //     .attr('stroke-width', 1)
-  //     .attr('opacity', 0)
-  //   if (className === 'hovered') {
-  //     chartArea
-  //       .append('line')
-  //       .attr('class', `${className}-horizontal-line ${className}-line`)
-  //       .attr('y1', 0)
-  //       .attr('y2', 0)
-  //       .attr('x1', 0)
-  //       .attr('x2', 0)
-  //       .attr('stroke', strokeColor)
-  //       .attr('stroke-width', 1)
-  //       .attr('opacity', 0)
-  //   }
-  // }
-
-  // useChartResize({
-  //   dims,
-  //   storedValues,
-  //   margin,
-  //   createUpdateVoronoi,
-  //   createDateAxis
-  // })
+  useChartResize({
+    width: dims.width,
+    storedValues,
+    margin,
+    runElementUpdate
+  })
 
   // useSelectedUpdate({
   //   storedValues,

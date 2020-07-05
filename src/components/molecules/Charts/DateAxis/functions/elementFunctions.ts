@@ -138,31 +138,31 @@ interface ShowRefElements {
 }
 
 export function showRefElements({ storedValues, activeMovieID, height }: ShowRefElements) {
-  const { xScale, chartArea, voronoiArea, uniqData, mainData, subData } = storedValues.current
+  const { xScale, hoverElementArea, voronoiArea, uniqData, mainData, subData } = storedValues.current
   const setX = (d: any) => xScale(new Date(d.unified_date))
   const selectedCircleData = uniqData.find(d => d.id === activeMovieID)
-  chartArea
+  hoverElementArea
     .selectAll('.selected-circle')
     .datum(selectedCircleData)
     .attr('cx', setX)
     .attr('opacity', 1)
   const topLineData = mainData.filter(d => d.id === activeMovieID)
   const bottomLineData = subData.filter(d => d.id === activeMovieID)
-  chartArea
+  hoverElementArea
     .selectAll('.selected-line')
     .datum(selectedCircleData)
     .attr('x1', setX)
     .attr('x2', setX)
     .attr('opacity', 1)
   if (topLineData.length) {
-    chartArea.selectAll('.selected-top-line').attr('y2', -height / 2)
+    hoverElementArea.selectAll('.selected-top-line').attr('y2', -height / 2)
   } else {
-    chartArea.selectAll('.selected-top-line').attr('y2', -circleSizeRange[0] - circleAdjust)
+    hoverElementArea.selectAll('.selected-top-line').attr('y2', -circleSizeRange[0] - circleAdjust)
   }
   if (bottomLineData.length) {
-    chartArea.selectAll('.selected-bottom-line').attr('y2', height / 2)
+    hoverElementArea.selectAll('.selected-bottom-line').attr('y2', height / 2)
   } else {
-    chartArea.selectAll('.selected-bottom-line').attr('y2', circleSizeRange[0] + circleAdjust)
+    hoverElementArea.selectAll('.selected-bottom-line').attr('y2', circleSizeRange[0] + circleAdjust)
   }
   voronoiArea.selectAll('.voronoi-path').attr('cursor', (d: any) => (activeMovieID === d.id ? 'default' : 'pointer'))
 }

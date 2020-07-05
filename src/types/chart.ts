@@ -4,7 +4,7 @@ import 'd3-transition'
 import { ScaleTime } from 'd3-scale'
 
 // Types
-import { FormattedPersonCreditDataObject } from './person'
+import { FormattedPersonCreditDataObject, PersonCredits } from './person'
 
 export interface Margin {
   top: number
@@ -26,4 +26,17 @@ export interface AxisStoredValues extends StoredValues {
   mainData: FormattedPersonCreditDataObject[]
   subData: FormattedPersonCreditDataObject[]
   uniqData: FormattedPersonCreditDataObject[]
+}
+
+export interface BubbleChartStoredValues extends StoredValues {
+  data: FormattedPersonCreditDataObject[]
+}
+
+export interface DateAxisProps {
+  dataSets: PersonCredits
+  xScaleDomain: Date[]
+  isBoth: boolean
+  isFirstEntered: boolean
+  setIsFirstEntered: (bool: boolean) => void
+  activeMovieID: number
 }

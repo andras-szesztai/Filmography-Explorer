@@ -2,14 +2,22 @@ import React from 'react'
 import { css } from '@emotion/core'
 import { useSelector } from 'react-redux'
 
-import { space, colors } from '../../../styles/variables'
+// Components
+import { DateAxis, BubbleChart } from '../../molecules'
+
+// Types
 import { CombinedState } from '../../../types/state'
-import { DateAxis } from '../../molecules'
+
+// Hooks
 import { useUpdateChartSettings } from './hooks'
+
+// Styles
+import { space, colors } from '../../../styles/variables'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
+  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
   useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
@@ -25,6 +33,7 @@ const PersonCreditsChart = () => {
       `}
     >
       <div
+        onMouseLeave={() => setIsFirstEntered(true)}
         css={css`
           background: ${colors.bgColorPrimary};
 
@@ -52,13 +61,24 @@ const PersonCreditsChart = () => {
               grid-template-rows: ${chartState.isBoth ? '1fr 35px 1fr' : '1fr 35px'};
             `}
           >
-            <div />
+            <BubbleChart
+              isFirstEntered={isFirstEntered}
+              xScaleDomain={chartState.scales.xScaleDomain}
+              sizeScaleDomain={chartState.scales.sizeScaleDomain}
+              isYDomainSynced={chartState.isYDomainSynced}
+              data={
+                personDataSets.credits.cast.length >= personDataSets.credits.crew.length
+                  ? personDataSets.credits.cast
+                  : personDataSets.credits.crew
+              }
+            />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}
               dataSets={personDataSets.credits}
               isBoth={chartState.isBoth}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
+              activeMovieID={activeMovieID}
             />
           </div>
         )}

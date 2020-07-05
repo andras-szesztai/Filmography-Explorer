@@ -15,6 +15,7 @@ import { CombinedState } from '../../../types/state'
 // Style
 import { width, space, height, colors, tooltipOffset, fontSize, fontWeight } from '../../../styles/variables'
 import { ScrollableContainerStyle } from '../../organisms/FavoritePersonsList/style'
+import { containerStyle, infoSectionStyle } from './styles'
 
 interface Props {
   activeMovieID: number
@@ -29,25 +30,10 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
   return (
     <div
       css={css`
-        position: absolute;
-        width: ${width.tooltipWidth}px;
-
+        ${containerStyle}
         left: ${xPosition ? xPos - width.tooltipWidth - tooltipOffset + 28 : xPos + tooltipOffset + 35}px;
         top: ${yPosition === 0 && 0}px;
         bottom: ${yPosition === 1 && 0}px;
-
-        z-index: 4;
-        pointer-events: none;
-
-        padding: ${space[2]}px;
-
-        border-radius: ${space[1]}px;
-        background-color: ${colors.bgColorSecondary};
-
-        display: grid;
-        grid-template-columns: 100px 1fr;
-        grid-template-areas: 'photo info';
-        grid-column-gap: ${space[4]}px;
       `}
     >
       <div
@@ -57,24 +43,7 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
       >
         <Image url={data.poster_path} alt={`${data.title || data.name}-poster`} />
       </div>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          position: relative;
-
-          .section {
-            margin-top: ${space[2]}px;
-            font-size: ${fontSize.sm};
-            font-weight: ${fontWeight.lg};
-            color: ${colors.textColorSecondary};
-
-            span {
-              font-weight: ${fontWeight.sm};
-            }
-          }
-        `}
-      >
+      <div css={infoSectionStyle}>
         <div
           css={css`
             font-size: ${fontSize.md};

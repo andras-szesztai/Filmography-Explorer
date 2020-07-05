@@ -24,8 +24,8 @@ import { useChartResize, useSelectedUpdate, useHoveredUpdate } from './hooks'
 
 // Types
 import { CombinedState } from '../../../../types/state'
-import { AxisStoredValues } from '../../../../types/chart'
-import { FormattedPersonCreditDataObject, PersonCredits } from '../../../../types/person'
+import { AxisStoredValues, DateAxisProps } from '../../../../types/chart'
+import { FormattedPersonCreditDataObject } from '../../../../types/person'
 
 // Styles
 import { chartSideMargins } from '../../../../styles/variables'
@@ -37,21 +37,9 @@ const margin = {
   ...chartSideMargins
 }
 
-interface Props {
-  dataSets: PersonCredits
-  xScaleDomain: Date[]
-  isBoth: boolean
-  isFirstEntered: boolean
-  setIsFirstEntered: (bool: boolean) => void
-}
-
-export default function DateAxis(props: Props) {
-  const { dataSets, xScaleDomain } = props
-
+export default function DateAxis(props: DateAxisProps) {
   const dispatch = useDispatch()
-  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
-
-  const prevProps = usePrevious(props)
+  const { dataSets, activeMovieID } = props
 
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -123,7 +111,7 @@ export default function DateAxis(props: Props) {
       const subData = isCast ? dataSets.crew : dataSets.cast
       const uniqData = uniqBy([...mainData, ...subData], 'id')
       const xScale = scaleTime()
-        .domain(xScaleDomain)
+        .domain(props.xScaleDomain)
         .range([0, dims.width - margin.left - margin.right])
       const chartArea = select(chartAreaRef.current)
       const svgArea = select(svgRef.current)
@@ -172,8 +160,9 @@ export default function DateAxis(props: Props) {
     addUpdateInteractions
   })
 
+  const prevProps = usePrevious(props)
   React.useEffect(() => {
-    if (storedValues.current.isInit && prevProps && props.isFirstEntered !== prevProps.isFirstEntered) {
+    if (!storedValues.current.isInit && prevProps && props.isFirstEntered !== prevProps.isFirstEntered) {
       addUpdateInteractions()
     }
   })

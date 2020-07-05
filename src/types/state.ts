@@ -18,15 +18,17 @@ export interface PersonState {
   error: string
 }
 
+export interface HoveredMovie {
+  id: number
+  data: FormattedPersonCreditDataObject
+  yPosition: number
+  xPosition: number
+}
+
 export interface PersonCreditsChartState extends ChartSettings {
   isYDomainSynced: boolean
   isSizeDynamic: boolean
-  hoveredMovie: {
-    id: number
-    data: FormattedPersonCreditDataObject
-    yPosition: number
-    xPosition: number
-  }
+  hoveredMovie: HoveredMovie
 }
 
 export interface CombinedState {

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
 import { usePrevious } from 'react-use'
-import { extent } from 'd3-array'
 import maxBy from 'lodash/maxBy'
 import minBy from 'lodash/minBy'
 
@@ -46,6 +45,8 @@ const PersonCreditsChart = () => {
     }
   }, [personDataSets.details])
 
+  const [isFirstEntered, setIsFirstEntered] = React.useState(true)
+
   return (
     <div
       css={css`
@@ -85,7 +86,13 @@ const PersonCreditsChart = () => {
             `}
           >
             <div />
-            <DateAxis xScaleDomain={chartState.scales.xScaleDomain} dataSets={personDataSets.credits} />
+            <DateAxis
+              xScaleDomain={chartState.scales.xScaleDomain}
+              dataSets={personDataSets.credits}
+              isBoth={chartState.isBoth}
+              isFirstEntered={isFirstEntered}
+              setIsFirstEntered={setIsFirstEntered}
+            />
           </div>
         )}
       </div>

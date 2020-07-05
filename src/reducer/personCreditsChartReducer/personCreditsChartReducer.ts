@@ -1,13 +1,19 @@
 // Actions
-import { UPDATE_CHART_SETTINGS, updateChartSettings } from './actions'
+import {
+  updateChartSettings,
+  populateHoveredMovie,
+  emptyHoveredMovie,
+  UPDATE_CHART_SETTINGS,
+  POPULATE_HOVERED_MOVIE,
+  EMPTY_HOVERED_MOVIE
+} from './actions'
 
 import { PersonCreditsChartState } from '../../types/state'
 import { FormattedPersonCreditDataObject } from '../../types/person'
-import { MovieObject } from '../../types/personCreditsChart'
 
 const initialState = {
   nameId: 0,
-  movieSearchData: [] as MovieObject[],
+  movieSearchData: [] as FormattedPersonCreditDataObject[],
   isBoth: false,
   scales: {
     xScaleDomain: [] as Date[],
@@ -23,7 +29,7 @@ const initialState = {
   }
 }
 
-type Action = ReturnType<typeof updateChartSettings>
+type Action = ReturnType<typeof updateChartSettings | typeof populateHoveredMovie | typeof emptyHoveredMovie>
 
 const personCreditsChartReducer = (state: PersonCreditsChartState = initialState, action: Action) => {
   switch (action.type) {
@@ -34,6 +40,21 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
         movieSearchData: action.settings.movieSearchData,
         isBoth: action.settings.isBoth,
         scales: action.settings.scales
+      }
+    case POPULATE_HOVERED_MOVIE:
+      return {
+        ...state,
+        hoveredMovie: action.movie
+      }
+    case EMPTY_HOVERED_MOVIE:
+      return {
+        ...state,
+        hoveredMovie: {
+          id: 0,
+          data: {} as FormattedPersonCreditDataObject,
+          yPosition: 0,
+          xPosition: 0
+        }
       }
     default:
       return state

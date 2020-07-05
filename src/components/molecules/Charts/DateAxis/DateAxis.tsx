@@ -8,7 +8,10 @@ import { scaleTime } from 'd3-scale'
 import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 
-// Uitls
+// Components
+import MoviesTooltip from '../../MoviesTooltip/MoviesTooltip'
+
+// Utils
 import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
 import { createDateAxis, createUpdateVoronoi, createRefElements, showRefElements } from './functions/elementFunctions'
 
@@ -44,10 +47,12 @@ interface Props {
 
 export default function DateAxis(props: Props) {
   const { dataSets, xScaleDomain } = props
-  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
-  const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
+
   const dispatch = useDispatch()
+  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
+
   const prevProps = usePrevious(props)
+
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
   const svgRef = React.useRef<SVGSVGElement>(null)
@@ -160,7 +165,6 @@ export default function DateAxis(props: Props) {
 
   useHoveredUpdate({
     storedValues,
-    hoveredMovie,
     height: dims.height,
     addUpdateInteractions
   })
@@ -197,8 +201,7 @@ export default function DateAxis(props: Props) {
         />
         <g ref={voronoiRef} />
       </svg>
+      <MoviesTooltip xScale={storedValues.current.xScale} activeMovieID={activeMovieID} />
     </div>
-
-    // <Tooltip xScale={storedValues && storedValues.current.currXScale} hoveredMovie={props.hoveredMovie} activeMovieID={activeMovie.id} />
   )
 }

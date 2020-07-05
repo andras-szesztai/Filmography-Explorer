@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { usePrevious } from 'react-use'
 
 import { Margin, AxisStoredValues } from '../../../../../types/chart'
-import { VoronoiParams } from '../functions/elementFunctions'
 
 interface Params {
   width: number

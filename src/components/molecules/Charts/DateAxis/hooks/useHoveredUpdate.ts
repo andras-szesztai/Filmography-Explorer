@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import { useEffect } from 'react'
 import isEqual from 'lodash/isEqual'
 import { usePrevious } from 'react-use'
 
 // Types
+import { useSelector } from 'react-redux'
 import { AxisStoredValues } from '../../../../../types/chart'
-import { HoveredMovie } from '../../../../../types/personCreditsChart'
+import { CombinedState } from '../../../../../types/state'
 
 // Styles
 import { circleSizeRange, circleAdjust, tooltipOffset } from '../../../../../styles/variables'
@@ -16,12 +17,13 @@ interface Params {
   }
   height: number
   addUpdateInteractions: () => void
-  hoveredMovie: HoveredMovie
 }
 
-export default function useHoveredUpdate({ storedValues, hoveredMovie, height, addUpdateInteractions }: Params) {
+export default function useHoveredUpdate({ storedValues, height, addUpdateInteractions }: Params) {
+  const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
   const prevHoveredMovie = usePrevious(hoveredMovie)
-  React.useEffect(() => {
+
+  useEffect(() => {
     if (!storedValues.current.isInit && prevHoveredMovie && hoveredMovie.id !== prevHoveredMovie.id) {
       const { chartArea, mainData, xScale } = storedValues.current
       const setX = (d: any) => xScale(new Date(d.unified_date))

@@ -9,8 +9,7 @@ import { useDispatch } from 'react-redux'
 import { maxBy, minBy } from 'lodash'
 
 // Utils
-import { createGrid, createGridText, createCircles, createUpdateVoronoi } from './functions/elementFunctions'
-import { createBubbleChartRefElements } from '../DateAxis/functions/elementFunctions' // TODO: change
+import { createGrid, createGridText, createCircles, createUpdateVoronoi, createBubbleChartRefElements } from './functions/elementFunctions'
 import { getXPosition } from '../../../../utils/chartHelpers'
 
 // Actions

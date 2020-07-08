@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { select } from 'd3-selection'
+import { ScalePower, ScaleLinear } from 'd3-scale'
+
 // Types
 import { Delaunay } from 'd3-delaunay'
 import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 
 // Styles
-import { colors, fontSize, circleRadius, circleFillOpacity } from '../../../../../styles/variables'
+import { colors, fontSize, circleRadius, circleFillOpacity, circleAdjust } from '../../../../../styles/variables'
 
 const gridData = [0, 2, 4, 6, 8, 10]
 
@@ -54,8 +57,6 @@ interface CircleParams {
 
 export function createCircles({ storedValues, data, isSizeDynamic }: CircleParams) {
   const { xScale, sizeScale, yScale, chartArea } = storedValues.current
-  console.log(xScale.domain())
-  console.log(xScale.range())
   chartArea
     .selectAll('.main-circle')
     .data(data, (d: any) => d.id)
@@ -108,4 +109,89 @@ export function createUpdateVoronoi({ storedValues, margin, data, width, height,
       update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
     )
   addUpdateInteractions()
+}
+
+export interface SetRadiusParams {
+  sizeScale: ScalePower<number, number>
+  adjust: number
+  isSizeDynamic: boolean
+}
+
+export const setRadius = ({ adjust = 0, isSizeDynamic = true, sizeScale }: SetRadiusParams) => (d: any) =>
+  isSizeDynamic ? sizeScale(d.vote_count) + adjust : 6 + adjust
+
+export interface GetSelectedLineYPosParams {
+  sizeScale: ScalePower<number, number>
+  yScale: ScaleLinear<number, number>
+  isSizeDynamic: boolean
+  data: FormattedPersonCreditDataObject
+  type: string
+}
+
+export const getSelectedLineYPos = ({ data, yScale, sizeScale, isSizeDynamic, type }: GetSelectedLineYPosParams) => {
+  return type === 'main'
+    ? yScale(data.vote_average) + setRadius({ adjust: 4, isSizeDynamic, sizeScale })(data)
+    : yScale(data.vote_average) - setRadius({ adjust: 4, isSizeDynamic, sizeScale })(data)
+}
+
+export interface BubbleChartRefParams {
+  storedValues: {
+    current: BubbleChartStoredValues
+  }
+  activeMovieID: number
+  data: FormattedPersonCreditDataObject[]
+  type: string
+  isSizeDynamic: boolean
+  height: number
+}
+
+export function createBubbleChartRefElements({ activeMovieID, storedValues, data, type, isSizeDynamic, height }: BubbleChartRefParams) {
+  const selectedData = data.find(d => d.id === activeMovieID)
+  const { chartArea, xScale, yScale, sizeScale, voronoiArea } = storedValues.current
+  if (selectedData) {
+    chartArea.selectAll('.main-circle').each((d: any, i, n) => {
+      if (d.id === activeMovieID) {
+        const selection = select(n[i])
+        const setX = () => xScale(new Date(d.unified_date))
+        selection
+          .append('circle')
+          .datum(selectedData)
+          .attr('class', 'selected-circle')
+          .attr('cx', xScale(new Date(selectedData.unified_date)))
+          .attr('cy', yScale(selectedData.vote_average))
+          .attr('fill', '#fff')
+          .attr('stroke', colors.textColorPrimary)
+          .attr('r', () =>
+            setRadius({
+              adjust: circleAdjust,
+              isSizeDynamic,
+              sizeScale
+            })(selectedData)
+          )
+        chartArea.select('.selected-circle').lower()
+        selection
+          .append('line')
+          .datum(selectedData)
+          .attr('class', 'selected-line')
+          .attr('x1', setX)
+          .attr('x2', setX)
+          .attr(
+            'y1',
+            getSelectedLineYPos({
+              data: selectedData,
+              yScale,
+              sizeScale,
+              isSizeDynamic,
+              type
+            })
+          )
+          .attr('y2', type === 'main' ? height : -height)
+          .attr('stroke', colors.textColorPrimary)
+      }
+    })
+    voronoiArea.selectAll('.voronoi-path').attr('cursor', activeMovieID === selectedData.id ? 'default' : 'pointer')
+  }
+  if (!selectedData) {
+    voronoiArea.selectAll('.voronoi-path').attr('cursor', 'pointer')
+  }
 }

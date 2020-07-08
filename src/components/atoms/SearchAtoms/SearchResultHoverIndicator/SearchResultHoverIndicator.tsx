@@ -12,10 +12,6 @@ type Props = {
   activeResult: number
 }
 
-const bgColor = chroma(colors.bgColorSecondary)
-  .alpha(0.25)
-  .hex()
-
 const ActiveSearchResultIndicator = ({ isVisible, activeResult }: Props) => {
   return (
     <AnimatePresence>
@@ -28,7 +24,9 @@ const ActiveSearchResultIndicator = ({ isVisible, activeResult }: Props) => {
             width: 100%;
             border-radius: ${space[1]}px;
             pointer-events: none;
-            background-color: ${bgColor};
+            background-color: ${chroma(colors.bgColorSecondary)
+              .alpha(0.2)
+              .hex()};
             border: 1px solid ${colors.bgColorSecondary};
           `}
           initial={{ opacity: 0 }}

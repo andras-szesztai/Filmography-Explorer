@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { select } from 'd3-selection'
 import isEqual from 'lodash/isEqual'
@@ -5,7 +6,7 @@ import { usePrevious } from 'react-use'
 import { useSelector } from 'react-redux'
 
 // Utils
-import { getSelectedLineYPos, setRadius } from '../../DateAxis/functions/elementFunctions' // TODO: change
+import { getSelectedLineYPos, setRadius } from '../functions/elementFunctions'
 
 // Types
 import { BubbleChartStoredValues } from '../../../../../types/chart'

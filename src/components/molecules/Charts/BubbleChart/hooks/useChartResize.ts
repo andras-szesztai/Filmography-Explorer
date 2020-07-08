@@ -3,7 +3,7 @@ import { usePrevious } from 'react-use'
 
 // Types
 import { Margin, BubbleChartStoredValues } from '../../../../../types/chart'
-import { getSelectedLineYPos } from '../../DateAxis/functions/elementFunctions'
+import { getSelectedLineYPos } from '../functions/elementFunctions'
 
 interface Param {
   width: number

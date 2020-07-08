@@ -62,7 +62,6 @@ const PersonCreditsChart = () => {
             `}
           >
             <BubbleChart
-              isFirstEntered={isFirstEntered}
               xScaleDomain={chartState.scales.xScaleDomain}
               sizeScaleDomain={chartState.scales.sizeScaleDomain}
               isYDomainSynced={chartState.isYDomainSynced}
@@ -73,6 +72,10 @@ const PersonCreditsChart = () => {
                   : personDataSets.credits.crew
               }
               activeMovieID={activeMovieID}
+              type="main"
+              isFirstEntered={isFirstEntered}
+              setIsFirstEntered={setIsFirstEntered}
+              tooltipYPosition={1}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}

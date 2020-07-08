@@ -6,14 +6,14 @@ import 'd3-transition'
 import uniqBy from 'lodash/uniqBy'
 import { scaleTime } from 'd3-scale'
 import { css } from '@emotion/core'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // Components
 import MoviesTooltip from '../../MoviesTooltip/MoviesTooltip'
 
 // Utils
 import { getYPosition, getXPosition } from '../../../../utils/chartHelpers'
-import { createDateAxis, createUpdateVoronoi, createRefElements, showRefElements } from './functions/elementFunctions'
+import { createDateAxis, createUpdateVoronoi, createDateAxisRefElements, showRefElements } from './functions/elementFunctions'
 
 // Actions
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
@@ -23,7 +23,6 @@ import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/per
 import { useChartResize, useSelectedUpdate, useHoveredUpdate } from './hooks'
 
 // Types
-import { CombinedState } from '../../../../types/state'
 import { AxisStoredValues, DateAxisProps } from '../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
 
@@ -84,17 +83,19 @@ export default function DateAxis(props: DateAxisProps) {
         dispatch(emptyHoveredMovie())
       })
       .on('click', (d: any) => {
-        dispatch(
-          setActiveMovieID({
-            id: d.id,
-            position: getXPosition({
-              data: d,
-              left: margin.left,
-              width: dims.width,
-              xScale
+        if (props.activeMovieID !== d.id) {
+          dispatch(
+            setActiveMovieID({
+              id: d.id,
+              position: getXPosition({
+                data: d,
+                left: margin.left,
+                width: dims.width,
+                xScale
+              })
             })
-          })
-        )
+          )
+        }
       })
   }
 
@@ -128,8 +129,8 @@ export default function DateAxis(props: DateAxisProps) {
         voronoiArea,
         hoverElementArea
       }
-      createRefElements({ storedValues, className: 'hovered' })
-      createRefElements({ storedValues, className: 'selected' })
+      createDateAxisRefElements({ storedValues, className: 'hovered' })
+      createDateAxisRefElements({ storedValues, className: 'selected' })
       if (activeMovieID) {
         showRefElements({
           storedValues,

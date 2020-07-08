@@ -5,7 +5,7 @@ import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 
 // Styles
-import { colors, fontSize, circlRadius, circleFillOpacity } from '../../../../../styles/variables'
+import { colors, fontSize, circleRadius, circleFillOpacity } from '../../../../../styles/variables'
 
 const gridData = [0, 2, 4, 6, 8, 10]
 
@@ -63,7 +63,7 @@ export function createCircles({ storedValues, data, isSizeDynamic }: CircleParam
         .append('circle')
         .attr('cx', d => xScale(new Date(d.unified_date)))
         .attr('cy', d => yScale(d.vote_average))
-        .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circlRadius))
+        .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
         .attr('fill', colors.bgColorPrimaryLight)
         .attr('fill-opacity', circleFillOpacity)
         .attr('stroke', colors.bgColorSecondary)
@@ -81,10 +81,10 @@ interface VoronoiParams {
   width: number
   height: number
   activeMovieID: number
-  // addUpdateInteractions: () => void
+  addUpdateInteractions: () => void
 }
 
-export function createUpdateVoronoi({ storedValues, margin, data, width, height, activeMovieID }: VoronoiParams) {
+export function createUpdateVoronoi({ storedValues, margin, data, width, height, activeMovieID, addUpdateInteractions }: VoronoiParams) {
   const { yScale, xScale, voronoiArea } = storedValues.current
   const setXPos = (d: any) => xScale(new Date(d.unified_date)) + margin.left
   const setYPos = (d: any) => yScale(d.vote_average) + margin.top
@@ -104,5 +104,5 @@ export function createUpdateVoronoi({ storedValues, margin, data, width, height,
           .call(e => e),
       update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
     )
-  // addUpdateInteractions()
+  addUpdateInteractions()
 }

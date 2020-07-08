@@ -4,6 +4,9 @@ import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 import { useMeasure } from 'react-use'
 import { useSelector } from 'react-redux'
 
+// Components
+import { FavoriteStar } from '../../atoms'
+
 // Types
 import { CombinedState } from '../../../types/state'
 
@@ -82,7 +85,21 @@ const FavoritePersonsList = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              Please start the list by marking a person as your favorite
+              Please start the list by marking a person as your favorite{' '}
+              <span
+                css={css`
+                  position: relative;
+                `}
+              >
+                <span
+                  css={css`
+                    position: absolute;
+                    top: -6px;
+                  `}
+                >
+                  <FavoriteStar isFavorited isHovered={false} />
+                </span>
+              </span>
             </motion.div>
           )}
         </AnimatePresence>

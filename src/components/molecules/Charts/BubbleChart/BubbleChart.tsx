@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect, useRef } from 'react'
-import chroma from 'chroma-js'
+import React from 'react'
 import { scaleLinear, scaleTime, scaleSqrt } from 'd3-scale'
-import { extent } from 'd3-array'
 import { select } from 'd3-selection'
 import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
-import { Delaunay } from 'd3-delaunay'
 import { css } from '@emotion/core'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // Types
 import { maxBy, minBy } from 'lodash'
@@ -16,6 +13,11 @@ import { BubbleChartStoredValues } from '../../../../types/chart'
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
 import { createGrid, createGridText, createCircles, createUpdateVoronoi } from './functions/elementFunctions'
+import { createBubbleChartRefElements } from '../DateAxis/functions/elementFunctions'
+import { getXPosition } from '../../../../utils/chartHelpers'
+import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+import { duration } from '../../../../styles/animation'
+import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 
 const margin = {
   top: 5,
@@ -27,14 +29,13 @@ interface Props {
   xScaleDomain: Date[]
   sizeScaleDomain: number[]
   isFirstEntered: boolean
+  setIsFirstEntered: (bool: boolean) => void
   isYDomainSynced: boolean
   isSizeDynamic: boolean
   data: FormattedPersonCreditDataObject[]
   activeMovieID: number
-  // dataSets: PersonCredits
-  // isBoth: boolean
-  // isFirstEntered: boolean
-  // setIsFirstEntered: (bool: boolean) => void
+  type: string
+  tooltipYPosition: number
 }
 
 export default function BubbleChart(props: Props) {
@@ -50,7 +51,55 @@ export default function BubbleChart(props: Props) {
   const gridAreaRef = React.useRef<SVGGElement>(null)
   const timeOut = React.useRef(null as any)
 
-  const [totalNumber, setTotalNumber] = useState(0)
+  const [totalNumber, setTotalNumber] = React.useState(0)
+
+  function addUpdateInteractions() {
+    const { voronoiArea, xScale } = storedValues.current
+
+    voronoiArea
+      .selectAll('.voronoi-path')
+      .on('mouseover', (d: any) => {
+        const hovered = {
+          id: d.id as number,
+          data: d as FormattedPersonCreditDataObject,
+          yPosition: props.tooltipYPosition,
+          xPosition: getXPosition({
+            data: d,
+            left: margin.left,
+            width,
+            xScale
+          })
+        }
+        if (!props.isFirstEntered) {
+          dispatch(populateHoveredMovie(hovered))
+        }
+        if (props.isFirstEntered) {
+          timeOut.current = setTimeout(() => {
+            props.setIsFirstEntered(false)
+            dispatch(populateHoveredMovie(hovered))
+          }, duration.sm)
+        }
+      })
+      .on('mouseout', () => {
+        clearTimeout(timeOut.current)
+        dispatch(emptyHoveredMovie())
+      })
+      .on('click', (d: any) => {
+        if (props.activeMovieID !== d.id) {
+          dispatch(
+            setActiveMovieID({
+              id: d.id,
+              position: getXPosition({
+                data: d,
+                left: margin.left,
+                width,
+                xScale
+              })
+            })
+          )
+        }
+      })
+  }
 
   React.useEffect(() => {
     if (storedValues.current.isInit && width) {
@@ -96,60 +145,22 @@ export default function BubbleChart(props: Props) {
         data,
         width,
         height,
-        activeMovieID: props.activeMovieID
+        activeMovieID: props.activeMovieID,
+        addUpdateInteractions
       })
       setTotalNumber(data.length)
-      // if (props.activeMovie.id) {
-      //   createRefElements({
-      //     data,
-      //     activeMovieID: props.activeMovie.id,
-      //     storedValues,
-      //     chart,
-      //     isSizeDynamic,
-      //     height: dims.height
-      //   })
-      // }
+      if (props.activeMovieID) {
+        createBubbleChartRefElements({
+          data,
+          activeMovieID: props.activeMovieID,
+          storedValues,
+          type: props.type,
+          isSizeDynamic: props.isSizeDynamic,
+          height
+        })
+      }
     }
   })
-
-  // function setActiveMovie(d) {
-  //   props.activeMovie.id !== d.id &&
-  //     props.setActiveMovie({
-  //       id: d.id,
-  //       data: d,
-  //       position: getXPosition(d)
-  //     })
-  // }
-
-  // function addUpdateInteractions() {
-  //   const { voronoiArea } = storedValues.current
-
-  //   voronoiArea
-  //     .selectAll('.voronoi-path')
-  //     .on('mouseover', d => {
-  //       const setHoveredMovie = () =>
-  //         props.setHoveredMovie({
-  //           id: d.id,
-  //           data: d,
-  //           yPosition: props.tooltipYPosition,
-  //           xPosition: getXPosition(d)
-  //         })
-  //       if (!props.isFirstEntered) {
-  //         setHoveredMovie()
-  //       }
-  //       if (props.isFirstEntered) {
-  //         timeOut.current = setTimeout(() => {
-  //           props.setIsFirstEntered(false)
-  //           setHoveredMovie()
-  //         }, TIMEOUT.short)
-  //       }
-  //     })
-  //     .on('mouseout', () => {
-  //       clearTimeout(timeOut.current)
-  //       props.setHoveredMovie(NO_HOVERED_MOVIE)
-  //     })
-  //     .on('click', setActiveMovie)
-  // }
 
   // useYDomainSyncUpdate({
   //   storedValues,
@@ -208,7 +219,7 @@ export default function BubbleChart(props: Props) {
   const prevProps = usePrevious(props)
   React.useEffect(() => {
     if (!storedValues.current.isInit && prevProps && props.isFirstEntered !== prevProps.isFirstEntered) {
-      // addUpdateInteractions()
+      addUpdateInteractions()
     }
   })
 

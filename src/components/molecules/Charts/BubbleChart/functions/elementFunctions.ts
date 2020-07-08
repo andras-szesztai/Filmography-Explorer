@@ -54,7 +54,8 @@ interface CircleParams {
 
 export function createCircles({ storedValues, data, isSizeDynamic }: CircleParams) {
   const { xScale, sizeScale, yScale, chartArea } = storedValues.current
-
+  console.log(xScale.domain())
+  console.log(xScale.range())
   chartArea
     .selectAll('.main-circle')
     .data(data, (d: any) => d.id)

@@ -6,19 +6,27 @@ import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
 import { css } from '@emotion/core'
 import { useDispatch } from 'react-redux'
+import { maxBy, minBy } from 'lodash'
+
+// Utils
+import { createGrid, createGridText, createCircles, createUpdateVoronoi } from './functions/elementFunctions'
+import { createBubbleChartRefElements } from '../DateAxis/functions/elementFunctions' // TODO: change
+import { getXPosition } from '../../../../utils/chartHelpers'
+
+// Actions
+import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 
 // Types
-import { maxBy, minBy } from 'lodash'
 import { BubbleChartStoredValues } from '../../../../types/chart'
-import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
-import { createGrid, createGridText, createCircles, createUpdateVoronoi } from './functions/elementFunctions'
-import { createBubbleChartRefElements } from '../DateAxis/functions/elementFunctions'
-import { getXPosition } from '../../../../utils/chartHelpers'
-import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+
+// Hooks
+import { useChartResize, useHoveredUpdate } from './hooks'
+
+// Styles
+import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
-import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
-import useChartResize from './hooks/useChartResize'
 
 const margin = {
   top: 5,
@@ -41,7 +49,7 @@ interface Props {
 
 export default function BubbleChart(props: Props) {
   const dispatch = useDispatch()
-  const { data, isSizeDynamic, type } = props
+  const { data, isSizeDynamic, type, activeMovieID } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -86,7 +94,7 @@ export default function BubbleChart(props: Props) {
         dispatch(emptyHoveredMovie())
       })
       .on('click', (d: any) => {
-        if (props.activeMovieID !== d.id) {
+        if (activeMovieID !== d.id) {
           dispatch(
             setActiveMovieID({
               id: d.id,
@@ -146,15 +154,14 @@ export default function BubbleChart(props: Props) {
         data,
         width,
         height,
-        activeMovieID: props.activeMovieID,
+        activeMovieID,
         addUpdateInteractions
       })
       setTotalNumber(data.length)
-      console.log('running')
-      if (props.activeMovieID) {
+      if (activeMovieID) {
         createBubbleChartRefElements({
           data,
-          activeMovieID: props.activeMovieID,
+          activeMovieID,
           storedValues,
           type,
           isSizeDynamic: props.isSizeDynamic,
@@ -195,7 +202,7 @@ export default function BubbleChart(props: Props) {
         data,
         width,
         height,
-        activeMovieID: props.activeMovieID,
+        activeMovieID,
         addUpdateInteractions
       })
   })
@@ -212,15 +219,13 @@ export default function BubbleChart(props: Props) {
   //   data
   // })
 
-  // useHoveredUpdate({
-  //   storedValues,
-  //   isSizeDynamic,
-  //   hoveredMovie: props.hoveredMovie,
-  //   prevHoveredMovie: prevProps && prevProps.hoveredMovie,
-  //   chart,
-  //   dims,
-  //   addUpdateInteractions
-  // })
+  useHoveredUpdate({
+    storedValues,
+    height,
+    type,
+    isSizeDynamic,
+    addUpdateInteractions
+  })
 
   // useFavoriteUpdate({
   //   storedValues,
@@ -244,34 +249,6 @@ export default function BubbleChart(props: Props) {
       `}
       ref={wrapperRef}
     >
-      <svg
-        css={css`
-          position: absolute;
-          width: 100%;
-          height: 100%;
-        `}
-        ref={svgRef}
-      >
-        <g
-          ref={gridAreaRef}
-          css={css`
-            transform: translate(${margin.left}px, ${margin.top}px);
-          `}
-        />
-        <g
-          ref={chartAreaRef}
-          css={css`
-            transform: translate(${margin.left}px, ${margin.top}px);
-          `}
-        />
-        <g
-          css={css`
-            transform: translate(${margin.left}px, ${margin.top}px);
-          `}
-          ref={hoverElementAreaRef}
-        />
-        <g ref={voronoiRef} />
-      </svg>
       <div
         css={css`
           position: absolute;
@@ -310,6 +287,34 @@ export default function BubbleChart(props: Props) {
           </div>
         </div>
       </div>
+      <svg
+        css={css`
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        `}
+        ref={svgRef}
+      >
+        <g
+          ref={gridAreaRef}
+          css={css`
+            transform: translate(${margin.left}px, ${margin.top}px);
+          `}
+        />
+        <g
+          ref={chartAreaRef}
+          css={css`
+            transform: translate(${margin.left}px, ${margin.top}px);
+          `}
+        />
+        <g
+          css={css`
+            transform: translate(${margin.left}px, ${margin.top}px);
+          `}
+          ref={hoverElementAreaRef}
+        />
+        <g ref={voronoiRef} />
+      </svg>
       {/* <LabelContainer>Avg. user score</LabelContainer>  */}
     </div>
   )

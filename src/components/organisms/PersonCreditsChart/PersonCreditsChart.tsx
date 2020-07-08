@@ -26,7 +26,6 @@ const PersonCreditsChart = () => {
       css={css`
         height: 100%;
         width: 100%;
-
         display: flex;
         align-items: center;
         justify-content: center;
@@ -35,13 +34,11 @@ const PersonCreditsChart = () => {
       <div
         onMouseLeave={() => setIsFirstEntered(true)}
         css={css`
-          background: ${colors.bgColorPrimary};
-
           height: 80%;
+          background: ${colors.bgColorPrimary};
           width: calc(100% - ${space[13]}px);
           transform: translateY(${space[7]}px);
           border-radius: ${space[1]}px;
-
           display: grid;
           grid-template-rows: 50px auto;
         `}
@@ -75,7 +72,7 @@ const PersonCreditsChart = () => {
               type="main"
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
-              tooltipYPosition={1}
+              tooltipYPosition={0}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}

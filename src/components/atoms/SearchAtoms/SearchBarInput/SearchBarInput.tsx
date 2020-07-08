@@ -1,6 +1,7 @@
 import React, { RefObject } from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
+import chroma from 'chroma-js'
 
 // Types
 import { ResultArray } from '../../../organisms/SearchBar/SearchBar'
@@ -14,7 +15,9 @@ const inputStyles = css`
   height: ${height.searchBar}px;
 
   border-radius: ${space[1]}px;
-  background: ${colors.bgColorPrimary};
+  background: ${chroma(colors.bgColorSecondary)
+    .alpha(0.1)
+    .hex()};
   border: 1px solid ${colors.textColorPrimary};
 
   color: ${colors.textColorPrimary};

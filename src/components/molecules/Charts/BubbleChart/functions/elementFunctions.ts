@@ -56,25 +56,27 @@ export function createCircles({ storedValues, data, isSizeDynamic }: CircleParam
   const { xScale, sizeScale, yScale, chartArea } = storedValues.current
 
   chartArea
-    .selectAll('circle')
+    .selectAll('.main-circle')
     .data(data, (d: any) => d.id)
-    .join(enter =>
-      enter
-        .append('circle')
-        .attr('cx', d => xScale(new Date(d.unified_date)))
-        .attr('cy', d => yScale(d.vote_average))
-        .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
-        .attr('fill', colors.bgColorPrimaryLight)
-        .attr('fill-opacity', circleFillOpacity)
-        .attr('stroke', colors.bgColorSecondary)
-        // TODO: setup when favoriting is back
-        // .attr('fill',  => (favoriteMovies.includes(id) ? COLORS.favorite : COLORS.secondary))
-        // .attr('stroke', ({ id }) => (favoriteMovies.includes(id) ? chroma(COLORS.favorite).darken() : chroma(COLORS.secondary).darken()))
-        .call(e => e)
+    .join(
+      enter =>
+        enter
+          .append('g')
+          .attr('class', 'main-circle')
+          .append('circle')
+          .attr('cx', d => xScale(new Date(d.unified_date)))
+          .attr('cy', d => yScale(d.vote_average))
+          .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
+          .attr('fill', colors.bgColorPrimaryLight)
+          .attr('fill-opacity', circleFillOpacity)
+          .attr('stroke', colors.bgColorSecondary)
+      // TODO: setup when favoriting is back
+      // .attr('fill',  => (favoriteMovies.includes(id) ? COLORS.favorite : COLORS.secondary))
+      // .attr('stroke', ({ id }) => (favoriteMovies.includes(id) ? chroma(COLORS.favorite).darken() : chroma(COLORS.secondary).darken()))
     )
 }
 
-interface VoronoiParams {
+export interface VoronoiParams {
   storedValues: { current: BubbleChartStoredValues }
   data: FormattedPersonCreditDataObject[]
   margin: Margin

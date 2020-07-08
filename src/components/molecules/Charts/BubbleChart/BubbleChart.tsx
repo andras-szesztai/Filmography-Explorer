@@ -18,6 +18,7 @@ import { getXPosition } from '../../../../utils/chartHelpers'
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
 import { duration } from '../../../../styles/animation'
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
+import useChartResize from './hooks/useChartResize'
 
 const margin = {
   top: 5,
@@ -40,7 +41,7 @@ interface Props {
 
 export default function BubbleChart(props: Props) {
   const dispatch = useDispatch()
-  const { data } = props
+  const { data, isSizeDynamic, type } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -121,7 +122,7 @@ export default function BubbleChart(props: Props) {
       const hoverElementArea = select(hoverElementAreaRef.current)
       const voronoiArea = select(voronoiRef.current)
       storedValues.current = {
-        isInit: true,
+        isInit: false,
         sizeScale,
         xScale,
         yScale,
@@ -137,7 +138,7 @@ export default function BubbleChart(props: Props) {
       createCircles({
         storedValues,
         data,
-        isSizeDynamic: props.isSizeDynamic
+        isSizeDynamic
       })
       createUpdateVoronoi({
         storedValues,
@@ -149,12 +150,13 @@ export default function BubbleChart(props: Props) {
         addUpdateInteractions
       })
       setTotalNumber(data.length)
+      console.log('running')
       if (props.activeMovieID) {
         createBubbleChartRefElements({
           data,
           activeMovieID: props.activeMovieID,
           storedValues,
-          type: props.type,
+          type,
           isSizeDynamic: props.isSizeDynamic,
           height
         })
@@ -179,15 +181,24 @@ export default function BubbleChart(props: Props) {
   //   prevIsSizeDynamic: prevProps && prevProps.isSizeDynamic
   // })
 
-  // useChartResize({
-  //   dims,
-  //   prevDims,
-  //   storedValues,
-  //   margin,
-  //   createUpdateVoronoi,
-  //   chart,
-  //   isSizeDynamic
-  // })
+  useChartResize({
+    width,
+    height,
+    storedValues,
+    margin,
+    type,
+    isSizeDynamic,
+    updateVoronoi: () =>
+      createUpdateVoronoi({
+        storedValues,
+        margin,
+        data,
+        width,
+        height,
+        activeMovieID: props.activeMovieID,
+        addUpdateInteractions
+      })
+  })
 
   // useActiveMovieIDUpdate({
   //   storedValues,

@@ -7,6 +7,7 @@ export { default as NavItem } from './NavItem/NavItem'
 export { default as Image } from './Image/Image'
 export { default as TextArea } from './TextArea/TextArea'
 export { default as FavoriteStar } from './FavoriteStar/FavoriteStar'
+export { default as BookmarkIcon } from './BookmarkIcon/BookmarkIcon'
 export {
   SearchBarContainer,
   SearchBarInput,

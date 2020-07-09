@@ -9,7 +9,7 @@ import { IoIosCloseCircle } from 'react-icons/io'
 import { emptyMovieDetails } from '../../../../reducer/movieReducer/actions'
 
 // Styles
-import { buttonStyle, space, handleSize, colors, buttonNoFocus, buttonFocus } from '../../../../styles/variables'
+import { buttonStyle, space, handleSize, colors, buttonNoFocus, buttonFocus, zIndex } from '../../../../styles/variables'
 
 const MovieCardCloseIcon = ({ isLeft }: { isLeft: boolean }) => {
   const dispatch = useDispatch()
@@ -42,7 +42,7 @@ const MovieCardCloseIcon = ({ isLeft }: { isLeft: boolean }) => {
         position: absolute;
         bottom: ${space[1]}px;
         ${horPos}
-        z-index: 1000;
+        z-index: ${zIndex.chartTooltip};
 
         ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
       `}

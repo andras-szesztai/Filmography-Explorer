@@ -14,6 +14,7 @@ import { CombinedState } from '../../../types/state'
 import { movieDetailCardContainerRight } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
+import MovieCardBookmark from '../../atoms/MovieDetailCardAtoms/MovieCardBookMark/MovieCardBookMark'
 
 const MovieDetailCardRight = () => {
   const { position, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
@@ -24,6 +25,7 @@ const MovieDetailCardRight = () => {
     <motion.div animate={{ x: isOpen ? -width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerRight}>
       <div
         css={css`
+          position: relative;
           width: 100%;
           height: 100%;
           display: grid;
@@ -31,6 +33,7 @@ const MovieDetailCardRight = () => {
           grid-template-areas: 'content placeholder';
         `}
       >
+        <MovieCardBookmark isLeft={false} />
         <MovieCardCloseIcon isLeft={false} />
         <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-end" loaderLeftPos={0} />
       </div>

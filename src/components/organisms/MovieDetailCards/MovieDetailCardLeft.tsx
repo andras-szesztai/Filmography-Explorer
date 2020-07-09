@@ -7,14 +7,15 @@ import useWhatInput from 'react-use-what-input'
 
 // Components
 import MovieDetailCardContent from './MovieDetailCardContent'
-import { MovieCardCloseIcon } from '../../atoms'
+import { MovieCardCloseIcon, BookmarkIcon } from '../../atoms'
+import MovieCardBookmark from '../../atoms/MovieDetailCardAtoms/MovieCardBookMark/MovieCardBookMark'
 
 // Types
 import { CombinedState } from '../../../types/state'
 
 // Styles
 import { movieDetailCardContainerLeft } from './styles'
-import { width, handleSize, colors, buttonStyle, buttonNoFocus, buttonFocus, space } from '../../../styles/variables'
+import { width, handleSize, colors, buttonStyle, buttonNoFocus, buttonFocus, space, zIndex } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 
@@ -23,6 +24,7 @@ const MovieDetailCardLeft = () => {
 
   const isOpen = !!activeMovieID && position === 1
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isFavorited, setIsFavorited] = React.useState(false)
   console.log('MovieDetailCardLeft -> isHovered', isHovered)
   const dispatch = useDispatch()
 
@@ -41,6 +43,7 @@ const MovieDetailCardLeft = () => {
         `}
       >
         <MovieCardCloseIcon isLeft />
+        <MovieCardBookmark isLeft />
         <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-start" loaderLeftPos={width.movieDetailCardExtra + handleSize} />
       </div>
     </motion.div>

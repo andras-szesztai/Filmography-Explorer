@@ -157,5 +157,23 @@ export const horizontalScrollableStyle = css`
     background: ${colors.bgColorPrimary};
     border-radius: ${space[1]}px;
   }
+`
 
+export const linkContainerStyle = css`
+  display: flex;
+
+  grid-area: link;
+  align-items: flex-end;
+
+  font-size: ${fontSize.sm};
+  color: ${colors.textColorSecondary};
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    span {
+      font-weight: ${fontWeight.lg};
+    }
+  }
 `

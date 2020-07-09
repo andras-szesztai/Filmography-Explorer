@@ -24,7 +24,7 @@ interface Props {
 
 export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
   const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
-  if (!hoveredMovie.id) return null
+  if (!hoveredMovie.id || !xScale) return null
   const { data, xPosition, yPosition } = hoveredMovie
   const xPos = xScale(new Date(data.unified_date))
   return (

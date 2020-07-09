@@ -74,7 +74,7 @@ const PersonCreditsChart = () => {
               title={isCastMain ? 'cast' : 'crew'}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
-              tooltipYPosition={0}
+              tooltipYPosition={chartState.isBoth ? 0 : 1}
               hoveredMovieID={chartState.hoveredMovie.id}
             />
             <DateAxis

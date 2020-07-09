@@ -1,0 +1,174 @@
+import React from 'react'
+import { motion } from 'framer-motion'
+import { css } from '@emotion/core'
+import { useSelector, useDispatch } from 'react-redux'
+import { format } from 'date-fns'
+import { FaFilter, FaExternalLinkSquareAlt } from 'react-icons/fa'
+import { IoIosSearch } from 'react-icons/io'
+
+// Components
+import { Image, TextArea } from '../../atoms'
+import { SelectableListItem } from '../../molecules'
+
+// Types
+import { CombinedState } from '../../../types/state'
+
+// Actions
+import { setActiveNameID } from '../../../reducer/personReducer/actions'
+
+// Hooks
+import { useFetchActiveMovieDetails } from './hooks'
+
+// Styles
+import {
+  mainGridStyle,
+  infoGrid,
+  movieTitle,
+  subtitle,
+  rowStyle,
+  rowTitleStyle,
+  horizontalScrollableStyle,
+  linkContainerStyle
+} from './styles'
+import { width, handleSize, space } from '../../../styles/variables'
+
+function MovieDetailCardContent({ isOpen }: { isOpen: boolean }) {
+  const {
+    activeMovieID,
+    mediaType,
+    activeMovieData: { details, crew, cast }
+  } = useSelector((state: CombinedState) => state.movieReducer)
+  const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
+  const dispatch = useDispatch()
+
+  const [isLinkHovered, setIsLinkHovered] = React.useState(false)
+
+  useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
+
+  return (
+    <div
+      css={css`
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: ${width.movieDetailCardExtra + handleSize}px auto;
+        grid-template-areas: 'placeholder content';
+      `}
+    >
+      <div css={mainGridStyle}>
+        <div css={infoGrid}>
+          <div css={movieTitle}>{details.original_title || details.original_name}</div>
+          <div css={subtitle}>
+            {mediaType === 'movie' ? 'Release date' : 'First air date'}:&nbsp;
+            {format(new Date(details.release_date || details.first_air_date || 0), 'MMM dd, yyyy')}
+          </div>
+          <TextArea gridArea="" text={details.overview} />
+        </div>
+        <div
+          css={css`
+            grid-area: photo;
+            overflow: hidden;
+            border-radius: ${space[1]}px;
+          `}
+        >
+          <Image url={details.poster_path} alt={`${details.original_title || details.original_name}-poster`} />
+        </div>
+        <div
+          css={css`
+            ${rowStyle}
+            grid-area: genre;
+          `}
+        >
+          <div css={rowTitleStyle}>Genres</div>
+          <div
+            css={css`
+              ${horizontalScrollableStyle}
+            `}
+          >
+            {details.genres &&
+              !!details.genres.length &&
+              details.genres.map(genre => (
+                <SelectableListItem text={genre.name} icon={FaFilter} iconSize={12} handleSelect={() => console.log('filter genre')} />
+              ))}
+          </div>
+        </div>
+        <div
+          css={css`
+            ${rowStyle}
+            grid-area: crew;
+          `}
+        >
+          <div css={rowTitleStyle}>Lead crew</div>
+          <div
+            css={css`
+              ${horizontalScrollableStyle}
+            `}
+          >
+            {crew &&
+              !!crew.length &&
+              crew.slice(0, 10).map(crewMember => {
+                const isActive = crewMember.id === activeNameID
+                return (
+                  <SelectableListItem
+                    icon={IoIosSearch}
+                    iconSize={18}
+                    text={`${crewMember.job}: ${crewMember.name} `}
+                    handleSelect={() => !isActive && dispatch(setActiveNameID(crewMember.id))}
+                    additionalHoverCondition={!isActive}
+                  />
+                )
+              })}
+          </div>
+        </div>
+        <div
+          css={css`
+            ${rowStyle}
+            grid-area: cast;
+          `}
+        >
+          <div css={rowTitleStyle}>Lead cast</div>
+          <div
+            css={css`
+              ${horizontalScrollableStyle}
+            `}
+          >
+            {!!cast.length &&
+              cast.slice(0, 10).map(castMember => {
+                const isActive = castMember.id === activeNameID
+                return (
+                  <SelectableListItem
+                    icon={IoIosSearch}
+                    iconSize={18}
+                    text={`${castMember.name} as ${castMember.character}`}
+                    handleSelect={() => !isActive && dispatch(setActiveNameID(castMember.id))}
+                    additionalHoverCondition={!isActive}
+                  />
+                )
+              })}
+          </div>
+        </div>
+        <div
+          css={css`
+            ${linkContainerStyle}
+            justify-content: flex-start;
+          `}
+        >
+          <a
+            href={`https://www.themoviedb.org/${mediaType}/${activeMovieID}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => setIsLinkHovered(true)}
+            onMouseLeave={() => setIsLinkHovered(false)}
+          >
+            Click here to find out more on <span>The Movie Database</span>
+          </a>
+          <motion.div initial={{ y: 2, x: 4 }} animate={{ scale: isLinkHovered ? 1.25 : 1 }}>
+            <FaExternalLinkSquareAlt size={20} />
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default MovieDetailCardContent

@@ -14,9 +14,11 @@ interface Props {
   text: string
   icon: IconType
   iconSize: number
+  handleSelect?: () => void
+  additionalHoverCondition?: boolean
 }
 
-const SelectableListItem = ({ text, icon: Icon, iconSize }: Props) => {
+const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, additionalHoverCondition = true }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
@@ -27,12 +29,11 @@ const SelectableListItem = ({ text, icon: Icon, iconSize }: Props) => {
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
-      onClick={() => {
-        console.log('filter for genre')
-      }}
-      onKeyDown={() => {
-        console.log('filter for genre')
-        // if (keyCode === 13 && id) {
+      onClick={() => handleSelect && handleSelect()}
+      onKeyDown={({ keyCode }) => {
+        if (keyCode === 13 && handleSelect) {
+          handleSelect()
+        }
       }}
       css={css`
         white-space: nowrap;
@@ -52,16 +53,21 @@ const SelectableListItem = ({ text, icon: Icon, iconSize }: Props) => {
         background: ${colors.bgColorPrimary};
         color: ${colors.textColorPrimary};
 
-        cursor: pointer;
+        cursor: ${isHovered && additionalHoverCondition ? 'pointer' : 'default'};
         ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
       `}
     >
-      <ButtonHoverOverlay isHovered={isHovered}>
+      <ButtonHoverOverlay isHovered={isHovered && additionalHoverCondition}>
         <Icon size={iconSize} color={colors.textColorPrimary} />
       </ButtonHoverOverlay>
       {text}
     </motion.button>
   )
+}
+
+SelectableListItem.defaultProps = {
+  handleSelect: () => null,
+  additionalHoverCondition: true
 }
 
 export default SelectableListItem

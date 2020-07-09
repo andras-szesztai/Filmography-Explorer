@@ -21,7 +21,7 @@ import { BubbleChartStoredValues } from '../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
 
 // Hooks
-import { useChartResize, useHoveredUpdate } from './hooks'
+import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate } from './hooks'
 
 // Styles
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
@@ -97,6 +97,7 @@ export default function BubbleChart(props: Props) {
           dispatch(
             setActiveMovieID({
               id: d.id,
+
               position: getXPosition({
                 data: d,
                 left: margin.left,
@@ -206,17 +207,14 @@ export default function BubbleChart(props: Props) {
       })
   })
 
-  // useActiveMovieIDUpdate({
-  //   storedValues,
-  //   setActiveMovie,
-  //   activeMovieID: props.activeMovie.id,
-  //   prevActiveMovieID: prevProps && prevProps.activeMovie.id,
-  //   isSizeDynamic,
-  //   chart,
-  //   dims,
-  //   addUpdateInteractions,
-  //   data
-  // })
+  useActiveMovieIDUpdate({
+    storedValues,
+    activeMovieID,
+    isSizeDynamic,
+    type,
+    height,
+    data
+  })
 
   useHoveredUpdate({
     storedValues,

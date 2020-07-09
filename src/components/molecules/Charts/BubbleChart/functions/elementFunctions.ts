@@ -159,7 +159,7 @@ export function createBubbleChartRefElements({ activeMovieID, storedValues, data
           .attr('class', 'selected-circle')
           .attr('cx', xScale(new Date(selectedData.unified_date)))
           .attr('cy', yScale(selectedData.vote_average))
-          .attr('fill', '#fff')
+          .attr('fill', 'transparent')
           .attr('stroke', colors.textColorPrimary)
           .attr('r', () =>
             setRadius({
@@ -189,7 +189,7 @@ export function createBubbleChartRefElements({ activeMovieID, storedValues, data
           .attr('stroke', colors.textColorPrimary)
       }
     })
-    voronoiArea.selectAll('.voronoi-path').attr('cursor', activeMovieID === selectedData.id ? 'default' : 'pointer')
+    voronoiArea.selectAll('.voronoi-path').attr('cursor', (d: any) => (activeMovieID === d.id ? 'default' : 'pointer'))
   }
   if (!selectedData) {
     voronoiArea.selectAll('.voronoi-path').attr('cursor', 'pointer')

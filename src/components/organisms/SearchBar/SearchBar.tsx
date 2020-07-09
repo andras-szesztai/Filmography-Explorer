@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoIosSearch, IoIosClose } from 'react-icons/io'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Components
 import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
@@ -20,6 +20,8 @@ import { PersonDetails } from '../../../types/person'
 // Styles
 import { colors } from '../../../styles/variables'
 import { duration } from '../../../styles/animation'
+import { CombinedState } from '../../../types/state'
+import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 
 export interface ResultArray {
   resultArray: PersonDetails[]
@@ -36,6 +38,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult] = React.useState(0)
   const [noResult, setNoResult] = React.useState(false)
+  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
@@ -90,6 +93,9 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         handleResultSelect={(index: number) => {
           const newID = nameSearchResults.resultArray[index].id
           if (activeNameID !== newID) {
+            if (activeMovieID) {
+              dispatch(emptyMovieDetails())
+            }
             dispatch(setActiveNameID(newID))
           }
         }}
@@ -110,6 +116,9 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
               data={res}
               handleClick={() => {
                 if (res.id !== activeNameID) {
+                  if (activeMovieID) {
+                    dispatch(emptyMovieDetails())
+                  }
                   dispatch(setActiveNameID(res.id))
                 }
                 resetSearch()

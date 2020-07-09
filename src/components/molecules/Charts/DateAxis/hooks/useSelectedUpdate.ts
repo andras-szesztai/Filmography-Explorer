@@ -19,7 +19,7 @@ interface Params {
 export default function useSelectedUpdate({ storedValues, activeMovieID, height, addUpdateInteractions }: Params) {
   const prevActiveMovieID = usePrevious(activeMovieID)
   React.useEffect(() => {
-    if (!storedValues.current.isInit && activeMovieID !== prevActiveMovieID) {
+    if (!storedValues.current.isInit && activeMovieID && activeMovieID !== prevActiveMovieID) {
       const { hoverElementArea, voronoiArea } = storedValues.current
       showRefElements({
         storedValues,

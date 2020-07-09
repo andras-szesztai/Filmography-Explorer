@@ -69,7 +69,7 @@ const PersonCreditsChart = () => {
                   : personDataSets.credits.crew
               }
               activeMovieID={activeMovieID}
-              type="main"
+              type="main" // Can be isMain
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
               tooltipYPosition={0}

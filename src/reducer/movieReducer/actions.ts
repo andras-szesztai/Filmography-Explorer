@@ -6,6 +6,7 @@ export const FETCH_GENRE_LIST_SUCCESS = 'FETCH_GENRE_LIST_SUCCESS'
 export const FETCH_ACTIVE_MOVIE_DETAILS = 'FETCH_ACTIVE_MOVIE_DETAILS'
 export const FETCH_ACTIVE_MOVIE_DETAILS_SUCCESS = 'FETCH_ACTIVE_MOVIE_DETAILS_SUCCESS'
 export const FETCH_ACTIVE_MOVIE_DETAILS_FAIL = 'FETCH_ACTIVE_MOVIE_DETAILS_FAIL'
+export const EMPTY_MOVIE_DETAILS = 'EMPTY_MOVIE_DETAILS'
 
 export function setActiveMovieID(info: { id: number; position: number }) {
   return {
@@ -43,5 +44,11 @@ export function fetchActiveMovieDetailsSuccess(movieDetails: ActiveMovieDataObje
   return {
     type: FETCH_ACTIVE_MOVIE_DETAILS_SUCCESS,
     movieDetails
+  } as const
+}
+
+export function emptyMovieDetails() {
+  return {
+    type: EMPTY_MOVIE_DETAILS
   } as const
 }

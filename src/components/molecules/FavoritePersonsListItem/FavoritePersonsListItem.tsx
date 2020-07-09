@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useWhatInput from 'react-use-what-input'
 import { motion } from 'framer-motion'
 import { css } from '@emotion/core'
@@ -10,6 +10,8 @@ import { setActiveNameID } from '../../../reducer/personReducer/actions'
 
 // Styles
 import { fontWeight, space, buttonStyle, colors, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { CombinedState } from '../../../types/state'
+import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 
 interface Props {
   text: string
@@ -19,6 +21,7 @@ interface Props {
 
 const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
+  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
   const isActive = activeID === id
@@ -29,9 +32,19 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
-      onClick={() => id && dispatch(setActiveNameID(id))}
+      onClick={() => {
+        if (id) {
+          if (activeMovieID) {
+            dispatch(emptyMovieDetails())
+          }
+          dispatch(setActiveNameID(id))
+        }
+      }}
       onKeyDown={({ keyCode }) => {
         if (keyCode === 13 && id) {
+          if (activeMovieID) {
+            dispatch(emptyMovieDetails())
+          }
           dispatch(setActiveNameID(id))
         }
       }}

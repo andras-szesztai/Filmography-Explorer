@@ -15,7 +15,9 @@ import {
   FETCH_ACTIVE_MOVIE_DETAILS_FAIL,
   fetchActiveMovieDetails,
   fetchActiveMovieDetailsFail,
-  fetchActiveMovieDetailsSuccess
+  fetchActiveMovieDetailsSuccess,
+  emptyMovieDetails,
+  EMPTY_MOVIE_DETAILS
 } from './actions'
 
 const initialState = {
@@ -44,6 +46,7 @@ type Action = ReturnType<
   | typeof fetchActiveMovieDetails
   | typeof fetchActiveMovieDetailsFail
   | typeof fetchActiveMovieDetailsSuccess
+  | typeof emptyMovieDetails
 >
 
 const personReducer = (state: MovieState = initialState, action: Action) => {
@@ -60,6 +63,17 @@ const personReducer = (state: MovieState = initialState, action: Action) => {
       return { ...state, loading: { activeMovieData: false }, error: { activeMovieData: 'Movie details data is not available' } }
     case FETCH_ACTIVE_MOVIE_DETAILS_SUCCESS:
       return { ...state, loading: { activeMovieData: false }, error: { activeMovieData: '' }, activeMovieData: action.movieDetails }
+    case EMPTY_MOVIE_DETAILS:
+      return {
+        ...state,
+        activeMovieID: 0,
+        activeMovieData: {
+          id: 0,
+          details: {} as MovieDetails,
+          cast: [] as MovieCastObject[],
+          crew: [] as MovieCrewObject[]
+        }
+      }
     default:
       return state
   }

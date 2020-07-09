@@ -2,44 +2,29 @@ import React from 'react'
 import { css } from '@emotion/core'
 
 // Styles
-import { fontSize, colors } from '../../../../styles/variables'
+import { fontSize, colors, space } from '../../../../styles/variables'
 
 interface Props {
   label: string
-  top?: number
-  left?: number
-  right?: number
-  bottom?: number
 }
 
-const LabelContainer = ({ label, top, left, right, bottom }: Props) => {
+const LabelContainer = ({ label }: Props) => {
   return (
-    <div
+    <span
       css={css`
         position: absolute;
-        top: ${top}px;
-        bottom: ${bottom}px;
-        left: ${left}px;
-        right: ${right}px;
-        color: ${colors.textColorPrimary};
+        bottom: ${space[2]}px;
+        right: ${space[3]}px;
+        color: ${colors.bgColorPrimaryLight};
         font-size: ${fontSize.sm};
-        background: ${colors.bgColorPrimary};
         line-height: 1.25s;
-        width: 40px;
         letter-spacing: 1px;
         user-select: none;
       `}
     >
       {label}
-    </div>
+    </span>
   )
-}
-
-LabelContainer.defaultProps = {
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0
 }
 
 export default LabelContainer

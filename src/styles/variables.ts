@@ -62,6 +62,7 @@ export const zIndex = {
   headerShadow: 59,
   personDetailCard: 55,
   mainSearchBar: 50,
+  chartTooltip: 40,
   searchResultHover: 10
 }
 

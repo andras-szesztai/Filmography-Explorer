@@ -8,6 +8,9 @@ import { css } from '@emotion/core'
 import { useDispatch } from 'react-redux'
 import { maxBy, minBy } from 'lodash'
 
+// Components
+import { LabelContainer } from '../../../atoms'
+
 // Utils
 import { createGrid, createGridText, createCircles, createUpdateVoronoi, createBubbleChartRefElements } from './functions/elementFunctions'
 import { getXPosition } from '../../../../utils/chartHelpers'
@@ -17,7 +20,7 @@ import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/per
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 
 // Types
-import { BubbleChartStoredValues } from '../../../../types/chart'
+import { BubbleChartStoredValues, BubbleChartProps } from '../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
 
 // Hooks
@@ -33,22 +36,9 @@ const margin = {
   ...chartSideMargins
 }
 
-interface Props {
-  xScaleDomain: Date[]
-  sizeScaleDomain: number[]
-  isFirstEntered: boolean
-  setIsFirstEntered: (bool: boolean) => void
-  isYDomainSynced: boolean
-  isSizeDynamic: boolean
-  data: FormattedPersonCreditDataObject[]
-  activeMovieID: number
-  type: string
-  tooltipYPosition: number
-}
-
-export default function BubbleChart(props: Props) {
+export default function BubbleChart(props: BubbleChartProps) {
   const dispatch = useDispatch()
-  const { data, isSizeDynamic, type, activeMovieID } = props
+  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -90,7 +80,9 @@ export default function BubbleChart(props: Props) {
       })
       .on('mouseout', () => {
         clearTimeout(timeOut.current)
-        dispatch(emptyHoveredMovie())
+        if (hoveredMovieID) {
+          dispatch(emptyHoveredMovie())
+        }
       })
       .on('click', (d: any) => {
         if (activeMovieID !== d.id) {
@@ -256,13 +248,14 @@ export default function BubbleChart(props: Props) {
             font-size: ${fontSize.charTitle};
             line-height: 0.8;
             font-weight: 500;
+            letter-spacing: 1.25px;
             text-transform: uppercase;
             color: ${colors.bgColorPrimaryLight};
             position: absolute;
             opacity: ${circleFillOpacity};
           `}
         >
-          Cast
+          {title}
         </div>
         <div
           css={css`
@@ -312,7 +305,7 @@ export default function BubbleChart(props: Props) {
         />
         <g ref={voronoiRef} />
       </svg>
-      {/* <LabelContainer>Avg. user score</LabelContainer>  */}
+      <LabelContainer label="Avg. user score" />
     </div>
   )
 }

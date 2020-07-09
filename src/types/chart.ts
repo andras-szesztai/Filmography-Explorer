@@ -34,11 +34,25 @@ export interface BubbleChartStoredValues extends StoredValues {
   gridArea: Selection<SVGGElement | any, any, any, any>
 }
 
-export interface DateAxisProps {
-  dataSets: PersonCredits
+interface ChartProps {
   xScaleDomain: Date[]
-  isBoth: boolean
+  hoveredMovieID: number
   isFirstEntered: boolean
   setIsFirstEntered: (bool: boolean) => void
   activeMovieID: number
+}
+
+export interface DateAxisProps extends ChartProps {
+  dataSets: PersonCredits
+  isBoth: boolean
+}
+
+export interface BubbleChartProps extends ChartProps {
+  sizeScaleDomain: number[]
+  isYDomainSynced: boolean
+  isSizeDynamic: boolean
+  data: FormattedPersonCreditDataObject[]
+  type: string
+  tooltipYPosition: number
+  title: string
 }

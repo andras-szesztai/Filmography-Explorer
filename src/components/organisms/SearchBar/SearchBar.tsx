@@ -48,7 +48,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         .get(`${API_ROOT}/search/person?api_key=${process.env.MDB_API_KEY}&language=en-US&query=${text}&page=1&include_adult=false`)
         .then(response => {
           if (response.data.total_results) {
-            setNameSearchResults({ resultArray: response.data.results.filter((el: {}, i: number) => i < 5) })
+            setNameSearchResults({ resultArray: response.data.results.filter((_: {}, i: number) => i < 5) })
           } else {
             setNoResult(true)
           }

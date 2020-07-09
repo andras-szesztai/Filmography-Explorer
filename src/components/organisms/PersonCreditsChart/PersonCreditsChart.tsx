@@ -21,6 +21,7 @@ const PersonCreditsChart = () => {
   useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
+  const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
   return (
     <div
       css={css`
@@ -70,9 +71,11 @@ const PersonCreditsChart = () => {
               }
               activeMovieID={activeMovieID}
               type="main" // Can be isMain
+              title={isCastMain ? 'cast' : 'crew'}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
               tooltipYPosition={0}
+              hoveredMovieID={chartState.hoveredMovie.id}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}
@@ -81,7 +84,24 @@ const PersonCreditsChart = () => {
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
               activeMovieID={activeMovieID}
+              hoveredMovieID={chartState.hoveredMovie.id}
             />
+            {chartState.isBoth && (
+              <BubbleChart
+                xScaleDomain={chartState.scales.xScaleDomain}
+                sizeScaleDomain={chartState.scales.sizeScaleDomain}
+                isYDomainSynced={chartState.isYDomainSynced}
+                isSizeDynamic={chartState.isSizeDynamic}
+                data={isCastMain ? personDataSets.credits.crew : personDataSets.credits.cast}
+                title={isCastMain ? 'crew' : 'cast'}
+                activeMovieID={activeMovieID}
+                type="sub"
+                isFirstEntered={isFirstEntered}
+                setIsFirstEntered={setIsFirstEntered}
+                tooltipYPosition={1}
+                hoveredMovieID={chartState.hoveredMovie.id}
+              />
+            )}
           </div>
         )}
       </div>

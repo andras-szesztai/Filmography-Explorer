@@ -38,7 +38,7 @@ const margin = {
 
 export default function DateAxis(props: DateAxisProps) {
   const dispatch = useDispatch()
-  const { dataSets, activeMovieID } = props
+  const { dataSets, activeMovieID, hoveredMovieID } = props
 
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -80,7 +80,9 @@ export default function DateAxis(props: DateAxisProps) {
       })
       .on('mouseout', () => {
         clearTimeout(timeOut.current)
-        dispatch(emptyHoveredMovie())
+        if (hoveredMovieID) {
+          dispatch(emptyHoveredMovie())
+        }
       })
       .on('click', (d: any) => {
         if (props.activeMovieID !== d.id) {

@@ -1,6 +1,6 @@
 import { css } from '@emotion/core'
 
-import { width, space, colors, fontSize, fontWeight } from '../../../styles/variables'
+import { width, space, colors, fontSize, fontWeight, zIndex } from '../../../styles/variables'
 
 export const containerStyle = css`
   position: absolute;
@@ -17,6 +17,7 @@ export const containerStyle = css`
   grid-template-columns: 100px 1fr;
   grid-template-areas: 'photo info';
   grid-column-gap: ${space[4]}px;
+  z-index: ${zIndex.chartTooltip};
 `
 
 export const infoSectionStyle = css`

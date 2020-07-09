@@ -2,7 +2,16 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 // Components
-import { Layout, SearchDashboardDesktop, SearchBar, PersonDetailCard, FavoritePersonsList, PersonCreditsChart } from '../components'
+import {
+  Layout,
+  SearchDashboardDesktop,
+  SearchBar,
+  PersonDetailCard,
+  FavoritePersonsList,
+  PersonCreditsChart,
+  MovieDetailCardContainerRight,
+  MovieDetailCardContainerLeft
+} from '../components'
 
 // Types
 import { CombinedState } from '../types/state'
@@ -29,6 +38,8 @@ const IndexPage = () => {
         <PersonDetailCard />
         <FavoritePersonsList />
         <PersonCreditsChart />
+        <MovieDetailCardContainerLeft />
+        <MovieDetailCardContainerRight />
       </SearchDashboardDesktop>
     </Layout>
   )

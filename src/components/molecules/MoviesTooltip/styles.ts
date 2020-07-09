@@ -30,8 +30,10 @@ export const infoSectionStyle = css`
     font-size: ${fontSize.sm};
     font-weight: ${fontWeight.lg};
     color: ${colors.textColorSecondary};
+    letter-spacing: 0.6px;
 
     span {
+      letter-spacing: 0px;
       font-weight: ${fontWeight.sm};
     }
   }

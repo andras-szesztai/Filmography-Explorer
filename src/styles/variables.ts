@@ -77,6 +77,7 @@ export const height = {
   header: space[12],
   tooltip: 160,
   personCardOpen: 280,
+  personCardInfo: 160,
   personCardClosed: space[13],
   personCardExtra: space[10],
   movieCard: 480,

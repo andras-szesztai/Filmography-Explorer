@@ -47,8 +47,9 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
         <div
           css={css`
             font-size: ${fontSize.md};
-            font-weight: ${fontWeight.xl};
+            font-weight: ${fontWeight.lg};
             color: ${colors.textColorSecondary};
+            letter-spacing: 0.6px;
           `}
         >
           {data.title || data.name}

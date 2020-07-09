@@ -1,7 +1,7 @@
 import { css } from '@emotion/core'
 
 // Styles
-import { space, colors, height, fontSize, dentedStyle, zIndex } from '../../../styles/variables'
+import { space, colors, height, fontSize, dentedStyle, zIndex, dropShadow } from '../../../styles/variables'
 
 export const ContainerStyle = css`
   position: fixed;
@@ -10,6 +10,7 @@ export const ContainerStyle = css`
   width: calc(100vw - ${space[13]}px);
   height: ${height.personCardClosed}px;
 
+  filter: drop-shadow(${dropShadow.header.ternary});
   background-color: ${colors.bgColorSecondary};
   display: grid;
   grid-template-columns: max-content 1fr;

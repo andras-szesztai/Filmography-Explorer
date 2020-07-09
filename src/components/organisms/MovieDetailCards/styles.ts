@@ -100,7 +100,7 @@ export const infoGrid = css`
 export const movieTitle = css`
   color: ${colors.textColorSecondary};
   line-height: 1.3;
-  font-size: ${fontSize.lg};
+  font-size: ${fontSize.md};
   font-weight: ${fontWeight.lg};
   cursor: pointer;
   letter-spacing: 0.8px;

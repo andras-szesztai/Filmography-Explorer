@@ -60,7 +60,7 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
 
         font-weight: ${fontWeight.sm};
         border-radius: ${space[1]}px;
-        padding: ${space[1]}px ${space[4]}px ${space[1] + 1}px ${space[4]}px;
+        padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[4]}px;
         margin: 0 ${space[1]}px;
         user-select: none;
         letter-spacing: 1.1px;

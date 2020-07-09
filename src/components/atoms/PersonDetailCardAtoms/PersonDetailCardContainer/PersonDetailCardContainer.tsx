@@ -4,7 +4,7 @@ import { css } from '@emotion/core'
 import { usePrevious } from 'react-use'
 
 // Styles
-import { space, colors, width, height, zIndex } from '../../../../styles/variables'
+import { space, colors, width, height, zIndex, dropShadow } from '../../../../styles/variables'
 import { transition } from '../../../../styles/animation'
 
 interface Props {
@@ -35,6 +35,8 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
       css={css`
         position: fixed;
         right: ${space[8]}px;
+
+        filter: drop-shadow(${dropShadow.header.ternary});
 
         background-color: ${colors.bgColorSecondary};
         border-radius: 0 0 ${space[1]}px ${space[1]}px;

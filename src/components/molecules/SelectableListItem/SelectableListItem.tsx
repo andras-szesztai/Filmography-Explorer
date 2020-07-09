@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
-import { FaFilter } from 'react-icons/fa'
+import { IconType } from 'react-icons'
 import useWhatInput from 'react-use-what-input'
 
 // Components
@@ -12,9 +12,11 @@ import { space, colors, buttonNoFocus, buttonFocus, fontWeight, fontSize, button
 
 interface Props {
   text: string
+  icon: IconType
+  iconSize: number
 }
 
-const GenreListItem = ({ text }: Props) => {
+const SelectableListItem = ({ text, icon: Icon, iconSize }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
@@ -27,21 +29,10 @@ const GenreListItem = ({ text }: Props) => {
       onBlur={() => setIsHovered(false)}
       onClick={() => {
         console.log('filter for genre')
-        // if (id) {
-        //   if (activeMovieID) {
-        //     dispatch(emptyMovieDetails())
-        //   }
-        //   dispatch(setActiveNameID(id))
-        // }
       }}
       onKeyDown={() => {
         console.log('filter for genre')
         // if (keyCode === 13 && id) {
-        //   if (activeMovieID) {
-        //     dispatch(emptyMovieDetails())
-        //   }
-        //   dispatch(setActiveNameID(id))
-        // }
       }}
       css={css`
         white-space: nowrap;
@@ -52,7 +43,7 @@ const GenreListItem = ({ text }: Props) => {
         font-size: ${fontSize.sm};
 
         border-radius: ${space[1]}px;
-        padding: ${space[1]}px ${space[3]}px ${space[1] + 1}px ${space[3]}px;
+        padding: ${space[1] + 1}px ${space[3]}px ${space[1] + 2}px ${space[3]}px;
         margin: 0 ${space[1]}px;
         user-select: none;
         letter-spacing: .8px;
@@ -66,11 +57,11 @@ const GenreListItem = ({ text }: Props) => {
       `}
     >
       <ButtonHoverOverlay isHovered={isHovered}>
-        <FaFilter size={12} color={colors.textColorPrimary} />
+        <Icon size={iconSize} color={colors.textColorPrimary} />
       </ButtonHoverOverlay>
       {text}
     </motion.button>
   )
 }
 
-export default GenreListItem
+export default SelectableListItem

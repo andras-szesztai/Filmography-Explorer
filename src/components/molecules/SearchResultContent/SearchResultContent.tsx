@@ -10,7 +10,7 @@ import { Image } from '../../atoms'
 import { PersonDetails } from '../../../types/person'
 
 // Styles
-import { space, colors, fontSize, fontWeight, height } from '../../../styles/variables'
+import { space, colors, fontSize, fontWeight, height, dropShadow } from '../../../styles/variables'
 
 const containerStyle = css`
   align-self: start;
@@ -18,6 +18,7 @@ const containerStyle = css`
   height: ${height.searchResultHeight}px;
   border-radius: ${space[1]}px;
   background-color: ${colors.bgColorSecondary};
+  filter: drop-shadow(${dropShadow.header.ternary});
   margin: ${space[1]}px;
   padding: ${space[1] + 2}px ${space[2]}px;
   color: ${colors.textColorSecondary};

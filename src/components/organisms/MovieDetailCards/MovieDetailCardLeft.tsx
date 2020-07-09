@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { FaFilter } from 'react-icons/fa'
 
 // Types
-import useWhatInput from 'react-use-what-input'
+import { IoIosSearch } from 'react-icons/io'
 import { CombinedState } from '../../../types/state'
 
 // Hooks
@@ -26,7 +26,7 @@ import {
 import { width, handleSize, space, colors, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 import { Image, TextArea } from '../../atoms'
-import GenreListItem from '../../molecules/GenreListItem/GenreListItem'
+import { SelectableListItem } from '../../molecules'
 
 const MovieDetailCardLeft = () => {
   const {
@@ -40,6 +40,7 @@ const MovieDetailCardLeft = () => {
   const isOpen = true //! !activeMovieID && position === 1
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
 
+  console.log('MovieDetailCardLeft -> details', details)
   return (
     <motion.div animate={{ x: isOpen ? width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerLeft}>
       <div
@@ -81,7 +82,9 @@ const MovieDetailCardLeft = () => {
                 ${horizontalScrollableStyle}
               `}
             >
-              {details.genres && !!details.genres.length && details.genres.map(genre => <GenreListItem text={genre.name} />)}
+              {details.genres &&
+                !!details.genres.length &&
+                details.genres.map(genre => <SelectableListItem text={genre.name} icon={FaFilter} iconSize={12} />)}
             </div>
           </div>
           <div
@@ -95,7 +98,9 @@ const MovieDetailCardLeft = () => {
               css={css`
                 ${horizontalScrollableStyle}
               `}
-            />
+            >
+              <SelectableListItem icon={IoIosSearch} iconSize={18} text="Producer: John Smith" />
+            </div>
           </div>
           <div
             css={css`

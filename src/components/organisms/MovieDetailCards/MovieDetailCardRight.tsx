@@ -1,11 +1,16 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-// Styles
-import { MovieDetailCardContainerLeft } from './styles'
+// Types
+import { Props } from './types'
 
-const MovieDetailCardRight = () => {
-  return <motion.div css={MovieDetailCardContainerLeft} />
+// Styles
+import { MovieDetailCardContainerRight } from './styles'
+import { width } from '../../../styles/variables'
+import { transition } from '../../../styles/animation'
+
+const MovieDetailCardRight = ({ isOpen }: Props) => {
+  return <motion.div animate={{ x: isOpen ? -width.detailsCard : 0 }} transition={transition.primary} css={MovieDetailCardContainerRight} />
 }
 
 export default MovieDetailCardRight

@@ -69,7 +69,7 @@ export const zIndex = {
 export const width = {
   searchBar: 400,
   detailsCard: 400,
-  moveDetailCardExtra: space[10],
+  movieDetailCardExtra: space[6],
   tooltipWidth: 320
 }
 
@@ -145,5 +145,5 @@ export const chartSideMargins = {
 export const circleSizeRange = [space[1], space[7]]
 export const circleRadius = space[2]
 export const circleAdjust = space[1]
-export const handleSize = space[9]
+export const handleSize = space[10]
 export const circleFillOpacity = 0.4

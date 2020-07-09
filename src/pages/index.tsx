@@ -27,6 +27,8 @@ import { useFetchPersonData, useFetchGenreList } from '../hooks'
 
 const IndexPage = () => {
   const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
+  const { position, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
+  console.log('IndexPage -> activeMovieID', !!activeMovieID && position === 0)
 
   useFetchGenreList()
   useFetchPersonData({ activeNameID })
@@ -38,8 +40,8 @@ const IndexPage = () => {
         <PersonDetailCard />
         <FavoritePersonsList />
         <PersonCreditsChart />
-        <MovieDetailCardContainerLeft />
-        <MovieDetailCardContainerRight />
+        <MovieDetailCardContainerLeft isOpen={!!activeMovieID && position === 1} />
+        <MovieDetailCardContainerRight isOpen={!!activeMovieID && position === 0} />
       </SearchDashboardDesktop>
     </Layout>
   )

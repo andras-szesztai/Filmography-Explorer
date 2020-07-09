@@ -31,7 +31,6 @@ overflow-x: auto;
 overflow-y: hidden;
 height: 70%;
 
-
 display: flex;
 align-items: center;
 

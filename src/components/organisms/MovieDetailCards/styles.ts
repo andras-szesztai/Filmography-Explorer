@@ -1,14 +1,28 @@
 import { css } from '@emotion/core'
 
 // Styles
-import { space, height, width, handleSize, colors, fontSize, fontWeight, styledSelection } from '../../../styles/variables'
+import {
+  space,
+  height,
+  width,
+  handleSize,
+  colors,
+  fontSize,
+  fontWeight,
+  styledSelection,
+  dentedStyle,
+  buttonStyle,
+  dropShadow
+} from '../../../styles/variables'
 
-const MovieDetailCardContainer = css`
+const movieDetailCardContainer = css`
   position: fixed;
   background-color: ${colors.bgColorSecondary};
   top: calc(50% - ${height.movieCard / 2 - space[8]}px);
   width: ${width.detailsCard + width.movieDetailCardExtra}px;
   height: ${height.movieCard}px;
+
+  filter: drop-shadow(${dropShadow.header.ternary});
   z-index: 15;
 `
 const HandleStyle = css`
@@ -20,8 +34,8 @@ const HandleStyle = css`
   border-radius: ${space[1]}px 0 0 ${space[1]}px;
 `
 
-export const MovieDetailCardContainerRight = css`
-  ${MovieDetailCardContainer}
+export const movieDetailCardContainerRight = css`
+  ${movieDetailCardContainer}
   right: -${width.movieDetailCardExtra + width.detailsCard + handleSize}px;
   :after {
     ${HandleStyle}
@@ -40,8 +54,8 @@ export const MovieDetailCardContainerRight = css`
   }
 `
 
-export const MovieDetailCardContainerLeft = css`
-  ${MovieDetailCardContainer}
+export const movieDetailCardContainerLeft = css`
+  ${movieDetailCardContainer}
   left: -${width.movieDetailCardExtra + width.detailsCard + handleSize}px;
   :after {
     ${HandleStyle}
@@ -60,10 +74,10 @@ export const MovieDetailCardContainerLeft = css`
   }
 `
 
-export const MainGridStyle = css`
+export const mainGridStyle = css`
   padding: ${space[3]}px;
-  display: grid;
 
+  display: grid;
   grid-area: content;
   grid-template-columns: 1fr 120px;
   grid-column-gap: ${space[3]}px;
@@ -77,14 +91,14 @@ export const MainGridStyle = css`
     'link link';
 `
 
-export const InfoGrid = css`
+export const infoGrid = css`
   display: grid;
   grid-area: info;
   grid-template-rows: repeat(2, max-content) 1fr;
   align-items: start;
 `
 
-export const MovieTitle = css`
+export const movieTitle = css`
   color: ${colors.textColorSecondary};
   line-height: 1.3;
   font-size: ${fontSize.lg};
@@ -94,27 +108,75 @@ export const MovieTitle = css`
   ${styledSelection}
 `
 
-export const Subtitle = css`
+export const subtitle = css`
   white-space: nowrap;
   color: ${colors.textColorSecondary};
   font-size: ${fontSize.sm};
   font-weight: ${fontWeight.sm};
-  margin-top: ${space[1]}px;
-  margin-bottom: ${space[2]}px;
+  margin-top: ${space[2]}px;
+  margin-bottom: ${space[3]}px;
   cursor: default;
   ${styledSelection}
 `
 
-export const Row = styled.div`
+export const rowStyle = css`
   display: grid;
-  grid-template-rows: 30px 1fr;
-  font-size: ${themifyFontSize(1)};
+  grid-template-rows: 32px 1fr;
 `
 
-export const RowTitle = styled.div`
+export const rowTitleStyle = css`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  color: ${COLORS.textColor};
-  font-weight: 500;
+  color: ${colors.textColorSecondary};
+  font-size: ${fontSize.sm};
+  font-weight: ${fontWeight.lg};
+`
+
+export const horizontalScrollableStyle = css`
+  ${dentedStyle}
+  border-radius: ${space[1]}px;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  display: flex;
+  align-items: center;
+
+  padding-left: ${space[2]}px;
+
+  ::-webkit-scrollbar {
+    height: ${space[1]}px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: ${colors.bgColorSecondaryDark};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${colors.bgColorPrimary};
+    border-radius: ${space[1]}px;
+  }
+
+`
+
+export const genreUnitStyle = css`
+        white-space: nowrap;
+        list-style-type: none;
+        position: relative;
+
+        font-weight: ${fontWeight.md};
+        font-size: ${fontSize.sm};
+
+        border-radius: ${space[1]}px;
+        padding: ${space[1]}px ${space[3]}px ${space[1] + 1}px ${space[3]}px;
+        margin: 0 ${space[1]}px;
+        user-select: none;
+        letter-spacing: 1.1px;
+
+        ${buttonStyle}
+        background: ${colors.bgColorPrimary};
+        color: ${colors.textColorPrimary};
+
+        cursor: pointer;
+
 `

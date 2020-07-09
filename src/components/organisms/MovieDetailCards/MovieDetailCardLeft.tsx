@@ -2,21 +2,29 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { css } from '@emotion/core'
 import { useSelector } from 'react-redux'
+import { format } from 'date-fns'
 
 // Types
+import { now } from 'lodash'
 import { CombinedState } from '../../../types/state'
 
 // Styles
-import { MovieDetailCardContainerLeft, MainGridStyle, InfoGrid } from './styles'
+import { MovieDetailCardContainerLeft, MainGridStyle, InfoGrid, MovieTitle, Subtitle } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
-import { Image } from '../../atoms'
+import { Image, TextArea } from '../../atoms'
 
 // Hooks
 import { useFetchActiveMovieDetails } from './hooks'
 
 const MovieDetailCardLeft = () => {
-  const { position, activeMovieID, mediaType, activeMovieData } = useSelector((state: CombinedState) => state.movieReducer)
+  const {
+    position,
+    activeMovieID,
+    mediaType,
+    activeMovieData: { details },
+    loading
+  } = useSelector((state: CombinedState) => state.movieReducer)
 
   const isOpen = !!activeMovieID && position === 1
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
@@ -34,10 +42,14 @@ const MovieDetailCardLeft = () => {
       >
         <div css={MainGridStyle}>
           <div css={InfoGrid}>
-            <div>Title</div>
-            <div>Info</div>
+            <div css={MovieTitle}>{details.original_title || details.original_name}</div>
+            <div css={Subtitle}>
+              {mediaType === 'movie' ? 'Release date' : 'First air date'}:&nbsp;
+              {format(new Date(details.release_date || details.first_air_date || 0), 'MMM dd, yyyy')}
+            </div>
+            <TextArea gridArea="" text={details.overview} />
           </div>
-          <Image url={activeMovieData.details.poster_path} alt={`${activeMovieData.details.original_title}-poster`} />
+          <Image url={details.poster_path} alt={`${details.original_title || details.original_name}-poster`} />
         </div>
       </div>
     </motion.div>

@@ -16,13 +16,16 @@ export interface MovieDetails {
   homepage?: string
   id: number
   imdb_id?: string
-  original_title: string
+  original_title?: string
+  original_name?: string
   overview: string
   popularity: number
   poster_path?: string
   vote_average: number
   vote_count: number
   tagline: string
+  release_date?: string
+  first_air_date?: string
 }
 
 export interface MovieCastObject {

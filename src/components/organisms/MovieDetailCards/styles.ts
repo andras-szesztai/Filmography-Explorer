@@ -1,7 +1,7 @@
 import { css } from '@emotion/core'
 
 // Styles
-import { space, height, width, handleSize, colors } from '../../../styles/variables'
+import { space, height, width, handleSize, colors, fontSize, fontWeight, styledSelection } from '../../../styles/variables'
 
 const MovieDetailCardContainer = css`
   position: fixed;
@@ -62,8 +62,8 @@ export const MovieDetailCardContainerLeft = css`
 
 export const MainGridStyle = css`
   padding: ${space[3]}px;
-
   display: grid;
+
   grid-area: content;
   grid-template-columns: 1fr 120px;
   grid-column-gap: ${space[3]}px;
@@ -80,6 +80,41 @@ export const MainGridStyle = css`
 export const InfoGrid = css`
   display: grid;
   grid-area: info;
-  grid-template-rows: repeat(2, min-content) 1fr;
+  grid-template-rows: repeat(2, max-content) 1fr;
   align-items: start;
+`
+
+export const MovieTitle = css`
+  color: ${colors.textColorSecondary};
+  line-height: 1.3;
+  font-size: ${fontSize.lg};
+  font-weight: ${fontWeight.lg};
+  cursor: pointer;
+
+  ${styledSelection}
+`
+
+export const Subtitle = css`
+  white-space: nowrap;
+  color: ${colors.textColorSecondary};
+  font-size: ${fontSize.sm};
+  font-weight: ${fontWeight.sm};
+  margin-top: ${space[1]}px;
+  margin-bottom: ${space[2]}px;
+  cursor: default;
+  ${styledSelection}
+`
+
+export const Row = styled.div`
+  display: grid;
+  grid-template-rows: 30px 1fr;
+  font-size: ${themifyFontSize(1)};
+`
+
+export const RowTitle = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: ${COLORS.textColor};
+  font-weight: 500;
 `

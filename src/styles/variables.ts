@@ -147,3 +147,10 @@ export const circleRadius = space[2]
 export const circleAdjust = space[1]
 export const handleSize = space[10]
 export const circleFillOpacity = 0.4
+
+export const styledSelection = css`
+  ::selection {
+    background: ${colors.textColorSecondary};
+    color: ${colors.textColorPrimary};
+  }
+`

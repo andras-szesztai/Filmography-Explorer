@@ -22,7 +22,7 @@ const TextArea = ({ text, gridArea }: Props) => {
 
         color: ${colors.textColorSecondary};
         font-size: ${fontSize.sm};
-        padding: ${space[2]}px ${space[3]}px ${space[0]}px ${space[2]}px;
+        padding: ${space[1]}px ${space[3]}px ${space[0]}px ${space[2]}px;
 
         p {
           margin-top: 0;

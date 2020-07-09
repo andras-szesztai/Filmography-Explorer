@@ -8,8 +8,8 @@ import { MovieDetailCardContainerRight } from './styles'
 import { width } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
-const MovieDetailCardRight = ({ isOpen }: Props) => {
-  return <motion.div animate={{ x: isOpen ? -width.detailsCard : 0 }} transition={transition.primary} css={MovieDetailCardContainerRight} />
+const MovieDetailCardRight = () => {
+  return <motion.div animate={{ x: false ? -width.detailsCard : 0 }} transition={transition.primary} css={MovieDetailCardContainerRight} />
 }
 
 export default MovieDetailCardRight

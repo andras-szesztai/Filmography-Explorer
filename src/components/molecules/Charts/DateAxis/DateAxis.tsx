@@ -94,7 +94,8 @@ export default function DateAxis(props: DateAxisProps) {
                 left: margin.left,
                 width: dims.width,
                 xScale
-              })
+              }),
+              mediaType: d.media_type
             })
           )
         }

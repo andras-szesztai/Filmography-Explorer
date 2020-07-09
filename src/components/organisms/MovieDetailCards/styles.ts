@@ -6,7 +6,7 @@ import { space, height, width, handleSize, colors } from '../../../styles/variab
 const MovieDetailCardContainer = css`
   position: fixed;
   background-color: ${colors.bgColorSecondary};
-  top: calc(50% - ${height.movieCard / 2}px);
+  top: calc(50% - ${height.movieCard / 2 - space[8]}px);
   width: ${width.detailsCard + width.movieDetailCardExtra}px;
   height: ${height.movieCard}px;
   z-index: 15;
@@ -75,4 +75,11 @@ export const MainGridStyle = css`
     'crew crew'
     'cast cast'
     'link link';
+`
+
+export const InfoGrid = css`
+  display: grid;
+  grid-area: info;
+  grid-template-rows: repeat(2, min-content) 1fr;
+  align-items: start;
 `

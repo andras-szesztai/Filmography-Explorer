@@ -23,6 +23,7 @@ import {
 const initialState = {
   activeMovieID: 0,
   position: 0,
+  mediaType: '',
   genres: {
     data: [] as GenreObject[],
     error: ''
@@ -56,7 +57,7 @@ const personReducer = (state: MovieState = initialState, action: Action) => {
     case FETCH_GENRE_LIST_SUCCESS:
       return { ...state, genres: { data: action.genres, error: '' } }
     case SET_ACTIVE_MOVIE_ID:
-      return { ...state, activeMovieID: action.info.id, position: action.info.position }
+      return { ...state, activeMovieID: action.info.id, position: action.info.position, mediaType: action.info.mediaType }
     case FETCH_ACTIVE_MOVIE_DETAILS:
       return { ...state, loading: { activeMovieData: true } }
     case FETCH_ACTIVE_MOVIE_DETAILS_FAIL:
@@ -67,6 +68,7 @@ const personReducer = (state: MovieState = initialState, action: Action) => {
       return {
         ...state,
         activeMovieID: 0,
+        mediaType: '',
         activeMovieData: {
           id: 0,
           details: {} as MovieDetails,

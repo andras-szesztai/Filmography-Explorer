@@ -89,13 +89,13 @@ export default function BubbleChart(props: BubbleChartProps) {
           dispatch(
             setActiveMovieID({
               id: d.id,
-
               position: getXPosition({
                 data: d,
                 left: margin.left,
                 width,
                 xScale
-              })
+              }),
+              mediaType: d.media_type
             })
           )
         }

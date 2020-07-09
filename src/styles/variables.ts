@@ -111,8 +111,8 @@ export const boxShadow = {
 }
 
 export const dentedStyle = css`
-  box-shadow: ${boxShadow.inset.top.primary}, ${boxShadow.inset.top.secondary}, ${boxShadow.inset.top.ternary},
-    ${boxShadow.inset.bottom.primary}, ${boxShadow.inset.bottom.secondary}, ${boxShadow.inset.bottom.ternary};
+  box-shadow: ${boxShadow.inset.top.primary}, ${boxShadow.inset.top.ternary}, ${boxShadow.inset.bottom.primary},
+    ${boxShadow.inset.bottom.ternary};
 `
 
 export const buttonStyle = css`

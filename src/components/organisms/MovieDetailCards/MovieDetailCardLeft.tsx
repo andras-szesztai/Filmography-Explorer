@@ -21,12 +21,12 @@ import {
   subtitle,
   rowStyle,
   rowTitleStyle,
-  horizontalScrollableStyle,
-  genreUnitStyle
+  horizontalScrollableStyle
 } from './styles'
-import { width, handleSize, space, dentedStyle, colors, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { width, handleSize, space, colors, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 import { Image, TextArea } from '../../atoms'
+import GenreListItem from '../../molecules/GenreListItem/GenreListItem'
 
 const MovieDetailCardLeft = () => {
   const {
@@ -39,10 +39,6 @@ const MovieDetailCardLeft = () => {
 
   const isOpen = true //! !activeMovieID && position === 1
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
-
-  const [currentInput] = useWhatInput()
-
-  const [isHovered, setIsHovered] = React.useState(false)
 
   return (
     <motion.div animate={{ x: isOpen ? width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerLeft}>
@@ -85,40 +81,7 @@ const MovieDetailCardLeft = () => {
                 ${horizontalScrollableStyle}
               `}
             >
-              <button
-                type="button"
-                onMouseOver={() => setIsHovered(true)}
-                onFocus={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                onBlur={() => setIsHovered(false)}
-                css={css`
-                  ${genreUnitStyle}
-                  ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                `}
-              >
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: isHovered ? 1 : 0 }}
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-start;
-                    padding: ${space[1]}px ${space[2]}px;
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    top: 0;
-                    left: 0;
-                    background: ${colors.bgColorPrimary};
-                    border-radius: ${space[1]}px;
-
-                    pointer-events: none;
-                  `}
-                >
-                  <FaFilter size={12} color={colors.textColorPrimary} />
-                </motion.div>
-                Horror
-              </button>
+              {details.genres && !!details.genres.length && details.genres.map(genre => <GenreListItem text={genre.name} />)}
             </div>
           </div>
           <div

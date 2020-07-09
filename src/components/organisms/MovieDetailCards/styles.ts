@@ -11,7 +11,6 @@ import {
   fontWeight,
   styledSelection,
   dentedStyle,
-  buttonStyle,
   dropShadow
 } from '../../../styles/variables'
 
@@ -104,6 +103,7 @@ export const movieTitle = css`
   font-size: ${fontSize.lg};
   font-weight: ${fontWeight.lg};
   cursor: pointer;
+  letter-spacing: 0.8px;
 
   ${styledSelection}
 `
@@ -129,6 +129,7 @@ export const rowTitleStyle = css`
   justify-content: flex-start;
   align-items: center;
   color: ${colors.textColorSecondary};
+  letter-spacing: 0.8px;
   font-size: ${fontSize.sm};
   font-weight: ${fontWeight.lg};
 `
@@ -142,7 +143,7 @@ export const horizontalScrollableStyle = css`
   display: flex;
   align-items: center;
 
-  padding-left: ${space[2]}px;
+  padding-left: ${space[1]}px;
 
   ::-webkit-scrollbar {
     height: ${space[1]}px;
@@ -156,27 +157,5 @@ export const horizontalScrollableStyle = css`
     background: ${colors.bgColorPrimary};
     border-radius: ${space[1]}px;
   }
-
-`
-
-export const genreUnitStyle = css`
-        white-space: nowrap;
-        list-style-type: none;
-        position: relative;
-
-        font-weight: ${fontWeight.md};
-        font-size: ${fontSize.sm};
-
-        border-radius: ${space[1]}px;
-        padding: ${space[1]}px ${space[3]}px ${space[1] + 1}px ${space[3]}px;
-        margin: 0 ${space[1]}px;
-        user-select: none;
-        letter-spacing: 1.1px;
-
-        ${buttonStyle}
-        background: ${colors.bgColorPrimary};
-        color: ${colors.textColorPrimary};
-
-        cursor: pointer;
 
 `

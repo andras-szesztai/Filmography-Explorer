@@ -105,6 +105,9 @@ export default function DateAxis(props: DateAxisProps) {
   function runElementUpdate() {
     createDateAxis({ storedValues, width: dims.width })
     createUpdateVoronoi({ addUpdateInteractions, storedValues, left: margin.left, height: dims.height, width: dims.width, activeMovieID })
+    if (activeMovieID) {
+      showRefElements({ storedValues, activeMovieID, height: dims.height })
+    }
   }
 
   React.useEffect(() => {

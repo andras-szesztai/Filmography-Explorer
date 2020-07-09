@@ -113,8 +113,8 @@ export const subtitle = css`
   color: ${colors.textColorSecondary};
   font-size: ${fontSize.sm};
   font-weight: ${fontWeight.sm};
-  margin-top: ${space[2]}px;
-  margin-bottom: ${space[3]}px;
+  margin-top: ${space[1]}px;
+  margin-bottom: ${space[2]}px;
   cursor: default;
   ${styledSelection}
 `

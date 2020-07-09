@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
+import { css } from '@emotion/core'
 
 // Components
 import MovieDetailCardContent from './MovieDetailCardContent'
@@ -10,17 +11,27 @@ import { CombinedState } from '../../../types/state'
 
 // Styles
 import { movieDetailCardContainerRight } from './styles'
-import { width } from '../../../styles/variables'
+import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
 const MovieDetailCardRight = () => {
-  const { position, activeMovieID, loading } = useSelector((state: CombinedState) => state.movieReducer)
+  const { position, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
 
   const isOpen = !!activeMovieID && position === 0
 
   return (
     <motion.div animate={{ x: isOpen ? -width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerRight}>
-      <MovieDetailCardContent isOpen={isOpen} />
+      <div
+        css={css`
+          width: 100%;
+          height: 100%;
+          display: grid;
+          grid-template-columns: auto ${width.movieDetailCardExtra + handleSize}px;
+          grid-template-areas: 'content placeholder';
+        `}
+      >
+        <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-end" loaderLeftPos={0} />
+      </div>
     </motion.div>
   )
 }

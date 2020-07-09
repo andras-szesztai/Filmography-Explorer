@@ -1,6 +1,6 @@
 import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from './SearchAtoms'
 import { PersonDetailCardContainer, PersonDetailCardShadow, PersonDetailContentLoader, PersonContainerArrow } from './PersonDetailCardAtoms'
-import { MovieDetailCardContantLoader } from './MovieDetailCardAtoms'
+import { MovieDetailCardContantLoader, MovieCardCloseIcon } from './MovieDetailCardAtoms'
 import { LabelContainer } from './ChartAtoms'
 
 export { default as NavItem } from './NavItem/NavItem'
@@ -18,5 +18,6 @@ export {
   PersonDetailContentLoader,
   PersonContainerArrow,
   LabelContainer,
-  MovieDetailCardContantLoader
+  MovieDetailCardContantLoader,
+  MovieCardCloseIcon
 }

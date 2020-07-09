@@ -5,6 +5,7 @@ import { css } from '@emotion/core'
 
 // Components
 import MovieDetailCardContent from './MovieDetailCardContent'
+import { MovieCardCloseIcon } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -30,6 +31,7 @@ const MovieDetailCardRight = () => {
           grid-template-areas: 'content placeholder';
         `}
       >
+        <MovieCardCloseIcon isLeft={false} />
         <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-end" loaderLeftPos={0} />
       </div>
     </motion.div>

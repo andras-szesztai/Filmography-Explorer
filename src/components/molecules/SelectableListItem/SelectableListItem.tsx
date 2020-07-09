@@ -40,7 +40,7 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
         list-style-type: none;
         position: relative;
 
-        font-weight: ${fontWeight.md};
+        font-weight: ${fontWeight.sm};
         font-size: ${fontSize.sm};
 
         border-radius: ${space[1]}px;

@@ -70,7 +70,7 @@ export const MainGridStyle = css`
   grid-template-rows: 185px repeat(3, 70px) 1fr;
   grid-row-gap: ${space[2]}px;
   grid-template-areas:
-    'info poster'
+    'info photo'
     'genre genre'
     'crew crew'
     'cast cast'

@@ -2,7 +2,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 
 // Types
-import { Props } from './types'
 
 // Styles
 import { MovieDetailCardContainerRight } from './styles'

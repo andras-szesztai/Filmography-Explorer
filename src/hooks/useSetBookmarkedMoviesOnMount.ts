@@ -1,19 +1,13 @@
 import React from 'react'
-import { useLocalStorage } from 'react-use'
 import { useDispatch } from 'react-redux'
 
 // Actions
 import { updateBookmarkedMovies } from '../reducer/movieReducer/actions'
 
-// Constants
-import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
-
 // Types
 import { BookmarkedMoviesObject } from '../types/movie'
 
-export default function useSetBookmarkedMoviesOnMount() {
-  const [bookmarkedMovies] = useLocalStorage<BookmarkedMoviesObject>(LOCAL_STORE_ACCESSORS.bookmarkedMovies)
-
+export default function useSetBookmarkedMoviesOnMount(bookmarkedMovies?: BookmarkedMoviesObject) {
   const dispatch = useDispatch()
   const init = React.useRef(true)
   React.useEffect(() => {

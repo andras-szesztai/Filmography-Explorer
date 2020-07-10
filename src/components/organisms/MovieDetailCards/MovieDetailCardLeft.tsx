@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { css } from '@emotion/core'
 
 // Components
-import { useLocalStorage } from 'react-use'
 import MovieDetailCardContent from './MovieDetailCardContent'
 import { MovieCardCloseIcon } from '../../atoms'
 import MovieCardBookmark from '../../atoms/MovieDetailCardAtoms/MovieCardBookMark/MovieCardBookMark'
@@ -14,28 +13,21 @@ import { handleBookmarkedToggle } from './utils/util'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import { BookmarkedMoviesObject } from '../../../types/movie'
-
-// Constants
-import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
+import { Params } from './types'
 
 // Styles
 import { movieDetailCardContainerLeft } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
-const MovieDetailCardLeft = () => {
+const MovieDetailCardLeft = ({ bookmarkedMovies, setBookmarkedMovies, isOpen }: Params) => {
   const {
-    position,
     activeMovieID,
     activeMovieData: { details, crew, cast }
   } = useSelector((state: CombinedState) => state.movieReducer)
   const dispatch = useDispatch()
 
-  const isOpen = !!activeMovieID && position === 1
   const [isHovered, setIsHovered] = React.useState(false)
-
-  const [bookmarkedMovies, setBookmarkedMovies] = useLocalStorage(LOCAL_STORE_ACCESSORS.bookmarkedMovies, {} as BookmarkedMoviesObject)
 
   const handleClick = () =>
     handleBookmarkedToggle({

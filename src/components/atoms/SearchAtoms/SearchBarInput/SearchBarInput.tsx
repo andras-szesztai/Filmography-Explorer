@@ -15,9 +15,7 @@ const inputStyles = css`
   height: ${height.searchBar}px;
 
   border-radius: ${space[1]}px;
-  background: ${chroma(colors.bgColorSecondary)
-    .alpha(0.1)
-    .hex()};
+  background: ${chroma(colors.bgColorPrimary).hex()};
   border: 1px solid ${colors.textColorPrimary};
 
   color: ${colors.textColorPrimary};

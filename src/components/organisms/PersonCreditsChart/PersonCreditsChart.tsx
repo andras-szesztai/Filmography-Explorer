@@ -3,6 +3,9 @@ import { css } from '@emotion/core'
 import { useSelector } from 'react-redux'
 
 // Components
+import useWhatInput from 'react-use-what-input'
+import { FaFilter } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
 import { DateAxis, BubbleChart } from '../../molecules'
 
 // Types
@@ -12,7 +15,7 @@ import { CombinedState } from '../../../types/state'
 import { useUpdateChartSettings } from './hooks'
 
 // Styles
-import { space, colors } from '../../../styles/variables'
+import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fontWeight } from '../../../styles/variables'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
@@ -22,6 +25,11 @@ const PersonCreditsChart = () => {
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
   const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
+
+  const [currentInput] = useWhatInput()
+
+  const [isHovered, setIsHovered] = React.useState(false)
+  const [isClicked, setIsClicked] = React.useState(false)
   return (
     <div
       css={css`
@@ -47,10 +55,77 @@ const PersonCreditsChart = () => {
         <div
           css={css`
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            color: ${colors.textColorPrimary};
+            background: ${colors.bgColorPrimary};
+            font-size: ${fontSize.md};
+            letter-spacing: 1px;
+
+            position: relative;
+            z-index: 100;
           `}
-        />
+        >
+          <button
+            type="button"
+            onMouseOver={() => setIsHovered(true)}
+            onFocus={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onBlur={() => setIsHovered(false)}
+            onClick={() => setIsClicked(!isClicked)}
+            onKeyDown={({ keyCode }) => {
+              if (keyCode === 13) {
+                setIsClicked(!isClicked)
+              }
+            }}
+            css={css`
+              ${buttonPadding}
+              background: ${colors.bgColorSecondary};
+              border: none;
+              cursor: pointer;
+              letter-spacing:  .8px;
+              display: flex;
+              align-items: center;
+
+              font-weight: ${fontWeight.sm};
+              user-select: none;
+              border-radius: ${space[1]}px;
+              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+            `}
+          >
+            <motion.span animate={{ scale: isHovered ? 1.3 : 1 }}>
+              <FaFilter size={12} />
+            </motion.span>
+            <span
+              css={css`
+                margin-left: ${space[2]}px;
+              `}
+            >
+              Filter for genres
+            </span>
+          </button>
+          <AnimatePresence>
+            {isClicked && (
+              <motion.div
+                initial={{ y: 35, opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 50 }}
+                exit={{ opacity: 0, height: 0 }}
+                css={css`
+                  z-index: 10;
+                  position: absolute;
+
+                  background: ${colors.bgColorSecondary};
+                  width: 100%;
+                  border-radius: ${space[1]}px;
+                  color: ${colors.textColorSecondary};
+                `}
+              >
+                Reset
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         {!!chartState.nameId && (
           <div
             key={chartState.nameId}

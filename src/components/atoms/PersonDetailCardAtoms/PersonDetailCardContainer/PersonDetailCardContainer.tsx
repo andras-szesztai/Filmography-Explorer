@@ -39,7 +39,7 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
         filter: drop-shadow(${dropShadow.header.ternary});
 
         background-color: ${colors.bgColorSecondary};
-        border-radius: 0 0 ${space[1]}px ${space[1]}px;
+        border-radius: 0 0 ${space[2]}px ${space[2]}px;
 
         width: ${width.detailsCard}px;
         height: ${height.personCardOpen}px;

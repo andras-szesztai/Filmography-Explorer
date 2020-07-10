@@ -12,11 +12,13 @@ import { MovieCardCloseIcon } from '../../atoms'
 import { CombinedState } from '../../../types/state'
 import { Params } from './types'
 
+// Utils
+import { handleBookmarkedToggle } from './utils/util'
+
 // Styles
 import { movieDetailCardContainerRight } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
-import { handleBookmarkedToggle } from './utils/util'
 
 const MovieDetailCardRight = ({ bookmarkedMovies, setBookmarkedMovies }: Params) => {
   const {

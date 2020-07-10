@@ -20,8 +20,8 @@ import { width, handleSize, colors, buttonStyle, buttonNoFocus, buttonFocus, spa
 import { transition } from '../../../styles/animation'
 import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
-import { BookmarkedMoviesObject } from './types'
 import { handleBookmarkedToggle } from './utils/util'
+import { BookmarkedMoviesObject } from '../../../types/movie'
 
 const MovieDetailCardLeft = () => {
   const {
@@ -29,12 +29,23 @@ const MovieDetailCardLeft = () => {
     activeMovieID,
     activeMovieData: { details, crew, cast }
   } = useSelector((state: CombinedState) => state.movieReducer)
+  const dispatch = useDispatch()
 
   const isOpen = !!activeMovieID && position === 1
   const [isHovered, setIsHovered] = React.useState(false)
 
   const [bookmarkedMovies, setBookmarkedMovies] = useLocalStorage(LOCAL_STORE_ACCESSORS.bookmarkedMovies, {} as BookmarkedMoviesObject)
-  console.log('MovieDetailCardLeft -> bookmarkedMovies', bookmarkedMovies)
+
+  const handleClick = () =>
+    handleBookmarkedToggle({
+      bookmarkedMovies,
+      activeMovieID,
+      setBookmarkedMovies,
+      cast,
+      crew,
+      details,
+      dispatch
+    })
 
   return (
     <motion.div animate={{ x: isOpen ? width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerLeft}>
@@ -49,19 +60,7 @@ const MovieDetailCardLeft = () => {
         `}
       >
         <MovieCardCloseIcon isLeft />
-        <MovieCardBookmark
-          isLeft
-          handleClick={() =>
-            handleBookmarkedToggle({
-              bookmarkedMovies,
-              activeMovieID,
-              setBookmarkedMovies,
-              cast,
-              crew,
-              details
-            })
-          }
-        />
+        <MovieCardBookmark isLeft handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />
         <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-start" loaderLeftPos={width.movieDetailCardExtra + handleSize} />
       </div>
     </motion.div>

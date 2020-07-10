@@ -1,4 +1,4 @@
-import { ActiveMovieDataObject, GenreObject } from '../../types/movie'
+import { ActiveMovieDataObject, GenreObject, BookmarkedMoviesObject } from '../../types/movie'
 
 export const SET_ACTIVE_MOVIE_ID = 'SET_ACTIVE_MOVIE_ID'
 export const FETCH_GENRE_LIST_FAIL = 'FETCH_GENRE_LIST_FAIL'
@@ -7,6 +7,7 @@ export const FETCH_ACTIVE_MOVIE_DETAILS = 'FETCH_ACTIVE_MOVIE_DETAILS'
 export const FETCH_ACTIVE_MOVIE_DETAILS_SUCCESS = 'FETCH_ACTIVE_MOVIE_DETAILS_SUCCESS'
 export const FETCH_ACTIVE_MOVIE_DETAILS_FAIL = 'FETCH_ACTIVE_MOVIE_DETAILS_FAIL'
 export const EMPTY_MOVIE_DETAILS = 'EMPTY_MOVIE_DETAILS'
+export const UPDATE_BOOKMARKED_MOVIES = 'UPDATE_BOOKMARKED_MOVIES'
 
 export function setActiveMovieID(info: { id: number; position: number; mediaType: string }) {
   return {
@@ -50,5 +51,12 @@ export function fetchActiveMovieDetailsSuccess(movieDetails: ActiveMovieDataObje
 export function emptyMovieDetails() {
   return {
     type: EMPTY_MOVIE_DETAILS
+  } as const
+}
+
+export function updateBookmarkedMovies(bookmarkedObject: BookmarkedMoviesObject) {
+  return {
+    type: UPDATE_BOOKMARKED_MOVIES,
+    bookmarkedObject
   } as const
 }

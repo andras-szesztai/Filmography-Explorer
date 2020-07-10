@@ -1,5 +1,5 @@
 // Types
-import { GenreObject, SavedMovieObject, MovieDetails, MovieCastObject, MovieCrewObject } from '../../types/movie'
+import { GenreObject, BookmarkedMoviesObject, MovieDetails, MovieCastObject, MovieCrewObject } from '../../types/movie'
 import { MovieState } from '../../types/state'
 
 // Actions
@@ -17,7 +17,9 @@ import {
   fetchActiveMovieDetailsFail,
   fetchActiveMovieDetailsSuccess,
   emptyMovieDetails,
-  EMPTY_MOVIE_DETAILS
+  EMPTY_MOVIE_DETAILS,
+  updateBookmarkedMovies,
+  UPDATE_BOOKMARKED_MOVIES
 } from './actions'
 
 const initialState = {
@@ -36,8 +38,8 @@ const initialState = {
   },
   loading: { activeMovieData: false },
   error: { activeMovieData: '' },
-  favorites: {} as SavedMovieObject,
-  bookmarks: {} as SavedMovieObject
+  favorites: {} as BookmarkedMoviesObject,
+  bookmarks: {} as BookmarkedMoviesObject
 }
 
 type Action = ReturnType<
@@ -48,6 +50,7 @@ type Action = ReturnType<
   | typeof fetchActiveMovieDetailsFail
   | typeof fetchActiveMovieDetailsSuccess
   | typeof emptyMovieDetails
+  | typeof updateBookmarkedMovies
 >
 
 const personReducer = (state: MovieState = initialState, action: Action) => {
@@ -75,6 +78,11 @@ const personReducer = (state: MovieState = initialState, action: Action) => {
           cast: [] as MovieCastObject[],
           crew: [] as MovieCrewObject[]
         }
+      }
+    case UPDATE_BOOKMARKED_MOVIES:
+      return {
+        ...state,
+        bookmarks: action.bookmarkedObject
       }
     default:
       return state

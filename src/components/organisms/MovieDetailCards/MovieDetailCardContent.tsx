@@ -36,9 +36,11 @@ interface Props {
   isOpen: boolean
   justifyLink: string
   loaderLeftPos: number
+  handleClick: () => void
+  setIsHovered: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos }: Props) {
+function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClick, setIsHovered }: Props) {
   const {
     activeMovieID,
     mediaType,

@@ -1,22 +1,23 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 import useWhatInput from 'react-use-what-input'
 
 // Styles
 import { buttonStyle, space, handleSize, buttonNoFocus, buttonFocus, zIndex } from '../../../../styles/variables'
 import BookmarkIcon from '../../BookmarkIcon/BookmarkIcon'
+import { CombinedState } from '../../../../types/state'
 
 interface Params {
   isLeft: boolean
   handleClick: () => void
+  setIsHovered: React.Dispatch<React.SetStateAction<boolean>>
+  isHovered: boolean
 }
 
-const MovieCardBookmark = ({ isLeft, handleClick }: Params) => {
-  const dispatch = useDispatch()
-  const [isHovered, setIsHovered] = React.useState(false) // TODO: move it up to  hover on title too
-  const [isFavorited, setIsFavorited] = React.useState(false)
+const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered }: Params) => {
+  const { bookmarks, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
   const [currentInput] = useWhatInput()
 
   const horPos = isLeft
@@ -53,15 +54,15 @@ const MovieCardBookmark = ({ isLeft, handleClick }: Params) => {
       `}
     >
       <motion.span
-        initial={{ originX: 0.5, scale: 1 }}
-        animate={{ scale: isHovered ? 1.1 : 1 }}
+        initial={{ originX: 0.5 }}
+        animate={{ scale: isHovered ? 1.2 : 1 }}
         css={css`
           position: absolute;
           ${horPos}
           top: 2px;
         `}
       >
-        <BookmarkIcon isHovered={isHovered} isFavorited={isFavorited} />
+        <BookmarkIcon isHovered={isHovered} isBookmarked={!!bookmarks[activeMovieID]} />
       </motion.span>
     </button>
   )

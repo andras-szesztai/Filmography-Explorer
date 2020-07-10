@@ -1,6 +1,6 @@
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from './person'
 import { ChartSettings, HoveredMovie } from './personCreditsChart'
-import { GenreObject, ActiveMovieDataObject, SavedMovieObject } from './movie'
+import { GenreObject, ActiveMovieDataObject, BookmarkedMoviesObject } from './movie'
 
 export interface PersonState {
   activeNameID: number
@@ -36,8 +36,8 @@ export interface MovieState {
   activeMovieData: ActiveMovieDataObject
   loading: { activeMovieData: boolean }
   error: { activeMovieData: string }
-  favorites: SavedMovieObject
-  bookmarks: SavedMovieObject
+  favorites: BookmarkedMoviesObject
+  bookmarks: BookmarkedMoviesObject
 }
 
 export interface CombinedState {

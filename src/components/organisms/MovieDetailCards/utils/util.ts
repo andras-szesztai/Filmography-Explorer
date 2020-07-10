@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from 'react'
 import { omit } from 'lodash'
+import { Dispatch } from 'redux'
 
 // Types
-import { BookmarkedMoviesObject } from '../types'
-import { MovieDetails, MovieCastObject, MovieCrewObject } from '../../../../types/movie'
+import { MovieDetails, MovieCastObject, MovieCrewObject, BookmarkedMoviesObject } from '../../../../types/movie'
+
+// Actions
+import { updateBookmarkedMovies } from '../../../../reducer/movieReducer/actions'
 
 interface HandleBookmarkedParams {
   bookmarkedMovies: BookmarkedMoviesObject | undefined
@@ -13,6 +16,7 @@ interface HandleBookmarkedParams {
   cast: MovieCastObject[]
   crew: MovieCrewObject[]
   details: MovieDetails
+  dispatch: Dispatch<any>
 }
 
 export const handleBookmarkedToggle = ({
@@ -21,7 +25,8 @@ export const handleBookmarkedToggle = ({
   setBookmarkedMovies,
   cast,
   crew,
-  details
+  details,
+  dispatch
 }: HandleBookmarkedParams) => {
   let newObject
   if (bookmarkedMovies) {
@@ -46,6 +51,6 @@ export const handleBookmarkedToggle = ({
       }
     }
     setBookmarkedMovies(newObject)
-    // dispatch(updateFavoritePersons(newObject))
+    dispatch(updateBookmarkedMovies(newObject))
   }
 }

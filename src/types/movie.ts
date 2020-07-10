@@ -42,16 +42,16 @@ export interface MovieCrewObject {
   name: string
 }
 
-export interface SavedMovieObject {
+export interface BookmarkedMoviesObject {
   [id: number]: {
-    id: number
-    title: string
-    genreIDs: number[]
-    castIDs: number[]
-    crewIDs: number[]
-    poster_path?: string
+    original_title?: string
+    original_name?: string
+    release_date?: string
+    first_air_date?: string
+    media_type: string
     vote_average: number
     vote_count: number
-    original_title: string
+    genres: number[]
+    credits: number[]
   }
 }

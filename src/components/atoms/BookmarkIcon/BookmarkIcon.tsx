@@ -5,11 +5,11 @@ import { colors } from '../../../styles/variables'
 
 interface Props {
   // width?: number
-  isFavorited: boolean
+  isBookmarked: boolean
   isHovered: boolean
 }
 
-export default function BookmarkIcon({ isHovered, isFavorited }: Props) {
+export default function BookmarkIcon({ isHovered, isBookmarked }: Props) {
   const topRef = useRef(null)
   const circleOne = useRef(null)
   const circleTwo = useRef(null)
@@ -21,53 +21,53 @@ export default function BookmarkIcon({ isHovered, isFavorited }: Props) {
       init.current = false
       gsap.set(topRef.current, {
         transformOrigin: '50% 50%',
-        scale: isFavorited ? 1 : 0
+        scale: isBookmarked ? 1 : 0
       })
     }
   })
 
   useEffect(() => {
-    const fill = isFavorited ? colors.accentSecondary : colors.bgColorSecondary
-    const r = isFavorited ? 12 : 0
+    const fill = isBookmarked ? colors.accentSecondary : colors.bgColorSecondary
+    const r = isBookmarked ? 12 : 0
     gsap
       .timeline({
         defaults: {
           duration: 0.5,
           transformOrigin: '50% 50%',
-          ease: isFavorited ? 'back.out(2)' : 'back.in(1)'
+          ease: isBookmarked ? 'back.out(2)' : 'back.in(1)'
         }
       })
       .to(topRef.current, {
-        scale: isFavorited ? 1 : 0
+        scale: isBookmarked ? 1 : 0
       })
       .to(
         circleOne.current,
         {
-          y: isFavorited ? 50 : 0,
+          y: isBookmarked ? 50 : 0,
           fill,
           r
         },
-        isFavorited ? '-=0.4' : '-=0.5'
+        isBookmarked ? '-=0.4' : '-=0.5'
       )
       .to(
         circleTwo.current,
         {
-          y: isFavorited ? 50 : 0,
+          y: isBookmarked ? 50 : 0,
           fill,
           r
         },
-        isFavorited ? '-=0.4' : '-=0.5'
+        isBookmarked ? '-=0.4' : '-=0.5'
       )
       .to(
         circleThree.current,
         {
-          y: isFavorited ? 50 : 0,
+          y: isBookmarked ? 50 : 0,
           fill,
           r
         },
-        isFavorited ? '-=0.4' : '-=0.5'
+        isBookmarked ? '-=0.4' : '-=0.5'
       )
-  }, [isFavorited])
+  }, [isBookmarked])
 
   useEffect(() => {
     const opacity = isHovered ? 1 : 0

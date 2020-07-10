@@ -32,6 +32,7 @@ import {
   linkContainerStyle
 } from './styles'
 import { space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 
 interface Props {
   isOpen: boolean
@@ -49,6 +50,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
     loading
   } = useSelector((state: CombinedState) => state.movieReducer)
   const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
+  const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
   const dispatch = useDispatch()
 
   const [isLinkHovered, setIsLinkHovered] = React.useState(false)
@@ -115,7 +117,15 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
                 text={genre.name}
                 icon={FaFilter}
                 iconSize={12}
-                handleSelect={() => console.log('filter genre')}
+                handleSelect={() => {
+                  if (genreFilter.includes(genre.id)) {
+                    dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
+                  } else if (genreFilter.length === details.genres.length) {
+                    dispatch(updateGenreFilter([]))
+                  } else {
+                    dispatch(updateGenreFilter([...genreFilter, genre.id]))
+                  }
+                }}
               />
             ))}
         </div>

@@ -107,62 +107,84 @@ const PersonCreditsChart = () => {
                 margin-left: ${space[2]}px;
               `}
             >
-              Filter for genres
+              Filter for genres&nbsp;
+              <motion.span
+                animate={{
+                  color: !chartState.genreFilter.length ? colors.textColorSecondary : colors.accentPrimary
+                }}
+              >
+                ({chartState.genreFilter.length})
+              </motion.span>
             </span>
           </button>
           <AnimatePresence>
             {isClicked && (
               <motion.div
                 initial={{ y: 35, opacity: 0, height: 0, padding: `0px ${space[3]}px` }}
-                animate={{ opacity: 1, height: space[16], padding: `${space[2]}px ${space[3]}px` }}
+                animate={{ opacity: 1, height: space[17], padding: `${space[2]}px ${space[3]}px` }}
                 exit={{ opacity: 0, height: 10, padding: `0px ${space[3]}px` }}
                 css={css`
                   z-index: 10;
                   position: absolute;
 
                   display: grid;
-                  grid-template-rows: 25px 1fr;
+                  grid-template-rows: 30px 1fr;
                   grid-row-gap: ${space[1]}px;
 
                   background: ${colors.bgColorSecondary};
                   width: 100%;
                   border-radius: ${space[1]}px;
                   color: ${colors.textColorSecondary};
+                  user-select: none;
                 `}
               >
                 <div
                   css={css`
                     display: flex;
+                    justify-content: space-between;
                   `}
                 >
-                  <span
+                  <div
                     css={css`
-                      transform: translateY(2px);
+                      display: flex;
                     `}
                   >
-                    Genres
-                  </span>
-                  <AnimatePresence>
-                    {chartState.genreFilter.length && (
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        css={css`
-                          height: 20px;
-                          align-self: flex-start;
-                          margin-left: ${space[2]}px;
-                        `}
-                      >
-                        <SelectableListItem
-                          handleSelect={() => dispatch(updateGenreFilter([]))}
-                          icon={IoIosCloseCircle}
-                          iconSize={18}
-                          text="Reset selection"
-                        />
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                    <span
+                      css={css`
+                        transform: translateY(2px);
+                      `}
+                    >
+                      Genres
+                    </span>
+                    <AnimatePresence>
+                      {chartState.genreFilter.length && (
+                        <motion.span
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          css={css`
+                            height: 20px;
+                            align-self: flex-start;
+                            margin-left: ${space[2]}px;
+                          `}
+                        >
+                          <SelectableListItem
+                            handleSelect={() => dispatch(updateGenreFilter([]))}
+                            icon={IoIosCloseCircle}
+                            iconSize={18}
+                            text="Reset selection"
+                          />
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <div
+                    css={css`
+                      display: flex;
+                    `}
+                  >
+                    <IoIosCloseCircle size={20} />
+                  </div>
                 </div>
                 <div
                   css={css`

@@ -14,6 +14,7 @@ import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import { MovieObject } from '../../../types/movie'
+import { ListEndPlaceHolder } from '../../atoms'
 
 interface Props {
   titles: MovieObject[]
@@ -165,7 +166,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                     key={t.id}
                     icon={FaFilter}
                     iconSize={12}
-                    text={t.original_name || t.original_title || 'No title'}
+                    text={t.title}
                     // handleSelect={() => {
                     //   if (genreFilter.includes(genre.id)) {
                     //     dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
@@ -178,6 +179,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                     // isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
                   />
                 ))}
+              <ListEndPlaceHolder />
             </div>
           </motion.div>
         )}

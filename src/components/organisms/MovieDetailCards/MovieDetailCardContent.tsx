@@ -8,7 +8,7 @@ import { IoIosSearch } from 'react-icons/io'
 import useWhatInput from 'react-use-what-input'
 
 // Components
-import { Image, TextArea, MovieDetailCardContantLoader } from '../../atoms'
+import { Image, TextArea, MovieDetailCardContantLoader, ListEndPlaceHolder } from '../../atoms'
 import { SelectableListItem } from '../../molecules'
 
 // Types
@@ -128,6 +128,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
                 }}
               />
             ))}
+          <ListEndPlaceHolder />
         </div>
       </div>
       <div
@@ -157,6 +158,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
                 />
               )
             })}
+          <ListEndPlaceHolder />
         </div>
       </div>
       <div
@@ -185,6 +187,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
                 />
               )
             })}
+          <ListEndPlaceHolder />
         </div>
       </div>
       <div

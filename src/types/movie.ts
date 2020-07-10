@@ -54,14 +54,11 @@ export interface MovieObject {
   vote_average: number
   vote_count: number
   genres: number[]
-  unified_date: string
+  date: string
+  title: string
+  id: number
 
-  original_title?: string
-  original_name?: string
-  release_date?: string
-  first_air_date?: string
   credits?: number[]
-  id?: number
   poster_path?: string
 }
 

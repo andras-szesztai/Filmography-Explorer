@@ -53,9 +53,8 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
                   uniqBy(
                     [...cast, ...crew].map(t => ({
                       id: t.id,
-                      original_title: t.original_title,
-                      original_name: t.original_name,
-                      unified_date: t.first_air_date || t.release_date,
+                      title: t.original_name || t.original_title,
+                      date: t.first_air_date || t.release_date,
                       media_type: t.media_type,
                       vote_average: t.vote_average,
                       vote_count: t.vote_count,
@@ -64,7 +63,7 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
                     })),
                     'id'
                   ),
-                  t => new Date(t.unified_date)
+                  t => -new Date(t.date)
                 )
               })
             )

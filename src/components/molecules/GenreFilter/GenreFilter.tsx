@@ -12,6 +12,7 @@ import { buttonPadding, colors, fontWeight, space, buttonNoFocus, buttonFocus, b
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
+import { ListEndPlaceHolder } from '../../atoms'
 
 interface Props {
   genres: PersonGenresObject[]
@@ -183,6 +184,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                   isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
                 />
               ))}
+              <ListEndPlaceHolder />
             </div>
           </motion.div>
         )}

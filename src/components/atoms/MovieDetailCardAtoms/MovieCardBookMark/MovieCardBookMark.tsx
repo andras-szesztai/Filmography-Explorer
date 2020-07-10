@@ -8,9 +8,14 @@ import useWhatInput from 'react-use-what-input'
 import { buttonStyle, space, handleSize, buttonNoFocus, buttonFocus, zIndex } from '../../../../styles/variables'
 import BookmarkIcon from '../../BookmarkIcon/BookmarkIcon'
 
-const MovieCardBookmark = ({ isLeft }: { isLeft: boolean }) => {
+interface Params {
+  isLeft: boolean
+  handleClick: () => void
+}
+
+const MovieCardBookmark = ({ isLeft, handleClick }: Params) => {
   const dispatch = useDispatch()
-  const [isHovered, setIsHovered] = React.useState(false)
+  const [isHovered, setIsHovered] = React.useState(false) // TODO: move it up to  hover on title too
   const [isFavorited, setIsFavorited] = React.useState(false)
   const [currentInput] = useWhatInput()
 
@@ -28,10 +33,10 @@ const MovieCardBookmark = ({ isLeft }: { isLeft: boolean }) => {
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
-      onClick={() => setIsFavorited(!isFavorited)}
+      onClick={handleClick}
       onKeyDown={({ keyCode }) => {
         if (keyCode === 13) {
-          setIsFavorited(!isFavorited)
+          handleClick()
         }
       }}
       css={css`

@@ -6,6 +6,7 @@ import { IoIosCloseCircle } from 'react-icons/io'
 import useWhatInput from 'react-use-what-input'
 
 // Components
+import { useLocalStorage } from 'react-use'
 import MovieDetailCardContent from './MovieDetailCardContent'
 import { MovieCardCloseIcon, BookmarkIcon } from '../../atoms'
 import MovieCardBookmark from '../../atoms/MovieDetailCardAtoms/MovieCardBookMark/MovieCardBookMark'
@@ -18,17 +19,22 @@ import { movieDetailCardContainerLeft } from './styles'
 import { width, handleSize, colors, buttonStyle, buttonNoFocus, buttonFocus, space, zIndex } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
+import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
+import { BookmarkedMoviesObject } from './types'
+import { handleBookmarkedToggle } from './utils/util'
 
 const MovieDetailCardLeft = () => {
-  const { position, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
+  const {
+    position,
+    activeMovieID,
+    activeMovieData: { details, crew, cast }
+  } = useSelector((state: CombinedState) => state.movieReducer)
 
   const isOpen = !!activeMovieID && position === 1
   const [isHovered, setIsHovered] = React.useState(false)
-  const [isFavorited, setIsFavorited] = React.useState(false)
-  console.log('MovieDetailCardLeft -> isHovered', isHovered)
-  const dispatch = useDispatch()
 
-  const [currentInput] = useWhatInput()
+  const [bookmarkedMovies, setBookmarkedMovies] = useLocalStorage(LOCAL_STORE_ACCESSORS.bookmarkedMovies, {} as BookmarkedMoviesObject)
+  console.log('MovieDetailCardLeft -> bookmarkedMovies', bookmarkedMovies)
 
   return (
     <motion.div animate={{ x: isOpen ? width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerLeft}>
@@ -43,7 +49,19 @@ const MovieDetailCardLeft = () => {
         `}
       >
         <MovieCardCloseIcon isLeft />
-        <MovieCardBookmark isLeft />
+        <MovieCardBookmark
+          isLeft
+          handleClick={() =>
+            handleBookmarkedToggle({
+              bookmarkedMovies,
+              activeMovieID,
+              setBookmarkedMovies,
+              cast,
+              crew,
+              details
+            })
+          }
+        />
         <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-start" loaderLeftPos={width.movieDetailCardExtra + handleSize} />
       </div>
     </motion.div>

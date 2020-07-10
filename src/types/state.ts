@@ -24,6 +24,7 @@ export interface PersonCreditsChartState extends ChartSettings {
   isYDomainSynced: boolean
   isSizeDynamic: boolean
   hoveredMovie: HoveredMovie
+  genreFilter: number[]
 }
 
 export interface MovieState {

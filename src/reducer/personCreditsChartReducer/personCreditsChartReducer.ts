@@ -5,7 +5,9 @@ import {
   emptyHoveredMovie,
   UPDATE_CHART_SETTINGS,
   POPULATE_HOVERED_MOVIE,
-  EMPTY_HOVERED_MOVIE
+  EMPTY_HOVERED_MOVIE,
+  updateGenreFilter,
+  UPDATE_GENRE_FILTER
 } from './actions'
 
 // Types
@@ -27,10 +29,11 @@ const initialState = {
     data: {} as FormattedPersonCreditDataObject,
     yPosition: 0,
     xPosition: 0
-  }
+  },
+  genreFilter: [] as number[]
 }
 
-type Action = ReturnType<typeof updateChartSettings | typeof populateHoveredMovie | typeof emptyHoveredMovie>
+type Action = ReturnType<typeof updateChartSettings | typeof populateHoveredMovie | typeof emptyHoveredMovie | typeof updateGenreFilter>
 
 const personCreditsChartReducer = (state: PersonCreditsChartState = initialState, action: Action) => {
   switch (action.type) {
@@ -40,7 +43,8 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
         nameId: action.settings.nameId,
         movieSearchData: action.settings.movieSearchData,
         isBoth: action.settings.isBoth,
-        scales: action.settings.scales
+        scales: action.settings.scales,
+        genreFilter: []
       }
     case POPULATE_HOVERED_MOVIE:
       return {
@@ -56,6 +60,11 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
           yPosition: 0,
           xPosition: 0
         }
+      }
+    case UPDATE_GENRE_FILTER:
+      return {
+        ...state,
+        genreFilter: action.newArray
       }
     default:
       return state

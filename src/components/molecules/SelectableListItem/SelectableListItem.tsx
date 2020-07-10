@@ -16,15 +16,17 @@ interface Props {
   iconSize: number
   handleSelect?: () => void
   additionalHoverCondition?: boolean
+  isActive?: boolean
 }
 
-const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, additionalHoverCondition = true }: Props) => {
+const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, additionalHoverCondition = true, isActive = true }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
   return (
     <motion.button
       type="button"
+      animate={{ background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight }}
       onMouseOver={() => setIsHovered(true)}
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -50,7 +52,6 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
         letter-spacing: .8px;
 
         ${buttonStyle}
-        background: ${colors.bgColorPrimary};
         color: ${colors.textColorPrimary};
 
         cursor: ${isHovered && additionalHoverCondition ? 'pointer' : 'default'};
@@ -67,7 +68,8 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
 
 SelectableListItem.defaultProps = {
   handleSelect: () => null,
-  additionalHoverCondition: true
+  additionalHoverCondition: true,
+  isActive: true
 }
 
 export default SelectableListItem

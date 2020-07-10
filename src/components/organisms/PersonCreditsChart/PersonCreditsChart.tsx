@@ -1,12 +1,15 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Components
 import useWhatInput from 'react-use-what-input'
 import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
-import { DateAxis, BubbleChart } from '../../molecules'
+import { IoIosCloseCircle } from 'react-icons/io'
+import { DateAxis, BubbleChart, SelectableListItem } from '../../molecules'
+
+import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -16,13 +19,14 @@ import { useUpdateChartSettings } from './hooks'
 
 // Styles
 import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fontWeight } from '../../../styles/variables'
+import { horizontalScrollableStyle } from '../MovieDetailCards/styles'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
   const { activeMovieID, genres } = useSelector((state: CombinedState) => state.movieReducer)
-  console.log('PersonCreditsChart -> genres', genres.data)
   useUpdateChartSettings(personDataSets)
+  const dispatch = useDispatch()
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
   const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
@@ -109,15 +113,16 @@ const PersonCreditsChart = () => {
           <AnimatePresence>
             {isClicked && (
               <motion.div
-                initial={{ y: 35, opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: space[13] }}
-                exit={{ opacity: 0, height: 0 }}
+                initial={{ y: 35, opacity: 0, height: 0, padding: `0px ${space[3]}px` }}
+                animate={{ opacity: 1, height: space[16], padding: `${space[2]}px ${space[3]}px` }}
+                exit={{ opacity: 0, height: 10, padding: `0px ${space[3]}px` }}
                 css={css`
                   z-index: 10;
                   position: absolute;
 
                   display: grid;
-                  grid-template-columns: 100px 1fr;
+                  grid-template-rows: 25px 1fr;
+                  grid-row-gap: ${space[1]}px;
 
                   background: ${colors.bgColorSecondary};
                   width: 100%;
@@ -125,16 +130,61 @@ const PersonCreditsChart = () => {
                   color: ${colors.textColorSecondary};
                 `}
               >
-                <div>Filters</div>
                 <div
                   css={css`
                     display: flex;
                   `}
                 >
+                  <span
+                    css={css`
+                      transform: translateY(2px);
+                    `}
+                  >
+                    Genres
+                  </span>
+                  <AnimatePresence>
+                    {chartState.genreFilter.length && (
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        css={css`
+                          height: 20px;
+                          align-self: flex-start;
+                          margin-left: ${space[2]}px;
+                        `}
+                      >
+                        <SelectableListItem
+                          handleSelect={() => dispatch(updateGenreFilter([]))}
+                          icon={IoIosCloseCircle}
+                          iconSize={18}
+                          text="Reset selection"
+                        />
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </div>
+                <div
+                  css={css`
+                    ${horizontalScrollableStyle}
+                  `}
+                >
                   {personDataSets.genres.map(genre => (
-                    <span>
-                      {genres.data.find(g => g.id === genre.id)?.name} ({genre.count})
-                    </span>
+                    <SelectableListItem
+                      icon={FaFilter}
+                      iconSize={12}
+                      text={`${genres.data.find(g => g.id === genre.id)?.name} (${genre.count})`}
+                      handleSelect={() => {
+                        if (chartState.genreFilter.includes(genre.id)) {
+                          dispatch(updateGenreFilter(chartState.genreFilter.filter(id => id !== genre.id)))
+                        } else if (chartState.genreFilter.length === personDataSets.genres.length) {
+                          dispatch(updateGenreFilter([]))
+                        } else {
+                          dispatch(updateGenreFilter([...chartState.genreFilter, genre.id]))
+                        }
+                      }}
+                      isActive={chartState.genreFilter.length ? chartState.genreFilter.includes(genre.id) : true}
+                    />
                   ))}
                 </div>
               </motion.div>

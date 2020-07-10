@@ -1,7 +1,8 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Components
+import { useLocalStorage } from 'react-use'
 import {
   Layout,
   SearchDashboardDesktop,
@@ -15,11 +16,14 @@ import {
 
 // Types
 import { CombinedState } from '../types/state'
+import { BookmarkedMoviesObject } from '../types/movie'
 
 // Actions
 
 // Hooks
-import { useFetchPersonData, useFetchGenreList } from '../hooks'
+import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
+import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
+import { updateBookmarkedMovies } from '../reducer/movieReducer/actions'
 
 // Constants
 
@@ -30,6 +34,8 @@ const IndexPage = () => {
 
   useFetchGenreList()
   useFetchPersonData({ activeNameID })
+
+  useSetBookmarkedMoviesOnMount()
 
   return (
     <Layout>

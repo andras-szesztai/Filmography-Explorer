@@ -2,26 +2,27 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector, useDispatch } from 'react-redux'
 import { css } from '@emotion/core'
-import { IoIosCloseCircle } from 'react-icons/io'
-import useWhatInput from 'react-use-what-input'
 
 // Components
 import { useLocalStorage } from 'react-use'
 import MovieDetailCardContent from './MovieDetailCardContent'
-import { MovieCardCloseIcon, BookmarkIcon } from '../../atoms'
+import { MovieCardCloseIcon } from '../../atoms'
 import MovieCardBookmark from '../../atoms/MovieDetailCardAtoms/MovieCardBookMark/MovieCardBookMark'
+
+// utils
+import { handleBookmarkedToggle } from './utils/util'
 
 // Types
 import { CombinedState } from '../../../types/state'
+import { BookmarkedMoviesObject } from '../../../types/movie'
+
+// Constants
+import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
 
 // Styles
 import { movieDetailCardContainerLeft } from './styles'
-import { width, handleSize, colors, buttonStyle, buttonNoFocus, buttonFocus, space, zIndex } from '../../../styles/variables'
+import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
-import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
-import { LOCAL_STORE_ACCESSORS } from '../../../constants/accessors'
-import { handleBookmarkedToggle } from './utils/util'
-import { BookmarkedMoviesObject } from '../../../types/movie'
 
 const MovieDetailCardLeft = () => {
   const {

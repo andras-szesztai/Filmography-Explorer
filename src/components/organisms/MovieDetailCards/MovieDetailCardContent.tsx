@@ -110,7 +110,13 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
           {details.genres &&
             !!details.genres.length &&
             details.genres.map(genre => (
-              <SelectableListItem text={genre.name} icon={FaFilter} iconSize={12} handleSelect={() => console.log('filter genre')} />
+              <SelectableListItem
+                key={genre.id}
+                text={genre.name}
+                icon={FaFilter}
+                iconSize={12}
+                handleSelect={() => console.log('filter genre')}
+              />
             ))}
         </div>
       </div>
@@ -132,6 +138,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
               const isActive = crewMember.id === activeNameID
               return (
                 <SelectableListItem
+                  key={`crew-${crewMember.id}-${crewMember.job}`}
                   icon={IoIosSearch}
                   iconSize={18}
                   text={`${crewMember.job}: ${crewMember.name} `}
@@ -159,6 +166,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
               const isActive = castMember.id === activeNameID
               return (
                 <SelectableListItem
+                  key={`cast-${castMember.id}-${castMember.character}`}
                   icon={IoIosSearch}
                   iconSize={18}
                   text={`${castMember.name} as ${castMember.character}`}

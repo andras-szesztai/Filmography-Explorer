@@ -51,7 +51,7 @@ const PersonCreditsChart = () => {
             justify-content: center;
           `}
         />
-        {chartState.nameId && (
+        {!!chartState.nameId && (
           <div
             key={chartState.nameId}
             css={css`

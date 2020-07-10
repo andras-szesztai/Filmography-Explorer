@@ -33,6 +33,7 @@ const inputStyles = css`
     opacity: 1;
     font-size: inherit;
     letter-spacing: 1px;
+    user-select: none;
   }
 `
 

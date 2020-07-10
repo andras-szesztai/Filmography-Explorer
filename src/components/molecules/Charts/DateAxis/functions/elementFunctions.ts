@@ -141,6 +141,7 @@ export function showRefElements({ storedValues, activeMovieID, height }: ShowRef
   const { xScale, hoverElementArea, voronoiArea, uniqData, mainData, subData } = storedValues.current
   const setX = (d: any) => xScale(new Date(d.unified_date))
   const selectedCircleData = uniqData.find(d => d.id === activeMovieID)
+
   hoverElementArea
     .selectAll('.selected-circle')
     .datum(selectedCircleData)
@@ -164,5 +165,6 @@ export function showRefElements({ storedValues, activeMovieID, height }: ShowRef
   } else {
     hoverElementArea.selectAll('.selected-bottom-line').attr('y2', circleSizeRange[0] + circleAdjust)
   }
+
   voronoiArea.selectAll('.voronoi-path').attr('cursor', (d: any) => (activeMovieID === d.id ? 'default' : 'pointer'))
 }

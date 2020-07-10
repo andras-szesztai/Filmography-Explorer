@@ -20,14 +20,16 @@ import { movieDetailCardContainerLeft } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
-const MovieDetailCardLeft = ({ bookmarkedMovies, setBookmarkedMovies, isOpen }: Params) => {
+const MovieDetailCardLeft = ({ bookmarkedMovies, setBookmarkedMovies }: Params) => {
   const {
+    position,
     activeMovieID,
     activeMovieData: { details, crew, cast }
   } = useSelector((state: CombinedState) => state.movieReducer)
   const dispatch = useDispatch()
 
   const [isHovered, setIsHovered] = React.useState(false)
+  const isOpen = !!activeMovieID && position === 1
 
   const handleClick = () =>
     handleBookmarkedToggle({

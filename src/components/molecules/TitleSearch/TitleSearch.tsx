@@ -24,6 +24,7 @@ import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styl
 import { MovieObject } from '../../../types/movie'
 import { ListEndPlaceHolder } from '../../atoms'
 import { setActiveMovieID } from '../../../reducer/movieReducer/actions'
+import { populateHoveredMovie, emptyHoveredMovie } from '../../../reducer/personCreditsChartReducer/actions'
 
 interface Props {
   titles: MovieObject[]
@@ -33,10 +34,15 @@ interface Props {
 }
 
 const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Props) => {
-  const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
+  const {
+    scales: { xScaleDomain },
+    genreFilter
+  } = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const prevGenreFilter = usePrevious(genreFilter)
-  const xScaleDomain = useSelector((state: CombinedState) => state.personCreditsChartReducer.scales.xScaleDomain)
-  const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
+  const {
+    activeNameID,
+    dataSets: { credits }
+  } = useSelector((state: CombinedState) => state.personReducer)
   const prevActiveNameID = usePrevious(activeNameID)
 
   const dispatch = useDispatch()
@@ -229,6 +235,35 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                         })
                       )
                     }}
+                    handleMouseover={() => {
+                      const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
+                      const xPos = Number(meanYear <= new Date(t.date).getFullYear())
+                      const castObject = credits.cast.find(d => d.id === t.id)
+                      if (castObject) {
+                        dispatch(
+                          populateHoveredMovie({
+                            id: t.id,
+                            data: castObject,
+                            yPosition: 0,
+                            xPosition: xPos
+                          })
+                        )
+                      }
+                      if (!castObject) {
+                        const crewObject = credits.crew.find(d => d.id === t.id)
+                        if (crewObject) {
+                          populateHoveredMovie({
+                            id: t.id,
+                            data: crewObject,
+                            yPosition: 0,
+                            xPosition: xPos
+                          })
+                        }
+                      }
+                    }}
+                    handleMouseout={() => {
+                      dispatch(emptyHoveredMovie())
+                    }}
                   />
                 ))
               ) : (
@@ -242,31 +277,6 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
               )}
               <ListEndPlaceHolder />
             </div>
-            {/* <AnimatePresence>
-              {isTitleOpen && loading.personCredits && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  css={css`
-                    position: absolute;
-                    top: 37px;
-                    left: 0px;
-                    z-index: 100;
-                  `}
-                >
-                  <ContentLoader
-                    speed={2}
-                    width={width + space[6]}
-                    height={50}
-                    backgroundColor={colors.bgColorSecondaryDark}
-                    foregroundColor={colors.bgColorPrimary}
-                  >
-                    <rect x="10" y="4" rx="4" ry="4" width={width + space[2]} height="42" />
-                  </ContentLoader>
-                </motion.div>
-              )}
-            </AnimatePresence> */}
           </motion.div>
         )}
       </AnimatePresence>

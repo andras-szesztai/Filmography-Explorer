@@ -14,7 +14,7 @@ import {
 
 // Types
 import { PersonState } from '../../types/state'
-import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from '../../types/person'
+import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject } from '../../types/person'
 
 const initialState = {
   activeNameID: 0,
@@ -23,7 +23,8 @@ const initialState = {
     credits: {
       cast: [] as FormattedPersonCreditDataObject[],
       crew: [] as FormattedPersonCreditDataObject[]
-    }
+    },
+    genres: [] as PersonGenresObject[]
   },
   loading: {
     personDetails: false,
@@ -73,7 +74,8 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
           credits: {
             cast: [],
             crew: []
-          }
+          },
+          genres: []
         },
         loading: {
           personDetails: false,

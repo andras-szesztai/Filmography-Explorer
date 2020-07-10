@@ -12,6 +12,7 @@ export const ContainerStyle = css`
 
   filter: drop-shadow(${dropShadow.header.ternary});
   background-color: ${colors.bgColorSecondary};
+
   display: grid;
   grid-template-columns: max-content 1fr;
   grid-column-gap: ${space[5]}px;

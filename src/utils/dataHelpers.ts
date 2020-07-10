@@ -2,7 +2,7 @@
 import { groupBy, uniqBy } from 'lodash'
 
 // Types
-import { PersonCreditDataObject, FavoritePersonsObject } from '../types/person'
+import { PersonCreditDataObject, FavoritePersonsObject, FormattedPersonCreditDataObject } from '../types/person'
 
 interface Params {
   data: PersonCreditDataObject[]

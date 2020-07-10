@@ -1,4 +1,4 @@
-import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject } from './person'
+import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject } from './person'
 import { ChartSettings, HoveredMovie } from './personCreditsChart'
 import { GenreObject, ActiveMovieDataObject, BookmarkedMoviesObject } from './movie'
 
@@ -10,6 +10,7 @@ export interface PersonState {
       cast: FormattedPersonCreditDataObject[]
       crew: FormattedPersonCreditDataObject[]
     }
+    genres: PersonGenresObject[]
   }
   favorites: FavoritePersonsObject
   loading: {

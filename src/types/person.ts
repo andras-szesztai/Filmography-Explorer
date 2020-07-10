@@ -26,6 +26,7 @@ export interface PersonCreditDataObject extends Person {
   title: string
   character?: string
   job?: string
+  genre_ids: number[]
 }
 
 export interface FormattedPersonCreditDataObject extends Person {
@@ -39,11 +40,16 @@ export interface FormattedPersonCreditDataObject extends Person {
   vote_average: number
   title: string
   character?: string | undefined
-  job: (string | undefined)[]
+  job?: (string | undefined)[]
   genre_ids: number[]
   poster_path: string
   original_title: string
   media_type: string
+}
+
+export interface PersonGenresObject {
+  id: number
+  count: number
 }
 
 export interface PersonCredits {

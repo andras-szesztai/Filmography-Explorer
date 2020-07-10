@@ -20,7 +20,8 @@ import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fon
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
-  const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
+  const { activeMovieID, genres } = useSelector((state: CombinedState) => state.movieReducer)
+  console.log('PersonCreditsChart -> genres', genres.data)
   useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
@@ -109,11 +110,14 @@ const PersonCreditsChart = () => {
             {isClicked && (
               <motion.div
                 initial={{ y: 35, opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 50 }}
+                animate={{ opacity: 1, height: space[13] }}
                 exit={{ opacity: 0, height: 0 }}
                 css={css`
                   z-index: 10;
                   position: absolute;
+
+                  display: grid;
+                  grid-template-columns: 100px 1fr;
 
                   background: ${colors.bgColorSecondary};
                   width: 100%;
@@ -121,7 +125,18 @@ const PersonCreditsChart = () => {
                   color: ${colors.textColorSecondary};
                 `}
               >
-                Reset
+                <div>Filters</div>
+                <div
+                  css={css`
+                    display: flex;
+                  `}
+                >
+                  {personDataSets.genres.map(genre => (
+                    <span>
+                      {genres.data.find(g => g.id === genre.id)?.name} ({genre.count})
+                    </span>
+                  ))}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

@@ -15,11 +15,22 @@ interface Props {
   icon: IconType
   iconSize: number
   handleSelect?: () => void
+  handleMouseover?: () => void
+  handleMouseout?: () => void
   additionalHoverCondition?: boolean
   isActive?: boolean
 }
 
-const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, additionalHoverCondition = true, isActive = true }: Props) => {
+const SelectableListItem = ({
+  text,
+  icon: Icon,
+  iconSize,
+  handleSelect,
+  additionalHoverCondition = true,
+  isActive = true,
+  handleMouseover,
+  handleMouseout
+}: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   const [currentInput] = useWhatInput()
@@ -28,10 +39,30 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
       type="button"
       initial={{ background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight }}
       animate={{ background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight }}
-      onMouseOver={() => setIsHovered(true)}
-      onFocus={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onBlur={() => setIsHovered(false)}
+      onMouseOver={() => {
+        setIsHovered(true)
+        if (handleMouseover) {
+          handleMouseover()
+        }
+      }}
+      onFocus={() => {
+        setIsHovered(true)
+        if (handleMouseover) {
+          handleMouseover()
+        }
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        if (handleMouseout) {
+          handleMouseout()
+        }
+      }}
+      onBlur={() => {
+        setIsHovered(false)
+        if (handleMouseout) {
+          handleMouseout()
+        }
+      }}
       onClick={() => handleSelect && handleSelect()}
       onKeyDown={({ keyCode }) => {
         if (keyCode === 13 && handleSelect) {
@@ -68,6 +99,8 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
 
 SelectableListItem.defaultProps = {
   handleSelect: () => null,
+  handleMouseover: () => null,
+  handleMouseout: () => null,
   additionalHoverCondition: true,
   isActive: true
 }

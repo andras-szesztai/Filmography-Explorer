@@ -4,11 +4,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
+import { useDebounce, usePrevious } from 'react-use'
 
 import { mean } from 'lodash'
-import { useDebounce, usePrevious } from 'react-use'
+
 import { CombinedState } from '../../../types/state'
-import { colors, fontWeight, buttonNoFocus, buttonFocus, buttonStyle, fontSize, space } from '../../../styles/variables'
+import {
+  colors,
+  fontWeight,
+  buttonNoFocus,
+  buttonFocus,
+  buttonStyle,
+  fontSize,
+  space,
+  filterDropdownStyle
+} from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import { MovieObject } from '../../../types/movie'
@@ -26,7 +36,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
   const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
   const prevGenreFilter = usePrevious(genreFilter)
   const xScaleDomain = useSelector((state: CombinedState) => state.personCreditsChartReducer.scales.xScaleDomain)
-  const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
+  const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
   const prevActiveNameID = usePrevious(activeNameID)
 
   const dispatch = useDispatch()
@@ -124,28 +134,12 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
       </button>
       <AnimatePresence>
         {isTitleOpen && (
-          <motion.div
-            initial={{ y: 35, opacity: 0, height: 0, padding: `0px ${space[3]}px` }}
-            animate={{ opacity: 1, height: space[17], padding: `${space[2]}px ${space[3]}px` }}
-            exit={{ opacity: 0, height: 10, padding: `0px ${space[3]}px` }}
-            css={css`
-              position: absolute;
-
-              display: grid;
-              grid-template-rows: 30px 1fr;
-              grid-row-gap: ${space[1]}px;
-
-              background: ${colors.bgColorSecondary};
-              width: 100%;
-              border-radius: ${space[1]}px;
-              color: ${colors.textColorSecondary};
-              user-select: none;
-            `}
-          >
+          <motion.div initial={{ y: 35, opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} css={filterDropdownStyle}>
             <div
               css={css`
                 display: flex;
                 justify-content: space-between;
+                position: relative;
               `}
             >
               <div
@@ -248,6 +242,31 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
               )}
               <ListEndPlaceHolder />
             </div>
+            {/* <AnimatePresence>
+              {isTitleOpen && loading.personCredits && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  css={css`
+                    position: absolute;
+                    top: 37px;
+                    left: 0px;
+                    z-index: 100;
+                  `}
+                >
+                  <ContentLoader
+                    speed={2}
+                    width={width + space[6]}
+                    height={50}
+                    backgroundColor={colors.bgColorSecondaryDark}
+                    foregroundColor={colors.bgColorPrimary}
+                  >
+                    <rect x="10" y="4" rx="4" ry="4" width={width + space[2]} height="42" />
+                  </ContentLoader>
+                </motion.div>
+              )}
+            </AnimatePresence> */}
           </motion.div>
         )}
       </AnimatePresence>

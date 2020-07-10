@@ -8,7 +8,16 @@ import { css } from '@emotion/core'
 
 import { CombinedState } from '../../../types/state'
 import { PersonGenresObject } from '../../../types/person'
-import { buttonPadding, colors, fontWeight, space, buttonNoFocus, buttonFocus, buttonStyle } from '../../../styles/variables'
+import {
+  buttonPadding,
+  colors,
+  fontWeight,
+  space,
+  buttonNoFocus,
+  buttonFocus,
+  buttonStyle,
+  filterDropdownStyle
+} from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
@@ -85,24 +94,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
       </button>
       <AnimatePresence>
         {isGenreOpen && (
-          <motion.div
-            initial={{ y: 35, opacity: 0, height: 0, padding: `0px ${space[3]}px` }}
-            animate={{ opacity: 1, height: space[17], padding: `${space[2]}px ${space[3]}px` }}
-            exit={{ opacity: 0, height: 10, padding: `0px ${space[3]}px` }}
-            css={css`
-              position: absolute;
-
-              display: grid;
-              grid-template-rows: 30px 1fr;
-              grid-row-gap: ${space[1]}px;
-
-              background: ${colors.bgColorSecondary};
-              width: 100%;
-              border-radius: ${space[1]}px;
-              color: ${colors.textColorSecondary};
-              user-select: none;
-            `}
-          >
+          <motion.div initial={{ y: 35, opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} css={filterDropdownStyle}>
             <div
               css={css`
                 display: flex;

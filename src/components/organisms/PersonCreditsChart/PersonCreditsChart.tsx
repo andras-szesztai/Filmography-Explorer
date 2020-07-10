@@ -18,8 +18,7 @@ import { CombinedState } from '../../../types/state'
 import { useUpdateChartSettings } from './hooks'
 
 // Styles
-import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fontWeight, buttonStyle } from '../../../styles/variables'
-import { horizontalScrollableStyle } from '../MovieDetailCards/styles'
+import { space, colors, fontSize } from '../../../styles/variables'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)

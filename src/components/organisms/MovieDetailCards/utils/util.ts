@@ -28,6 +28,7 @@ export const handleBookmarkedToggle = ({
   details,
   dispatch
 }: HandleBookmarkedParams) => {
+  console.log('runnning', activeMovieID)
   let newObject
   if (bookmarkedMovies) {
     if (bookmarkedMovies[activeMovieID]) {

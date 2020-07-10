@@ -11,7 +11,8 @@ import {
   fontWeight,
   styledSelection,
   dentedStyle,
-  dropShadow
+  dropShadow,
+  buttonStyle
 } from '../../../styles/variables'
 
 const movieDetailCardContainer = css`
@@ -104,6 +105,11 @@ export const movieTitle = css`
   font-weight: ${fontWeight.lg};
   cursor: pointer;
   letter-spacing: 0.8px;
+  text-align: left;
+
+  padding: 0;
+
+  ${buttonStyle}
 
   ${styledSelection}
 `

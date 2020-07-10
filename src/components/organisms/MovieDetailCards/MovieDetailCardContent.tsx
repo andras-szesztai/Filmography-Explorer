@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { format } from 'date-fns'
 import { FaFilter, FaExternalLinkSquareAlt } from 'react-icons/fa'
 import { IoIosSearch } from 'react-icons/io'
+import useWhatInput from 'react-use-what-input'
 
 // Components
 import { Image, TextArea, MovieDetailCardContantLoader } from '../../atoms'
@@ -30,7 +31,7 @@ import {
   horizontalScrollableStyle,
   linkContainerStyle
 } from './styles'
-import { space } from '../../../styles/variables'
+import { space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 
 interface Props {
   isOpen: boolean
@@ -54,11 +55,31 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
 
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
 
+  const [currentInput] = useWhatInput()
+
   return (
     <div css={mainGridStyle}>
       <MovieDetailCardContantLoader loading={loading.activeMovieData} loaderLeftPos={loaderLeftPos} />
       <div css={infoGrid}>
-        <div css={movieTitle}>{details.original_title || details.original_name}</div>
+        <button
+          type="button"
+          css={css`
+            ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+            ${movieTitle}
+          `}
+          onMouseOver={() => setIsHovered(true)}
+          onFocus={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onBlur={() => setIsHovered(false)}
+          onClick={() => currentInput === 'mouse' && handleClick()}
+          onKeyDown={({ keyCode }) => {
+            if (keyCode === 13) {
+              handleClick()
+            }
+          }}
+        >
+          {details.original_title || details.original_name}
+        </button>
         <div css={subtitle}>
           {mediaType === 'movie' ? 'Release date' : 'First air date'}:&nbsp;
           {format(new Date(details.release_date || details.first_air_date || 0), 'MMM dd, yyyy')}

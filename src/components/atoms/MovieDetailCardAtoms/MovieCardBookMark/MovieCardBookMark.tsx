@@ -27,6 +27,7 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered }: Par
     : css`
         left: -458px;
       `
+
   return (
     <button
       type="button"
@@ -34,7 +35,7 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered }: Par
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
-      onClick={handleClick}
+      onClick={() => currentInput === 'mouse' && handleClick()}
       onKeyDown={({ keyCode }) => {
         if (keyCode === 13) {
           handleClick()

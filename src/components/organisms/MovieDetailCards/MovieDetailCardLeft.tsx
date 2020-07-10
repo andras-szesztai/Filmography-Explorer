@@ -61,7 +61,13 @@ const MovieDetailCardLeft = () => {
       >
         <MovieCardCloseIcon isLeft />
         <MovieCardBookmark isLeft handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />
-        <MovieDetailCardContent isOpen={isOpen} justifyLink="flex-start" loaderLeftPos={width.movieDetailCardExtra + handleSize} />
+        <MovieDetailCardContent
+          isOpen={isOpen}
+          justifyLink="flex-start"
+          loaderLeftPos={width.movieDetailCardExtra + handleSize}
+          handleClick={handleClick}
+          setIsHovered={setIsHovered}
+        />
       </div>
     </motion.div>
   )

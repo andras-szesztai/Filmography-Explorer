@@ -13,6 +13,7 @@ import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import { ListEndPlaceHolder } from '../../atoms'
+import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 
 interface Props {
   genres: PersonGenresObject[]
@@ -180,6 +181,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                     } else {
                       dispatch(updateGenreFilter([...genreFilter, genre.id]))
                     }
+                    dispatch(emptyMovieDetails())
                   }}
                   isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
                 />

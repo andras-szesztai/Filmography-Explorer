@@ -47,7 +47,10 @@ type Action = ReturnType<
 const personReducer = (state: PersonState = initialState, action: Action) => {
   switch (action.type) {
     case SET_ACTIVE_NAME_ID:
-      return { ...state, activeNameID: action.id }
+      return {
+        ...state,
+        activeNameID: action.id
+      }
     case FETCH_NAME_CREDITS_BY_ID:
       return {
         ...state,
@@ -77,7 +80,8 @@ const personReducer = (state: PersonState = initialState, action: Action) => {
             cast: [],
             crew: []
           },
-          genres: []
+          genres: [],
+          allTitles: []
         },
         loading: {
           personDetails: false,

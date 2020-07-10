@@ -1,20 +1,19 @@
 import React from 'react'
 import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
-import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
 
-import { title } from 'process'
+import { mean } from 'lodash'
+import { useDebounce, usePrevious } from 'react-use'
 import { CombinedState } from '../../../types/state'
-import { FormattedPersonCreditDataObject } from '../../../types/person'
-import { buttonPadding, colors, fontWeight, space, buttonNoFocus, buttonFocus, buttonStyle } from '../../../styles/variables'
+import { colors, fontWeight, buttonNoFocus, buttonFocus, buttonStyle, fontSize, space } from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
-import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import { MovieObject } from '../../../types/movie'
 import { ListEndPlaceHolder } from '../../atoms'
+import { setActiveMovieID } from '../../../reducer/movieReducer/actions'
 
 interface Props {
   titles: MovieObject[]
@@ -25,11 +24,59 @@ interface Props {
 
 const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Props) => {
   const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
+  const prevGenreFilter = usePrevious(genreFilter)
+  const xScaleDomain = useSelector((state: CombinedState) => state.personCreditsChartReducer.scales.xScaleDomain)
+  const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
+  const prevActiveNameID = usePrevious(activeNameID)
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
+  const [inputText, setInputText] = React.useState('')
+  const [searchText, setSearchText] = React.useState('')
+  const prevSearchText = usePrevious(searchText)
+
+  useDebounce(
+    () => {
+      setSearchText(inputText)
+    },
+    500,
+    [inputText]
+  )
+
+  React.useEffect(() => {
+    if (!isTitleOpen && searchText) {
+      setInputText('')
+    }
+  }, [isTitleOpen])
+
+  const [genreFilteredTitles, setGenreFilteredTitles] = React.useState([] as MovieObject[])
+  const [filteredTitles, setFilteredTitles] = React.useState([] as MovieObject[])
+  React.useEffect(() => {
+    if (!searchText && !genreFilter.length && !genreFilteredTitles.length && !!titles.length) {
+      setGenreFilteredTitles(titles)
+      setFilteredTitles(titles)
+    }
+    if (prevGenreFilter && genreFilter.length !== prevGenreFilter.length) {
+      const newArray = titles.filter(t =>
+        genreFilter.length && t.genres ? t.genres.map(id => genreFilter.includes(id)).includes(true) : true
+      )
+      setGenreFilteredTitles(newArray)
+      setFilteredTitles(newArray)
+    }
+    if (prevSearchText !== searchText) {
+      setFilteredTitles(genreFilteredTitles.filter(t => t.title.toLowerCase().includes(searchText.toLowerCase())))
+    }
+    if (prevActiveNameID && activeNameID !== prevActiveNameID) {
+      setGenreFilteredTitles([])
+      setFilteredTitles([])
+    }
+    if (!genreFilter.length && titles.length !== genreFilteredTitles.length) {
+      setGenreFilteredTitles(titles)
+      setFilteredTitles(titles)
+    }
+  }, [searchText, genreFilter])
 
   return (
     <>
@@ -113,27 +160,39 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                 >
                   Titles
                 </span>
-                {/* <AnimatePresence>
-                  {genreFilter.length && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      css={css`
-                        height: 20px;
-                        align-self: flex-start;
-                        margin-left: ${space[2]}px;
-                      `}
-                    >
-                      <SelectableListItem
-                        handleSelect={() => dispatch(updateGenreFilter([]))}
-                        icon={IoIosCloseCircle}
-                        iconSize={18}
-                        text="Reset selection"
-                      />
-                    </motion.span>
-                  )}
-                </AnimatePresence> */}
+                <span
+                  css={css`
+                    margin-left: ${space[3]}px;
+                  `}
+                >
+                  <input
+                    css={css`
+                      border-radius: ${space[1]}px;
+                      border: 1px solid ${colors.textColorSecondary};
+
+                      color: ${colors.textColorSecondary};
+                      font-size: ${fontSize.sm};
+                      font-weight: ${fontWeight.sm};
+
+                      padding: ${space[1]}px ${space[2]}px;
+                      opacity: 1;
+
+                      ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+
+                      &::placeholder {
+                        color: inherit;
+                        opacity: 1;
+                        font-size: inherit;
+                        letter-spacing: 0.8px;
+                        user-select: none;
+                      }
+                    `}
+                    placeholder="Search . . . "
+                    type="text"
+                    value={inputText}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) => setInputText(e.currentTarget.value)}
+                  />
+                </span>
               </div>
               <motion.button
                 type="button"
@@ -159,26 +218,34 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                 ${horizontalScrollableStyle}
               `}
             >
-              {titles
-                .filter(t => (genreFilter.length ? t.genres.map(id => genreFilter.includes(id)).includes(true) : true))
-                .map(t => (
+              {filteredTitles.length ? (
+                filteredTitles.map(t => (
                   <SelectableListItem
                     key={t.id}
-                    icon={FaFilter}
-                    iconSize={12}
+                    icon={IoIosSearch}
+                    iconSize={16}
                     text={t.title}
-                    // handleSelect={() => {
-                    //   if (genreFilter.includes(genre.id)) {
-                    //     dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
-                    //   } else if (genres.length === genreFilter.length) {
-                    //     dispatch(updateGenreFilter([]))
-                    //   } else {
-                    //     dispatch(updateGenreFilter([...genreFilter, genre.id]))
-                    //   }
-                    // }}
-                    // isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                    handleSelect={() => {
+                      const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
+                      dispatch(
+                        setActiveMovieID({
+                          id: t.id,
+                          position: Number(meanYear <= new Date(t.date).getFullYear()),
+                          mediaType: t.media_type
+                        })
+                      )
+                    }}
                   />
-                ))}
+                ))
+              ) : (
+                <span
+                  css={css`
+                    margin-left: ${space[1]}px;
+                  `}
+                >
+                  Sorry, no results found
+                </span>
+              )}
               <ListEndPlaceHolder />
             </div>
           </motion.div>

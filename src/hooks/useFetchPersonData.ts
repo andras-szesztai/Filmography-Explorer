@@ -34,13 +34,13 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
           axios.spread((details, credits) => {
             const filteredCast = makeFilteredData({ data: credits.data.cast, type: 'cast' })
             const filteredCrew = makeFilteredData({ data: credits.data.crew, type: 'crew' })
-
-            const allGenres = flattenDeep([...filteredCast, ...filteredCrew].map(d => d.genre_ids))
+            const cast = makeUniqData({ data: filteredCast, type: 'cast' })
+            const crew = makeUniqData({ data: filteredCrew, type: 'crew' })
+            const uniqCombined = uniqBy([...cast, ...crew], 'id')
+            const allGenres = flattenDeep(uniqCombined.map(d => d.genre_ids))
             const uniqGenres = uniq(allGenres)
             const genreCount = uniqGenres.map(id => ({ id, count: allGenres.filter(d => d === id).length }))
             const sortedGenres = sortBy(genreCount, o => -o.count)
-            const cast = makeUniqData({ data: filteredCast, type: 'cast' })
-            const crew = makeUniqData({ data: filteredCrew, type: 'crew' })
             dispatch(
               fetchNameCreditsSuccess({
                 details: details.data,
@@ -50,19 +50,16 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
                 },
                 genres: sortedGenres,
                 allTitles: sortBy(
-                  uniqBy(
-                    [...cast, ...crew].map(t => ({
-                      id: t.id,
-                      title: t.original_name || t.original_title,
-                      date: t.first_air_date || t.release_date,
-                      media_type: t.media_type,
-                      vote_average: t.vote_average,
-                      vote_count: t.vote_count,
-                      genres: t.genre_ids,
-                      poster_path: t.poster_path
-                    })),
-                    'id'
-                  ),
+                  uniqCombined.map(t => ({
+                    id: t.id,
+                    title: t.original_name || t.original_title,
+                    date: t.first_air_date || t.release_date,
+                    media_type: t.media_type,
+                    vote_average: t.vote_average,
+                    vote_count: t.vote_count,
+                    genres: t.genre_ids,
+                    poster_path: t.poster_path
+                  })),
                   t => -new Date(t.date)
                 )
               })

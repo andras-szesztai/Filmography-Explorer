@@ -3,24 +3,31 @@ import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IoIosCloseCircle } from 'react-icons/io'
+import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
 
 import { CombinedState } from '../../../types/state'
-import { PersonGenresObject } from '../../../types/person'
+import { FormattedPersonCreditDataObject } from '../../../types/person'
 import { buttonPadding, colors, fontWeight, space, buttonNoFocus, buttonFocus, buttonStyle } from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 
-interface Props {
-  genres: PersonGenresObject[]
-  setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isGenreOpen: boolean
+interface TitleObject {
+  id: number
+  title: string
+  date: string
 }
 
-const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Props) => {
+interface Props {
+  titles: TitleObject[]
+  setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isTitleOpen: boolean
+}
+
+const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Props) => {
+  console.log('TitleSearch -> titles', titles)
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
   const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
 
@@ -38,51 +45,43 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
         onClick={() => {
-          setIsGenreOpen(!isGenreOpen)
-          setIsTitleOpen(false)
+          setIsTitleOpen(!isTitleOpen)
+          setIsGenreOpen(false)
         }}
         onKeyDown={({ keyCode }) => {
           if (keyCode === 13) {
-            setIsGenreOpen(!isGenreOpen)
-            setIsTitleOpen(false)
+            setIsTitleOpen(!isTitleOpen)
+            setIsGenreOpen(false)
           }
         }}
         css={css`
-          ${buttonPadding}
+          padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[3]}px;
           background: ${colors.bgColorSecondary};
           border: none;
           cursor: pointer;
-          letter-spacing:  .8px;
+          letter-spacing: 0.8px;
           display: flex;
           align-items: center;
 
-          margin-left: ${space[3]}px;
           font-weight: ${fontWeight.sm};
           user-select: none;
           border-radius: ${space[1]}px;
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
         `}
       >
-        <motion.span animate={{ scale: isHovered ? 1.3 : 1 }}>
-          <FaFilter color={colors.bgColorPrimary} size={12} />
+        <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
+          <IoIosSearch color={colors.bgColorPrimary} size={16} />
         </motion.span>
         <span
           css={css`
             margin-left: ${space[2]}px;
           `}
         >
-          Filter for genres&nbsp;
-          <motion.span
-            animate={{
-              color: !genreFilter.length ? colors.textColorSecondary : colors.accentPrimary
-            }}
-          >
-            ({genreFilter.length})
-          </motion.span>
+          Find a title
         </span>
       </button>
       <AnimatePresence>
-        {isGenreOpen && (
+        {isTitleOpen && (
           <motion.div
             initial={{ y: 35, opacity: 0, height: 0, padding: `0px ${space[3]}px` }}
             animate={{ opacity: 1, height: space[17], padding: `${space[2]}px ${space[3]}px` }}
@@ -117,9 +116,9 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                     transform: translateY(2px);
                   `}
                 >
-                  Genres
+                  Titles
                 </span>
-                <AnimatePresence>
+                {/* <AnimatePresence>
                   {genreFilter.length && (
                     <motion.span
                       initial={{ opacity: 0 }}
@@ -139,7 +138,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                       />
                     </motion.span>
                   )}
-                </AnimatePresence>
+                </AnimatePresence> */}
               </div>
               <motion.button
                 type="button"
@@ -150,17 +149,17 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                       padding: 0;
                 `}
                 whileHover={{ originY: 0.1, scale: 1.3 }}
-                onClick={() => setIsGenreOpen(!isGenreOpen)}
+                onClick={() => setIsTitleOpen(!isTitleOpen)}
                 onKeyDown={({ keyCode }) => {
                   if (keyCode === 13) {
-                    setIsGenreOpen(!isGenreOpen)
+                    setIsTitleOpen(!isTitleOpen)
                   }
                 }}
               >
                 <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
               </motion.button>
             </div>
-            <div
+            {/* <div
               css={css`
                 ${horizontalScrollableStyle}
               `}
@@ -183,7 +182,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                   isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
                 />
               ))}
-            </div>
+            </div> */}
           </motion.div>
         )}
       </AnimatePresence>
@@ -191,4 +190,4 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
   )
 }
 
-export default GenreFilter
+export default TitleSearch

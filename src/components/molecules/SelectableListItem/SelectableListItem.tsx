@@ -52,7 +52,6 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
         letter-spacing: 0.8px;
 
         ${buttonStyle}
-        border-radius: 2px;
         color: ${colors.textColorPrimary};
 
         cursor: ${isHovered && additionalHoverCondition ? 'pointer' : 'default'};

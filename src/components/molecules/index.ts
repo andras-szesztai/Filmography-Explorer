@@ -5,5 +5,7 @@ export { default as SearchResultContent } from './SearchResultContent/SearchResu
 export { default as PersonDetailCardNameButton } from './PersonDetailCardNameButton/PersonDetailCardNameButton'
 export { default as FavoritePersonsListItem } from './FavoritePersonsListItem/FavoritePersonsListItem'
 export { default as SelectableListItem } from './SelectableListItem/SelectableListItem'
+export { default as TitleSearch } from './TitleSearch/TitleSearch'
+export { default as GenreFilter } from './GenreFilter/GenreFilter'
 
 export { DateAxis, BubbleChart }

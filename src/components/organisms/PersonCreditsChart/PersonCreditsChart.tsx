@@ -7,7 +7,7 @@ import useWhatInput from 'react-use-what-input'
 import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
-import { DateAxis, BubbleChart, SelectableListItem } from '../../molecules'
+import { DateAxis, BubbleChart, SelectableListItem, TitleSearch, GenreFilter } from '../../molecules'
 
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 
@@ -20,7 +20,6 @@ import { useUpdateChartSettings } from './hooks'
 // Styles
 import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fontWeight, buttonStyle } from '../../../styles/variables'
 import { horizontalScrollableStyle } from '../MovieDetailCards/styles'
-import GenreFilter from '../../molecules/GenreFilter/GenreFilter'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
@@ -30,10 +29,10 @@ const PersonCreditsChart = () => {
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
   const titles = [...personDataSets.credits.cast, ...personDataSets.credits.crew]
-  console.log('PersonCreditsChart -> titles', titles)
   const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
 
-  const [genreIsOpen, setGenreIsOpen] = React.useState(false)
+  const [isGenreOpen, setIsGenreOpen] = React.useState(false)
+  const [isTitleOpen, setIsTitleOpen] = React.useState(false)
   return (
     <div
       css={css`
@@ -71,7 +70,22 @@ const PersonCreditsChart = () => {
             z-index: 100;
           `}
         >
-          <GenreFilter genres={personDataSets.genres} setGenreIsOpen={setGenreIsOpen} genreIsOpen={genreIsOpen} />
+          <TitleSearch
+            titles={titles.map(title => ({
+              id: title.id,
+              title: title.title || title.name,
+              date: title.first_air_date || title.release_date
+            }))}
+            setIsGenreOpen={setIsGenreOpen}
+            setIsTitleOpen={setIsTitleOpen}
+            isTitleOpen={isTitleOpen}
+          />
+          <GenreFilter
+            genres={personDataSets.genres}
+            setIsTitleOpen={setIsTitleOpen}
+            setIsGenreOpen={setIsGenreOpen}
+            isGenreOpen={isGenreOpen}
+          />
         </div>
         {!!chartState.nameId && (
           <div

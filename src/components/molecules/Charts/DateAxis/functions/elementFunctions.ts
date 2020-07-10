@@ -92,7 +92,7 @@ export function createDateAxisRefElements({ storedValues, className }: DateAxisR
     .attr('r', circleSizeRange[0])
     .attr('fill', colors.bgColorPrimaryLight)
     .attr('fill-opacity', circleFillOpacity)
-    .attr('stroke', colors.bgColorPrimaryLight)
+    .attr('stroke', colors.bgColorSecondary)
     .attr('stroke-width', 1)
     .attr('opacity', 0)
   hoverElementArea

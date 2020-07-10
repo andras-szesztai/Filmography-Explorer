@@ -51,14 +51,14 @@ const IndexPage = () => {
         <PersonCreditsChart />
         <AnimatePresence>
           {isLeft && (
-            <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
+            <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <MovieDetailCardContainerLeft bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} isOpen={isLeft} />
             </motion.span>
           )}
         </AnimatePresence>
         <AnimatePresence>
           {isRight && (
-            <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
+            <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <MovieDetailCardContainerRight
                 bookmarkedMovies={bookmarkedMovies}
                 setBookmarkedMovies={setBookmarkedMovies}

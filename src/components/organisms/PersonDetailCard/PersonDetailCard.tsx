@@ -8,7 +8,6 @@ import isEmpty from 'lodash/isEmpty'
 import 'what-input'
 
 // Components
-import { css } from '@emotion/core'
 import {
   PersonDetailCardContainer,
   PersonDetailCardShadow,

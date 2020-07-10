@@ -6,6 +6,7 @@ import { ScalePower, ScaleLinear } from 'd3-scale'
 import { Delaunay } from 'd3-delaunay'
 import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
+import { BookmarkedMoviesObject } from '../../../../../types/movie'
 
 // Styles
 import { colors, fontSize, circleRadius, circleFillOpacity, circleAdjust } from '../../../../../styles/variables'
@@ -53,28 +54,27 @@ interface CircleParams {
   storedValues: { current: BubbleChartStoredValues }
   data: FormattedPersonCreditDataObject[]
   isSizeDynamic: boolean
+  bookmarks: BookmarkedMoviesObject
 }
 
-export function createCircles({ storedValues, data, isSizeDynamic }: CircleParams) {
+export function createCircles({ storedValues, data, isSizeDynamic, bookmarks }: CircleParams) {
   const { xScale, sizeScale, yScale, chartArea } = storedValues.current
+  const currIDs = bookmarks ? Object.keys(bookmarks) : []
   chartArea
     .selectAll('.main-circle')
     .data(data, (d: any) => d.id)
-    .join(
-      enter =>
-        enter
-          .append('g')
-          .attr('class', 'main-circle')
-          .append('circle')
-          .attr('cx', d => xScale(new Date(d.unified_date)))
-          .attr('cy', d => yScale(d.vote_average))
-          .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
-          .attr('fill', colors.bgColorPrimaryLight)
-          .attr('fill-opacity', circleFillOpacity)
-          .attr('stroke', colors.bgColorSecondary)
-      // TODO: setup when favoriting is back
-      // .attr('fill',  => (favoriteMovies.includes(id) ? COLORS.favorite : COLORS.secondary))
-      // .attr('stroke', ({ id }) => (favoriteMovies.includes(id) ? chroma(COLORS.favorite).darken() : chroma(COLORS.secondary).darken()))
+    .join(enter =>
+      enter
+        .append('g')
+        .attr('class', 'main-circle')
+        .append('circle')
+        .attr('class', 'circle')
+        .attr('cx', d => xScale(new Date(d.unified_date)))
+        .attr('cy', d => yScale(d.vote_average))
+        .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
+        .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorPrimaryLight))
+        .attr('fill-opacity', circleFillOpacity)
+        .attr('stroke', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
     )
 }
 

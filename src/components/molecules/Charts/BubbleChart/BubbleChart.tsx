@@ -5,7 +5,7 @@ import { select } from 'd3-selection'
 import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
 import { css } from '@emotion/core'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { maxBy, minBy } from 'lodash'
 
 // Components
@@ -24,11 +24,12 @@ import { BubbleChartStoredValues, BubbleChartProps } from '../../../../types/cha
 import { FormattedPersonCreditDataObject } from '../../../../types/person'
 
 // Hooks
-import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate } from './hooks'
+import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUpdate } from './hooks'
 
 // Styles
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
+import { CombinedState } from '../../../../types/state'
 
 const margin = {
   top: 5,
@@ -38,6 +39,7 @@ const margin = {
 
 export default function BubbleChart(props: BubbleChartProps) {
   const dispatch = useDispatch()
+  const bookmarks = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
   const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
@@ -138,7 +140,8 @@ export default function BubbleChart(props: BubbleChartProps) {
       createCircles({
         storedValues,
         data,
-        isSizeDynamic
+        isSizeDynamic,
+        bookmarks
       })
       createUpdateVoronoi({
         storedValues,
@@ -216,10 +219,10 @@ export default function BubbleChart(props: BubbleChartProps) {
     addUpdateInteractions
   })
 
-  // useFavoriteUpdate({
-  //   storedValues,
-  //   favoriteMovies
-  // })
+  useBookmarkUpdate({
+    storedValues,
+    bookmarks
+  })
 
   const prevProps = usePrevious(props)
   React.useEffect(() => {

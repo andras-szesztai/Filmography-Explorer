@@ -40,5 +40,7 @@ export const duration = {
 }
 
 export const delay = {
+  xs: 0.4,
+  sm: 0.6,
   md: 0.8
 }

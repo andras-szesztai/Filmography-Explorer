@@ -26,6 +26,7 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
   return (
     <motion.button
       type="button"
+      initial={{ background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight }}
       animate={{ background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight }}
       onMouseOver={() => setIsHovered(true)}
       onFocus={() => setIsHovered(true)}
@@ -45,13 +46,13 @@ const SelectableListItem = ({ text, icon: Icon, iconSize, handleSelect, addition
         font-weight: ${fontWeight.sm};
         font-size: ${fontSize.sm};
 
-        border-radius: ${space[1]}px;
         padding: ${space[1] + 1}px ${space[3]}px ${space[1] + 2}px ${space[3]}px;
         margin: 0 ${space[1]}px;
         user-select: none;
-        letter-spacing: .8px;
+        letter-spacing: 0.8px;
 
         ${buttonStyle}
+        border-radius: 2px;
         color: ${colors.textColorPrimary};
 
         cursor: ${isHovered && additionalHoverCondition ? 'pointer' : 'default'};

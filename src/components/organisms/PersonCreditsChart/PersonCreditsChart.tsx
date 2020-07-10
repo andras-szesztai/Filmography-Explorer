@@ -18,23 +18,22 @@ import { CombinedState } from '../../../types/state'
 import { useUpdateChartSettings } from './hooks'
 
 // Styles
-import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fontWeight } from '../../../styles/variables'
+import { space, colors, fontSize, buttonPadding, buttonNoFocus, buttonFocus, fontWeight, buttonStyle } from '../../../styles/variables'
 import { horizontalScrollableStyle } from '../MovieDetailCards/styles'
+import GenreFilter from '../../molecules/GenreFilter/GenreFilter'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
-  const { activeMovieID, genres } = useSelector((state: CombinedState) => state.movieReducer)
+  const { activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
   useUpdateChartSettings(personDataSets)
-  const dispatch = useDispatch()
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
+  const titles = [...personDataSets.credits.cast, ...personDataSets.credits.crew]
+  console.log('PersonCreditsChart -> titles', titles)
   const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
 
-  const [currentInput] = useWhatInput()
-
-  const [isHovered, setIsHovered] = React.useState(false)
-  const [isClicked, setIsClicked] = React.useState(false)
+  const [genreIsOpen, setGenreIsOpen] = React.useState(false)
   return (
     <div
       css={css`
@@ -72,146 +71,7 @@ const PersonCreditsChart = () => {
             z-index: 100;
           `}
         >
-          <button
-            type="button"
-            onMouseOver={() => setIsHovered(true)}
-            onFocus={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onBlur={() => setIsHovered(false)}
-            onClick={() => setIsClicked(!isClicked)}
-            onKeyDown={({ keyCode }) => {
-              if (keyCode === 13) {
-                setIsClicked(!isClicked)
-              }
-            }}
-            css={css`
-              ${buttonPadding}
-              background: ${colors.bgColorSecondary};
-              border: none;
-              cursor: pointer;
-              letter-spacing:  .8px;
-              display: flex;
-              align-items: center;
-
-              font-weight: ${fontWeight.sm};
-              user-select: none;
-              border-radius: ${space[1]}px;
-              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-            `}
-          >
-            <motion.span animate={{ scale: isHovered ? 1.3 : 1 }}>
-              <FaFilter size={12} />
-            </motion.span>
-            <span
-              css={css`
-                margin-left: ${space[2]}px;
-              `}
-            >
-              Filter for genres&nbsp;
-              <motion.span
-                animate={{
-                  color: !chartState.genreFilter.length ? colors.textColorSecondary : colors.accentPrimary
-                }}
-              >
-                ({chartState.genreFilter.length})
-              </motion.span>
-            </span>
-          </button>
-          <AnimatePresence>
-            {isClicked && (
-              <motion.div
-                initial={{ y: 35, opacity: 0, height: 0, padding: `0px ${space[3]}px` }}
-                animate={{ opacity: 1, height: space[17], padding: `${space[2]}px ${space[3]}px` }}
-                exit={{ opacity: 0, height: 10, padding: `0px ${space[3]}px` }}
-                css={css`
-                  z-index: 10;
-                  position: absolute;
-
-                  display: grid;
-                  grid-template-rows: 30px 1fr;
-                  grid-row-gap: ${space[1]}px;
-
-                  background: ${colors.bgColorSecondary};
-                  width: 100%;
-                  border-radius: ${space[1]}px;
-                  color: ${colors.textColorSecondary};
-                  user-select: none;
-                `}
-              >
-                <div
-                  css={css`
-                    display: flex;
-                    justify-content: space-between;
-                  `}
-                >
-                  <div
-                    css={css`
-                      display: flex;
-                    `}
-                  >
-                    <span
-                      css={css`
-                        transform: translateY(2px);
-                      `}
-                    >
-                      Genres
-                    </span>
-                    <AnimatePresence>
-                      {chartState.genreFilter.length && (
-                        <motion.span
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          css={css`
-                            height: 20px;
-                            align-self: flex-start;
-                            margin-left: ${space[2]}px;
-                          `}
-                        >
-                          <SelectableListItem
-                            handleSelect={() => dispatch(updateGenreFilter([]))}
-                            icon={IoIosCloseCircle}
-                            iconSize={18}
-                            text="Reset selection"
-                          />
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  <div
-                    css={css`
-                      display: flex;
-                    `}
-                  >
-                    <IoIosCloseCircle size={20} />
-                  </div>
-                </div>
-                <div
-                  css={css`
-                    ${horizontalScrollableStyle}
-                  `}
-                >
-                  {personDataSets.genres.map(genre => (
-                    <SelectableListItem
-                      icon={FaFilter}
-                      iconSize={12}
-                      text={`${genres.data.find(g => g.id === genre.id)?.name} (${genre.count})`}
-                      handleSelect={() => {
-                        if (chartState.genreFilter.includes(genre.id)) {
-                          dispatch(updateGenreFilter(chartState.genreFilter.filter(id => id !== genre.id)))
-                        } else if (chartState.genreFilter.length === personDataSets.genres.length) {
-                          dispatch(updateGenreFilter([]))
-                        } else {
-                          dispatch(updateGenreFilter([...chartState.genreFilter, genre.id]))
-                        }
-                      }}
-                      isActive={chartState.genreFilter.length ? chartState.genreFilter.includes(genre.id) : true}
-                    />
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <GenreFilter genres={personDataSets.genres} setGenreIsOpen={setGenreIsOpen} genreIsOpen={genreIsOpen} />
         </div>
         {!!chartState.nameId && (
           <div

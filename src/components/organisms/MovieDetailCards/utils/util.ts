@@ -46,7 +46,8 @@ export const handleBookmarkedToggle = ({
           vote_average: details.vote_average,
           vote_count: details.vote_count,
           genres: details.genres.length ? details.genres.map(genre => genre.id) : [],
-          credits: [...castIDs, ...crewIDs]
+          credits: [...castIDs, ...crewIDs],
+          poster_path: details.poster_path
         }
       }
     }

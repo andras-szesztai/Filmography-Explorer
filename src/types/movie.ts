@@ -10,6 +10,13 @@ export interface ActiveMovieDataObject {
   crew: MovieCrewObject[]
 }
 
+export interface TitleObject {
+  id: number
+  title: string
+  date: string
+  genres: number[]
+}
+
 export interface MovieDetails {
   budget: number
   genres: GenreObject[]
@@ -42,16 +49,22 @@ export interface MovieCrewObject {
   name: string
 }
 
+export interface MovieObject {
+  media_type: string
+  vote_average: number
+  vote_count: number
+  genres: number[]
+  unified_date: string
+
+  original_title?: string
+  original_name?: string
+  release_date?: string
+  first_air_date?: string
+  credits?: number[]
+  id?: number
+  poster_path?: string
+}
+
 export interface BookmarkedMoviesObject {
-  [id: number]: {
-    original_title?: string
-    original_name?: string
-    release_date?: string
-    first_air_date?: string
-    media_type: string
-    vote_average: number
-    vote_count: number
-    genres: number[]
-    credits: number[]
-  }
+  [id: number]: MovieObject
 }

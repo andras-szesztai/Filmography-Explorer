@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { usePrevious } from 'react-use'
 import axios from 'axios'
-import { sortBy, flattenDeep, uniq } from 'lodash'
+import { sortBy, flattenDeep, uniq, uniqBy } from 'lodash'
 
 // Actions
 import { fetchNameCredits, fetchNameCreditsSuccess, fetchNameCreditsFail } from '../reducer/personReducer/actions'
@@ -38,14 +39,33 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
             const uniqGenres = uniq(allGenres)
             const genreCount = uniqGenres.map(id => ({ id, count: allGenres.filter(d => d === id).length }))
             const sortedGenres = sortBy(genreCount, o => -o.count)
+            const cast = makeUniqData({ data: filteredCast, type: 'cast' })
+            const crew = makeUniqData({ data: filteredCrew, type: 'crew' })
             dispatch(
               fetchNameCreditsSuccess({
                 details: details.data,
                 credits: {
-                  cast: makeUniqData({ data: filteredCast, type: 'cast' }),
-                  crew: makeUniqData({ data: filteredCrew, type: 'crew' })
+                  cast,
+                  crew
                 },
-                genres: sortedGenres
+                genres: sortedGenres,
+                allTitles: sortBy(
+                  uniqBy(
+                    [...cast, ...crew].map(t => ({
+                      id: t.id,
+                      original_title: t.original_title,
+                      original_name: t.original_name,
+                      unified_date: t.first_air_date || t.release_date,
+                      media_type: t.media_type,
+                      vote_average: t.vote_average,
+                      vote_count: t.vote_count,
+                      genres: t.genre_ids,
+                      poster_path: t.poster_path
+                    })),
+                    'id'
+                  ),
+                  t => new Date(t.unified_date)
+                )
               })
             )
           })

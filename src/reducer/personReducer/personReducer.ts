@@ -15,6 +15,7 @@ import {
 // Types
 import { PersonState } from '../../types/state'
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject } from '../../types/person'
+import { MovieObject } from '../../types/movie'
 
 const initialState = {
   activeNameID: 0,
@@ -24,7 +25,8 @@ const initialState = {
       cast: [] as FormattedPersonCreditDataObject[],
       crew: [] as FormattedPersonCreditDataObject[]
     },
-    genres: [] as PersonGenresObject[]
+    genres: [] as PersonGenresObject[],
+    allTitles: [] as MovieObject[]
   },
   loading: {
     personDetails: false,

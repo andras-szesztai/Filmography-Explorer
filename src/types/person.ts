@@ -27,6 +27,10 @@ export interface PersonCreditDataObject extends Person {
   character?: string
   job?: string
   genre_ids: number[]
+  original_title: string
+  original_name: string
+  media_type: string
+  poster_path: string
 }
 
 export interface FormattedPersonCreditDataObject extends Person {

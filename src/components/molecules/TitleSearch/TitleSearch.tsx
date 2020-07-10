@@ -6,29 +6,23 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
 
+import { title } from 'process'
 import { CombinedState } from '../../../types/state'
 import { FormattedPersonCreditDataObject } from '../../../types/person'
 import { buttonPadding, colors, fontWeight, space, buttonNoFocus, buttonFocus, buttonStyle } from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
-
-interface TitleObject {
-  id: number
-  title: string
-  date: string
-}
+import { MovieObject } from '../../../types/movie'
 
 interface Props {
-  titles: TitleObject[]
+  titles: MovieObject[]
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   isTitleOpen: boolean
 }
 
 const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Props) => {
-  console.log('TitleSearch -> titles', titles)
-  const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
   const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
 
   const dispatch = useDispatch()
@@ -159,30 +153,32 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                 <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
               </motion.button>
             </div>
-            {/* <div
+            <div
               css={css`
                 ${horizontalScrollableStyle}
               `}
             >
-              {genres.map(genre => (
-                <SelectableListItem
-                  key={genre.id}
-                  icon={FaFilter}
-                  iconSize={12}
-                  text={`${genreList.find(g => g.id === genre.id)?.name} (${genre.count})`}
-                  handleSelect={() => {
-                    if (genreFilter.includes(genre.id)) {
-                      dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
-                    } else if (genres.length === genreFilter.length) {
-                      dispatch(updateGenreFilter([]))
-                    } else {
-                      dispatch(updateGenreFilter([...genreFilter, genre.id]))
-                    }
-                  }}
-                  isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
-                />
-              ))}
-            </div> */}
+              {titles
+                .filter(t => (genreFilter.length ? t.genres.map(id => genreFilter.includes(id)).includes(true) : true))
+                .map(t => (
+                  <SelectableListItem
+                    key={t.id}
+                    icon={FaFilter}
+                    iconSize={12}
+                    text={t.original_name || t.original_title || 'No title'}
+                    // handleSelect={() => {
+                    //   if (genreFilter.includes(genre.id)) {
+                    //     dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
+                    //   } else if (genres.length === genreFilter.length) {
+                    //     dispatch(updateGenreFilter([]))
+                    //   } else {
+                    //     dispatch(updateGenreFilter([...genreFilter, genre.id]))
+                    //   }
+                    // }}
+                    // isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                  />
+                ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

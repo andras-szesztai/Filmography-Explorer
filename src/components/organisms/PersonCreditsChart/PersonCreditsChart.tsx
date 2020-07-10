@@ -33,6 +33,7 @@ const PersonCreditsChart = () => {
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)
+
   return (
     <div
       css={css`
@@ -71,11 +72,7 @@ const PersonCreditsChart = () => {
           `}
         >
           <TitleSearch
-            titles={titles.map(title => ({
-              id: title.id,
-              title: title.title || title.name,
-              date: title.first_air_date || title.release_date
-            }))}
+            titles={personDataSets.allTitles}
             setIsGenreOpen={setIsGenreOpen}
             setIsTitleOpen={setIsTitleOpen}
             isTitleOpen={isTitleOpen}

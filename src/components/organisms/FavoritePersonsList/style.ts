@@ -20,7 +20,7 @@ export const ContainerStyle = css`
   border-radius: ${space[1]}px ${space[1]}px 0 0;
 
   font-size: ${fontSize.md};
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   user-select: none;
   z-index: ${zIndex.mainSearchBar};
 `

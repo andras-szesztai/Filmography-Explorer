@@ -61,7 +61,6 @@ interface CircleParams {
 
 export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: CircleParams) {
   const { xScale, sizeScale, yScale, chartArea, filteredData } = storedValues.current
-  console.log('createUpdateCircles -> filteredData', filteredData)
   const currIDs = bookmarks ? Object.keys(bookmarks) : []
   chartArea
     .selectAll('.main-circle')
@@ -76,10 +75,15 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
           .attr('cx', d => xScale(new Date(d.unified_date)))
           .attr('cy', d => yScale(d.vote_average))
           .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
-          .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorPrimaryLight))
-          .attr('fill-opacity', circleFillOpacity)
-          .attr('stroke', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
-          .attr('opacity', 0),
+          .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
+          .attr('stroke', colors.bgColorPrimary)
+          .attr('opacity', 0)
+          .call(e =>
+            e
+              .transition()
+              .duration(duration.sm)
+              .attr('opacity', 1)
+          ),
       update => update,
       exit =>
         exit.call(e => {
@@ -124,7 +128,8 @@ export function createUpdateVoronoi({ storedValues, margin, width, height, activ
           .attr('cursor', d => (activeMovieID === d.id ? 'default' : 'pointer'))
           .attr('d', (_, i) => delaunay.renderCell(i))
           .call(e => e),
-      update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
+      update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i))),
+      exit => exit.remove()
     )
   addUpdateInteractions()
 }
@@ -177,7 +182,7 @@ export function createBubbleChartRefElements({ activeMovieID, storedValues, data
           .attr('class', 'selected-circle')
           .attr('cx', xScale(new Date(selectedData.unified_date)))
           .attr('cy', yScale(selectedData.vote_average))
-          .attr('fill', 'transparent')
+          .attr('fill', colors.bgColorPrimary)
           .attr('stroke', colors.textColorPrimary)
           .attr('r', () =>
             setRadius({

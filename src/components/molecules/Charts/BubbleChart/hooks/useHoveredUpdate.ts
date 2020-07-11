@@ -40,7 +40,7 @@ export default function useHoveredUpdate({ storedValues, isSizeDynamic, type, ad
               .attr('class', 'hovered-circle')
               .attr('cx', xScale(new Date(d.unified_date)))
               .attr('cy', yScale(d.vote_average))
-              .attr('fill', 'transparent')
+              .attr('fill', colors.bgColorPrimary)
               .attr('stroke', colors.bgColorSecondary)
               .attr('r', () =>
                 setRadius({

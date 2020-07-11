@@ -183,25 +183,16 @@ export default function BubbleChart(props: BubbleChartProps) {
         isSizeDynamic,
         bookmarks
       })
+      createUpdateVoronoi({
+        storedValues,
+        margin,
+        width,
+        height,
+        activeMovieID,
+        addUpdateInteractions
+      })
     }
   }, [genreFilter])
-
-  // useYDomainSyncUpdate({
-  //   storedValues,
-  //   isYDomainSynced,
-  //   prevIsYDomainSynced: prevProps && prevProps.isYDomainSynced,
-  //   isSizeDynamic,
-  //   createUpdateVoronoi,
-  //   chart,
-  //   data
-  // })
-
-  // useRadiusUpdate({
-  //   storedValues,
-  //   chart,
-  //   isSizeDynamic,
-  //   prevIsSizeDynamic: prevProps && prevProps.isSizeDynamic
-  // })
 
   useChartResize({
     width,

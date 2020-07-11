@@ -115,6 +115,7 @@ const PersonCreditsChart = () => {
               activeMovieID={activeMovieID}
               hoveredMovieID={chartState.hoveredMovie.id}
               genreFilter={genreFilter}
+              tooltipWithRole
             />
             {chartState.isBoth && (
               <BubbleChart

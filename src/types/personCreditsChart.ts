@@ -17,7 +17,7 @@ export interface ChartSettings {
 
 export interface HoveredMovie {
   id: number
-  data: FormattedPersonCreditDataObject
+  data: MovieObject
   yPosition: number
   xPosition: number
 }

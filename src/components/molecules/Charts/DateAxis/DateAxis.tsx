@@ -24,7 +24,7 @@ import { useChartResize, useSelectedUpdate, useHoveredUpdate } from './hooks'
 
 // Types
 import { AxisStoredValues, DateAxisProps } from '../../../../types/chart'
-import { FormattedPersonCreditDataObject } from '../../../../types/person'
+import { MovieObject } from '../../../../types/movie'
 
 // Styles
 import { chartSideMargins } from '../../../../styles/variables'
@@ -38,7 +38,7 @@ const margin = {
 
 export default function DateAxis(props: DateAxisProps) {
   const dispatch = useDispatch()
-  const { dataSets, activeMovieID, hoveredMovieID, genreFilter } = props
+  const { dataSets, activeMovieID, hoveredMovieID, genreFilter, tooltipWithRole } = props
 
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -55,7 +55,7 @@ export default function DateAxis(props: DateAxisProps) {
       .on('mouseover', (d: any) => {
         const hovered = {
           id: d.id as number,
-          data: d as FormattedPersonCreditDataObject,
+          data: d as MovieObject,
           yPosition: getYPosition({
             data: d,
             mainData,
@@ -233,7 +233,7 @@ export default function DateAxis(props: DateAxisProps) {
         />
         <g ref={voronoiRef} />
       </svg>
-      <MoviesTooltip xScale={storedValues.current.xScale} activeMovieID={activeMovieID} />
+      <MoviesTooltip withRole={tooltipWithRole} xScale={storedValues.current.xScale} activeMovieID={activeMovieID} />
     </div>
   )
 }

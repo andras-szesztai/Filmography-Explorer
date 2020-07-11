@@ -48,6 +48,7 @@ interface ChartProps {
 export interface DateAxisProps extends ChartProps {
   dataSets: PersonCredits
   isBoth: boolean
+  tooltipWithRole: boolean
 }
 
 export interface BubbleChartProps extends ChartProps {

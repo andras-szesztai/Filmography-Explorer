@@ -28,7 +28,7 @@ export default function useChartResize({ width, height, storedValues, margin, ty
         xScale,
         yScale
       }
-      const setX = (d: any) => xScale(new Date(d.unified_date))
+      const setX = (d: any) => xScale(new Date(d.date))
       chartArea
         .selectAll('.main-circle')
         .selectAll('circle')

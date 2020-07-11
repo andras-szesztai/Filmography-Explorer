@@ -1,5 +1,6 @@
 import { ScaleTime } from 'd3-scale'
 import { FormattedPersonCreditDataObject } from '../types/person'
+import { MovieObject } from '../types/movie'
 
 interface GetYPositionParams {
   data: FormattedPersonCreditDataObject
@@ -18,12 +19,12 @@ export const getYPosition = ({ data, mainData, isBoth }: GetYPositionParams) => 
 }
 
 interface GetXPositionParams {
-  data: FormattedPersonCreditDataObject
+  data: MovieObject
   left: number
   width: number
   xScale: ScaleTime<number, number>
 }
 
 export function getXPosition({ data, left, width, xScale }: GetXPositionParams) {
-  return Number(xScale(new Date(data.unified_date)) + left >= width / 2)
+  return Number(xScale(new Date(data.date)) + left >= width / 2)
 }

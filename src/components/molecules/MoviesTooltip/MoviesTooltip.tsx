@@ -20,13 +20,14 @@ import { containerStyle, infoSectionStyle } from './styles'
 interface Props {
   activeMovieID: number
   xScale: ScaleTime<number, number>
+  withRole: boolean
 }
 
-export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
+export default function MoviesTooltip({ activeMovieID, xScale, withRole }: Props) {
   const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
   if (!hoveredMovie.id || !xScale) return null
   const { data, xPosition, yPosition } = hoveredMovie
-  const xPos = xScale(new Date(data.unified_date))
+  const xPos = xScale(new Date(data.date))
   return (
     <div
       css={css`
@@ -42,7 +43,7 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
           height: ${height.tooltip}px;
         `}
       >
-        <Image url={data.poster_path} alt={`${data.title || data.name}-poster`} />
+        <Image url={data.poster_path} alt={`${data.title || data.title}-poster`} />
       </div>
       <div css={infoSectionStyle}>
         <div
@@ -53,17 +54,19 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
             letter-spacing: 0.6px;
           `}
         >
-          {data.title || data.name}
+          {data.title || data.title}
         </div>
         <div className="section">
-          Release year: <span>{data.unified_year}</span>
+          Release year: <span>{data.date}</span>
         </div>
         <div className="section">
           Media type: <span>{capitalize(data.media_type)}</span>
         </div>
-        <div className="section">
-          {data.character ? 'Character' : 'Job'}: <span>{data.job && (data.job.filter(Boolean).length ? data.job.join(', ') : 'N/A')}</span>
-        </div>
+        {withRole && (
+          <div className="section">
+            Role: <span>{data.job && (data.job.filter(Boolean).length ? data.job.join(', ') : 'N/A')}</span>
+          </div>
+        )}
         <div className="section">
           <div>
             User score:{' '}

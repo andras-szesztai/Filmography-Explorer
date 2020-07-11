@@ -70,10 +70,7 @@ const MyBookMarksPage = () => {
         const genreList = uniqGenres.map(id => ({ id: +id, count: allGenre.filter(g => g === id).length }))
         const xScaleMax = maxBy(allBookmarks, d => new Date(d.date)) // TODO: dry with updateChartSettings
         const xScaleMin = minBy(allBookmarks, d => new Date(d.date))
-        const xScaleDomain = [
-          (xScaleMin && new Date(xScaleMin.unified_date)) || new Date(),
-          (xScaleMax && new Date(xScaleMax.unified_date)) || new Date()
-        ]
+        const xScaleDomain = [(xScaleMin && new Date(xScaleMin.date)) || new Date(), (xScaleMax && new Date(xScaleMax.date)) || new Date()]
         const sizeMax = maxBy(allBookmarks, d => d.vote_count)
         const sizeMin = minBy(allBookmarks, d => d.vote_count)
         const sizeScaleDomain = [(sizeMin && sizeMin.vote_count) || 0, (sizeMax && sizeMax.vote_count) || 0]

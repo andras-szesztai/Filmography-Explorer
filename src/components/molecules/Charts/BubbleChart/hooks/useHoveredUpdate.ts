@@ -38,7 +38,7 @@ export default function useHoveredUpdate({ storedValues, isSizeDynamic, type, ad
             selection
               .append('circle')
               .attr('class', 'hovered-circle')
-              .attr('cx', xScale(new Date(d.unified_date)))
+              .attr('cx', xScale(new Date(d.date)))
               .attr('cy', yScale(d.vote_average))
               .attr('fill', colors.bgColorPrimary)
               .attr('stroke', colors.bgColorSecondary)
@@ -53,8 +53,8 @@ export default function useHoveredUpdate({ storedValues, isSizeDynamic, type, ad
             selection
               .append('line')
               .attr('class', 'hovered-line')
-              .attr('x1', xScale(new Date(d.unified_date)))
-              .attr('x2', xScale(new Date(d.unified_date)))
+              .attr('x1', xScale(new Date(d.date)))
+              .attr('x2', xScale(new Date(d.date)))
               .attr('y1', () =>
                 getSelectedLineYPos({
                   data: d,

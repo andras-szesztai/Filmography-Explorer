@@ -36,6 +36,7 @@ import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUp
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
 import { CombinedState } from '../../../../types/state'
+import { MovieObject } from '../../../../types/movie'
 
 const margin = {
   top: 5,
@@ -67,7 +68,7 @@ export default function BubbleChart(props: BubbleChartProps) {
       .on('mouseover', (d: any) => {
         const hovered = {
           id: d.id as number,
-          data: d as FormattedPersonCreditDataObject,
+          data: d as MovieObject,
           yPosition: props.tooltipYPosition,
           xPosition: getXPosition({
             data: d,

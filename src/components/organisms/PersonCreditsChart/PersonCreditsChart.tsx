@@ -96,11 +96,7 @@ const PersonCreditsChart = () => {
               sizeScaleDomain={chartState.scales.sizeScaleDomain}
               isYDomainSynced={chartState.isYDomainSynced}
               isSizeDynamic={chartState.isSizeDynamic}
-              data={
-                personDataSets.credits.cast.length >= personDataSets.credits.crew.length
-                  ? personDataSets.credits.cast
-                  : personDataSets.credits.crew
-              }
+              data={isCastMain ? chartState.dataSets.cast : chartState.dataSets.crew}
               activeMovieID={activeMovieID}
               type="main" // Can be isMain
               title={isCastMain ? 'cast' : 'crew'}
@@ -126,7 +122,7 @@ const PersonCreditsChart = () => {
                 sizeScaleDomain={chartState.scales.sizeScaleDomain}
                 isYDomainSynced={chartState.isYDomainSynced}
                 isSizeDynamic={chartState.isSizeDynamic}
-                data={isCastMain ? personDataSets.credits.crew : personDataSets.credits.cast}
+                data={isCastMain ? chartState.dataSets.crew : chartState.dataSets.cast}
                 title={isCastMain ? 'crew' : 'cast'}
                 activeMovieID={activeMovieID}
                 type="sub"

@@ -139,7 +139,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         gridArea,
         hoverElementArea,
         voronoiArea,
-        filteredData: genreFilter.length ? data.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : data
+        filteredData: genreFilter.length ? data.filter(d => d.genres.some(id => genreFilter.includes(id))) : data
       }
       const gridArgs = { storedValues, left: margin.left, width }
       createUpdateGrid(gridArgs)
@@ -173,7 +173,7 @@ export default function BubbleChart(props: BubbleChartProps) {
 
   React.useEffect(() => {
     if (!storedValues.current.isInit) {
-      const newFilteredData = genreFilter.length ? data.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : data
+      const newFilteredData = genreFilter.length ? data.filter(d => d.genres.some(id => genreFilter.includes(id))) : data
       storedValues.current = {
         ...storedValues.current,
         filteredData: newFilteredData

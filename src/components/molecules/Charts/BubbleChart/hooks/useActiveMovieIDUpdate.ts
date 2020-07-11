@@ -6,14 +6,14 @@ import { createBubbleChartRefElements } from '../functions/elementFunctions'
 
 // Types
 import { BubbleChartStoredValues } from '../../../../../types/chart'
-import { FormattedPersonCreditDataObject } from '../../../../../types/person'
+import { MovieObject } from '../../../../../types/movie'
 
 interface Params {
   height: number
   storedValues: { current: BubbleChartStoredValues }
   type: string
   isSizeDynamic: boolean
-  data: FormattedPersonCreditDataObject[]
+  data: MovieObject[]
   activeMovieID: number
 }
 

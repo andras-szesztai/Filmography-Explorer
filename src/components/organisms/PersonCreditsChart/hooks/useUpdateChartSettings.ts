@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { usePrevious } from 'react-use'
@@ -31,6 +32,34 @@ const useUpdateChartSettings = (personDataSets: PersonDataSets) => {
             scales: {
               xScaleDomain,
               sizeScaleDomain
+            },
+            dataSets: {
+              crew: personDataSets.credits.crew.map(d => ({
+                id: d.id,
+                media_type: d.media_type,
+                vote_average: d.vote_average,
+                vote_count: d.vote_count,
+
+                genres: d.genre_ids,
+
+                job: d.job,
+                title: d.original_title || d.original_name,
+                date: d.first_air_date || d.release_date,
+                poster_path: d.poster_path
+              })),
+              cast: personDataSets.credits.cast.map(d => ({
+                id: d.id,
+                media_type: d.media_type,
+                vote_average: d.vote_average,
+                vote_count: d.vote_count,
+
+                genres: d.genre_ids,
+
+                job: d.job,
+                title: d.original_title || d.original_name,
+                date: d.first_air_date || d.release_date,
+                poster_path: d.poster_path
+              }))
             }
           })
         )

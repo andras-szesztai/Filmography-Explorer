@@ -50,15 +50,17 @@ export interface MovieCrewObject {
 }
 
 export interface MovieObject {
+  id: number
   media_type: string
   vote_average: number
   vote_count: number
-  id: number
+  date: string
+  title: string
 
   genres: number[]
-  credits: number[]
-  title?: string
-  date?: string
+
+  credits?: number[]
+  job?: (string | undefined)[]
   poster_path?: string
 }
 

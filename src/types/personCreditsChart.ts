@@ -1,4 +1,5 @@
 import { FormattedPersonCreditDataObject } from './person'
+import { MovieObject } from './movie'
 
 export interface ChartSettings {
   nameId: number
@@ -7,6 +8,10 @@ export interface ChartSettings {
   scales: {
     xScaleDomain: Date[]
     sizeScaleDomain: number[]
+  }
+  dataSets: {
+    crew: MovieObject[]
+    cast: MovieObject[]
   }
 }
 

@@ -8,10 +8,10 @@ import 'd3-transition'
 // Types
 import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
-import { BookmarkedMoviesObject } from '../../../../../types/movie'
+import { BookmarkedMoviesObject, MovieObject } from '../../../../../types/movie'
 
 // Styles
-import { colors, fontSize, circleRadius, circleFillOpacity, circleAdjust } from '../../../../../styles/variables'
+import { colors, fontSize, circleRadius, circleAdjust } from '../../../../../styles/variables'
 import { duration } from '../../../../../styles/animation'
 
 const gridData = [0, 2, 4, 6, 8, 10]
@@ -72,7 +72,7 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
           .attr('class', 'main-circle')
           .append('circle')
           .attr('class', 'circle')
-          .attr('cx', d => xScale(new Date(d.unified_date)))
+          .attr('cx', d => xScale(new Date(d.date)))
           .attr('cy', d => yScale(d.vote_average))
           .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
           .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
@@ -112,7 +112,7 @@ export interface VoronoiParams {
 
 export function createUpdateVoronoi({ storedValues, margin, width, height, activeMovieID, addUpdateInteractions }: VoronoiParams) {
   const { yScale, xScale, voronoiArea, filteredData } = storedValues.current
-  const setXPos = (d: any) => xScale(new Date(d.unified_date)) + margin.left
+  const setXPos = (d: any) => xScale(new Date(d.date)) + margin.left
   const setYPos = (d: any) => yScale(d.vote_average) + margin.top
   const delaunay = Delaunay.from(filteredData, setXPos, setYPos).voronoi([0, 0, width, height])
 
@@ -147,7 +147,7 @@ export interface GetSelectedLineYPosParams {
   sizeScale: ScalePower<number, number>
   yScale: ScaleLinear<number, number>
   isSizeDynamic: boolean
-  data: FormattedPersonCreditDataObject
+  data: MovieObject
   type: string
 }
 
@@ -162,7 +162,7 @@ export interface BubbleChartRefParams {
     current: BubbleChartStoredValues
   }
   activeMovieID: number
-  data: FormattedPersonCreditDataObject[]
+  data: MovieObject[]
   type: string
   isSizeDynamic: boolean
   height: number
@@ -175,12 +175,12 @@ export function createBubbleChartRefElements({ activeMovieID, storedValues, data
     chartArea.selectAll('.main-circle').each((d: any, i, n) => {
       if (d.id === activeMovieID) {
         const selection = select(n[i])
-        const setX = () => xScale(new Date(d.unified_date))
+        const setX = () => xScale(new Date(d.date))
         selection
           .append('circle')
           .datum(selectedData)
           .attr('class', 'selected-circle')
-          .attr('cx', xScale(new Date(selectedData.unified_date)))
+          .attr('cx', xScale(new Date(selectedData.date)))
           .attr('cy', yScale(selectedData.vote_average))
           .attr('fill', colors.bgColorPrimary)
           .attr('stroke', colors.textColorPrimary)

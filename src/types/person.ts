@@ -48,6 +48,7 @@ export interface FormattedPersonCreditDataObject extends Person {
   genre_ids: number[]
   poster_path: string
   original_title: string
+  original_name: string
   media_type: string
 }
 

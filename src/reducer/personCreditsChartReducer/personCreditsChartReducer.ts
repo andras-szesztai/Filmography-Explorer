@@ -13,6 +13,7 @@ import {
 // Types
 import { PersonCreditsChartState } from '../../types/state'
 import { FormattedPersonCreditDataObject } from '../../types/person'
+import { MovieObject } from '../../types/movie'
 
 const initialState = {
   nameId: 0,
@@ -21,6 +22,10 @@ const initialState = {
   scales: {
     xScaleDomain: [] as Date[],
     sizeScaleDomain: [] as number[]
+  },
+  dataSets: {
+    crew: [] as MovieObject[],
+    cast: [] as MovieObject[]
   },
   isYDomainSynced: true,
   isSizeDynamic: true,
@@ -44,6 +49,7 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
         movieSearchData: action.settings.movieSearchData,
         isBoth: action.settings.isBoth,
         scales: action.settings.scales,
+        dataSets: action.settings.dataSets,
         genreFilter: []
       }
     case POPULATE_HOVERED_MOVIE:

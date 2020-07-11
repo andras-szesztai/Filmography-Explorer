@@ -33,7 +33,7 @@ export interface BubbleChartStoredValues extends StoredValues {
   sizeScale: ScalePower<number, number>
   yScale: ScaleLinear<number, number>
   gridArea: Selection<SVGGElement | any, any, any, any>
-  filteredData: FormattedPersonCreditDataObject[]
+  filteredData: MovieObject[]
 }
 
 interface ChartProps {
@@ -54,7 +54,7 @@ export interface BubbleChartProps extends ChartProps {
   sizeScaleDomain: number[]
   isYDomainSynced: boolean
   isSizeDynamic: boolean
-  data: FormattedPersonCreditDataObject[] | MovieObject[]
+  data: MovieObject[]
   type: string
   tooltipYPosition: number
   title: string

@@ -34,7 +34,8 @@ const FavoritePersonsList = () => {
   const [ref, { width }] = useMeasure<HTMLDivElement>()
   const personReducer = useSelector((state: CombinedState) => state.personReducer)
 
-  const favs = getObjectValues(personReducer.favorites).map(({ name, id }) => ({ name, id }))
+  const favs = getObjectValues(personReducer.favorites)
+  console.log('FavoritePersonsList -> favs', favs)
 
   return (
     <div css={ContainerStyle}>
@@ -65,11 +66,13 @@ const FavoritePersonsList = () => {
           >
             <AnimatePresence>
               {favs.length &&
-                [...favs].reverse().map(({ name, id }) => (
-                  <motion.span key={`${id}-favlist`} animate>
-                    <FavoritePersonsListItem text={name} id={id} activeID={personReducer.activeNameID} />
-                  </motion.span>
-                ))}
+                [...favs]
+                  .sort((a, b) => new Date(b.dateFavorited).getTime() - new Date(a.dateFavorited).getTime())
+                  .map(({ name, id }) => (
+                    <motion.span key={`${id}-favlist`} animate>
+                      <FavoritePersonsListItem text={name} id={id} activeID={personReducer.activeNameID} />
+                    </motion.span>
+                  ))}
             </AnimatePresence>
             <PlaceHolder />
           </motion.div>

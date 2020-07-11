@@ -28,8 +28,7 @@ export default function useBookmarkUpdate({ storedValues, bookmarks }: Params) {
         .transition()
         .duration(duration.sm)
         .ease(easeCubicInOut)
-        .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorPrimaryLight))
-        .attr('stroke', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
+        .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
     }
   }, [chartArea, isInit, bookmarks])
 }

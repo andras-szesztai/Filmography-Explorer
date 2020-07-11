@@ -75,6 +75,8 @@ export interface BookmarkedChartReducer {
     details: MovieDetails
     cast: MovieCastObject[]
     crew: MovieCrewObject[]
+    loading: boolean
+    error: string
   }
   scales: {
     xScaleDomain: Date[]

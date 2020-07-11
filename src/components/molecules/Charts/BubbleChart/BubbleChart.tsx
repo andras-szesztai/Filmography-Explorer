@@ -36,6 +36,11 @@ import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUp
 // Styles
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
+import {
+  populateBookmarkedHoveredMovie,
+  emptyBookmarkedHoveredMovie,
+  setBookmarkedActiveMovieID
+} from '../../../../reducer/bookmarkedChartReducer/actions'
 
 const margin = {
   top: 5,
@@ -46,7 +51,7 @@ const margin = {
 export default function BubbleChart(props: BubbleChartProps) {
   const dispatch = useDispatch()
   const bookmarks = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
-  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID, genreFilter } = props
+  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID, genreFilter, isBookmarkChart } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -61,7 +66,9 @@ export default function BubbleChart(props: BubbleChartProps) {
 
   function addUpdateInteractions() {
     const { voronoiArea, xScale } = storedValues.current
-
+    const populateHoveredFunc = isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
+    const emptyHoveredFunc = isBookmarkChart ? emptyBookmarkedHoveredMovie : emptyHoveredMovie
+    const setActiveMovieIDFunc = isBookmarkChart ? setBookmarkedActiveMovieID : setActiveMovieID
     voronoiArea
       .selectAll('.voronoi-path')
       .on('mouseover', (d: any) => {
@@ -77,25 +84,25 @@ export default function BubbleChart(props: BubbleChartProps) {
           })
         }
         if (!props.isFirstEntered) {
-          dispatch(populateHoveredMovie(hovered))
+          dispatch(populateHoveredFunc(hovered))
         }
         if (props.isFirstEntered) {
           timeOut.current = setTimeout(() => {
             props.setIsFirstEntered(false)
-            dispatch(populateHoveredMovie(hovered))
+            dispatch(populateHoveredFunc(hovered))
           }, duration.sm)
         }
       })
       .on('mouseout', () => {
         clearTimeout(timeOut.current)
         if (hoveredMovieID) {
-          dispatch(emptyHoveredMovie())
+          dispatch(emptyHoveredFunc())
         }
       })
       .on('click', (d: any) => {
         if (activeMovieID !== d.id) {
           dispatch(
-            setActiveMovieID({
+            setActiveMovieIDFunc({
               id: d.id,
               position: getXPosition({
                 data: d,
@@ -226,7 +233,8 @@ export default function BubbleChart(props: BubbleChartProps) {
     height,
     type,
     isSizeDynamic,
-    addUpdateInteractions
+    addUpdateInteractions,
+    isBookmarkChart
   })
 
   useBookmarkUpdate({

@@ -1,5 +1,5 @@
 import { PersonGenresObject } from '../../types/person'
-import { MovieObject } from '../../types/movie'
+import { MovieObject, ActiveMovieDataObject } from '../../types/movie'
 import { BookmarkedHoveredMovie } from '../../types/state'
 
 export const UPDATE_BOOKMARKED_GENRE_FILTER = 'UPDATE_BOOKMARKED_GENRE_FILTER'
@@ -7,6 +7,9 @@ export const POPULATE_ON_MOUNT = 'POPULATE_ON_MOUNT'
 export const POPULATE_BOOKMARKED_HOVERED_MOVIE = 'POPULATE_BOOKMARKED_HOVERED_MOVIE'
 export const EMPTY_BOOKMARKED_HOVERED_MOVIE = 'EMPTY_BOOKMARKED_HOVERED_MOVIE'
 export const SET_BOOKMARKED_ACTIVE_MOVIE_ID = 'SET_BOOKMARKED_ACTIVE_MOVIE_ID'
+export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS'
+export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS'
+export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL'
 
 export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
@@ -54,5 +57,24 @@ export function setBookmarkedActiveMovieID(activeMovie: ActiveMovie) {
   return {
     type: SET_BOOKMARKED_ACTIVE_MOVIE_ID,
     activeMovie
+  } as const
+}
+
+export function fetchBookmarkedActiveMovieDetails() {
+  return {
+    type: FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS
+  } as const
+}
+
+export function fetchBookmarkedActiveMovieDetailsFail() {
+  return {
+    type: FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL
+  } as const
+}
+
+export function fetchBookmarkedActiveMovieDetailsSuccess(movieDetails: ActiveMovieDataObject) {
+  return {
+    type: FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS,
+    movieDetails
   } as const
 }

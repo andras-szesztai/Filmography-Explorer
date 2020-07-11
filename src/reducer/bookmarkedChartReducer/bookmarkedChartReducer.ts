@@ -12,7 +12,13 @@ import {
   EMPTY_BOOKMARKED_HOVERED_MOVIE,
   POPULATE_BOOKMARKED_HOVERED_MOVIE,
   setBookmarkedActiveMovieID,
-  SET_BOOKMARKED_ACTIVE_MOVIE_ID
+  SET_BOOKMARKED_ACTIVE_MOVIE_ID,
+  fetchBookmarkedActiveMovieDetails,
+  fetchBookmarkedActiveMovieDetailsFail,
+  fetchBookmarkedActiveMovieDetailsSuccess,
+  FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS,
+  FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL,
+  FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS
 } from './actions'
 
 const initialState = {
@@ -26,7 +32,9 @@ const initialState = {
     mediaType: '',
     details: {} as MovieDetails,
     cast: [] as MovieCastObject[],
-    crew: [] as MovieCrewObject[]
+    crew: [] as MovieCrewObject[],
+    loading: false,
+    error: ''
   },
   bookmarkedHoveredMovie: {
     id: 0,
@@ -46,6 +54,9 @@ type Action = ReturnType<
   | typeof populateBookmarkedHoveredMovie
   | typeof emptyBookmarkedHoveredMovie
   | typeof setBookmarkedActiveMovieID
+  | typeof fetchBookmarkedActiveMovieDetails
+  | typeof fetchBookmarkedActiveMovieDetailsFail
+  | typeof fetchBookmarkedActiveMovieDetailsSuccess
 >
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
@@ -88,6 +99,35 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
         }
       }
     }
+    case FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS:
+      return {
+        ...state,
+        bookmarkedActiveMovie: {
+          ...state.bookmarkedActiveMovie,
+          loading: true
+        }
+      }
+    case FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL:
+      return {
+        ...state,
+        bookmarkedActiveMovie: {
+          ...state.bookmarkedActiveMovie,
+          loading: false,
+          error: 'Movie details data is not available'
+        }
+      }
+    case FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS:
+      return {
+        ...state,
+        bookmarkedActiveMovie: {
+          ...state.bookmarkedActiveMovie,
+          details: action.movieDetails.details,
+          cast: action.movieDetails.cast,
+          crew: action.movieDetails.crew,
+          loading: false,
+          error: ''
+        }
+      }
     default:
       return state
   }

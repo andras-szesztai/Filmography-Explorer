@@ -21,19 +21,21 @@ interface Params {
   type: string
   isSizeDynamic: boolean
   addUpdateInteractions: () => void
+  isBookmarkChart: boolean
 }
 
-export default function useHoveredUpdate({ storedValues, isSizeDynamic, type, addUpdateInteractions, height }: Params) {
-  const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
-  const prevHoveredMovie = usePrevious(hoveredMovie)
+export default function useHoveredUpdate({ storedValues, isSizeDynamic, type, addUpdateInteractions, height, isBookmarkChart }: Params) {
+  const { personCreditsChartReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
+  const hovered = isBookmarkChart ? bookmarkedChartReducer.bookmarkedHoveredMovie : personCreditsChartReducer.hoveredMovie
+  const prevHovered = usePrevious(hovered)
   React.useEffect(() => {
-    if (!storedValues.current.isInit && prevHoveredMovie && hoveredMovie.id !== prevHoveredMovie.id) {
+    if (!storedValues.current.isInit && prevHovered && hovered.id !== prevHovered.id) {
       const { chartArea, xScale, yScale, sizeScale } = storedValues.current
       chartArea.select('.hovered-circle').remove()
       chartArea.select('.hovered-line').remove()
-      if (hoveredMovie.id) {
+      if (hovered.id) {
         chartArea.selectAll('.main-circle').each((d: any, i, n) => {
-          if (isEqual(d, hoveredMovie.data)) {
+          if (isEqual(d, hovered.data)) {
             const selection = select(n[i])
             selection
               .append('circle')

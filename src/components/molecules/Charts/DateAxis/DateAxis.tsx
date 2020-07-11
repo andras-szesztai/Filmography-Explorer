@@ -127,9 +127,9 @@ export default function DateAxis(props: DateAxisProps) {
       if (Array.isArray(dataSets)) {
         uniqData = dataSets
         filteredMainData = dataSets
-        filteredSubData = dataSets
+        filteredSubData = []
       }
-      if (props.isBoth && !Array.isArray(dataSets)) {
+      if (!Array.isArray(dataSets)) {
         const isCast = dataSets.cast.length >= dataSets.crew.length
         const mainData = isCast ? dataSets.cast : dataSets.crew
         const subData = isCast ? dataSets.crew : dataSets.cast
@@ -175,9 +175,9 @@ export default function DateAxis(props: DateAxisProps) {
       if (Array.isArray(dataSets)) {
         uniqData = dataSets
         filteredMainData = dataSets
-        filteredSubData = dataSets
+        filteredSubData = []
       }
-      if (props.isBoth && !Array.isArray(dataSets)) {
+      if (!Array.isArray(dataSets)) {
         const isCast = dataSets.cast.length >= dataSets.crew.length
         const mainData = isCast ? dataSets.cast : dataSets.crew
         const subData = isCast ? dataSets.crew : dataSets.cast

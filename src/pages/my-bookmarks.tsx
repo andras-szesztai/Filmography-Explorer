@@ -33,6 +33,7 @@ import { GenreFilter, TitleSearch, BubbleChart, DateAxis } from '../components/m
 import { FavoritePersonsObject, PersonGenresObject } from '../types/person'
 import { updateFavoritePersons } from '../reducer/personReducer/actions'
 import { populateOnMount } from '../reducer/bookmarkedChartReducer/actions'
+import { useFetchActiveMovieDetails } from '../components/organisms/MovieDetailCards/hooks'
 
 // Constants
 
@@ -80,6 +81,13 @@ const MyBookMarksPage = () => {
       //   console.log('populate persons filter')
       // }
     }
+  })
+
+  useFetchActiveMovieDetails({
+    isOpen: true,
+    activeMovieID: bookmarkedChartReducer.bookmarkedActiveMovie.id,
+    mediaType: bookmarkedChartReducer.bookmarkedActiveMovie.mediaType,
+    isBookmarkedChart: true
   })
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
@@ -152,7 +160,7 @@ const MyBookMarksPage = () => {
               isYDomainSynced
               isSizeDynamic
               data={bookmarkedChartReducer.titleList}
-              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovieID}
+              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
               type="main"
               title="Bookmarked"
               isFirstEntered={isFirstEntered}
@@ -168,7 +176,7 @@ const MyBookMarksPage = () => {
               isBoth={false}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
-              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovieID}
+              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
               hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
               genreFilter={bookmarkedChartReducer.genreFilter}
               tooltipWithRole={false}

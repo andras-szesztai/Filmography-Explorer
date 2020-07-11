@@ -11,19 +11,28 @@ import {
 
 // Constants
 import { API_ROOT } from '../../../../constants/url'
+import {
+  fetchBookmarkedActiveMovieDetails,
+  fetchBookmarkedActiveMovieDetailsFail,
+  fetchBookmarkedActiveMovieDetailsSuccess
+} from '../../../../reducer/bookmarkedChartReducer/actions'
 
 interface Params {
   isOpen: boolean
   activeMovieID: number
   mediaType: string
+  isBookmarkedChart?: boolean
 }
 
-function useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType }: Params) {
+function useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType, isBookmarkedChart }: Params) {
   const dispatch = useDispatch()
+  const fetchFunc = isBookmarkedChart ? fetchBookmarkedActiveMovieDetails : fetchActiveMovieDetails
+  const successFunc = isBookmarkedChart ? fetchBookmarkedActiveMovieDetailsSuccess : fetchActiveMovieDetailsSuccess
+  const failFunc = isBookmarkedChart ? fetchBookmarkedActiveMovieDetailsFail : fetchActiveMovieDetailsFail
 
   React.useEffect(() => {
     if (isOpen) {
-      dispatch(fetchActiveMovieDetails())
+      dispatch(fetchFunc())
       axios
         .all([
           axios.get(`${API_ROOT}/${mediaType}/${activeMovieID}/credits?api_key=${process.env.MDB_API_KEY}&language=en-US`),
@@ -32,7 +41,7 @@ function useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType }: Params
         .then(
           axios.spread((credits, details) => {
             dispatch(
-              fetchActiveMovieDetailsSuccess({
+              successFunc({
                 id: activeMovieID,
                 details: details.data,
                 cast: credits.data.cast,
@@ -42,7 +51,7 @@ function useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType }: Params
           })
         )
         .catch(() => {
-          dispatch(fetchActiveMovieDetailsFail())
+          dispatch(failFunc())
         })
     }
   }, [activeMovieID])

@@ -57,6 +57,10 @@ export interface BookmarkedChartReducer {
   personFilter: number[]
   activeMovieID: number
   hoveredMovie: BookmarkedHoveredMovie
+  scales: {
+    xScaleDomain: Date[]
+    sizeScaleDomain: number[]
+  }
 }
 
 export interface CombinedState {

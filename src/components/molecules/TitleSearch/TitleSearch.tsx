@@ -38,7 +38,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
 
   const genreFilter = isBookmarkChart ? bookmarkedChartReducer.genreFilter : personCreditsChartReducer.genreFilter
-  const xScaleDomain = isBookmarkChart ? personCreditsChartReducer.scales.xScaleDomain : personCreditsChartReducer.scales.xScaleDomain // TODO: setup
+  const xScaleDomain = isBookmarkChart ? personCreditsChartReducer.scales.xScaleDomain : personCreditsChartReducer.scales.xScaleDomain // TODO:
   const prevGenreFilter = usePrevious(genreFilter)
   const {
     activeNameID,
@@ -227,6 +227,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
                     dispatch(
                       setActiveMovieID({
+                        // TODO: make it dynamic
                         id: t.id,
                         position: t.date ? Number(meanYear <= new Date(t.date).getFullYear()) : 0,
                         mediaType: t.media_type

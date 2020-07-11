@@ -2,14 +2,7 @@ import { MovieObject } from '../../types/movie'
 import { PersonGenresObject } from '../../types/person'
 import { BookmarkedChartReducer } from '../../types/state'
 
-import {
-  updateBookmarkedGenreFilter,
-  updateGenreList,
-  UPDATE_GENRE_LIST,
-  UPDATE_BOOKMARKED_GENRE_FILTER,
-  populateBookmarkedTitleFilter,
-  POPULATE_BOOKMARKED_TITLE_FILTER
-} from './actions'
+import { updateBookmarkedGenreFilter, UPDATE_BOOKMARKED_GENRE_FILTER, populateOnMount, POPULATE_ON_MOUNT } from './actions'
 
 const initialState = {
   genreList: [] as PersonGenresObject[],
@@ -17,6 +10,10 @@ const initialState = {
   genreFilter: [] as number[],
   personFilter: [] as number[],
   activeMovieID: 0,
+  scales: {
+    xScaleDomain: [] as Date[],
+    sizeScaleDomain: [] as number[]
+  },
   hoveredMovie: {
     id: 0,
     data: {} as MovieObject,
@@ -25,24 +22,21 @@ const initialState = {
   }
 }
 
-type Action = ReturnType<typeof updateGenreList | typeof updateBookmarkedGenreFilter | typeof populateBookmarkedTitleFilter>
+type Action = ReturnType<typeof populateOnMount | typeof updateBookmarkedGenreFilter>
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
   switch (action.type) {
-    case UPDATE_GENRE_LIST:
+    case POPULATE_ON_MOUNT:
       return {
         ...state,
-        genreList: action.genreList
+        genreList: action.data.genreList,
+        titleList: action.data.titleList,
+        scales: action.data.scales
       }
     case UPDATE_BOOKMARKED_GENRE_FILTER:
       return {
         ...state,
         genreFilter: action.genreArray
-      }
-    case POPULATE_BOOKMARKED_TITLE_FILTER:
-      return {
-        ...state,
-        titleList: action.titleArray
       }
     default:
       return state

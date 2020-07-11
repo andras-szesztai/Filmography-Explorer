@@ -5,6 +5,7 @@ import { ScaleTime, ScalePower, ScaleLinear } from 'd3-scale'
 
 // Types
 import { FormattedPersonCreditDataObject, PersonCredits } from './person'
+import { MovieObject } from './movie'
 
 export interface Margin {
   top: number
@@ -53,7 +54,7 @@ export interface BubbleChartProps extends ChartProps {
   sizeScaleDomain: number[]
   isYDomainSynced: boolean
   isSizeDynamic: boolean
-  data: FormattedPersonCreditDataObject[]
+  data: FormattedPersonCreditDataObject[] | MovieObject[]
   type: string
   tooltipYPosition: number
   title: string

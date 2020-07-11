@@ -1,16 +1,8 @@
 import { PersonGenresObject } from '../../types/person'
 import { MovieObject } from '../../types/movie'
 
-export const UPDATE_GENRE_LIST = 'UPDATE_GENRE_LIST'
 export const UPDATE_BOOKMARKED_GENRE_FILTER = 'UPDATE_BOOKMARKED_GENRE_FILTER'
-export const POPULATE_BOOKMARKED_TITLE_FILTER = 'POPULATE_BOOKMARKED_TITLE_FILTER'
-
-export function updateGenreList(genreList: PersonGenresObject[]) {
-  return {
-    type: UPDATE_GENRE_LIST,
-    genreList
-  } as const
-}
+export const POPULATE_ON_MOUNT = 'POPULATE_ON_MOUNT'
 
 export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
@@ -19,9 +11,18 @@ export function updateBookmarkedGenreFilter(genreArray: number[]) {
   } as const
 }
 
-export function populateBookmarkedTitleFilter(titleArray: MovieObject[]) {
+interface PopulateData {
+  genreList: PersonGenresObject[]
+  titleList: MovieObject[]
+  scales: {
+    xScaleDomain: Date[]
+    sizeScaleDomain: number[]
+  }
+}
+
+export function populateOnMount(data: PopulateData) {
   return {
-    type: POPULATE_BOOKMARKED_TITLE_FILTER,
-    titleArray
+    type: POPULATE_ON_MOUNT,
+    data
   } as const
 }

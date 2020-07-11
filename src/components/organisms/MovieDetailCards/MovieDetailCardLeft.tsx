@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { css } from '@emotion/core'
 
 // Components
@@ -12,22 +12,29 @@ import MovieCardBookmark from '../../atoms/MovieDetailCardAtoms/MovieCardBookMar
 import { handleBookmarkedToggle } from './utils/util'
 
 // Types
-import { CombinedState } from '../../../types/state'
 import { Params } from './types'
 
 // Styles
 import { movieDetailCardContainerLeft } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
+import { CombinedState } from '../../../types/state'
 
-const MovieDetailCardLeft = ({ bookmarkedMovies, setBookmarkedMovies }: Params) => {
-  const {
-    position,
-    activeMovieID,
-    activeMovieData: { details, crew, cast },
-    mediaType
-  } = useSelector((state: CombinedState) => state.movieReducer)
+const MovieDetailCardLeft = ({
+  bookmarkedMovies,
+  setBookmarkedMovies,
+  activeNameID,
+  genreFilter,
+  mediaType,
+  loading,
+  activeMovieData,
+  isBookmarkedChart
+}: Params) => {
   const dispatch = useDispatch()
+  const { bookmarkedChartReducer, movieReducer } = useSelector((state: CombinedState) => state)
+
+  const activeMovieID = isBookmarkedChart ? bookmarkedChartReducer.bookmarkedActiveMovie.id : movieReducer.activeMovieID
+  const position = isBookmarkedChart ? bookmarkedChartReducer.bookmarkedActiveMovie.position : movieReducer.position
 
   const [isHovered, setIsHovered] = React.useState(false)
   const isOpen = !!activeMovieID && position === 1
@@ -37,9 +44,9 @@ const MovieDetailCardLeft = ({ bookmarkedMovies, setBookmarkedMovies }: Params) 
       bookmarkedMovies,
       activeMovieID,
       setBookmarkedMovies,
-      cast,
-      crew,
-      details,
+      cast: activeMovieData.cast,
+      crew: activeMovieData.crew,
+      details: activeMovieData.details,
       dispatch,
       mediaType
     })
@@ -64,6 +71,12 @@ const MovieDetailCardLeft = ({ bookmarkedMovies, setBookmarkedMovies }: Params) 
           loaderLeftPos={width.movieDetailCardExtra + handleSize}
           handleClick={handleClick}
           setIsHovered={setIsHovered}
+          activeNameID={activeNameID}
+          genreFilter={genreFilter}
+          activeMovieID={activeMovieID}
+          mediaType={mediaType}
+          activeMovieData={activeMovieData}
+          loading={loading}
         />
       </div>
     </motion.div>

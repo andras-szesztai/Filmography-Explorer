@@ -20,14 +20,21 @@ import { movieDetailCardContainerRight } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
-const MovieDetailCardRight = ({ bookmarkedMovies, setBookmarkedMovies }: Params) => {
-  const {
-    position,
-    activeMovieID,
-    activeMovieData: { details, crew, cast },
-    mediaType
-  } = useSelector((state: CombinedState) => state.movieReducer)
+const MovieDetailCardRight = ({
+  bookmarkedMovies,
+  setBookmarkedMovies,
+  activeNameID,
+  genreFilter,
+  mediaType,
+  loading,
+  activeMovieData,
+  isBookmarkedChart
+}: Params) => {
   const dispatch = useDispatch()
+  const { bookmarkedChartReducer, movieReducer } = useSelector((state: CombinedState) => state)
+
+  const activeMovieID = isBookmarkedChart ? bookmarkedChartReducer.bookmarkedActiveMovie.id : movieReducer.activeMovieID
+  const position = isBookmarkedChart ? bookmarkedChartReducer.bookmarkedActiveMovie.position : movieReducer.position
 
   const [isHovered, setIsHovered] = React.useState(false)
   const isOpen = !!activeMovieID && position === 0
@@ -37,9 +44,9 @@ const MovieDetailCardRight = ({ bookmarkedMovies, setBookmarkedMovies }: Params)
       bookmarkedMovies,
       activeMovieID,
       setBookmarkedMovies,
-      cast,
-      crew,
-      details,
+      cast: activeMovieData.cast,
+      crew: activeMovieData.crew,
+      details: activeMovieData.details,
       dispatch,
       mediaType
     })
@@ -60,10 +67,16 @@ const MovieDetailCardRight = ({ bookmarkedMovies, setBookmarkedMovies }: Params)
         <MovieCardCloseIcon isLeft={false} />
         <MovieDetailCardContent
           isOpen={isOpen}
-          handleClick={handleClick}
-          setIsHovered={setIsHovered}
           justifyLink="flex-end"
           loaderLeftPos={0}
+          handleClick={handleClick}
+          setIsHovered={setIsHovered}
+          activeNameID={activeNameID}
+          genreFilter={genreFilter}
+          activeMovieID={activeMovieID}
+          mediaType={mediaType}
+          activeMovieData={activeMovieData}
+          loading={loading}
         />
       </div>
     </motion.div>

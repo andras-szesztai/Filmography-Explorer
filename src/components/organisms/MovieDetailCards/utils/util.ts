@@ -12,7 +12,7 @@ import { updateBookmarkedMovies } from '../../../../reducer/movieReducer/actions
 interface HandleBookmarkedParams {
   bookmarkedMovies: BookmarkedMoviesObject | undefined
   activeMovieID: number
-  setBookmarkedMovies: React.Dispatch<React.SetStateAction<BookmarkedMoviesObject | undefined>>
+  setBookmarkedMovies?: React.Dispatch<React.SetStateAction<BookmarkedMoviesObject | undefined>>
   cast: MovieCastObject[]
   crew: MovieCrewObject[]
   details: MovieDetails
@@ -43,8 +43,8 @@ export const handleBookmarkedToggle = ({
           media_type: mediaType,
           vote_average: details.vote_average,
           vote_count: details.vote_count,
-          date: details.first_air_date || details.release_date,
-          title: details.original_name || details.original_title,
+          date: details.first_air_date || details.release_date || '',
+          title: details.original_name || details.original_title || '',
           id: details.id,
           genres: details.genres.map(d => d.id),
           credits: uniq([...castIDs, ...crewIDs]),
@@ -52,7 +52,9 @@ export const handleBookmarkedToggle = ({
         }
       }
     }
-    setBookmarkedMovies(newObject)
+    if (setBookmarkedMovies) {
+      setBookmarkedMovies(newObject)
+    }
     dispatch(updateBookmarkedMovies(newObject))
   }
 }

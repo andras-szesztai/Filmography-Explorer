@@ -30,7 +30,10 @@ import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 
 const IndexPage = () => {
   const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
-  const { position, activeMovieID, bookmarks } = useSelector((state: CombinedState) => state.movieReducer)
+  const { position, activeMovieID, bookmarks, activeMovieData, mediaType, loading } = useSelector(
+    (state: CombinedState) => state.movieReducer
+  )
+  const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
 
   const [bookmarkedMovies, setBookmarkedMovies] = useLocalStorage(LOCAL_STORE_ACCESSORS.bookmarkedMovies, {} as BookmarkedMoviesObject)
 
@@ -47,14 +50,30 @@ const IndexPage = () => {
       <AnimatePresence>
         {!!activeMovieID && position === 1 && (
           <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
-            <MovieDetailCardContainerLeft bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} />
+            <MovieDetailCardContainerLeft
+              activeNameID={activeNameID}
+              genreFilter={genreFilter}
+              mediaType={mediaType}
+              activeMovieData={activeMovieData}
+              loading={loading.activeMovieData}
+              setBookmarkedMovies={setBookmarkedMovies}
+              bookmarkedMovies={bookmarkedMovies}
+            />
           </motion.span>
         )}
       </AnimatePresence>
       <AnimatePresence>
         {!!activeMovieID && position === 0 && (
           <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
-            <MovieDetailCardContainerRight bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} />
+            <MovieDetailCardContainerRight
+              activeNameID={activeNameID}
+              genreFilter={genreFilter}
+              mediaType={mediaType}
+              activeMovieData={activeMovieData}
+              loading={loading.activeMovieData}
+              setBookmarkedMovies={setBookmarkedMovies}
+              bookmarkedMovies={bookmarkedMovies}
+            />
           </motion.span>
         )}
       </AnimatePresence>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { css } from '@emotion/core'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { format } from 'date-fns'
 import { FaFilter, FaExternalLinkSquareAlt } from 'react-icons/fa'
 import { IoIosSearch } from 'react-icons/io'
@@ -10,9 +10,6 @@ import useWhatInput from 'react-use-what-input'
 // Components
 import { Image, TextArea, MovieDetailCardContantLoader, ListEndPlaceHolder } from '../../atoms'
 import { SelectableListItem } from '../../molecules'
-
-// Types
-import { CombinedState } from '../../../types/state'
 
 // Actions
 import { setActiveNameID } from '../../../reducer/personReducer/actions'
@@ -33,26 +30,22 @@ import {
 } from './styles'
 import { space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
+import { ContentProps } from './types'
 
-interface Props {
-  isOpen: boolean
-  justifyLink: string
-  loaderLeftPos: number
-  handleClick: () => void
-  setIsHovered: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClick, setIsHovered }: Props) {
-  const {
-    activeMovieID,
-    mediaType,
-    activeMovieData: { details, crew, cast },
-    loading
-  } = useSelector((state: CombinedState) => state.movieReducer)
-  const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
-  const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
+function MovieDetailCardContent({
+  isOpen,
+  justifyLink,
+  loaderLeftPos,
+  handleClick,
+  setIsHovered,
+  activeNameID,
+  genreFilter,
+  activeMovieID,
+  mediaType,
+  activeMovieData: { details, crew, cast },
+  loading
+}: ContentProps) {
   const dispatch = useDispatch()
-
   const [isLinkHovered, setIsLinkHovered] = React.useState(false)
 
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
@@ -61,7 +54,7 @@ function MovieDetailCardContent({ isOpen, justifyLink, loaderLeftPos, handleClic
 
   return (
     <div css={mainGridStyle}>
-      <MovieDetailCardContantLoader loading={loading.activeMovieData} loaderLeftPos={loaderLeftPos} />
+      <MovieDetailCardContantLoader loading={loading} loaderLeftPos={loaderLeftPos} />
       <div css={infoGrid}>
         <button
           type="button"

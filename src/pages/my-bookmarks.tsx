@@ -29,10 +29,10 @@ import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } 
 import useSetActiveNameIDOnMount from '../components/organisms/PersonDetailCard/hooks/useSetActiveNameIDOnMount'
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 import { colors, space, fontSize } from '../styles/variables'
-import { GenreFilter } from '../components/molecules'
+import { GenreFilter, TitleSearch } from '../components/molecules'
 import { FavoritePersonsObject, PersonGenresObject } from '../types/person'
 import { updateFavoritePersons } from '../reducer/personReducer/actions'
-import { updateGenreList } from '../reducer/bookmarkedChartReducer/actions'
+import { updateGenreList, populateBookmarkedTitleFilter } from '../reducer/bookmarkedChartReducer/actions'
 
 // Constants
 
@@ -64,26 +64,16 @@ const MyBookMarksPage = () => {
     if (didPopulateFavorites && init.current) {
       init.current = false
       if (!isEmpty(movieReducer.bookmarks)) {
-        const allGenre = flatten(Object.values(movieReducer.bookmarks).map(movie => movie.genres))
+        const allBookmarks = Object.values(movieReducer.bookmarks)
+        const allGenre = flatten(allBookmarks.map(movie => movie.genres))
         const uniqGenres = uniq(allGenre)
         const genreList = uniqGenres.map(id => ({ id: +id, count: allGenre.filter(g => g === id).length }))
         dispatch(updateGenreList(genreList))
+        dispatch(populateBookmarkedTitleFilter(allBookmarks))
       }
-      if (!isEmpty(personReducer.favorites)) {
-        console.log('populate persons filter')
-
-        // media_type: string
-        // vote_average: number
-        // vote_count: number
-        // id: number
-
-        // genres: number[]
-        // credits: number[]
-        // title?: string
-        // date?: string
-        // poster_path?: string
-        // dispatch(updateGenreList(genreList))
-      }
+      // if (!isEmpty(personReducer.favorites)) {
+      //   console.log('populate persons filter')
+      // }
     }
   })
 
@@ -128,6 +118,13 @@ const MyBookMarksPage = () => {
               z-index: 100;
             `}
           >
+            <TitleSearch
+              titles={bookmarkedChartReducer.titleList}
+              setIsGenreOpen={setIsGenreOpen}
+              setIsTitleOpen={setIsTitleOpen}
+              isTitleOpen={isTitleOpen}
+              isBookmarkChart
+            />
             <GenreFilter
               genres={bookmarkedChartReducer.genreList}
               setIsTitleOpen={setIsTitleOpen}

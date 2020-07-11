@@ -30,13 +30,15 @@ interface Props {
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   isTitleOpen: boolean
+  isBookmarkChart: boolean
 }
 
-const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Props) => {
-  const {
-    scales: { xScaleDomain },
-    genreFilter
-  } = useSelector((state: CombinedState) => state.personCreditsChartReducer)
+const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBookmarkChart }: Props) => {
+  const personCreditsChartReducer = useSelector((state: CombinedState) => state.personCreditsChartReducer)
+  const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
+
+  const genreFilter = isBookmarkChart ? bookmarkedChartReducer.genreFilter : personCreditsChartReducer.genreFilter
+  const xScaleDomain = isBookmarkChart ? personCreditsChartReducer.scales.xScaleDomain : personCreditsChartReducer.scales.xScaleDomain // TODO: setup
   const prevGenreFilter = usePrevious(genreFilter)
   const {
     activeNameID,
@@ -66,6 +68,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
     }
   }, [isTitleOpen])
 
+  const isInit = React.useRef(true)
   const [genreFilteredTitles, setGenreFilteredTitles] = React.useState([] as MovieObject[])
   const [filteredTitles, setFilteredTitles] = React.useState([] as MovieObject[])
   React.useEffect(() => {
@@ -73,17 +76,20 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
       setGenreFilteredTitles(titles)
       setFilteredTitles(titles)
     }
-    if (prevGenreFilter && genreFilter.length !== prevGenreFilter.length) {
+    if ((prevGenreFilter && genreFilter.length !== prevGenreFilter.length) || (isInit.current && genreFilter.length)) {
+      if (isInit.current) {
+        isInit.current = false
+      }
       const newArray = titles.filter(t =>
         genreFilter.length && t.genres ? t.genres.map(id => genreFilter.includes(id)).includes(true) : true
       )
       setGenreFilteredTitles(newArray)
       setFilteredTitles(newArray)
     }
-    if (prevSearchText !== searchText) {
+    if (typeof prevSearchText === 'string' && prevSearchText !== searchText) {
       setFilteredTitles(genreFilteredTitles.filter(t => t.title && t.title.toLowerCase().includes(searchText.toLowerCase())))
     }
-    if (prevActiveNameID && activeNameID !== prevActiveNameID) {
+    if (prevActiveNameID && activeNameID && activeNameID !== prevActiveNameID) {
       setGenreFilteredTitles([])
       setFilteredTitles([])
     }
@@ -91,7 +97,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
       setGenreFilteredTitles(titles)
       setFilteredTitles(titles)
     }
-  }, [searchText, genreFilter])
+  }, [searchText, genreFilter.length, titles.length])
 
   return (
     <>

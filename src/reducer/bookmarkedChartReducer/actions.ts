@@ -1,7 +1,9 @@
 import { PersonGenresObject } from '../../types/person'
+import { MovieObject } from '../../types/movie'
 
 export const UPDATE_GENRE_LIST = 'UPDATE_GENRE_LIST'
 export const UPDATE_BOOKMARKED_GENRE_FILTER = 'UPDATE_BOOKMARKED_GENRE_FILTER'
+export const POPULATE_BOOKMARKED_TITLE_FILTER = 'POPULATE_BOOKMARKED_TITLE_FILTER'
 
 export function updateGenreList(genreList: PersonGenresObject[]) {
   return {
@@ -10,9 +12,16 @@ export function updateGenreList(genreList: PersonGenresObject[]) {
   } as const
 }
 
-export function updateBookmarkedGenreFilter(newArray: number[]) {
+export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
     type: UPDATE_BOOKMARKED_GENRE_FILTER,
-    newArray
+    genreArray
+  } as const
+}
+
+export function populateBookmarkedTitleFilter(titleArray: MovieObject[]) {
+  return {
+    type: POPULATE_BOOKMARKED_TITLE_FILTER,
+    titleArray
   } as const
 }

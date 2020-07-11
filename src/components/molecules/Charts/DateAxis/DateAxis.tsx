@@ -18,7 +18,11 @@ import { createDateAxis, createUpdateVoronoi, createDateAxisRefElements, showRef
 // Actions
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
-import { populateBookmarkedHoveredMovie, emptyBookmarkedHoveredMovie } from '../../../../reducer/bookmarkedChartReducer/actions'
+import {
+  populateBookmarkedHoveredMovie,
+  emptyBookmarkedHoveredMovie,
+  setBookmarkedActiveMovieID
+} from '../../../../reducer/bookmarkedChartReducer/actions'
 
 // Hooks
 import { useChartResize, useSelectedUpdate, useHoveredUpdate } from './hooks'
@@ -53,7 +57,7 @@ export default function DateAxis(props: DateAxisProps) {
     const { voronoiArea, mainData, xScale } = storedValues.current
     const populateHoveredFunc = props.isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
     const emptyHoveredFunc = props.isBookmarkChart ? emptyBookmarkedHoveredMovie : emptyHoveredMovie
-    // const setActiveMovieIDFunc = props.isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
+    const setActiveMovieIDFunc = props.isBookmarkChart ? setBookmarkedActiveMovieID : setActiveMovieID
     voronoiArea
       .selectAll('.voronoi-path')
       .on('mouseover', (d: any) => {
@@ -78,7 +82,7 @@ export default function DateAxis(props: DateAxisProps) {
         if (props.isFirstEntered) {
           timeOut.current = setTimeout(() => {
             props.setIsFirstEntered(false)
-            dispatch(populateHoveredMovie(hovered))
+            dispatch(populateHoveredFunc(hovered))
           }, duration.sm)
         }
       })
@@ -91,7 +95,7 @@ export default function DateAxis(props: DateAxisProps) {
       .on('click', (d: any) => {
         if (props.activeMovieID !== d.id) {
           dispatch(
-            setActiveMovieID({
+            setActiveMovieIDFunc({
               id: d.id,
               position: getXPosition({
                 data: d,

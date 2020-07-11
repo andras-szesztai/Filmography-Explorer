@@ -6,6 +6,7 @@ export const UPDATE_BOOKMARKED_GENRE_FILTER = 'UPDATE_BOOKMARKED_GENRE_FILTER'
 export const POPULATE_ON_MOUNT = 'POPULATE_ON_MOUNT'
 export const POPULATE_BOOKMARKED_HOVERED_MOVIE = 'POPULATE_BOOKMARKED_HOVERED_MOVIE'
 export const EMPTY_BOOKMARKED_HOVERED_MOVIE = 'EMPTY_BOOKMARKED_HOVERED_MOVIE'
+export const SET_BOOKMARKED_ACTIVE_MOVIE_ID = 'SET_BOOKMARKED_ACTIVE_MOVIE_ID'
 
 export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
@@ -40,5 +41,18 @@ export function populateBookmarkedHoveredMovie(movie: BookmarkedHoveredMovie) {
 export function emptyBookmarkedHoveredMovie() {
   return {
     type: EMPTY_BOOKMARKED_HOVERED_MOVIE
+  } as const
+}
+
+interface ActiveMovie {
+  id: number
+  position: number
+  mediaType: string
+}
+
+export function setBookmarkedActiveMovieID(activeMovie: ActiveMovie) {
+  return {
+    type: SET_BOOKMARKED_ACTIVE_MOVIE_ID,
+    activeMovie
   } as const
 }

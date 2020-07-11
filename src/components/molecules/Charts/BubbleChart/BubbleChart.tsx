@@ -266,6 +266,7 @@ export default function BubbleChart(props: BubbleChartProps) {
             color: ${colors.bgColorPrimaryLight};
             position: absolute;
             left: -${space[1]}px;
+            top: -1px;
             opacity: ${circleFillOpacity};
           `}
         >

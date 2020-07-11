@@ -1,6 +1,14 @@
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject } from './person'
 import { ChartSettings, HoveredMovie } from './personCreditsChart'
-import { GenreObject, ActiveMovieDataObject, MovieObject, BookmarkedMoviesObject } from './movie'
+import {
+  GenreObject,
+  ActiveMovieDataObject,
+  MovieObject,
+  BookmarkedMoviesObject,
+  MovieDetails,
+  MovieCastObject,
+  MovieCrewObject
+} from './movie'
 
 export interface PersonState {
   activeNameID: number
@@ -59,8 +67,15 @@ export interface BookmarkedChartReducer {
   titleList: MovieObject[]
   genreFilter: number[]
   personFilter: number[]
-  bookmarkedActiveMovieID: number
   bookmarkedHoveredMovie: BookmarkedHoveredMovie
+  bookmarkedActiveMovie: {
+    id: number
+    position: number
+    mediaType: string
+    details: MovieDetails
+    cast: MovieCastObject[]
+    crew: MovieCrewObject[]
+  }
   scales: {
     xScaleDomain: Date[]
     sizeScaleDomain: number[]

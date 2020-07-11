@@ -1,4 +1,4 @@
-import { MovieObject } from '../../types/movie'
+import { MovieObject, MovieDetails, MovieCastObject, MovieCrewObject } from '../../types/movie'
 import { PersonGenresObject } from '../../types/person'
 import { BookmarkedChartReducer } from '../../types/state'
 
@@ -10,7 +10,9 @@ import {
   populateBookmarkedHoveredMovie,
   emptyBookmarkedHoveredMovie,
   EMPTY_BOOKMARKED_HOVERED_MOVIE,
-  POPULATE_BOOKMARKED_HOVERED_MOVIE
+  POPULATE_BOOKMARKED_HOVERED_MOVIE,
+  setBookmarkedActiveMovieID,
+  SET_BOOKMARKED_ACTIVE_MOVIE_ID
 } from './actions'
 
 const initialState = {
@@ -18,21 +20,32 @@ const initialState = {
   titleList: [] as MovieObject[],
   genreFilter: [] as number[],
   personFilter: [] as number[],
-  bookmarkedActiveMovieID: 0,
-  scales: {
-    xScaleDomain: [] as Date[],
-    sizeScaleDomain: [] as number[]
+  bookmarkedActiveMovie: {
+    id: 0,
+    position: 0,
+    mediaType: '',
+    details: {} as MovieDetails,
+    cast: [] as MovieCastObject[],
+    crew: [] as MovieCrewObject[]
   },
   bookmarkedHoveredMovie: {
     id: 0,
     data: {} as MovieObject,
     yPosition: 0,
     xPosition: 0
+  },
+  scales: {
+    xScaleDomain: [] as Date[],
+    sizeScaleDomain: [] as number[]
   }
 }
 
 type Action = ReturnType<
-  typeof populateOnMount | typeof updateBookmarkedGenreFilter | typeof populateBookmarkedHoveredMovie | typeof emptyBookmarkedHoveredMovie
+  | typeof populateOnMount
+  | typeof updateBookmarkedGenreFilter
+  | typeof populateBookmarkedHoveredMovie
+  | typeof emptyBookmarkedHoveredMovie
+  | typeof setBookmarkedActiveMovieID
 >
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
@@ -64,6 +77,17 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
           xPosition: 0
         }
       }
+    case SET_BOOKMARKED_ACTIVE_MOVIE_ID: {
+      return {
+        ...state,
+        bookmarkedActiveMovie: {
+          ...state.bookmarkedActiveMovie,
+          id: action.activeMovie.id,
+          position: action.activeMovie.position,
+          mediaType: action.activeMovie.mediaType
+        }
+      }
+    }
     default:
       return state
   }

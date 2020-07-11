@@ -8,6 +8,7 @@ import { NavItem } from '../../atoms'
 import { space, colors, fontSize, zIndex } from '../../../styles/variables'
 
 const Header: React.FC = () => {
+  const [activeItem, setActiveItem] = React.useState(0)
   return (
     <header
       css={css`
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
 
         position: relative;
 
-        padding: 0 ${space[7]}px;
+        padding: 0 ${space[8]}px;
         background: ${colors.bgColorPrimary};
 
         border-bottom: 1px solid ${colors.textColorPrimary};
@@ -26,7 +27,11 @@ const Header: React.FC = () => {
         z-index: ${zIndex.header};
       `}
     >
-      <NavItem text="Explore" isActive />
+      <div>
+        <NavItem text="Explore" isActive={activeItem === 0} />
+        <NavItem text="My Bookmarks" isActive={activeItem === 1} withMargin />
+        <NavItem text="About" isActive={activeItem === 2} withMargin />
+      </div>
     </header>
   )
 }

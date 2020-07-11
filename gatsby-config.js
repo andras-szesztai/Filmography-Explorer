@@ -18,6 +18,14 @@ module.exports = {
     //     path: `${__dirname}/src/content`
     //   }
     // },
+
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/templates/Layout/Layout.tsx`)
+      }
+    },
+
     {
       resolve: 'gatsby-transformer-remark',
       options: {

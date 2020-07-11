@@ -36,7 +36,10 @@ const Layout: React.FC = ({ children }) => {
     <>
       <Helmet
         title={siteMetadata.title}
-        meta={[{ name: 'description', content: siteMetadata.description }, { name: 'keywords', content: siteMetadata.keywords }]}
+        meta={[
+          { name: 'description', content: siteMetadata.description },
+          { name: 'keywords', content: siteMetadata.keywords }
+        ]}
       />
       <Global
         styles={css`

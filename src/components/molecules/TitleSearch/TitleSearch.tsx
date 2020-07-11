@@ -106,12 +106,6 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
           setIsTitleOpen(!isTitleOpen)
           setIsGenreOpen(false)
         }}
-        onKeyDown={({ keyCode }) => {
-          if (keyCode === 13) {
-            setIsTitleOpen(!isTitleOpen)
-            setIsGenreOpen(false)
-          }
-        }}
         css={css`
           padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[3]}px;
           background: ${colors.bgColorSecondary};
@@ -138,149 +132,147 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
           Find a title
         </span>
       </button>
-      <AnimatePresence>
-        {isTitleOpen && (
-          <motion.div initial={{ y: 35, opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} css={filterDropdownStyle}>
+      {isTitleOpen && (
+        <div css={filterDropdownStyle}>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+              position: relative;
+            `}
+          >
             <div
               css={css`
                 display: flex;
-                justify-content: space-between;
-                position: relative;
               `}
             >
-              <div
+              <span
                 css={css`
-                  display: flex;
+                  transform: translateY(2px);
                 `}
               >
-                <span
+                Titles
+              </span>
+              <span
+                css={css`
+                  margin-left: ${space[3]}px;
+                `}
+              >
+                <input
                   css={css`
-                    transform: translateY(2px);
-                  `}
-                >
-                  Titles
-                </span>
-                <span
-                  css={css`
-                    margin-left: ${space[3]}px;
-                  `}
-                >
-                  <input
-                    css={css`
-                      border-radius: ${space[1]}px;
-                      border: 1px solid ${colors.textColorSecondary};
+                    border-radius: ${space[1]}px;
+                    border: 1px solid ${colors.textColorSecondary};
 
-                      color: ${colors.textColorSecondary};
-                      font-size: ${fontSize.sm};
-                      font-weight: ${fontWeight.sm};
+                    color: ${colors.textColorSecondary};
+                    font-size: ${fontSize.sm};
+                    font-weight: ${fontWeight.sm};
 
-                      padding: ${space[1]}px ${space[2]}px;
+                    padding: ${space[1]}px ${space[2]}px;
+                    opacity: 1;
+
+                    ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+
+                    &::placeholder {
+                      color: inherit;
                       opacity: 1;
-
-                      ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-
-                      &::placeholder {
-                        color: inherit;
-                        opacity: 1;
-                        font-size: inherit;
-                        letter-spacing: 0.8px;
-                        user-select: none;
-                      }
-                    `}
-                    placeholder="Search . . . "
-                    type="text"
-                    value={inputText}
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => setInputText(e.currentTarget.value)}
-                  />
-                </span>
-              </div>
-              <motion.button
-                type="button"
-                css={css`
-                  display: flex;
-                  ${buttonStyle}
-                  ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                      padding: 0;
-                `}
-                whileHover={{ originY: 0.1, scale: 1.3 }}
-                onClick={() => setIsTitleOpen(!isTitleOpen)}
-                onKeyDown={({ keyCode }) => {
-                  if (keyCode === 13) {
-                    setIsTitleOpen(!isTitleOpen)
-                  }
-                }}
-              >
-                <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
-              </motion.button>
+                      font-size: inherit;
+                      letter-spacing: 0.8px;
+                      user-select: none;
+                    }
+                  `}
+                  placeholder="Search . . . "
+                  type="text"
+                  value={inputText}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => setInputText(e.currentTarget.value)}
+                />
+              </span>
             </div>
-            <div
+            <motion.button
+              type="button"
               css={css`
-                ${horizontalScrollableStyle}
+                display: flex;
+                ${buttonStyle}
+                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+                      padding: 0;
               `}
+              whileHover={{ originY: 0.1, scale: 1.3 }}
+              onClick={() => setIsTitleOpen(!isTitleOpen)}
+              onKeyDown={({ keyCode }) => {
+                if (keyCode === 13) {
+                  setIsTitleOpen(!isTitleOpen)
+                }
+              }}
             >
-              {filteredTitles.length ? (
-                filteredTitles.map(t => (
-                  <SelectableListItem
-                    key={t.id}
-                    icon={IoIosSearch}
-                    iconSize={16}
-                    text={t.title}
-                    handleSelect={() => {
-                      const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
+              <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
+            </motion.button>
+          </div>
+          <div
+            css={css`
+              ${horizontalScrollableStyle}
+            `}
+          >
+            {filteredTitles.length ? (
+              filteredTitles.map(t => (
+                <SelectableListItem
+                  key={t.id}
+                  icon={IoIosSearch}
+                  iconSize={16}
+                  text={t.title}
+                  handleSelect={() => {
+                    const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
+                    dispatch(
+                      setActiveMovieID({
+                        id: t.id,
+                        position: Number(meanYear <= new Date(t.date).getFullYear()),
+                        mediaType: t.media_type
+                      })
+                    )
+                  }}
+                  handleMouseover={() => {
+                    const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
+                    const xPos = Number(meanYear <= new Date(t.date).getFullYear())
+                    const castObject = credits.cast.find(d => d.id === t.id)
+                    if (castObject) {
                       dispatch(
-                        setActiveMovieID({
+                        populateHoveredMovie({
                           id: t.id,
-                          position: Number(meanYear <= new Date(t.date).getFullYear()),
-                          mediaType: t.media_type
+                          data: castObject,
+                          yPosition: 0,
+                          xPosition: xPos
                         })
                       )
-                    }}
-                    handleMouseover={() => {
-                      const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
-                      const xPos = Number(meanYear <= new Date(t.date).getFullYear())
-                      const castObject = credits.cast.find(d => d.id === t.id)
-                      if (castObject) {
-                        dispatch(
-                          populateHoveredMovie({
-                            id: t.id,
-                            data: castObject,
-                            yPosition: 0,
-                            xPosition: xPos
-                          })
-                        )
+                    }
+                    if (!castObject) {
+                      // TODO: find out bug
+                      const crewObject = credits.crew.find(d => d.id === t.id)
+                      if (crewObject) {
+                        populateHoveredMovie({
+                          id: t.id,
+                          data: crewObject,
+                          yPosition: 0,
+                          xPosition: xPos
+                        })
                       }
-                      if (!castObject) {
-                        // TODO: find out bug
-                        const crewObject = credits.crew.find(d => d.id === t.id)
-                        if (crewObject) {
-                          populateHoveredMovie({
-                            id: t.id,
-                            data: crewObject,
-                            yPosition: 0,
-                            xPosition: xPos
-                          })
-                        }
-                      }
-                    }}
-                    handleMouseout={() => {
-                      dispatch(emptyHoveredMovie())
-                    }}
-                  />
-                ))
-              ) : (
-                <span
-                  css={css`
-                    margin-left: ${space[1]}px;
-                  `}
-                >
-                  Sorry, no results found
-                </span>
-              )}
-              <ListEndPlaceHolder />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    }
+                  }}
+                  handleMouseout={() => {
+                    dispatch(emptyHoveredMovie())
+                  }}
+                />
+              ))
+            ) : (
+              <span
+                css={css`
+                  margin-left: ${space[1]}px;
+                `}
+              >
+                Sorry, no results found
+              </span>
+            )}
+            <ListEndPlaceHolder />
+          </div>
+        </div>
+      )}
     </>
   )
 }

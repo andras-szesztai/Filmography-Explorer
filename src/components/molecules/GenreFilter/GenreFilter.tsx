@@ -52,12 +52,6 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
           setIsGenreOpen(!isGenreOpen)
           setIsTitleOpen(false)
         }}
-        onKeyDown={({ keyCode }) => {
-          if (keyCode === 13) {
-            setIsGenreOpen(!isGenreOpen)
-            setIsTitleOpen(false)
-          }
-        }}
         css={css`
           ${buttonPadding}
           background: ${colors.bgColorSecondary};
@@ -92,101 +86,99 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
           </motion.span>
         </span>
       </button>
-      <AnimatePresence>
-        {isGenreOpen && (
-          <motion.div initial={{ y: 35, opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} css={filterDropdownStyle}>
+      {isGenreOpen && (
+        <div css={filterDropdownStyle}>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
             <div
               css={css`
                 display: flex;
-                justify-content: space-between;
               `}
             >
-              <div
+              <span
                 css={css`
-                  display: flex;
+                  transform: translateY(2px);
                 `}
               >
-                <span
-                  css={css`
-                    transform: translateY(2px);
-                  `}
-                >
-                  Genres
-                </span>
-                <AnimatePresence>
-                  {genreFilter.length && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      css={css`
-                        height: 20px;
-                        align-self: flex-start;
-                        margin-left: ${space[2]}px;
-                      `}
-                    >
-                      <SelectableListItem
-                        handleSelect={() => dispatch(updateGenreFilter([]))}
-                        icon={IoIosCloseCircle}
-                        iconSize={18}
-                        text="Reset selection"
-                      />
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </div>
-              <motion.button
-                type="button"
-                css={css`
-                  display: flex;
-                  ${buttonStyle}
-                  ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                      padding: 0;
-                `}
-                whileHover={{ originY: 0.1, scale: 1.3 }}
-                onClick={() => setIsGenreOpen(!isGenreOpen)}
-                onKeyDown={({ keyCode }) => {
-                  if (keyCode === 13) {
-                    setIsGenreOpen(!isGenreOpen)
-                  }
-                }}
-              >
-                <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
-              </motion.button>
+                Genres
+              </span>
+              <AnimatePresence>
+                {genreFilter.length && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    css={css`
+                      height: 20px;
+                      align-self: flex-start;
+                      margin-left: ${space[2]}px;
+                    `}
+                  >
+                    <SelectableListItem
+                      handleSelect={() => dispatch(updateGenreFilter([]))}
+                      icon={IoIosCloseCircle}
+                      iconSize={18}
+                      text="Reset selection"
+                    />
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </div>
-            <div
+            <motion.button
+              type="button"
               css={css`
-                ${horizontalScrollableStyle}
+                display: flex;
+                ${buttonStyle}
+                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+                      padding: 0;
               `}
+              whileHover={{ originY: 0.1, scale: 1.3 }}
+              onClick={() => setIsGenreOpen(!isGenreOpen)}
+              onKeyDown={({ keyCode }) => {
+                if (keyCode === 13) {
+                  setIsGenreOpen(!isGenreOpen)
+                }
+              }}
             >
-              {genres.map(genre => {
-                const genreObj = genreList.find(g => g.id === genre.id)
-                const text = genreObj && genreObj.name
-                return (
-                  <SelectableListItem
-                    key={genre.id}
-                    icon={FaFilter}
-                    iconSize={12}
-                    text={`${text} (${genre.count})`}
-                    handleSelect={() => {
-                      if (genreFilter.includes(genre.id)) {
-                        dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
-                      } else if (genres.length === genreFilter.length) {
-                        dispatch(updateGenreFilter([]))
-                      } else {
-                        dispatch(updateGenreFilter([...genreFilter, genre.id]))
-                      }
-                      dispatch(emptyMovieDetails())
-                    }}
-                    isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
-                  />
-                )
-              })}
-              <ListEndPlaceHolder />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
+            </motion.button>
+          </div>
+          <div
+            css={css`
+              ${horizontalScrollableStyle}
+            `}
+          >
+            {genres.map(genre => {
+              const genreObj = genreList.find(g => g.id === genre.id)
+              const text = genreObj && genreObj.name
+              return (
+                <SelectableListItem
+                  key={genre.id}
+                  icon={FaFilter}
+                  iconSize={12}
+                  text={`${text} (${genre.count})`}
+                  handleSelect={() => {
+                    if (genreFilter.includes(genre.id)) {
+                      dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
+                    } else if (genres.length === genreFilter.length) {
+                      dispatch(updateGenreFilter([]))
+                    } else {
+                      dispatch(updateGenreFilter([...genreFilter, genre.id]))
+                    }
+                    dispatch(emptyMovieDetails())
+                  }}
+                  isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                />
+              )
+            })}
+            <ListEndPlaceHolder />
+          </div>
+        </div>
+      )}
     </>
   )
 }

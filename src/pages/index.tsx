@@ -40,28 +40,26 @@ const IndexPage = () => {
   useSetBookmarkedMoviesOnMount(bookmarkedMovies)
 
   return (
-    <Layout>
-      <SearchDashboardDesktop>
-        <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
-        <PersonDetailCard />
-        <FavoritePersonsList />
-        <PersonCreditsChart />
-        <AnimatePresence>
-          {!!activeMovieID && position === 1 && (
-            <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
-              <MovieDetailCardContainerLeft bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-        <AnimatePresence>
-          {!!activeMovieID && position === 0 && (
-            <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
-              <MovieDetailCardContainerRight bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </SearchDashboardDesktop>
-    </Layout>
+    <SearchDashboardDesktop>
+      <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
+      <PersonDetailCard />
+      <FavoritePersonsList />
+      <PersonCreditsChart />
+      <AnimatePresence>
+        {!!activeMovieID && position === 1 && (
+          <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
+            <MovieDetailCardContainerLeft bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} />
+          </motion.span>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {!!activeMovieID && position === 0 && (
+          <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
+            <MovieDetailCardContainerRight bookmarkedMovies={bookmarkedMovies} setBookmarkedMovies={setBookmarkedMovies} />
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </SearchDashboardDesktop>
   )
 }
 

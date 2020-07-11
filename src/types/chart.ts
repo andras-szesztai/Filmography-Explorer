@@ -4,7 +4,6 @@ import 'd3-transition'
 import { ScaleTime, ScalePower, ScaleLinear } from 'd3-scale'
 
 // Types
-import { FormattedPersonCreditDataObject, PersonCredits } from './person'
 import { MovieObject } from './movie'
 
 export interface Margin {
@@ -24,9 +23,9 @@ export interface StoredValues {
 }
 
 export interface AxisStoredValues extends StoredValues {
-  mainData: FormattedPersonCreditDataObject[]
-  subData: FormattedPersonCreditDataObject[]
-  uniqData: FormattedPersonCreditDataObject[]
+  mainData: MovieObject[]
+  subData: MovieObject[]
+  uniqData: MovieObject[]
 }
 
 export interface BubbleChartStoredValues extends StoredValues {
@@ -46,7 +45,10 @@ interface ChartProps {
 }
 
 export interface DateAxisProps extends ChartProps {
-  dataSets: PersonCredits
+  dataSets: {
+    cast: MovieObject[]
+    crew: MovieObject[]
+  }
   isBoth: boolean
   tooltipWithRole: boolean
 }

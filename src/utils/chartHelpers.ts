@@ -1,10 +1,9 @@
 import { ScaleTime } from 'd3-scale'
-import { FormattedPersonCreditDataObject } from '../types/person'
 import { MovieObject } from '../types/movie'
 
 interface GetYPositionParams {
-  data: FormattedPersonCreditDataObject
-  mainData: FormattedPersonCreditDataObject[]
+  data: MovieObject
+  mainData: MovieObject[]
   isBoth: boolean
 }
 

@@ -4,7 +4,7 @@ import { Delaunay } from 'd3-delaunay'
 
 // Types
 import { AxisStoredValues } from '../../../../../types/chart'
-import { FormattedPersonCreditDataObject } from '../../../../../types/person'
+import { MovieObject } from '../../../../../types/movie'
 
 // Styles
 import { colors, fontSize, circleSizeRange, circleAdjust } from '../../../../../styles/variables'
@@ -45,7 +45,7 @@ export interface VoronoiParams {
 
 export function createUpdateVoronoi({ addUpdateInteractions, storedValues, left, height, width, activeMovieID }: VoronoiParams) {
   const { xScale, voronoiArea, uniqData } = storedValues.current
-  const setXPos = (d: FormattedPersonCreditDataObject) => xScale(new Date(d.unified_date)) + left
+  const setXPos = (d: MovieObject) => xScale(new Date(d.date)) + left
   const delaunay = Delaunay.from(uniqData, setXPos, () => height / 2).voronoi([0, 0, width, height])
   voronoiArea
     .selectAll('.voronoi-path')
@@ -139,7 +139,7 @@ interface ShowRefElements {
 
 export function showRefElements({ storedValues, activeMovieID, height }: ShowRefElements) {
   const { xScale, hoverElementArea, voronoiArea, uniqData, mainData, subData } = storedValues.current
-  const setX = (d: any) => xScale(new Date(d.unified_date))
+  const setX = (d: any) => xScale(new Date(d.date))
   const selectedCircleData = uniqData.find(d => d.id === activeMovieID)
 
   hoverElementArea

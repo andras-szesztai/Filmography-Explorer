@@ -116,8 +116,8 @@ export default function DateAxis(props: DateAxisProps) {
       const isCast = dataSets.cast.length >= dataSets.crew.length
       const mainData = isCast ? dataSets.cast : dataSets.crew
       const subData = isCast ? dataSets.crew : dataSets.cast
-      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : mainData // TODO: Dry
-      const filteredSubData = genreFilter.length ? subData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : subData
+      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genres.some(id => genreFilter.includes(id))) : mainData // TODO: Dry
+      const filteredSubData = genreFilter.length ? subData.filter(d => d.genres.some(id => genreFilter.includes(id))) : subData
       const uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
       const xScale = scaleTime()
         .domain(props.xScaleDomain)
@@ -154,8 +154,8 @@ export default function DateAxis(props: DateAxisProps) {
       const isCast = dataSets.cast.length >= dataSets.crew.length
       const mainData = isCast ? dataSets.cast : dataSets.crew
       const subData = isCast ? dataSets.crew : dataSets.cast
-      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : mainData
-      const filteredSubData = genreFilter.length ? subData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : subData
+      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genres.some(id => genreFilter.includes(id))) : mainData
+      const filteredSubData = genreFilter.length ? subData.filter(d => d.genres.some(id => genreFilter.includes(id))) : subData
       const uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
       storedValues.current = {
         ...storedValues.current,

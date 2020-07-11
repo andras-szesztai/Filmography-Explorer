@@ -108,7 +108,7 @@ const PersonCreditsChart = () => {
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}
-              dataSets={personDataSets.credits}
+              dataSets={chartState.dataSets}
               isBoth={chartState.isBoth}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}

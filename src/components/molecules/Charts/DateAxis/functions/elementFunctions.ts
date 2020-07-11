@@ -7,7 +7,7 @@ import { AxisStoredValues } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 
 // Styles
-import { colors, fontSize, circleSizeRange, circleAdjust, circleFillOpacity } from '../../../../../styles/variables'
+import { colors, fontSize, circleSizeRange, circleAdjust } from '../../../../../styles/variables'
 
 interface Params {
   storedValues: { current: AxisStoredValues }
@@ -59,7 +59,8 @@ export function createUpdateVoronoi({ addUpdateInteractions, storedValues, left,
           .attr('cursor', d => (activeMovieID === d.id ? 'default' : 'pointer'))
           .attr('d', (_, i) => delaunay.renderCell(i))
           .call(e => e),
-      update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i)))
+      update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i))),
+      exit => exit.remove()
     )
   addUpdateInteractions()
 }
@@ -90,8 +91,7 @@ export function createDateAxisRefElements({ storedValues, className }: DateAxisR
     .attr('cy', 0)
     .attr('cx', 0)
     .attr('r', circleSizeRange[0])
-    .attr('fill', colors.bgColorPrimaryLight)
-    .attr('fill-opacity', circleFillOpacity)
+    .attr('fill', colors.bgColorSecondary)
     .attr('stroke', colors.bgColorSecondary)
     .attr('stroke-width', 1)
     .attr('opacity', 0)

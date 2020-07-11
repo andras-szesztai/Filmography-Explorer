@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import { useLocalStorage } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Layout,
   SearchDashboardDesktop,
   SearchBar,
   PersonDetailCard,

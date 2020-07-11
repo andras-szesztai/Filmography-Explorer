@@ -64,18 +64,22 @@ const PersonCreditsChart = () => {
             z-index: 100;
           `}
         >
-          <TitleSearch
-            titles={personDataSets.allTitles}
-            setIsGenreOpen={setIsGenreOpen}
-            setIsTitleOpen={setIsTitleOpen}
-            isTitleOpen={isTitleOpen}
-          />
-          <GenreFilter
-            genres={personDataSets.genres}
-            setIsTitleOpen={setIsTitleOpen}
-            setIsGenreOpen={setIsGenreOpen}
-            isGenreOpen={isGenreOpen}
-          />
+          {!!chartState.nameId && (
+            <>
+              <TitleSearch
+                titles={personDataSets.allTitles}
+                setIsGenreOpen={setIsGenreOpen}
+                setIsTitleOpen={setIsTitleOpen}
+                isTitleOpen={isTitleOpen}
+              />
+              <GenreFilter
+                genres={personDataSets.genres}
+                setIsTitleOpen={setIsTitleOpen}
+                setIsGenreOpen={setIsGenreOpen}
+                isGenreOpen={isGenreOpen}
+              />
+            </>
+          )}
         </div>
         {!!chartState.nameId && (
           <div

@@ -38,7 +38,7 @@ const margin = {
 
 export default function DateAxis(props: DateAxisProps) {
   const dispatch = useDispatch()
-  const { dataSets, activeMovieID, hoveredMovieID } = props
+  const { dataSets, activeMovieID, hoveredMovieID, genreFilter } = props
 
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -146,6 +146,31 @@ export default function DateAxis(props: DateAxisProps) {
       }
     }
   })
+
+  React.useEffect(() => {
+    if (!storedValues.current.isInit) {
+      const isCast = dataSets.cast.length >= dataSets.crew.length
+      const mainData = isCast ? dataSets.cast : dataSets.crew
+      const subData = isCast ? dataSets.crew : dataSets.cast
+      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : mainData
+      const filteredSubData = genreFilter.length ? subData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : subData
+      const uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
+      storedValues.current = {
+        ...storedValues.current,
+        uniqData,
+        mainData: filteredMainData,
+        subData: filteredSubData
+      }
+      createUpdateVoronoi({
+        addUpdateInteractions,
+        storedValues,
+        left: margin.left,
+        height: dims.height,
+        width: dims.width,
+        activeMovieID
+      })
+    }
+  }, [genreFilter])
 
   useChartResize({
     width: dims.width,

@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import { Link } from 'gatsby'
 
 // Components
 import { NavItem } from '../../atoms'
@@ -28,9 +29,15 @@ const Header: React.FC = () => {
       `}
     >
       <div>
-        <NavItem text="Explore" isActive={activeItem === 0} />
-        <NavItem text="My Bookmarks" isActive={activeItem === 1} withMargin />
-        <NavItem text="About" isActive={activeItem === 2} withMargin />
+        <Link to="/">
+          <NavItem text="Explore" activeItem={activeItem} itemNumber={0} setActiveItem={setActiveItem} />
+        </Link>
+        <Link to="/my-bookmarks">
+          <NavItem text="My Bookmarks" activeItem={activeItem} itemNumber={1} withMargin setActiveItem={setActiveItem} />
+        </Link>
+        <Link to="/about">
+          <NavItem text="About" activeItem={activeItem} itemNumber={2} withMargin setActiveItem={setActiveItem} />
+        </Link>
       </div>
     </header>
   )

@@ -49,7 +49,7 @@ const Layout: React.FC = ({ children }) => {
           }
         `}
       />
-      <motion.div
+      <div
         css={css`
           height: 100vh;
           width: 100vw;
@@ -60,7 +60,7 @@ const Layout: React.FC = ({ children }) => {
       >
         <Header />
         {children}
-      </motion.div>
+      </div>
     </>
   )
 }

@@ -20,6 +20,7 @@ const LabelContainer = ({ label }: Props) => {
         line-height: 1.25s;
         letter-spacing: 1px;
         user-select: none;
+        pointer-events: none;
       `}
     >
       {label}

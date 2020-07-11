@@ -13,7 +13,7 @@ import { Image } from '../../atoms'
 import { CombinedState } from '../../../types/state'
 
 // Style
-import { width, space, height, colors, tooltipOffset, fontSize, fontWeight } from '../../../styles/variables'
+import { width, space, height, colors, tooltipOffset, fontSize, fontWeight, dropShadow } from '../../../styles/variables'
 import { ScrollableContainerStyle } from '../../organisms/FavoritePersonsList/style'
 import { containerStyle, infoSectionStyle } from './styles'
 
@@ -34,6 +34,7 @@ export default function MoviesTooltip({ activeMovieID, xScale }: Props) {
         left: ${xPosition ? xPos - width.tooltipWidth - tooltipOffset + 28 : xPos + tooltipOffset + 35}px;
         top: ${yPosition === 0 && 0}px;
         bottom: ${yPosition === 1 && 0}px;
+        filter: drop-shadow(${dropShadow.header.ternary});
       `}
     >
       <div

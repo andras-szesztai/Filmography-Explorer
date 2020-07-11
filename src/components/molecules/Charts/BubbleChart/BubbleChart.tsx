@@ -139,7 +139,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         gridArea,
         hoverElementArea,
         voronoiArea,
-        filteredData: data
+        filteredData: genreFilter.length ? data.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : data
       }
       const gridArgs = { storedValues, left: margin.left, width }
       createUpdateGrid(gridArgs)
@@ -254,6 +254,7 @@ export default function BubbleChart(props: BubbleChartProps) {
       <div
         css={css`
           position: absolute;
+          pointer-events: none;
         `}
       >
         <div

@@ -63,12 +63,26 @@ const MyBookMarksPage = () => {
   React.useEffect(() => {
     if (didPopulateFavorites && init.current) {
       init.current = false
-
       if (!isEmpty(movieReducer.bookmarks)) {
         const allGenre = flatten(Object.values(movieReducer.bookmarks).map(movie => movie.genres))
         const uniqGenres = uniq(allGenre)
         const genreList = uniqGenres.map(id => ({ id: +id, count: allGenre.filter(g => g === id).length }))
         dispatch(updateGenreList(genreList))
+      }
+      if (!isEmpty(personReducer.favorites)) {
+        console.log('populate persons filter')
+
+        // media_type: string
+        // vote_average: number
+        // vote_count: number
+        // id: number
+
+        // genres: number[]
+        // credits: number[]
+        // title?: string
+        // date?: string
+        // poster_path?: string
+        // dispatch(updateGenreList(genreList))
       }
     }
   })

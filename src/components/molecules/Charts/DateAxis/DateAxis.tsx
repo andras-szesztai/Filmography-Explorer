@@ -116,7 +116,9 @@ export default function DateAxis(props: DateAxisProps) {
       const isCast = dataSets.cast.length >= dataSets.crew.length
       const mainData = isCast ? dataSets.cast : dataSets.crew
       const subData = isCast ? dataSets.crew : dataSets.cast
-      const uniqData = uniqBy([...mainData, ...subData], 'id')
+      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : mainData // TODO: Dry
+      const filteredSubData = genreFilter.length ? subData.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : subData
+      const uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
       const xScale = scaleTime()
         .domain(props.xScaleDomain)
         .range([0, dims.width - margin.left - margin.right])
@@ -127,8 +129,8 @@ export default function DateAxis(props: DateAxisProps) {
       storedValues.current = {
         isInit: false,
         xScale,
-        mainData,
-        subData,
+        mainData: filteredMainData,
+        subData: filteredSubData,
         uniqData,
         chartArea,
         svgArea,

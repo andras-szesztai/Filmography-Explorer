@@ -6,6 +6,7 @@ import { updateBookmarkedGenreFilter, updateGenreList, UPDATE_GENRE_LIST, UPDATE
 
 const initialState = {
   genreList: [] as PersonGenresObject[],
+  titleList: [] as MovieObject[],
   genreFilter: [] as number[],
   personFilter: [] as number[],
   activeMovieID: 0,

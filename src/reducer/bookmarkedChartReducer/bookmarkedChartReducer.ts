@@ -2,12 +2,12 @@ import { MovieObject } from '../../types/movie'
 import { PersonGenresObject } from '../../types/person'
 import { BookmarkedChartReducer } from '../../types/state'
 
-import { updateGenreFilter, updateGenreList, UPDATE_GENRE_LIST, UPDATE_GENRE_FILTER } from './actions'
+import { updateBookmarkedGenreFilter, updateGenreList, UPDATE_GENRE_LIST, UPDATE_BOOKMARKED_GENRE_FILTER } from './actions'
 
 const initialState = {
   genreList: [] as PersonGenresObject[],
-  genreFilters: [] as number[],
-  personFilters: [] as number[],
+  genreFilter: [] as number[],
+  personFilter: [] as number[],
   activeMovieID: 0,
   hoveredMovie: {
     id: 0,
@@ -17,7 +17,7 @@ const initialState = {
   }
 }
 
-type Action = ReturnType<typeof updateGenreList | typeof updateGenreFilter>
+type Action = ReturnType<typeof updateGenreList | typeof updateBookmarkedGenreFilter>
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
   switch (action.type) {
@@ -26,10 +26,10 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
         ...state,
         genreList: action.genreList
       }
-    case UPDATE_GENRE_FILTER:
+    case UPDATE_BOOKMARKED_GENRE_FILTER:
       return {
         ...state,
-        genreFilters: action.newArray
+        genreFilter: action.newArray
       }
     default:
       return state

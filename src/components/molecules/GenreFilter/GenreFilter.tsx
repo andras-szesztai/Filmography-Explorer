@@ -23,17 +23,22 @@ import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/ac
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import { ListEndPlaceHolder } from '../../atoms'
 import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
+import { updateBookmarkedGenreFilter } from '../../../reducer/bookmarkedChartReducer/actions'
 
 interface Props {
   genres: PersonGenresObject[]
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
   isGenreOpen: boolean
+  isBookmarkChart: boolean
 }
 
-const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Props) => {
+const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBookmarkChart }: Props) => {
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
-  const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
+  const personGenreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
+  const bookMarkedGenreFilter = useSelector((state: CombinedState) => state.bookmarkedChartReducer.genreFilter)
+  const updateFunction = isBookmarkChart ? updateBookmarkedGenreFilter : updateGenreFilter
+  const genreFilter = isBookmarkChart ? bookMarkedGenreFilter : personGenreFilter
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
@@ -119,7 +124,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                     `}
                   >
                     <SelectableListItem
-                      handleSelect={() => dispatch(updateGenreFilter([]))}
+                      handleSelect={() => dispatch(updateFunction([]))}
                       icon={IoIosCloseCircle}
                       iconSize={18}
                       text="Reset selection"
@@ -163,11 +168,11 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                   text={`${text} (${genre.count})`}
                   handleSelect={() => {
                     if (genreFilter.includes(genre.id)) {
-                      dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
+                      dispatch(updateFunction(genreFilter.filter(id => id !== genre.id)))
                     } else if (genres.length === genreFilter.length) {
-                      dispatch(updateGenreFilter([]))
+                      dispatch(updateFunction([]))
                     } else {
-                      dispatch(updateGenreFilter([...genreFilter, genre.id]))
+                      dispatch(updateFunction([...genreFilter, genre.id]))
                     }
                     dispatch(emptyMovieDetails())
                   }}

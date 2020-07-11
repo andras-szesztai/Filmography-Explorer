@@ -52,8 +52,8 @@ export interface BookmarkedHoveredMovie {
 
 export interface BookmarkedChartReducer {
   genreList: PersonGenresObject[]
-  genreFilters: number[]
-  personFilters: number[]
+  genreFilter: number[]
+  personFilter: number[]
   activeMovieID: number
   hoveredMovie: BookmarkedHoveredMovie
 }

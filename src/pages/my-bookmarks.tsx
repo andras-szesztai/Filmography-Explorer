@@ -57,6 +57,7 @@ const MyBookMarksPage = () => {
       setDidPopulateFavorites(true)
     }
   })
+  useFetchGenreList()
 
   const init = React.useRef(true)
   React.useEffect(() => {
@@ -71,8 +72,6 @@ const MyBookMarksPage = () => {
       }
     }
   })
-
-  console.log('MyBookMarksPage -> bookmarkedChartReducer', bookmarkedChartReducer.genreList)
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)
@@ -120,6 +119,7 @@ const MyBookMarksPage = () => {
               setIsTitleOpen={setIsTitleOpen}
               setIsGenreOpen={setIsGenreOpen}
               isGenreOpen={isGenreOpen}
+              isBookmarkChart
             />
           </div>
         </div>

@@ -1,11 +1,10 @@
 import React from 'react'
 import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
 import { useDebounce, usePrevious } from 'react-use'
-
 import { mean } from 'lodash'
 
 import { CombinedState } from '../../../types/state'
@@ -82,7 +81,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
       setFilteredTitles(newArray)
     }
     if (prevSearchText !== searchText) {
-      setFilteredTitles(genreFilteredTitles.filter(t => t.title.toLowerCase().includes(searchText.toLowerCase())))
+      setFilteredTitles(genreFilteredTitles.filter(t => t.title && t.title.toLowerCase().includes(searchText.toLowerCase())))
     }
     if (prevActiveNameID && activeNameID !== prevActiveNameID) {
       setGenreFilteredTitles([])
@@ -217,20 +216,20 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                   key={t.id}
                   icon={IoIosSearch}
                   iconSize={16}
-                  text={t.title}
+                  text={t.title || 'Missing title'}
                   handleSelect={() => {
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
                     dispatch(
                       setActiveMovieID({
                         id: t.id,
-                        position: Number(meanYear <= new Date(t.date).getFullYear()),
+                        position: t.date ? Number(meanYear <= new Date(t.date).getFullYear()) : 0,
                         mediaType: t.media_type
                       })
                     )
                   }}
                   handleMouseover={() => {
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
-                    const xPos = Number(meanYear <= new Date(t.date).getFullYear())
+                    const xPos = t.date ? Number(meanYear <= new Date(t.date).getFullYear()) : 0
                     const castObject = credits.cast.find(d => d.id === t.id)
                     if (castObject) {
                       dispatch(

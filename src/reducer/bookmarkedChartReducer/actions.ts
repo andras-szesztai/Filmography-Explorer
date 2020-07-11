@@ -1,7 +1,7 @@
 import { PersonGenresObject } from '../../types/person'
 
 export const UPDATE_GENRE_LIST = 'UPDATE_GENRE_LIST'
-export const UPDATE_GENRE_FILTER = 'UPDATE_GENRE_FILTER'
+export const UPDATE_BOOKMARKED_GENRE_FILTER = 'UPDATE_BOOKMARKED_GENRE_FILTER'
 
 export function updateGenreList(genreList: PersonGenresObject[]) {
   return {
@@ -10,9 +10,9 @@ export function updateGenreList(genreList: PersonGenresObject[]) {
   } as const
 }
 
-export function updateGenreFilter(newArray: number[]) {
+export function updateBookmarkedGenreFilter(newArray: number[]) {
   return {
-    type: UPDATE_GENRE_FILTER,
+    type: UPDATE_BOOKMARKED_GENRE_FILTER,
     newArray
   } as const
 }

@@ -13,6 +13,7 @@ import { useUpdateChartSettings } from './hooks'
 
 // Styles
 import { space, colors, fontSize } from '../../../styles/variables'
+import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
@@ -77,6 +78,7 @@ const PersonCreditsChart = () => {
                 setIsTitleOpen={setIsTitleOpen}
                 setIsGenreOpen={setIsGenreOpen}
                 isGenreOpen={isGenreOpen}
+                isBookmarkChart={false}
               />
             </>
           )}

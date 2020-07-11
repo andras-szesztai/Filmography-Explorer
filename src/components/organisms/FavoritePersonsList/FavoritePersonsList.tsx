@@ -35,7 +35,6 @@ const FavoritePersonsList = () => {
   const personReducer = useSelector((state: CombinedState) => state.personReducer)
 
   const favs = getObjectValues(personReducer.favorites)
-  console.log('FavoritePersonsList -> favs', favs)
 
   return (
     <div css={ContainerStyle}>

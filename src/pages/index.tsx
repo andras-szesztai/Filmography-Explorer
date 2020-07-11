@@ -29,14 +29,14 @@ import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 // Helpers
 
 const IndexPage = () => {
-  const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
-  const { position, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
+  const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
+  const { position, activeMovieID, bookmarks } = useSelector((state: CombinedState) => state.movieReducer)
 
   const [bookmarkedMovies, setBookmarkedMovies] = useLocalStorage(LOCAL_STORE_ACCESSORS.bookmarkedMovies, {} as BookmarkedMoviesObject)
 
   useFetchGenreList()
   useFetchPersonData({ activeNameID })
-  useSetBookmarkedMoviesOnMount(bookmarkedMovies)
+  useSetBookmarkedMoviesOnMount(!!Object.keys(bookmarks).length, bookmarkedMovies)
 
   return (
     <SearchDashboardDesktop>

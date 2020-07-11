@@ -16,14 +16,13 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
   const prevProps = usePrevious(props)
   const { isOpen, isPopulated, children } = props
   const [yPos, setYPos] = React.useState(-height.personCardOpen)
+
   React.useEffect(() => {
-    if (isPopulated && prevProps) {
-      if ((!prevProps.isPopulated && isOpen) || (isOpen && !prevProps.isOpen)) {
-        setYPos(-height.personCardExtra)
-      }
-      if ((!prevProps.isPopulated && !isOpen) || (!isOpen && prevProps.isOpen)) {
-        setYPos(-height.personCardOpen + height.personCardClosed)
-      }
+    if (isPopulated && isOpen) {
+      setYPos(-height.personCardExtra)
+    }
+    if (isPopulated && !isOpen) {
+      setYPos(-height.personCardOpen + height.personCardClosed)
     }
   }, [isOpen, isPopulated])
 

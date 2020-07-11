@@ -10,9 +10,10 @@ import { FavoritePersonsObject } from '../../../../types/person'
 
 interface Params {
   favoritePersons?: FavoritePersonsObject
+  isPopulated: boolean
 }
 
-function useSetActiveNameIDOnMount({ favoritePersons }: Params) {
+function useSetActiveNameIDOnMount({ favoritePersons, isPopulated }: Params) {
   const dispatch = useDispatch()
   const init = React.useRef(true)
   React.useEffect(() => {
@@ -22,7 +23,9 @@ function useSetActiveNameIDOnMount({ favoritePersons }: Params) {
         const lastID = last(Object.keys(favoritePersons))
         if (lastID) {
           dispatch(setActiveNameID(+lastID))
-          dispatch(updateFavoritePersons(favoritePersons))
+          if (!isPopulated) {
+            dispatch(updateFavoritePersons(favoritePersons))
+          }
         }
       }
     }

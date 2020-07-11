@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { Link } from 'gatsby'
+import { globalHistory } from '@reach/router'
 
 // Components
 import { NavItem } from '../../atoms'
@@ -8,8 +9,20 @@ import { NavItem } from '../../atoms'
 // Styles
 import { space, colors, fontSize, zIndex } from '../../../styles/variables'
 
+const navItemNumbers: { [path: string]: number } = {
+  '/': 0,
+  '/my-bookmarks': 1,
+  '/about': 2
+}
+
 const Header: React.FC = () => {
-  const [activeItem, setActiveItem] = React.useState(0)
+  const [activeItem, setActiveItem] = React.useState(-1)
+  React.useEffect(() => {
+    if (activeItem === -1) {
+      const { location } = globalHistory
+      setActiveItem(navItemNumbers[location.pathname] as number)
+    }
+  })
   return (
     <header
       css={css`

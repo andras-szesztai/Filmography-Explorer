@@ -113,12 +113,22 @@ export default function DateAxis(props: DateAxisProps) {
   React.useEffect(() => {
     if (storedValues.current.isInit && dims.width) {
       storedValues.current.isInit = false
-      const isCast = dataSets.cast.length >= dataSets.crew.length
-      const mainData = isCast ? dataSets.cast : dataSets.crew
-      const subData = isCast ? dataSets.crew : dataSets.cast
-      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genres.some(id => genreFilter.includes(id))) : mainData // TODO: Dry
-      const filteredSubData = genreFilter.length ? subData.filter(d => d.genres.some(id => genreFilter.includes(id))) : subData
-      const uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
+      let uniqData
+      let filteredMainData
+      let filteredSubData
+      if (Array.isArray(dataSets)) {
+        uniqData = dataSets
+        filteredMainData = dataSets
+        filteredSubData = dataSets
+      }
+      if (props.isBoth && !Array.isArray(dataSets)) {
+        const isCast = dataSets.cast.length >= dataSets.crew.length
+        const mainData = isCast ? dataSets.cast : dataSets.crew
+        const subData = isCast ? dataSets.crew : dataSets.cast
+        filteredMainData = genreFilter.length ? mainData.filter(d => d.genres.some(id => genreFilter.includes(id))) : mainData // TODO: Dry
+        filteredSubData = genreFilter.length ? subData.filter(d => d.genres.some(id => genreFilter.includes(id))) : subData
+        uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
+      }
       const xScale = scaleTime()
         .domain(props.xScaleDomain)
         .range([0, dims.width - margin.left - margin.right])
@@ -151,12 +161,22 @@ export default function DateAxis(props: DateAxisProps) {
 
   React.useEffect(() => {
     if (!storedValues.current.isInit) {
-      const isCast = dataSets.cast.length >= dataSets.crew.length
-      const mainData = isCast ? dataSets.cast : dataSets.crew
-      const subData = isCast ? dataSets.crew : dataSets.cast
-      const filteredMainData = genreFilter.length ? mainData.filter(d => d.genres.some(id => genreFilter.includes(id))) : mainData
-      const filteredSubData = genreFilter.length ? subData.filter(d => d.genres.some(id => genreFilter.includes(id))) : subData
-      const uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
+      let uniqData
+      let filteredMainData
+      let filteredSubData
+      if (Array.isArray(dataSets)) {
+        uniqData = dataSets
+        filteredMainData = dataSets
+        filteredSubData = dataSets
+      }
+      if (props.isBoth && !Array.isArray(dataSets)) {
+        const isCast = dataSets.cast.length >= dataSets.crew.length
+        const mainData = isCast ? dataSets.cast : dataSets.crew
+        const subData = isCast ? dataSets.crew : dataSets.cast
+        filteredMainData = genreFilter.length ? mainData.filter(d => d.genres.some(id => genreFilter.includes(id))) : mainData // TODO: Dry
+        filteredSubData = genreFilter.length ? subData.filter(d => d.genres.some(id => genreFilter.includes(id))) : subData
+        uniqData = uniqBy([...filteredMainData, ...filteredSubData], 'id')
+      }
       storedValues.current = {
         ...storedValues.current,
         uniqData,

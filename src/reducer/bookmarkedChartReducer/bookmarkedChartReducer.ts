@@ -9,12 +9,12 @@ const initialState = {
   titleList: [] as MovieObject[],
   genreFilter: [] as number[],
   personFilter: [] as number[],
-  activeMovieID: 0,
+  bookmarkedActiveMovieID: 0,
   scales: {
     xScaleDomain: [] as Date[],
     sizeScaleDomain: [] as number[]
   },
-  hoveredMovie: {
+  bookmarkedHoveredMovie: {
     id: 0,
     data: {} as MovieObject,
     yPosition: 0,

@@ -23,9 +23,9 @@ export interface StoredValues {
 }
 
 export interface AxisStoredValues extends StoredValues {
-  mainData: MovieObject[]
-  subData: MovieObject[]
-  uniqData: MovieObject[]
+  mainData?: MovieObject[]
+  subData?: MovieObject[]
+  uniqData?: MovieObject[]
 }
 
 export interface BubbleChartStoredValues extends StoredValues {
@@ -42,13 +42,16 @@ interface ChartProps {
   setIsFirstEntered: (bool: boolean) => void
   activeMovieID: number
   genreFilter: number[]
+  isBookmarkChart: boolean
 }
 
 export interface DateAxisProps extends ChartProps {
-  dataSets: {
-    cast: MovieObject[]
-    crew: MovieObject[]
-  }
+  dataSets:
+    | {
+        cast: MovieObject[]
+        crew: MovieObject[]
+      }
+    | MovieObject[]
   isBoth: boolean
   tooltipWithRole: boolean
 }

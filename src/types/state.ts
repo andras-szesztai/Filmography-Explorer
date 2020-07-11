@@ -59,8 +59,8 @@ export interface BookmarkedChartReducer {
   titleList: MovieObject[]
   genreFilter: number[]
   personFilter: number[]
-  activeMovieID: number
-  hoveredMovie: BookmarkedHoveredMovie
+  bookmarkedActiveMovieID: number
+  bookmarkedHoveredMovie: BookmarkedHoveredMovie
   scales: {
     xScaleDomain: Date[]
     sizeScaleDomain: number[]

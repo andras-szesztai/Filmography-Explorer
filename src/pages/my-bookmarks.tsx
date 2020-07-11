@@ -29,7 +29,7 @@ import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } 
 import useSetActiveNameIDOnMount from '../components/organisms/PersonDetailCard/hooks/useSetActiveNameIDOnMount'
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 import { colors, space, fontSize } from '../styles/variables'
-import { GenreFilter, TitleSearch, BubbleChart } from '../components/molecules'
+import { GenreFilter, TitleSearch, BubbleChart, DateAxis } from '../components/molecules'
 import { FavoritePersonsObject, PersonGenresObject } from '../types/person'
 import { updateFavoritePersons } from '../reducer/personReducer/actions'
 import { populateOnMount } from '../reducer/bookmarkedChartReducer/actions'
@@ -101,9 +101,9 @@ const MyBookMarksPage = () => {
         <div
           onMouseLeave={() => setIsFirstEntered(true)}
           css={css`
-            height: 90%;
+            height: 80%;
             background: ${colors.bgColorPrimary};
-            width: calc(100% - ${space[8]}px);
+            width: calc(100% - ${space[13]}px);
             transform: translateY(${space[7]}px);
             border-radius: ${space[1]}px;
             display: grid;
@@ -160,6 +160,19 @@ const MyBookMarksPage = () => {
               tooltipYPosition={1}
               hoveredMovieID={bookmarkedChartReducer.hoveredMovie.id}
               genreFilter={bookmarkedChartReducer.genreFilter}
+              isBookmarkChart
+            />
+            <DateAxis
+              xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}
+              dataSets={bookmarkedChartReducer.titleList}
+              isBoth={false}
+              isFirstEntered={isFirstEntered}
+              setIsFirstEntered={setIsFirstEntered}
+              activeMovieID={bookmarkedChartReducer.activeMovieID}
+              hoveredMovieID={bookmarkedChartReducer.hoveredMovie.id}
+              genreFilter={bookmarkedChartReducer.genreFilter}
+              tooltipWithRole={false}
+              isBookmarkChart
             />
           </div>
         </div>

@@ -105,6 +105,7 @@ const PersonCreditsChart = () => {
               tooltipYPosition={chartState.isBoth ? 0 : 1}
               hoveredMovieID={chartState.hoveredMovie.id}
               genreFilter={genreFilter}
+              isBookmarkChart={false}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}
@@ -116,6 +117,7 @@ const PersonCreditsChart = () => {
               hoveredMovieID={chartState.hoveredMovie.id}
               genreFilter={genreFilter}
               tooltipWithRole
+              isBookmarkChart={false}
             />
             {chartState.isBoth && (
               <BubbleChart
@@ -132,6 +134,7 @@ const PersonCreditsChart = () => {
                 tooltipYPosition={1}
                 hoveredMovieID={chartState.hoveredMovie.id}
                 genreFilter={genreFilter}
+                isBookmarkChart={false}
               />
             )}
           </div>

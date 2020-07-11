@@ -27,16 +27,15 @@ import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 
 // Types
 import { BubbleChartStoredValues, BubbleChartProps } from '../../../../types/chart'
-import { FormattedPersonCreditDataObject } from '../../../../types/person'
+import { CombinedState } from '../../../../types/state'
+import { MovieObject } from '../../../../types/movie'
 
 // Hooks
 import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUpdate } from './hooks'
 
 // Styles
-import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity } from '../../../../styles/variables'
+import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
-import { CombinedState } from '../../../../types/state'
-import { MovieObject } from '../../../../types/movie'
 
 const margin = {
   top: 5,
@@ -263,10 +262,10 @@ export default function BubbleChart(props: BubbleChartProps) {
             font-size: ${fontSize.charTitle};
             line-height: 0.8;
             font-weight: 500;
-            letter-spacing: 1.25px;
             text-transform: uppercase;
             color: ${colors.bgColorPrimaryLight};
             position: absolute;
+            left: -${space[1]}px;
             opacity: ${circleFillOpacity};
           `}
         >

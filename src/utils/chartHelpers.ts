@@ -3,7 +3,7 @@ import { MovieObject } from '../types/movie'
 
 interface GetYPositionParams {
   data: MovieObject
-  mainData: MovieObject[]
+  mainData?: MovieObject[]
   isBoth: boolean
 }
 
@@ -11,7 +11,7 @@ export const getYPosition = ({ data, mainData, isBoth }: GetYPositionParams) => 
   if (!isBoth) {
     return 1
   }
-  if (mainData.find(({ id }) => data.id === id)) {
+  if (mainData && mainData.find(({ id }) => data.id === id)) {
     return 0
   }
   return 1

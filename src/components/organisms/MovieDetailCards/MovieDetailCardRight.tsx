@@ -16,7 +16,7 @@ import { Params } from './types'
 import { handleBookmarkedToggle } from './utils/util'
 
 // Styles
-import { movieDetailCardContainerRight } from './styles'
+import { movieDetailCardContainerRight, rightTopHandleStyle } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
@@ -52,7 +52,14 @@ const MovieDetailCardRight = ({
     })
 
   return (
-    <motion.div animate={{ x: isOpen ? -width.detailsCard : 0 }} transition={transition.primary} css={movieDetailCardContainerRight}>
+    <motion.div
+      animate={{ x: isOpen ? -width.detailsCard : 0 }}
+      transition={transition.primary}
+      css={css`
+        ${movieDetailCardContainerRight}
+        ${!isBookmarkedChart && rightTopHandleStyle}
+      `}
+    >
       <div
         css={css`
           position: relative;
@@ -63,7 +70,9 @@ const MovieDetailCardRight = ({
           grid-template-areas: 'content placeholder';
         `}
       >
-        <MovieCardBookmark isLeft={false} handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />
+        {!isBookmarkedChart && (
+          <MovieCardBookmark isLeft={false} handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />
+        )}
         <MovieCardCloseIcon isLeft={false} />
         <MovieDetailCardContent
           isOpen={isOpen}

@@ -44,7 +44,9 @@ export const movieDetailCardContainerRight = css`
     left: -${handleSize}px;
     border-radius: ${space[1]}px 0 0 ${space[1]}px;
   }
+`
 
+export const rightTopHandleStyle = css`
   :before {
     ${HandleStyle}
     top: 0px;
@@ -64,7 +66,9 @@ export const movieDetailCardContainerLeft = css`
     height: ${handleSize}px;
     border-radius: 0 ${space[1]}px ${space[1]}px 0;
   }
+`
 
+export const leftTopHandleStyle = css`
   :before {
     ${HandleStyle}
     top: 0px;

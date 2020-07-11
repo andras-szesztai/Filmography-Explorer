@@ -16,7 +16,7 @@ import { Params } from './types'
 import { CombinedState } from '../../../types/state'
 
 // Styles
-import { movieDetailCardContainerLeft } from './styles'
+import { movieDetailCardContainerLeft, leftTopHandleStyle } from './styles'
 import { width, handleSize } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
@@ -34,7 +34,7 @@ const MovieDetailCardLeft = ({
   const { bookmarkedChartReducer, movieReducer } = useSelector((state: CombinedState) => state)
 
   const activeMovieID = isBookmarkedChart ? bookmarkedChartReducer.bookmarkedActiveMovie.id : movieReducer.activeMovieID
-  // console.log('activeMovieID', activeMovieID)
+
   const position = isBookmarkedChart ? bookmarkedChartReducer.bookmarkedActiveMovie.position : movieReducer.position
 
   const [isHovered, setIsHovered] = React.useState(false)
@@ -58,6 +58,7 @@ const MovieDetailCardLeft = ({
       transition={transition.primary}
       css={css`
         ${movieDetailCardContainerLeft}
+        ${!isBookmarkedChart && leftTopHandleStyle}
       `}
     >
       <div
@@ -71,7 +72,7 @@ const MovieDetailCardLeft = ({
         `}
       >
         <MovieCardCloseIcon isLeft />
-        {setBookmarkedMovies && <MovieCardBookmark isLeft handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />}
+        {!isBookmarkedChart && <MovieCardBookmark isLeft handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />}
         <MovieDetailCardContent
           isOpen={isOpen}
           justifyLink="flex-start"

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from 'react'
-import { omit } from 'lodash'
+import { omit, uniq } from 'lodash'
 import { Dispatch } from 'redux'
 
 // Types
@@ -17,6 +17,7 @@ interface HandleBookmarkedParams {
   crew: MovieCrewObject[]
   details: MovieDetails
   dispatch: Dispatch<any>
+  mediaType: string
 }
 
 export const handleBookmarkedToggle = ({
@@ -26,7 +27,8 @@ export const handleBookmarkedToggle = ({
   cast,
   crew,
   details,
-  dispatch
+  dispatch,
+  mediaType
 }: HandleBookmarkedParams) => {
   let newObject
   if (bookmarkedMovies) {
@@ -38,15 +40,14 @@ export const handleBookmarkedToggle = ({
       newObject = {
         ...bookmarkedMovies,
         [activeMovieID]: {
-          original_title: details.original_title,
-          original_name: details.original_name,
-          release_date: details.release_date,
-          first_air_date: details.first_air_date,
-          media_type: details.media_type,
+          media_type: mediaType,
           vote_average: details.vote_average,
           vote_count: details.vote_count,
-          genres: details.genres.length ? details.genres.map(genre => genre.id) : [],
-          credits: [...castIDs, ...crewIDs],
+          date: details.first_air_date || details.release_date,
+          title: details.original_name || details.original_title,
+          id: details.id,
+          genres: details.genres.map(d => d.id),
+          credits: uniq([...castIDs, ...crewIDs]),
           poster_path: details.poster_path
         }
       }

@@ -29,7 +29,11 @@ import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 
 // Helpers
 
-const IndexPage = () => {
+const MyBookMarksPage = () => {
+  const { personReducer, movieReducer } = useSelector((state: CombinedState) => state)
+
+  console.log('MyBookMarksPage -> movieReducer', movieReducer)
+  console.log('MyBookMarksPage -> personReducer', personReducer)
   // const activeNameID = useSelector((state: CombinedState) => state.personReducer.activeNameID)
   // const { position, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
 
@@ -42,4 +46,4 @@ const IndexPage = () => {
   return <div>Hello</div>
 }
 
-export default IndexPage
+export default MyBookMarksPage

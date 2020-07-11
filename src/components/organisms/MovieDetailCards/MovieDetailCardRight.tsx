@@ -24,7 +24,8 @@ const MovieDetailCardRight = ({ bookmarkedMovies, setBookmarkedMovies }: Params)
   const {
     position,
     activeMovieID,
-    activeMovieData: { details, crew, cast }
+    activeMovieData: { details, crew, cast },
+    mediaType
   } = useSelector((state: CombinedState) => state.movieReducer)
   const dispatch = useDispatch()
 
@@ -39,7 +40,8 @@ const MovieDetailCardRight = ({ bookmarkedMovies, setBookmarkedMovies }: Params)
       cast,
       crew,
       details,
-      dispatch
+      dispatch,
+      mediaType
     })
 
   return (

@@ -53,15 +53,19 @@ export interface MovieObject {
   media_type: string
   vote_average: number
   vote_count: number
-  date: string
-  title: string
   id: number
 
-  genres?: number[]
-  credits?: number[]
+  genres: number[]
+  credits: number[]
+  title?: string
+  date?: string
   poster_path?: string
 }
 
 export interface BookmarkedMoviesObject {
   [id: number]: MovieObject
+}
+
+export interface GenreCountObject extends GenreObject {
+  count: number
 }

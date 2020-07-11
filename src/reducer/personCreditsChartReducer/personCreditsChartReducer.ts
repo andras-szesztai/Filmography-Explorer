@@ -31,7 +31,7 @@ const initialState = {
   isSizeDynamic: true,
   hoveredMovie: {
     id: 0,
-    data: {} as FormattedPersonCreditDataObject,
+    data: {} as MovieObject,
     yPosition: 0,
     xPosition: 0
   },
@@ -62,7 +62,7 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
         ...state,
         hoveredMovie: {
           id: 0,
-          data: {} as FormattedPersonCreditDataObject,
+          data: {} as MovieObject,
           yPosition: 0,
           xPosition: 0
         }

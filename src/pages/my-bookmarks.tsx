@@ -152,13 +152,13 @@ const MyBookMarksPage = () => {
               isYDomainSynced
               isSizeDynamic
               data={bookmarkedChartReducer.titleList}
-              activeMovieID={bookmarkedChartReducer.activeMovieID}
+              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovieID}
               type="main"
               title="Bookmarked"
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
               tooltipYPosition={1}
-              hoveredMovieID={bookmarkedChartReducer.hoveredMovie.id}
+              hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
               genreFilter={bookmarkedChartReducer.genreFilter}
               isBookmarkChart
             />
@@ -168,8 +168,8 @@ const MyBookMarksPage = () => {
               isBoth={false}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
-              activeMovieID={bookmarkedChartReducer.activeMovieID}
-              hoveredMovieID={bookmarkedChartReducer.hoveredMovie.id}
+              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovieID}
+              hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
               genreFilter={bookmarkedChartReducer.genreFilter}
               tooltipWithRole={false}
               isBookmarkChart

@@ -21,12 +21,14 @@ interface Props {
   activeMovieID: number
   xScale: ScaleTime<number, number>
   withRole: boolean
+  isBookmarkChart: boolean
 }
 
-export default function MoviesTooltip({ activeMovieID, xScale, withRole }: Props) {
-  const hoveredMovie = useSelector((state: CombinedState) => state.personCreditsChartReducer.hoveredMovie)
-  if (!hoveredMovie.id || !xScale) return null
-  const { data, xPosition, yPosition } = hoveredMovie
+export default function MoviesTooltip({ activeMovieID, xScale, withRole, isBookmarkChart }: Props) {
+  const { personCreditsChartReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
+  const hovered = isBookmarkChart ? bookmarkedChartReducer.bookmarkedHoveredMovie : personCreditsChartReducer.hoveredMovie
+  if (!hovered.id || !xScale) return null
+  const { data, xPosition, yPosition } = hovered
   const xPos = xScale(new Date(data.date))
   return (
     <div
@@ -106,7 +108,7 @@ export default function MoviesTooltip({ activeMovieID, xScale, withRole }: Props
           />
         </div>
         <AnimatePresence>
-          {activeMovieID !== hoveredMovie.id && (
+          {activeMovieID !== hovered.id && (
             <motion.div className="section hint" initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               Click<span> to explore!</span>
             </motion.div>

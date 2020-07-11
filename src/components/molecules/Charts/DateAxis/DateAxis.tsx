@@ -18,6 +18,7 @@ import { createDateAxis, createUpdateVoronoi, createDateAxisRefElements, showRef
 // Actions
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
+import { populateBookmarkedHoveredMovie, emptyBookmarkedHoveredMovie } from '../../../../reducer/bookmarkedChartReducer/actions'
 
 // Hooks
 import { useChartResize, useSelectedUpdate, useHoveredUpdate } from './hooks'
@@ -38,7 +39,7 @@ const margin = {
 
 export default function DateAxis(props: DateAxisProps) {
   const dispatch = useDispatch()
-  const { dataSets, activeMovieID, hoveredMovieID, genreFilter, tooltipWithRole } = props
+  const { dataSets, activeMovieID, hoveredMovieID, genreFilter, tooltipWithRole, isBookmarkChart } = props
 
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -50,6 +51,9 @@ export default function DateAxis(props: DateAxisProps) {
 
   function addUpdateInteractions() {
     const { voronoiArea, mainData, xScale } = storedValues.current
+    const populateHoveredFunc = props.isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
+    const emptyHoveredFunc = props.isBookmarkChart ? emptyBookmarkedHoveredMovie : emptyHoveredMovie
+    // const setActiveMovieIDFunc = props.isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
     voronoiArea
       .selectAll('.voronoi-path')
       .on('mouseover', (d: any) => {
@@ -69,7 +73,7 @@ export default function DateAxis(props: DateAxisProps) {
           })
         }
         if (!props.isFirstEntered) {
-          dispatch(populateHoveredMovie(hovered))
+          dispatch(populateHoveredFunc(hovered))
         }
         if (props.isFirstEntered) {
           timeOut.current = setTimeout(() => {
@@ -81,7 +85,7 @@ export default function DateAxis(props: DateAxisProps) {
       .on('mouseout', () => {
         clearTimeout(timeOut.current)
         if (hoveredMovieID) {
-          dispatch(emptyHoveredMovie())
+          dispatch(emptyHoveredFunc())
         }
       })
       .on('click', (d: any) => {
@@ -211,7 +215,8 @@ export default function DateAxis(props: DateAxisProps) {
   useHoveredUpdate({
     storedValues,
     height: dims.height,
-    addUpdateInteractions
+    addUpdateInteractions,
+    isBookmarkChart
   })
 
   const prevProps = usePrevious(props)
@@ -253,7 +258,12 @@ export default function DateAxis(props: DateAxisProps) {
         />
         <g ref={voronoiRef} />
       </svg>
-      <MoviesTooltip withRole={tooltipWithRole} xScale={storedValues.current.xScale} activeMovieID={activeMovieID} />
+      <MoviesTooltip
+        withRole={tooltipWithRole}
+        xScale={storedValues.current.xScale}
+        activeMovieID={activeMovieID}
+        isBookmarkChart={isBookmarkChart}
+      />
     </div>
   )
 }

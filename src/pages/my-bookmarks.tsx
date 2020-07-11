@@ -1,39 +1,32 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocalStorage } from 'react-use'
-import { motion, AnimatePresence } from 'framer-motion'
 import { css } from '@emotion/core'
+import { isEmpty, uniq, flatten, maxBy, minBy } from 'lodash'
 
 // Components
-import { isEmpty, uniq, flattenDeep, flatten, maxBy, minBy } from 'lodash'
-import { mainModule } from 'process'
-import {
-  Layout,
-  SearchDashboardDesktop,
-  SearchBar,
-  PersonDetailCard,
-  FavoritePersonsList,
-  PersonCreditsChart,
-  MovieDetailCardContainerRight,
-  MovieDetailCardContainerLeft
-} from '../components'
+import { AnimatePresence, motion } from 'framer-motion'
+import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight } from '../components'
+import { GenreFilter, TitleSearch, BubbleChart, DateAxis } from '../components/molecules'
 
 // Types
 import { CombinedState } from '../types/state'
-import { BookmarkedMoviesObject, MovieObject } from '../types/movie'
+import { BookmarkedMoviesObject } from '../types/movie'
+import { FavoritePersonsObject } from '../types/person'
 
 // Actions
-
-// Hooks
-import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
-import useSetActiveNameIDOnMount from '../components/organisms/PersonDetailCard/hooks/useSetActiveNameIDOnMount'
-import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
-import { colors, space, fontSize } from '../styles/variables'
-import { GenreFilter, TitleSearch, BubbleChart, DateAxis } from '../components/molecules'
-import { FavoritePersonsObject, PersonGenresObject } from '../types/person'
 import { updateFavoritePersons } from '../reducer/personReducer/actions'
 import { populateOnMount } from '../reducer/bookmarkedChartReducer/actions'
+
+// Hooks
+import { useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
 import { useFetchActiveMovieDetails } from '../components/organisms/MovieDetailCards/hooks'
+
+// Constants
+import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
+
+// Styles
+import { colors, space, fontSize } from '../styles/variables'
 
 // Constants
 
@@ -185,6 +178,40 @@ const MyBookMarksPage = () => {
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {!!bookmarkedChartReducer.bookmarkedActiveMovie.id && bookmarkedChartReducer.bookmarkedActiveMovie.position === 1 && (
+          <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
+            <MovieDetailCardContainerLeft
+              genreFilter={bookmarkedChartReducer.genreFilter}
+              mediaType={bookmarkedChartReducer.bookmarkedActiveMovie.mediaType}
+              activeMovieData={{
+                crew: bookmarkedChartReducer.bookmarkedActiveMovie.crew,
+                cast: bookmarkedChartReducer.bookmarkedActiveMovie.cast,
+                details: bookmarkedChartReducer.bookmarkedActiveMovie.details
+              }}
+              loading={bookmarkedChartReducer.bookmarkedActiveMovie.loading}
+              isBookmarkedChart
+            />
+          </motion.span>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {!!bookmarkedChartReducer.bookmarkedActiveMovie.id && bookmarkedChartReducer.bookmarkedActiveMovie.position === 0 && (
+          <motion.span initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { delay: 1 } }}>
+            <MovieDetailCardContainerRight
+              genreFilter={bookmarkedChartReducer.genreFilter}
+              mediaType={bookmarkedChartReducer.bookmarkedActiveMovie.mediaType}
+              activeMovieData={{
+                crew: bookmarkedChartReducer.bookmarkedActiveMovie.crew,
+                cast: bookmarkedChartReducer.bookmarkedActiveMovie.cast,
+                details: bookmarkedChartReducer.bookmarkedActiveMovie.details
+              }}
+              loading={bookmarkedChartReducer.bookmarkedActiveMovie.loading}
+              isBookmarkedChart
+            />
+          </motion.span>
+        )}
+      </AnimatePresence>
     </SearchDashboardDesktop>
   )
 }

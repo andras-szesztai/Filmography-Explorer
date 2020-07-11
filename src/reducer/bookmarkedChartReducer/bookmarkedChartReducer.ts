@@ -1,10 +1,11 @@
-import { GenreCountObject, MovieObject } from '../../types/movie'
+import { MovieObject } from '../../types/movie'
+import { PersonGenresObject } from '../../types/person'
 import { BookmarkedChartReducer } from '../../types/state'
 
 import { updateGenreFilter, updateGenreList, UPDATE_GENRE_LIST, UPDATE_GENRE_FILTER } from './actions'
 
 const initialState = {
-  genreList: [] as GenreCountObject[],
+  genreList: [] as PersonGenresObject[],
   genreFilters: [] as number[],
   personFilters: [] as number[],
   activeMovieID: 0,

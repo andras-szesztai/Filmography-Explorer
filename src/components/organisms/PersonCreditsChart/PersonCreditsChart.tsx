@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 // Components
 import { DateAxis, BubbleChart, TitleSearch, GenreFilter } from '../../molecules'

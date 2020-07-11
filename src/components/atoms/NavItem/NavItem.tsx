@@ -2,10 +2,9 @@ import React from 'react'
 import { css } from '@emotion/core'
 import useWhatInput from 'react-use-what-input'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IoIosSearch } from 'react-icons/io'
+import { useMeasure } from 'react-use'
 
 // Styles
-import { useMeasure } from 'react-use'
 import { space, colors, fontSize, fontWeight, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 
 interface Props {

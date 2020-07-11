@@ -1,6 +1,6 @@
 import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject } from './person'
 import { ChartSettings, HoveredMovie } from './personCreditsChart'
-import { GenreObject, ActiveMovieDataObject, MovieObject, BookmarkedMoviesObject, GenreCountObject } from './movie'
+import { GenreObject, ActiveMovieDataObject, MovieObject, BookmarkedMoviesObject } from './movie'
 
 export interface PersonState {
   activeNameID: number
@@ -51,7 +51,7 @@ export interface BookmarkedHoveredMovie {
 }
 
 export interface BookmarkedChartReducer {
-  genreList: GenreCountObject[]
+  genreList: PersonGenresObject[]
   genreFilters: number[]
   personFilters: number[]
   activeMovieID: number

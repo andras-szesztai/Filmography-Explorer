@@ -159,25 +159,29 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen }: Pr
                 ${horizontalScrollableStyle}
               `}
             >
-              {genres.map(genre => (
-                <SelectableListItem
-                  key={genre.id}
-                  icon={FaFilter}
-                  iconSize={12}
-                  text={`${genreList.find(g => g.id === genre.id)?.name} (${genre.count})`}
-                  handleSelect={() => {
-                    if (genreFilter.includes(genre.id)) {
-                      dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
-                    } else if (genres.length === genreFilter.length) {
-                      dispatch(updateGenreFilter([]))
-                    } else {
-                      dispatch(updateGenreFilter([...genreFilter, genre.id]))
-                    }
-                    dispatch(emptyMovieDetails())
-                  }}
-                  isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
-                />
-              ))}
+              {genres.map(genre => {
+                const genreObj = genreList.find(g => g.id === genre.id)
+                const text = genreObj && genreObj.name
+                return (
+                  <SelectableListItem
+                    key={genre.id}
+                    icon={FaFilter}
+                    iconSize={12}
+                    text={`${text} (${genre.count})`}
+                    handleSelect={() => {
+                      if (genreFilter.includes(genre.id)) {
+                        dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
+                      } else if (genres.length === genreFilter.length) {
+                        dispatch(updateGenreFilter([]))
+                      } else {
+                        dispatch(updateGenreFilter([...genreFilter, genre.id]))
+                      }
+                      dispatch(emptyMovieDetails())
+                    }}
+                    isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                  />
+                )
+              })}
               <ListEndPlaceHolder />
             </div>
           </motion.div>

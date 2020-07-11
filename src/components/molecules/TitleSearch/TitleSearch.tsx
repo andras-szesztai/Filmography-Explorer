@@ -250,6 +250,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen }: Pr
                         )
                       }
                       if (!castObject) {
+                        // TODO: find out bug
                         const crewObject = credits.crew.find(d => d.id === t.id)
                         if (crewObject) {
                           populateHoveredMovie({

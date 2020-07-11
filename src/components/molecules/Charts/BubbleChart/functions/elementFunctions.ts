@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { select } from 'd3-selection'
 import { ScalePower, ScaleLinear } from 'd3-scale'
+import { Delaunay } from 'd3-delaunay'
+import { easeCubicInOut } from 'd3-ease'
+import 'd3-transition'
 
 // Types
-import { Delaunay } from 'd3-delaunay'
 import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
 import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 import { BookmarkedMoviesObject } from '../../../../../types/movie'
 
 // Styles
 import { colors, fontSize, circleRadius, circleFillOpacity, circleAdjust } from '../../../../../styles/variables'
+import { duration } from '../../../../../styles/animation'
 
 const gridData = [0, 2, 4, 6, 8, 10]
 
@@ -19,7 +22,7 @@ interface GridParams {
   width: number
 }
 
-export function createGrid({ storedValues, left, width }: GridParams) {
+export function createUpdateGrid({ storedValues, left, width }: GridParams) {
   storedValues.current.gridArea
     .selectAll('.grid-line')
     .data(gridData, (d: any) => d)
@@ -34,7 +37,7 @@ export function createGrid({ storedValues, left, width }: GridParams) {
     .attr('stroke-width', 0.25)
 }
 
-export function createGridText({ storedValues, left, width }: GridParams) {
+export function createUpdateGridText({ storedValues, left, width }: GridParams) {
   storedValues.current.gridArea
     .selectAll('.grid-text')
     .data(gridData, (d: any) => d)
@@ -52,35 +55,50 @@ export function createGridText({ storedValues, left, width }: GridParams) {
 
 interface CircleParams {
   storedValues: { current: BubbleChartStoredValues }
-  data: FormattedPersonCreditDataObject[]
   isSizeDynamic: boolean
   bookmarks: BookmarkedMoviesObject
 }
 
-export function createCircles({ storedValues, data, isSizeDynamic, bookmarks }: CircleParams) {
-  const { xScale, sizeScale, yScale, chartArea } = storedValues.current
+export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: CircleParams) {
+  const { xScale, sizeScale, yScale, chartArea, filteredData } = storedValues.current
+  console.log('createUpdateCircles -> filteredData', filteredData)
   const currIDs = bookmarks ? Object.keys(bookmarks) : []
   chartArea
     .selectAll('.main-circle')
-    .data(data, (d: any) => d.id)
-    .join(enter =>
-      enter
-        .append('g')
-        .attr('class', 'main-circle')
-        .append('circle')
-        .attr('class', 'circle')
-        .attr('cx', d => xScale(new Date(d.unified_date)))
-        .attr('cy', d => yScale(d.vote_average))
-        .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
-        .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorPrimaryLight))
-        .attr('fill-opacity', circleFillOpacity)
-        .attr('stroke', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
+    .data(filteredData, (d: any) => d.id)
+    .join(
+      enter =>
+        enter
+          .append('g')
+          .attr('class', 'main-circle')
+          .append('circle')
+          .attr('class', 'circle')
+          .attr('cx', d => xScale(new Date(d.unified_date)))
+          .attr('cy', d => yScale(d.vote_average))
+          .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
+          .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorPrimaryLight))
+          .attr('fill-opacity', circleFillOpacity)
+          .attr('stroke', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
+          .attr('opacity', 0),
+      update => update,
+      exit =>
+        exit.call(e => {
+          e.select('.circle')
+            .transition()
+            .duration(duration.sm)
+            .ease(easeCubicInOut)
+            .attr('r', 0)
+          e.transition()
+            .duration(0)
+            .delay(duration.sm)
+            .ease(easeCubicInOut)
+            .remove()
+        })
     )
 }
 
 export interface VoronoiParams {
   storedValues: { current: BubbleChartStoredValues }
-  data: FormattedPersonCreditDataObject[]
   margin: Margin
   width: number
   height: number
@@ -88,15 +106,15 @@ export interface VoronoiParams {
   addUpdateInteractions: () => void
 }
 
-export function createUpdateVoronoi({ storedValues, margin, data, width, height, activeMovieID, addUpdateInteractions }: VoronoiParams) {
-  const { yScale, xScale, voronoiArea } = storedValues.current
+export function createUpdateVoronoi({ storedValues, margin, width, height, activeMovieID, addUpdateInteractions }: VoronoiParams) {
+  const { yScale, xScale, voronoiArea, filteredData } = storedValues.current
   const setXPos = (d: any) => xScale(new Date(d.unified_date)) + margin.left
   const setYPos = (d: any) => yScale(d.vote_average) + margin.top
-  const delaunay = Delaunay.from(data, setXPos, setYPos).voronoi([0, 0, width, height])
+  const delaunay = Delaunay.from(filteredData, setXPos, setYPos).voronoi([0, 0, width, height])
 
   voronoiArea
     .selectAll('.voronoi-path')
-    .data(data, (d: any) => d.id)
+    .data(filteredData, (d: any) => d.id)
     .join(
       enter =>
         enter

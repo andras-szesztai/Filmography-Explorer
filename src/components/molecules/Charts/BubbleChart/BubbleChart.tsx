@@ -12,7 +12,13 @@ import { maxBy, minBy } from 'lodash'
 import { LabelContainer } from '../../../atoms'
 
 // Utils
-import { createGrid, createGridText, createCircles, createUpdateVoronoi, createBubbleChartRefElements } from './functions/elementFunctions'
+import {
+  createUpdateGrid,
+  createUpdateGridText,
+  createUpdateCircles,
+  createUpdateVoronoi,
+  createBubbleChartRefElements
+} from './functions/elementFunctions'
 import { getXPosition } from '../../../../utils/chartHelpers'
 
 // Actions
@@ -40,7 +46,7 @@ const margin = {
 export default function BubbleChart(props: BubbleChartProps) {
   const dispatch = useDispatch()
   const bookmarks = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
-  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID } = props
+  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID, genreFilter } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -132,21 +138,20 @@ export default function BubbleChart(props: BubbleChartProps) {
         svgArea,
         gridArea,
         hoverElementArea,
-        voronoiArea
+        voronoiArea,
+        filteredData: data
       }
       const gridArgs = { storedValues, left: margin.left, width }
-      createGrid(gridArgs)
-      createGridText(gridArgs)
-      createCircles({
+      createUpdateGrid(gridArgs)
+      createUpdateGridText(gridArgs)
+      createUpdateCircles({
         storedValues,
-        data,
         isSizeDynamic,
         bookmarks
       })
       createUpdateVoronoi({
         storedValues,
         margin,
-        data,
         width,
         height,
         activeMovieID,
@@ -165,6 +170,21 @@ export default function BubbleChart(props: BubbleChartProps) {
       }
     }
   })
+
+  React.useEffect(() => {
+    if (!storedValues.current.isInit) {
+      const newFilteredData = genreFilter.length ? data.filter(d => d.genre_ids.some(id => genreFilter.includes(id))) : data
+      storedValues.current = {
+        ...storedValues.current,
+        filteredData: newFilteredData
+      }
+      createUpdateCircles({
+        storedValues,
+        isSizeDynamic,
+        bookmarks
+      })
+    }
+  }, [genreFilter])
 
   // useYDomainSyncUpdate({
   //   storedValues,
@@ -194,7 +214,6 @@ export default function BubbleChart(props: BubbleChartProps) {
       createUpdateVoronoi({
         storedValues,
         margin,
-        data,
         width,
         height,
         activeMovieID,

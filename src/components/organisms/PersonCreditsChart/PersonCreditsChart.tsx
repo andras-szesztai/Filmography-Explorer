@@ -3,13 +3,7 @@ import { css } from '@emotion/core'
 import { useSelector, useDispatch } from 'react-redux'
 
 // Components
-import useWhatInput from 'react-use-what-input'
-import { FaFilter } from 'react-icons/fa'
-import { motion, AnimatePresence } from 'framer-motion'
-import { IoIosCloseCircle } from 'react-icons/io'
-import { DateAxis, BubbleChart, SelectableListItem, TitleSearch, GenreFilter } from '../../molecules'
-
-import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
+import { DateAxis, BubbleChart, TitleSearch, GenreFilter } from '../../molecules'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -26,8 +20,8 @@ const PersonCreditsChart = () => {
   const { activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
   useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
+  const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
 
-  const titles = [...personDataSets.credits.cast, ...personDataSets.credits.crew]
   const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
@@ -108,6 +102,7 @@ const PersonCreditsChart = () => {
               setIsFirstEntered={setIsFirstEntered}
               tooltipYPosition={chartState.isBoth ? 0 : 1}
               hoveredMovieID={chartState.hoveredMovie.id}
+              genreFilter={genreFilter}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}
@@ -117,6 +112,7 @@ const PersonCreditsChart = () => {
               setIsFirstEntered={setIsFirstEntered}
               activeMovieID={activeMovieID}
               hoveredMovieID={chartState.hoveredMovie.id}
+              genreFilter={genreFilter}
             />
             {chartState.isBoth && (
               <BubbleChart
@@ -132,6 +128,7 @@ const PersonCreditsChart = () => {
                 setIsFirstEntered={setIsFirstEntered}
                 tooltipYPosition={1}
                 hoveredMovieID={chartState.hoveredMovie.id}
+                genreFilter={genreFilter}
               />
             )}
           </div>

@@ -32,6 +32,7 @@ export interface BubbleChartStoredValues extends StoredValues {
   sizeScale: ScalePower<number, number>
   yScale: ScaleLinear<number, number>
   gridArea: Selection<SVGGElement | any, any, any, any>
+  filteredData: FormattedPersonCreditDataObject[]
 }
 
 interface ChartProps {
@@ -40,6 +41,7 @@ interface ChartProps {
   isFirstEntered: boolean
   setIsFirstEntered: (bool: boolean) => void
   activeMovieID: number
+  genreFilter: number[]
 }
 
 export interface DateAxisProps extends ChartProps {

@@ -43,7 +43,7 @@ const margin = {
 
 export default function DateAxis(props: DateAxisProps) {
   const dispatch = useDispatch()
-  const { dataSets, activeMovieID, hoveredMovieID, genreFilter, tooltipWithRole, isBookmarkChart } = props
+  const { dataSets, activeMovieID, hoveredMovieID, genreFilter, tooltipWithRole, isBookmarkChart, personFilter } = props
 
   const storedValues = React.useRef({ isInit: true } as AxisStoredValues)
   const [wrapperRef, dims] = useMeasure<HTMLDivElement>()
@@ -126,7 +126,12 @@ export default function DateAxis(props: DateAxisProps) {
       let filteredSubData
       if (Array.isArray(dataSets)) {
         uniqData = dataSets
-        filteredMainData = dataSets
+        filteredMainData =
+          genreFilter.length || (personFilter && personFilter.length)
+            ? dataSets
+                .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
+                .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+            : dataSets
         filteredSubData = []
       }
       if (!Array.isArray(dataSets)) {
@@ -174,7 +179,12 @@ export default function DateAxis(props: DateAxisProps) {
       let filteredSubData
       if (Array.isArray(dataSets)) {
         uniqData = dataSets
-        filteredMainData = dataSets
+        filteredMainData =
+          genreFilter.length || (personFilter && personFilter.length)
+            ? dataSets
+                .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
+                .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+            : dataSets
         filteredSubData = []
       }
       if (!Array.isArray(dataSets)) {
@@ -200,7 +210,7 @@ export default function DateAxis(props: DateAxisProps) {
         activeMovieID
       })
     }
-  }, [genreFilter])
+  }, [genreFilter, personFilter])
 
   useChartResize({
     width: dims.width,

@@ -150,7 +150,7 @@ export default function BubbleChart(props: BubbleChartProps) {
           genreFilter.length || (personFilter && personFilter.length)
             ? data
                 .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
-                .filter(d => (personFilter ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+                .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
             : data
       }
       const gridArgs = { storedValues, left: margin.left, width }
@@ -189,7 +189,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         genreFilter.length || (personFilter && personFilter.length)
           ? data
               .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
-              .filter(d => (personFilter ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+              .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
           : data
       storedValues.current = {
         ...storedValues.current,

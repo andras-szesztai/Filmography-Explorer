@@ -134,6 +134,7 @@ const MyBookMarksPage = () => {
                 setIsTitleOpen={setIsTitleOpen}
                 isTitleOpen={isTitleOpen}
                 setIsPersonOpen={setIsPersonOpen}
+                personsFilter={bookmarkedChartReducer.personFilter}
                 isBookmarkChart
               />
             )}
@@ -191,6 +192,7 @@ const MyBookMarksPage = () => {
               genreFilter={bookmarkedChartReducer.genreFilter}
               tooltipWithRole={false}
               isBookmarkChart
+              personFilter={bookmarkedChartReducer.personFilter}
             />
           </div>
         </div>

@@ -44,25 +44,27 @@ export interface VoronoiParams {
 }
 
 export function createUpdateVoronoi({ addUpdateInteractions, storedValues, left, height, width, activeMovieID }: VoronoiParams) {
-  const { xScale, voronoiArea, uniqData } = storedValues.current
-  const setXPos = (d: MovieObject) => xScale(new Date(d.date)) + left
-  const delaunay = Delaunay.from(uniqData, setXPos, () => height / 2).voronoi([0, 0, width, height])
-  voronoiArea
-    .selectAll('.voronoi-path')
-    .data(uniqData, (d: any) => d.id)
-    .join(
-      enter =>
-        enter
-          .append('path')
-          .attr('class', 'voronoi-path')
-          .attr('fill', 'transparent')
-          .attr('cursor', d => (activeMovieID === d.id ? 'default' : 'pointer'))
-          .attr('d', (_, i) => delaunay.renderCell(i))
-          .call(e => e),
-      update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i))),
-      exit => exit.remove()
-    )
-  addUpdateInteractions()
+  const { xScale, voronoiArea, mainData } = storedValues.current
+  if (mainData) {
+    const setXPos = (d: MovieObject) => xScale(new Date(d.date)) + left
+    const delaunay = Delaunay.from(mainData, setXPos, () => height / 2).voronoi([0, 0, width, height])
+    voronoiArea
+      .selectAll('.voronoi-path')
+      .data(mainData, (d: any) => d.id)
+      .join(
+        enter =>
+          enter
+            .append('path')
+            .attr('class', 'voronoi-path')
+            .attr('fill', 'transparent')
+            .attr('cursor', d => (activeMovieID === d.id ? 'default' : 'pointer'))
+            .attr('d', (_, i) => delaunay.renderCell(i))
+            .call(e => e),
+        update => update.call(u => u.transition().attr('d', (_, i) => delaunay.renderCell(i))),
+        exit => exit.remove()
+      )
+    addUpdateInteractions()
+  }
 }
 
 export interface DateAxisRefParams {

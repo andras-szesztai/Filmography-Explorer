@@ -7,7 +7,25 @@ import { css } from '@emotion/core'
 import { useDebounce, usePrevious } from 'react-use'
 import { mean } from 'lodash'
 
+// Components
+import { ListEndPlaceHolder } from '../../atoms'
+import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
+import SelectableListItem from '../SelectableListItem/SelectableListItem'
+
+// Actions
+import { setActiveMovieID } from '../../../reducer/movieReducer/actions'
+import { populateHoveredMovie, emptyHoveredMovie } from '../../../reducer/personCreditsChartReducer/actions'
+import {
+  populateBookmarkedHoveredMovie,
+  setBookmarkedActiveMovieID,
+  emptyBookmarkedHoveredMovie
+} from '../../../reducer/bookmarkedChartReducer/actions'
+
+// Types
+import { MovieObject } from '../../../types/movie'
 import { CombinedState } from '../../../types/state'
+
+// Styles
 import {
   colors,
   fontWeight,
@@ -18,17 +36,6 @@ import {
   space,
   filterDropdownStyle
 } from '../../../styles/variables'
-import SelectableListItem from '../SelectableListItem/SelectableListItem'
-import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
-import { MovieObject } from '../../../types/movie'
-import { ListEndPlaceHolder } from '../../atoms'
-import { setActiveMovieID } from '../../../reducer/movieReducer/actions'
-import { populateHoveredMovie, emptyHoveredMovie } from '../../../reducer/personCreditsChartReducer/actions'
-import {
-  populateBookmarkedHoveredMovie,
-  setBookmarkedActiveMovieID,
-  emptyBookmarkedHoveredMovie
-} from '../../../reducer/bookmarkedChartReducer/actions'
 
 interface Props {
   titles: MovieObject[]
@@ -262,7 +269,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
                           populateHoveredFunc({
                             id: t.id,
                             data: crewObject,
-                            yPosition: 1,
+                            yPosition: 0,
                             xPosition: xPos
                           })
                         )

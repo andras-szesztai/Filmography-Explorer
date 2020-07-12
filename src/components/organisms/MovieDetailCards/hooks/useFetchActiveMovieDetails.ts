@@ -31,7 +31,7 @@ function useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType, isBookma
   const failFunc = isBookmarkedChart ? fetchBookmarkedActiveMovieDetailsFail : fetchActiveMovieDetailsFail
 
   React.useEffect(() => {
-    if (isOpen) {
+    if (isOpen && activeMovieID) {
       dispatch(fetchFunc())
       axios
         .all([
@@ -40,7 +40,6 @@ function useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType, isBookma
         ])
         .then(
           axios.spread((credits, details) => {
-            console.log('useFetchActiveMovieDetails -> details', details)
             dispatch(
               successFunc({
                 id: activeMovieID,

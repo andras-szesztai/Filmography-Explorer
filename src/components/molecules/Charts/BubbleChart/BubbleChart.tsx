@@ -24,6 +24,11 @@ import { getXPosition } from '../../../../utils/chartHelpers'
 // Actions
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../../reducer/personCreditsChartReducer/actions'
 import { setActiveMovieID } from '../../../../reducer/movieReducer/actions'
+import {
+  populateBookmarkedHoveredMovie,
+  emptyBookmarkedHoveredMovie,
+  setBookmarkedActiveMovieID
+} from '../../../../reducer/bookmarkedChartReducer/actions'
 
 // Types
 import { BubbleChartStoredValues, BubbleChartProps } from '../../../../types/chart'
@@ -36,11 +41,6 @@ import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUp
 // Styles
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
-import {
-  populateBookmarkedHoveredMovie,
-  emptyBookmarkedHoveredMovie,
-  setBookmarkedActiveMovieID
-} from '../../../../reducer/bookmarkedChartReducer/actions'
 
 const margin = {
   top: 5,

@@ -27,6 +27,7 @@ import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 
 // Styles
 import { colors, space, fontSize } from '../styles/variables'
+import { BookmarkIcon } from '../components/atoms'
 
 // Constants
 
@@ -100,102 +101,130 @@ const MyBookMarksPage = () => {
           justify-content: center;
         `}
       >
-        <div
-          onMouseLeave={() => setIsFirstEntered(true)}
-          css={css`
-            height: 80%;
-            background: ${colors.bgColorPrimary};
-            width: calc(100% - ${space[13]}px);
-            transform: translateY(${space[7]}px);
-            border-radius: ${space[1]}px;
-            display: grid;
-            grid-template-rows: 50px auto;
-          `}
-        >
+        {!isEmpty(movieReducer.bookmarks) ? (
           <div
+            onMouseLeave={() => setIsFirstEntered(true)}
             css={css`
-              display: flex;
-              align-items: flex-start;
-              justify-content: flex-start;
-
-              color: ${colors.textColorPrimary};
+              height: 80%;
               background: ${colors.bgColorPrimary};
-              font-size: ${fontSize.md};
-              letter-spacing: 1px;
-
-              position: relative;
-              z-index: 100;
+              width: calc(100% - ${space[13]}px);
+              transform: translateY(${space[7]}px);
+              border-radius: ${space[1]}px;
+              display: grid;
+              grid-template-rows: 50px auto;
             `}
           >
-            {bookmarkedChartReducer.titleList.length > 1 && (
-              <TitleSearch
-                titles={bookmarkedChartReducer.titleList}
-                setIsGenreOpen={setIsGenreOpen}
-                setIsTitleOpen={setIsTitleOpen}
-                isTitleOpen={isTitleOpen}
-                setIsPersonOpen={setIsPersonOpen}
-                personsFilter={bookmarkedChartReducer.personFilter}
+            <div
+              css={css`
+                display: flex;
+                align-items: flex-start;
+                justify-content: flex-start;
+
+                color: ${colors.textColorPrimary};
+                background: ${colors.bgColorPrimary};
+                font-size: ${fontSize.md};
+                letter-spacing: 1px;
+
+                position: relative;
+                z-index: 100;
+              `}
+            >
+              {bookmarkedChartReducer.titleList.length > 1 && (
+                <TitleSearch
+                  titles={bookmarkedChartReducer.titleList}
+                  setIsGenreOpen={setIsGenreOpen}
+                  setIsTitleOpen={setIsTitleOpen}
+                  isTitleOpen={isTitleOpen}
+                  setIsPersonOpen={setIsPersonOpen}
+                  personsFilter={bookmarkedChartReducer.personFilter}
+                  isBookmarkChart
+                />
+              )}
+              {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
+                <GenreFilter
+                  genres={bookmarkedChartReducer.genreList}
+                  setIsTitleOpen={setIsTitleOpen}
+                  setIsGenreOpen={setIsGenreOpen}
+                  isGenreOpen={isGenreOpen}
+                  personsFilter={bookmarkedChartReducer.personFilter}
+                  setIsPersonOpen={setIsPersonOpen}
+                  isBookmarkChart
+                />
+              )}
+              {Object.keys(personReducer.favorites).length > 1 && (
+                <PersonFilter
+                  isPersonOpen={isPersonOpen}
+                  setIsGenreOpen={setIsGenreOpen}
+                  setIsTitleOpen={setIsTitleOpen}
+                  setIsPersonOpen={setIsPersonOpen}
+                />
+              )}
+            </div>
+            <div
+              css={css`
+                display: grid;
+                grid-template-rows: 1fr 35px;
+              `}
+            >
+              <BubbleChart
+                xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}
+                sizeScaleDomain={bookmarkedChartReducer.scales.sizeScaleDomain}
+                isYDomainSynced
+                isSizeDynamic
+                data={bookmarkedChartReducer.titleList}
+                activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
+                type="main"
+                title="Bookmarked"
+                isFirstEntered={isFirstEntered}
+                setIsFirstEntered={setIsFirstEntered}
+                tooltipYPosition={1}
+                hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
+                genreFilter={bookmarkedChartReducer.genreFilter}
                 isBookmarkChart
+                personFilter={bookmarkedChartReducer.personFilter}
               />
-            )}
-            {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
-              <GenreFilter
-                genres={bookmarkedChartReducer.genreList}
-                setIsTitleOpen={setIsTitleOpen}
-                setIsGenreOpen={setIsGenreOpen}
-                isGenreOpen={isGenreOpen}
-                personsFilter={bookmarkedChartReducer.personFilter}
-                setIsPersonOpen={setIsPersonOpen}
+              <DateAxis
+                xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}
+                dataSets={bookmarkedChartReducer.titleList}
+                isBoth={false}
+                isFirstEntered={isFirstEntered}
+                setIsFirstEntered={setIsFirstEntered}
+                activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
+                hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
+                genreFilter={bookmarkedChartReducer.genreFilter}
+                tooltipWithRole={false}
                 isBookmarkChart
+                personFilter={bookmarkedChartReducer.personFilter}
               />
-            )}
-            {Object.keys(personReducer.favorites).length > 1 && (
-              <PersonFilter
-                isPersonOpen={isPersonOpen}
-                setIsGenreOpen={setIsGenreOpen}
-                setIsTitleOpen={setIsTitleOpen}
-                setIsPersonOpen={setIsPersonOpen}
-              />
-            )}
+            </div>
           </div>
+        ) : (
           <div
             css={css`
-              display: grid;
-              grid-template-rows: 1fr 35px;
+              font-size: ${fontSize.lg};
+              color: ${colors.textColorPrimary};
+              letter-spacing: 0.8px;
+              user-select: none;
             `}
           >
-            <BubbleChart
-              xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}
-              sizeScaleDomain={bookmarkedChartReducer.scales.sizeScaleDomain}
-              isYDomainSynced
-              isSizeDynamic
-              data={bookmarkedChartReducer.titleList}
-              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
-              type="main"
-              title="Bookmarked"
-              isFirstEntered={isFirstEntered}
-              setIsFirstEntered={setIsFirstEntered}
-              tooltipYPosition={1}
-              hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
-              genreFilter={bookmarkedChartReducer.genreFilter}
-              isBookmarkChart
-              personFilter={bookmarkedChartReducer.personFilter}
-            />
-            <DateAxis
-              xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}
-              dataSets={bookmarkedChartReducer.titleList}
-              isBoth={false}
-              isFirstEntered={isFirstEntered}
-              setIsFirstEntered={setIsFirstEntered}
-              activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
-              hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
-              genreFilter={bookmarkedChartReducer.genreFilter}
-              tooltipWithRole={false}
-              isBookmarkChart
-              personFilter={bookmarkedChartReducer.personFilter}
-            />
+            Please start by bookmarking movies or series on the Explore page!{' '}
+            <span
+              css={css`
+                position: relative;
+              `}
+            >
+              <span
+                css={css`
+                  position: absolute;
+                  top: -2px;
+                  left: 4px;
+                `}
+              >
+                <BookmarkIcon isBookmarked isHovered={false} />
+              </span>
+            </span>
           </div>
-        </div>
+        )}
       </div>
       <AnimatePresence>
         {!!bookmarkedChartReducer.bookmarkedActiveMovie.id && bookmarkedChartReducer.bookmarkedActiveMovie.position === 1 && (

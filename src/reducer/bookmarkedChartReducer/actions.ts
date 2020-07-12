@@ -10,6 +10,7 @@ export const SET_BOOKMARKED_ACTIVE_MOVIE_ID = 'SET_BOOKMARKED_ACTIVE_MOVIE_ID'
 export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS'
 export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS'
 export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL'
+export const EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS = 'EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS'
 
 export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
@@ -76,5 +77,11 @@ export function fetchBookmarkedActiveMovieDetailsSuccess(movieDetails: ActiveMov
   return {
     type: FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS,
     movieDetails
+  } as const
+}
+
+export function emptyBookmarkedActiveMovieDetails() {
+  return {
+    type: EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS
   } as const
 }

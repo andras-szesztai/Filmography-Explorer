@@ -71,7 +71,7 @@ const MovieDetailCardLeft = ({
           grid-template-areas: 'placeholder content';
         `}
       >
-        <MovieCardCloseIcon isLeft />
+        <MovieCardCloseIcon isLeft isBookmarkedChart={isBookmarkedChart} />
         {!isBookmarkedChart && <MovieCardBookmark isLeft handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />}
         <MovieDetailCardContent
           isOpen={isOpen}

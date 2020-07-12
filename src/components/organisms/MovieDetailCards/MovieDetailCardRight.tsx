@@ -73,7 +73,7 @@ const MovieDetailCardRight = ({
         {!isBookmarkedChart && (
           <MovieCardBookmark isLeft={false} handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />
         )}
-        <MovieCardCloseIcon isLeft={false} />
+        <MovieCardCloseIcon isLeft={false} isBookmarkedChart={isBookmarkedChart} />
         <MovieDetailCardContent
           isOpen={isOpen}
           justifyLink="flex-end"

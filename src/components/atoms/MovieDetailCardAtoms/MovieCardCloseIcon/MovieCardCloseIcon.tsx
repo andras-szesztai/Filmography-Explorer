@@ -7,14 +7,21 @@ import { IoIosCloseCircle } from 'react-icons/io'
 
 // Actions
 import { emptyMovieDetails } from '../../../../reducer/movieReducer/actions'
+import { emptyBookmarkedActiveMovieDetails } from '../../../../reducer/bookmarkedChartReducer/actions'
 
 // Styles
 import { buttonStyle, space, handleSize, colors, buttonNoFocus, buttonFocus, zIndex } from '../../../../styles/variables'
 
-const MovieCardCloseIcon = ({ isLeft }: { isLeft: boolean }) => {
+interface Props {
+  isLeft: boolean
+  isBookmarkedChart?: boolean
+}
+
+const MovieCardCloseIcon = ({ isLeft, isBookmarkedChart }: Props) => {
   const dispatch = useDispatch()
   const [isHovered, setIsHovered] = React.useState(false)
   const [currentInput] = useWhatInput()
+  const emptyFunc = isBookmarkedChart ? emptyBookmarkedActiveMovieDetails : emptyMovieDetails
 
   const horPos = isLeft
     ? css`
@@ -31,12 +38,7 @@ const MovieCardCloseIcon = ({ isLeft }: { isLeft: boolean }) => {
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
-      onClick={() => dispatch(emptyMovieDetails())}
-      onKeyDown={({ keyCode }) => {
-        if (keyCode === 13) {
-          dispatch(emptyMovieDetails())
-        }
-      }}
+      onClick={() => dispatch(emptyFunc())}
       css={css`
         ${buttonStyle}
         position: absolute;
@@ -50,6 +52,10 @@ const MovieCardCloseIcon = ({ isLeft }: { isLeft: boolean }) => {
       <IoIosCloseCircle size={28} color={colors.textColorSecondary} />
     </motion.button>
   )
+}
+
+MovieCardCloseIcon.defaultProps = {
+  isBookmarkedChart: false
 }
 
 export default MovieCardCloseIcon

@@ -18,7 +18,9 @@ import {
   fetchBookmarkedActiveMovieDetailsSuccess,
   FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS,
   FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL,
-  FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS
+  FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS,
+  EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS,
+  emptyBookmarkedActiveMovieDetails
 } from './actions'
 
 const initialState = {
@@ -57,6 +59,7 @@ type Action = ReturnType<
   | typeof fetchBookmarkedActiveMovieDetails
   | typeof fetchBookmarkedActiveMovieDetailsFail
   | typeof fetchBookmarkedActiveMovieDetailsSuccess
+  | typeof emptyBookmarkedActiveMovieDetails
 >
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
@@ -126,6 +129,19 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
           crew: action.movieDetails.crew,
           loading: false,
           error: ''
+        }
+      }
+    case EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS:
+      return {
+        ...state,
+        bookmarkedActiveMovie: {
+          ...state.bookmarkedActiveMovie,
+          id: 0,
+          position: 0,
+          mediaType: '',
+          details: {} as MovieDetails,
+          cast: [] as MovieCastObject[],
+          crew: [] as MovieCrewObject[]
         }
       }
     default:

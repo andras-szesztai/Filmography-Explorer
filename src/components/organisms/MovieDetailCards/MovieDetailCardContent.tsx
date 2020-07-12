@@ -13,9 +13,14 @@ import { SelectableListItem } from '../../molecules'
 
 // Actions
 import { setActiveNameID } from '../../../reducer/personReducer/actions'
+import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
+import { updateBookmarkedGenreFilter } from '../../../reducer/bookmarkedChartReducer/actions'
 
 // Hooks
 import { useFetchActiveMovieDetails } from './hooks'
+
+// Types
+import { ContentProps } from './types'
 
 // Styles
 import {
@@ -29,8 +34,6 @@ import {
   linkContainerStyle
 } from './styles'
 import { space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
-import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
-import { ContentProps } from './types'
 
 function MovieDetailCardContent({
   isOpen,
@@ -43,9 +46,11 @@ function MovieDetailCardContent({
   activeMovieID,
   mediaType,
   activeMovieData: { details, crew, cast },
-  loading
+  loading,
+  isBookmarkedChart
 }: ContentProps) {
   const dispatch = useDispatch()
+  const updateGenreFilterFunc = isBookmarkedChart ? updateBookmarkedGenreFilter : updateGenreFilter
   const [isLinkHovered, setIsLinkHovered] = React.useState(false)
 
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
@@ -112,11 +117,11 @@ function MovieDetailCardContent({
                 iconSize={12}
                 handleSelect={() => {
                   if (genreFilter.includes(genre.id)) {
-                    dispatch(updateGenreFilter(genreFilter.filter(id => id !== genre.id)))
+                    dispatch(updateGenreFilterFunc(genreFilter.filter(id => id !== genre.id)))
                   } else if (genreFilter.length === details.genres.length) {
-                    dispatch(updateGenreFilter([]))
+                    dispatch(updateGenreFilterFunc([]))
                   } else {
-                    dispatch(updateGenreFilter([...genreFilter, genre.id]))
+                    dispatch(updateGenreFilterFunc([...genreFilter, genre.id]))
                   }
                 }}
               />
@@ -146,8 +151,8 @@ function MovieDetailCardContent({
                   icon={IoIosSearch}
                   iconSize={18}
                   text={`${crewMember.job}: ${crewMember.name} `}
-                  handleSelect={() => !isActive && dispatch(setActiveNameID(crewMember.id))}
-                  additionalHoverCondition={!isActive}
+                  handleSelect={() => dispatch(setActiveNameID(crewMember.id))}
+                  additionalHoverCondition={!isActive && !isBookmarkedChart}
                 />
               )
             })}
@@ -175,8 +180,8 @@ function MovieDetailCardContent({
                   icon={IoIosSearch}
                   iconSize={18}
                   text={`${castMember.name} as ${castMember.character}`}
-                  handleSelect={() => !isActive && dispatch(setActiveNameID(castMember.id))}
-                  additionalHoverCondition={!isActive}
+                  handleSelect={() => !isActive && !isBookmarkedChart && dispatch(setActiveNameID(castMember.id))}
+                  additionalHoverCondition={!isActive && !isBookmarkedChart}
                 />
               )
             })}

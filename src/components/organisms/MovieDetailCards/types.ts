@@ -31,4 +31,5 @@ export interface ContentProps {
     crew: MovieCrewObject[]
     cast: MovieCastObject[]
   }
+  isBookmarkedChart?: boolean
 }

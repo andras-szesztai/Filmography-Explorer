@@ -85,6 +85,7 @@ const MovieDetailCardLeft = ({
           mediaType={mediaType}
           activeMovieData={activeMovieData}
           loading={loading}
+          isBookmarkedChart={isBookmarkedChart}
         />
       </div>
     </motion.div>

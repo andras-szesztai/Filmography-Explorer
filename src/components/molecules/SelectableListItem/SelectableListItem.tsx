@@ -63,12 +63,7 @@ const SelectableListItem = ({
           handleMouseout()
         }
       }}
-      onClick={() => handleSelect && handleSelect()}
-      onKeyDown={({ keyCode }) => {
-        if (keyCode === 13 && handleSelect) {
-          handleSelect()
-        }
-      }}
+      onClick={() => additionalHoverCondition && handleSelect && handleSelect()}
       css={css`
         white-space: nowrap;
         list-style-type: none;

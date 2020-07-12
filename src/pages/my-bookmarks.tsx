@@ -7,7 +7,7 @@ import { isEmpty, uniq, flatten, maxBy, minBy } from 'lodash'
 // Components
 import { AnimatePresence, motion } from 'framer-motion'
 import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight } from '../components'
-import { GenreFilter, TitleSearch, BubbleChart, DateAxis } from '../components/molecules'
+import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter } from '../components/molecules'
 
 // Types
 import { CombinedState } from '../types/state'
@@ -70,9 +70,9 @@ const MyBookMarksPage = () => {
         const sizeScaleDomain = [(sizeMin && sizeMin.vote_count) || 0, (sizeMax && sizeMax.vote_count) || 0]
         dispatch(populateOnMount({ genreList, titleList: allBookmarks, scales: { xScaleDomain, sizeScaleDomain } }))
       }
-      // if (!isEmpty(personReducer.favorites)) {
-      //   console.log('populate persons filter')
-      // }
+      if (!isEmpty(personReducer.favorites) && favoritePersons) {
+        dispatch(updateFavoritePersons(favoritePersons))
+      }
     }
   })
 
@@ -85,6 +85,7 @@ const MyBookMarksPage = () => {
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)
+  const [isPersonOpen, setIsPersonOpen] = React.useState(false)
 
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
@@ -142,6 +143,14 @@ const MyBookMarksPage = () => {
                 setIsGenreOpen={setIsGenreOpen}
                 isGenreOpen={isGenreOpen}
                 isBookmarkChart
+              />
+            )}
+            {Object.keys(personReducer.favorites).length > 1 && (
+              <PersonFilter
+                isPersonOpen={isPersonOpen}
+                setIsGenreOpen={setIsGenreOpen}
+                setIsTitleOpen={setIsTitleOpen}
+                setIsPersonOpen={setIsPersonOpen}
               />
             )}
           </div>

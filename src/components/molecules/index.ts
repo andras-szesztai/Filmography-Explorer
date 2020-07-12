@@ -7,5 +7,6 @@ export { default as FavoritePersonsListItem } from './FavoritePersonsListItem/Fa
 export { default as SelectableListItem } from './SelectableListItem/SelectableListItem'
 export { default as TitleSearch } from './TitleSearch/TitleSearch'
 export { default as GenreFilter } from './GenreFilter/GenreFilter'
+export { default as PersonFilter } from './PersonFilter/PersonFilter'
 
 export { DateAxis, BubbleChart }

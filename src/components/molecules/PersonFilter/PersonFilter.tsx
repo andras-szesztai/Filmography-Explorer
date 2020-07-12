@@ -6,20 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 
-// Components
-import SelectableListItem from '../SelectableListItem/SelectableListItem'
-import { ListEndPlaceHolder } from '../../atoms'
-
-// Types
-import { CombinedState } from '../../../types/state'
-import { PersonGenresObject } from '../../../types/person'
-
-// Actions
-import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
-import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
-import { updateBookmarkedGenreFilter } from '../../../reducer/bookmarkedChartReducer/actions'
-
-// Styles
 import {
   buttonPadding,
   colors,
@@ -30,22 +16,31 @@ import {
   buttonStyle,
   filterDropdownStyle
 } from '../../../styles/variables'
+import SelectableListItem from '../SelectableListItem/SelectableListItem'
+import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
+import { ListEndPlaceHolder } from '../../atoms'
+
+// Actions
+import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
+import { updateBookmarkedGenreFilter, updatePersonFilter } from '../../../reducer/bookmarkedChartReducer/actions'
+
+// Types
+import { CombinedState } from '../../../types/state'
+import { PersonGenresObject } from '../../../types/person'
+
+// Styles
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 
 interface Props {
-  genres: PersonGenresObject[]
+  isPersonOpen: boolean
+  setIsPersonOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isGenreOpen: boolean
-  isBookmarkChart: boolean
 }
 
-const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBookmarkChart }: Props) => {
-  const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
-  const personGenreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
-  const bookMarkedGenreFilter = useSelector((state: CombinedState) => state.bookmarkedChartReducer.genreFilter)
-  const updateFunction = isBookmarkChart ? updateBookmarkedGenreFilter : updateGenreFilter
-  const genreFilter = isBookmarkChart ? bookMarkedGenreFilter : personGenreFilter
+const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPersonOpen }: Props) => {
+  const favoritePersons = useSelector((state: CombinedState) => state.personReducer.favorites)
+  const { genreFilter, personFilter } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
@@ -61,8 +56,9 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
         onClick={() => {
-          setIsGenreOpen(!isGenreOpen)
+          setIsPersonOpen(!isPersonOpen)
           setIsTitleOpen(false)
+          setIsGenreOpen(false)
         }}
         css={css`
           ${buttonPadding}
@@ -88,17 +84,17 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
             margin-left: ${space[2]}px;
           `}
         >
-          Filter for genres&nbsp;
+          Filter for favorites&nbsp;
           <motion.span
             animate={{
-              color: !genreFilter.length ? colors.textColorSecondary : colors.accentPrimary
+              color: !personFilter.length ? colors.textColorSecondary : colors.accentPrimary
             }}
           >
-            ({genreFilter.length})
+            ({personFilter.length})
           </motion.span>
         </span>
       </button>
-      {isGenreOpen && (
+      {isPersonOpen && (
         <div css={filterDropdownStyle}>
           <div
             css={css`
@@ -116,10 +112,10 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
                   transform: translateY(2px);
                 `}
               >
-                Genres
+                Your favorites
               </span>
               <AnimatePresence>
-                {genreFilter.length && (
+                {/* {genreFilter.length && (
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -137,7 +133,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
                       text="Reset selection"
                     />
                   </motion.span>
-                )}
+                )} */}
               </AnimatePresence>
             </div>
             <motion.button
@@ -149,12 +145,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
                       padding: 0;
               `}
               whileHover={{ originY: 0.1, scale: 1.3 }}
-              onClick={() => setIsGenreOpen(!isGenreOpen)}
-              onKeyDown={({ keyCode }) => {
-                if (keyCode === 13) {
-                  setIsGenreOpen(!isGenreOpen)
-                }
-              }}
+              onClick={() => setIsGenreOpen(!isPersonOpen)}
             >
               <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
             </motion.button>
@@ -164,29 +155,28 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
               ${horizontalScrollableStyle}
             `}
           >
-            {genres.map(genre => {
-              const genreObj = genreList.find(g => g.id === genre.id)
-              const text = genreObj && genreObj.name
-              return (
-                <SelectableListItem
-                  key={genre.id}
-                  icon={FaFilter}
-                  iconSize={12}
-                  text={`${text} (${genre.count})`}
-                  handleSelect={() => {
-                    if (genreFilter.includes(genre.id)) {
-                      dispatch(updateFunction(genreFilter.filter(id => id !== genre.id)))
-                    } else if (genres.length === genreFilter.length + 1) {
-                      dispatch(updateFunction([]))
-                    } else {
-                      dispatch(updateFunction([...genreFilter, genre.id]))
-                    }
-                    dispatch(emptyMovieDetails())
-                  }}
-                  isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
-                />
-              )
-            })}
+            {favoritePersons &&
+              Object.values(favoritePersons).map(favPerson => {
+                return (
+                  <SelectableListItem
+                    key={favPerson.id}
+                    icon={FaFilter}
+                    iconSize={12}
+                    text={favPerson.name}
+                    handleSelect={() => {
+                      if (personFilter.includes(favPerson.id)) {
+                        dispatch(updatePersonFilter(personFilter.filter(id => id !== favPerson.id)))
+                      } else if (Object.values(favoritePersons).length === personFilter.length + 1) {
+                        dispatch(updatePersonFilter([]))
+                      } else {
+                        dispatch(updatePersonFilter([...genreFilter, favPerson.id]))
+                      }
+                      dispatch(emptyMovieDetails())
+                    }}
+                    isActive={personFilter.length ? personFilter.includes(favPerson.id) : true}
+                  />
+                )
+              })}
             <ListEndPlaceHolder />
           </div>
         </div>
@@ -195,4 +185,4 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
   )
 }
 
-export default GenreFilter
+export default PersonFilter

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 
+import { uniq, flatten } from 'lodash'
 import {
   buttonPadding,
   colors,
@@ -17,16 +18,14 @@ import {
   filterDropdownStyle
 } from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
-import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/actions'
 import { ListEndPlaceHolder } from '../../atoms'
 
 // Actions
 import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
-import { updateBookmarkedGenreFilter, updatePersonFilter } from '../../../reducer/bookmarkedChartReducer/actions'
+import { updatePersonFilter } from '../../../reducer/bookmarkedChartReducer/actions'
 
 // Types
 import { CombinedState } from '../../../types/state'
-import { PersonGenresObject } from '../../../types/person'
 
 // Styles
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
@@ -41,11 +40,18 @@ interface Props {
 const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPersonOpen }: Props) => {
   const favoritePersons = useSelector((state: CombinedState) => state.personReducer.favorites)
   const { genreFilter, personFilter } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
+  const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
+
+  const [filteredPersons, setFilteredPersons] = React.useState([] as number[])
+  React.useEffect(() => {
+    const filteredBookmarked = Object.values(bookmarked).filter(b => genreFilter.map(gID => b.genres.includes(gID)).includes(true))
+    setFilteredPersons(uniq(flatten(filteredBookmarked.map(fB => fB.credits))))
+  }, [genreFilter.length])
 
   return (
     <>
@@ -115,7 +121,7 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
                 Your favorites
               </span>
               <AnimatePresence>
-                {Object.values(favoritePersons).length && (
+                {personFilter.length && (
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -145,7 +151,7 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
                       padding: 0;
               `}
               whileHover={{ originY: 0.1, scale: 1.3 }}
-              onClick={() => setIsGenreOpen(!isPersonOpen)}
+              onClick={() => setIsPersonOpen(!isPersonOpen)}
             >
               <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
             </motion.button>
@@ -156,27 +162,29 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
             `}
           >
             {favoritePersons &&
-              Object.values(favoritePersons).map(favPerson => {
-                return (
-                  <SelectableListItem
-                    key={favPerson.id}
-                    icon={FaFilter}
-                    iconSize={12}
-                    text={favPerson.name}
-                    handleSelect={() => {
-                      if (personFilter.includes(favPerson.id)) {
-                        dispatch(updatePersonFilter(personFilter.filter(id => id !== favPerson.id)))
-                      } else if (Object.values(favoritePersons).length === personFilter.length + 1) {
-                        dispatch(updatePersonFilter([]))
-                      } else {
-                        dispatch(updatePersonFilter([...genreFilter, favPerson.id]))
-                      }
-                      dispatch(emptyMovieDetails())
-                    }}
-                    isActive={personFilter.length ? personFilter.includes(favPerson.id) : true}
-                  />
-                )
-              })}
+              Object.values(favoritePersons)
+                .filter(favPerson => (filteredPersons.length ? filteredPersons.includes(favPerson.id) : true))
+                .map(favPerson => {
+                  return (
+                    <SelectableListItem
+                      key={favPerson.id}
+                      icon={FaFilter}
+                      iconSize={12}
+                      text={favPerson.name}
+                      handleSelect={() => {
+                        if (personFilter.includes(favPerson.id)) {
+                          dispatch(updatePersonFilter(personFilter.filter(id => id !== favPerson.id)))
+                        } else if (Object.values(favoritePersons).length === personFilter.length + 1) {
+                          dispatch(updatePersonFilter([]))
+                        } else {
+                          dispatch(updatePersonFilter([...genreFilter, favPerson.id]))
+                        }
+                        dispatch(emptyMovieDetails())
+                      }}
+                      isActive={personFilter.length ? personFilter.includes(favPerson.id) : true}
+                    />
+                  )
+                })}
             <ListEndPlaceHolder />
           </div>
         </div>

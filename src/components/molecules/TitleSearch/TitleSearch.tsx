@@ -43,9 +43,10 @@ interface Props {
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   isTitleOpen: boolean
   isBookmarkChart: boolean
+  setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBookmarkChart }: Props) => {
+const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBookmarkChart, setIsPersonOpen }: Props) => {
   const personCreditsChartReducer = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
   const movieReducer = useSelector((state: CombinedState) => state.movieReducer)
@@ -124,6 +125,9 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
         onClick={() => {
           setIsTitleOpen(!isTitleOpen)
           setIsGenreOpen(false)
+          if (setIsPersonOpen) {
+            setIsPersonOpen(false)
+          }
         }}
         css={css`
           padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[3]}px;
@@ -296,6 +300,10 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
       )}
     </>
   )
+}
+
+TitleSearch.defaultProps = {
+  setIsPersonOpen: undefined
 }
 
 export default TitleSearch

@@ -42,6 +42,7 @@ interface ChartProps {
   setIsFirstEntered: (bool: boolean) => void
   activeMovieID: number
   genreFilter: number[]
+  personFilter?: number[]
   isBookmarkChart: boolean
 }
 

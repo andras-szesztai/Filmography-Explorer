@@ -51,7 +51,7 @@ const margin = {
 export default function BubbleChart(props: BubbleChartProps) {
   const dispatch = useDispatch()
   const bookmarks = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
-  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID, genreFilter, isBookmarkChart } = props
+  const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID, genreFilter, personFilter, isBookmarkChart } = props
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -146,7 +146,12 @@ export default function BubbleChart(props: BubbleChartProps) {
         gridArea,
         hoverElementArea,
         voronoiArea,
-        filteredData: genreFilter.length ? data.filter(d => d.genres.some(id => genreFilter.includes(id))) : data
+        filteredData:
+          genreFilter.length || (personFilter && personFilter.length)
+            ? data
+                .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
+                .filter(d => (personFilter ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+            : data
       }
       const gridArgs = { storedValues, left: margin.left, width }
       createUpdateGrid(gridArgs)
@@ -180,7 +185,12 @@ export default function BubbleChart(props: BubbleChartProps) {
 
   React.useEffect(() => {
     if (!storedValues.current.isInit) {
-      const newFilteredData = genreFilter.length ? data.filter(d => d.genres.some(id => genreFilter.includes(id))) : data
+      const newFilteredData =
+        genreFilter.length || (personFilter && personFilter.length)
+          ? data
+              .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
+              .filter(d => (personFilter ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+          : data
       storedValues.current = {
         ...storedValues.current,
         filteredData: newFilteredData
@@ -199,7 +209,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         addUpdateInteractions
       })
     }
-  }, [genreFilter])
+  }, [genreFilter, personFilter])
 
   useChartResize({
     width,

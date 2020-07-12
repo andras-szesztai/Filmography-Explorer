@@ -133,6 +133,7 @@ const MyBookMarksPage = () => {
                 setIsGenreOpen={setIsGenreOpen}
                 setIsTitleOpen={setIsTitleOpen}
                 isTitleOpen={isTitleOpen}
+                setIsPersonOpen={setIsPersonOpen}
                 isBookmarkChart
               />
             )}
@@ -143,6 +144,7 @@ const MyBookMarksPage = () => {
                 setIsGenreOpen={setIsGenreOpen}
                 isGenreOpen={isGenreOpen}
                 personsFilter={bookmarkedChartReducer.personFilter}
+                setIsPersonOpen={setIsPersonOpen}
                 isBookmarkChart
               />
             )}
@@ -176,6 +178,7 @@ const MyBookMarksPage = () => {
               hoveredMovieID={bookmarkedChartReducer.bookmarkedHoveredMovie.id}
               genreFilter={bookmarkedChartReducer.genreFilter}
               isBookmarkChart
+              personFilter={bookmarkedChartReducer.personFilter}
             />
             <DateAxis
               xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}

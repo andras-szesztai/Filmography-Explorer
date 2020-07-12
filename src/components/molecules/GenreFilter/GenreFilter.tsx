@@ -7,6 +7,9 @@ import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 
 // Components
+import { uniq, flatten } from 'lodash'
+
+import { usePrevious } from 'react-use'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { ListEndPlaceHolder } from '../../atoms'
 
@@ -38,14 +41,25 @@ interface Props {
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
   isGenreOpen: boolean
   isBookmarkChart: boolean
+  personsFilter?: number[]
 }
 
-const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBookmarkChart }: Props) => {
+const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBookmarkChart, personsFilter }: Props) => {
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
+  const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
   const personGenreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
   const bookMarkedGenreFilter = useSelector((state: CombinedState) => state.bookmarkedChartReducer.genreFilter)
   const updateFunction = isBookmarkChart ? updateBookmarkedGenreFilter : updateGenreFilter
   const genreFilter = isBookmarkChart ? bookMarkedGenreFilter : personGenreFilter
+
+  const [filteredGenres, setFilteredGenres] = React.useState([] as number[])
+  const prevPersonFilter = usePrevious(personsFilter)
+  React.useEffect(() => {
+    if (personsFilter && prevPersonFilter && personsFilter.length !== prevPersonFilter.length) {
+      const filteredBookmarked = Object.values(bookmarked).filter(b => personsFilter.map(pID => b.credits.includes(pID)).includes(true))
+      setFilteredGenres(uniq(flatten(filteredBookmarked.map(fB => fB.genres))))
+    }
+  }, [personsFilter])
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
@@ -164,35 +178,42 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
               ${horizontalScrollableStyle}
             `}
           >
-            {genres.map(genre => {
-              const genreObj = genreList.find(g => g.id === genre.id)
-              const text = genreObj && genreObj.name
-              return (
-                <SelectableListItem
-                  key={genre.id}
-                  icon={FaFilter}
-                  iconSize={12}
-                  text={`${text} (${genre.count})`}
-                  handleSelect={() => {
-                    if (genreFilter.includes(genre.id)) {
-                      dispatch(updateFunction(genreFilter.filter(id => id !== genre.id)))
-                    } else if (genres.length === genreFilter.length + 1) {
-                      dispatch(updateFunction([]))
-                    } else {
-                      dispatch(updateFunction([...genreFilter, genre.id]))
-                    }
-                    dispatch(emptyMovieDetails())
-                  }}
-                  isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
-                />
-              )
-            })}
+            {genres
+              .sort((a, b) => b.count - a.count)
+              .filter(genre => (filteredGenres.length ? filteredGenres.includes(genre.id) : true))
+              .map(genre => {
+                const genreObj = genreList.find(g => g.id === genre.id)
+                const text = genreObj && genreObj.name
+                return (
+                  <SelectableListItem
+                    key={genre.id}
+                    icon={FaFilter}
+                    iconSize={12}
+                    text={`${text} (${genre.count})`}
+                    handleSelect={() => {
+                      if (genreFilter.includes(genre.id)) {
+                        dispatch(updateFunction(genreFilter.filter(id => id !== genre.id)))
+                      } else if (genres.length === genreFilter.length + 1) {
+                        dispatch(updateFunction([]))
+                      } else {
+                        dispatch(updateFunction([...genreFilter, genre.id]))
+                      }
+                      dispatch(emptyMovieDetails())
+                    }}
+                    isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                  />
+                )
+              })}
             <ListEndPlaceHolder />
           </div>
         </div>
       )}
     </>
   )
+}
+
+GenreFilter.defaultProps = {
+  personsFilter: undefined
 }
 
 export default GenreFilter

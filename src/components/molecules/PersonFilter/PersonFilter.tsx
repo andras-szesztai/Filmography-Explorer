@@ -115,7 +115,7 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
                 Your favorites
               </span>
               <AnimatePresence>
-                {/* {genreFilter.length && (
+                {Object.values(favoritePersons).length && (
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -127,13 +127,13 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
                     `}
                   >
                     <SelectableListItem
-                      handleSelect={() => dispatch(updateFunction([]))}
+                      handleSelect={() => dispatch(updatePersonFilter([]))}
                       icon={IoIosCloseCircle}
                       iconSize={18}
                       text="Reset selection"
                     />
                   </motion.span>
-                )} */}
+                )}
               </AnimatePresence>
             </div>
             <motion.button

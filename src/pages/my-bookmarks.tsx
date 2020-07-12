@@ -142,6 +142,7 @@ const MyBookMarksPage = () => {
                 setIsTitleOpen={setIsTitleOpen}
                 setIsGenreOpen={setIsGenreOpen}
                 isGenreOpen={isGenreOpen}
+                personsFilter={bookmarkedChartReducer.personFilter}
                 isBookmarkChart
               />
             )}

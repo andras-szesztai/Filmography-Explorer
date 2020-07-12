@@ -1,5 +1,5 @@
 import React from 'react'
-import last from 'lodash/last'
+import first from 'lodash/first'
 import { useDispatch } from 'react-redux'
 
 // Actions
@@ -20,7 +20,7 @@ function useSetActiveNameIDOnMount({ favoritePersons, isPopulated }: Params) {
     if (init.current) {
       init.current = false
       if (favoritePersons && Object.keys(favoritePersons).length) {
-        const lastID = last(Object.keys(favoritePersons))
+        const lastID = first(Object.keys(favoritePersons))
         if (lastID) {
           dispatch(setActiveNameID(+lastID))
           if (!isPopulated) {

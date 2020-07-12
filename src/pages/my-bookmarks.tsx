@@ -126,20 +126,24 @@ const MyBookMarksPage = () => {
               z-index: 100;
             `}
           >
-            <TitleSearch
-              titles={bookmarkedChartReducer.titleList}
-              setIsGenreOpen={setIsGenreOpen}
-              setIsTitleOpen={setIsTitleOpen}
-              isTitleOpen={isTitleOpen}
-              isBookmarkChart
-            />
-            <GenreFilter
-              genres={bookmarkedChartReducer.genreList}
-              setIsTitleOpen={setIsTitleOpen}
-              setIsGenreOpen={setIsGenreOpen}
-              isGenreOpen={isGenreOpen}
-              isBookmarkChart
-            />
+            {bookmarkedChartReducer.titleList.length > 1 && (
+              <TitleSearch
+                titles={bookmarkedChartReducer.titleList}
+                setIsGenreOpen={setIsGenreOpen}
+                setIsTitleOpen={setIsTitleOpen}
+                isTitleOpen={isTitleOpen}
+                isBookmarkChart
+              />
+            )}
+            {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
+              <GenreFilter
+                genres={bookmarkedChartReducer.genreList}
+                setIsTitleOpen={setIsTitleOpen}
+                setIsGenreOpen={setIsGenreOpen}
+                isGenreOpen={isGenreOpen}
+                isBookmarkChart
+              />
+            )}
           </div>
           <div
             css={css`

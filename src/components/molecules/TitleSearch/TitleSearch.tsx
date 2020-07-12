@@ -24,6 +24,11 @@ import { MovieObject } from '../../../types/movie'
 import { ListEndPlaceHolder } from '../../atoms'
 import { setActiveMovieID } from '../../../reducer/movieReducer/actions'
 import { populateHoveredMovie, emptyHoveredMovie } from '../../../reducer/personCreditsChartReducer/actions'
+import {
+  populateBookmarkedHoveredMovie,
+  setBookmarkedActiveMovieID,
+  emptyBookmarkedHoveredMovie
+} from '../../../reducer/bookmarkedChartReducer/actions'
 
 interface Props {
   titles: MovieObject[]
@@ -36,16 +41,18 @@ interface Props {
 const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBookmarkChart }: Props) => {
   const personCreditsChartReducer = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
+  const movieReducer = useSelector((state: CombinedState) => state.movieReducer)
 
   const genreFilter = isBookmarkChart ? bookmarkedChartReducer.genreFilter : personCreditsChartReducer.genreFilter
-  const xScaleDomain = isBookmarkChart ? personCreditsChartReducer.scales.xScaleDomain : personCreditsChartReducer.scales.xScaleDomain // TODO:
+  const xScaleDomain = isBookmarkChart ? bookmarkedChartReducer.scales.xScaleDomain : personCreditsChartReducer.scales.xScaleDomain
   const prevGenreFilter = usePrevious(genreFilter)
-  const {
-    activeNameID,
-    dataSets: { credits }
-  } = useSelector((state: CombinedState) => state.personReducer)
-  const prevActiveNameID = usePrevious(activeNameID)
+  const cast = isBookmarkChart ? Object.values(movieReducer.bookmarks) : personCreditsChartReducer.dataSets.cast
+  const crew = isBookmarkChart ? Object.values(movieReducer.bookmarks) : personCreditsChartReducer.dataSets.crew
+  const populateHoveredFunc = isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
+  const setActiveMovieFunc = isBookmarkChart ? setBookmarkedActiveMovieID : setActiveMovieID
+  const emptyHoveredFunc = isBookmarkChart ? emptyBookmarkedHoveredMovie : emptyHoveredMovie
 
+  const prevActiveNameID = usePrevious(personCreditsChartReducer.nameId)
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
 
@@ -89,7 +96,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
     if (typeof prevSearchText === 'string' && prevSearchText !== searchText) {
       setFilteredTitles(genreFilteredTitles.filter(t => t.title && t.title.toLowerCase().includes(searchText.toLowerCase())))
     }
-    if (prevActiveNameID && activeNameID && activeNameID !== prevActiveNameID) {
+    if (prevActiveNameID && personCreditsChartReducer.nameId && personCreditsChartReducer.nameId !== prevActiveNameID) {
       setGenreFilteredTitles([])
       setFilteredTitles([])
     }
@@ -226,38 +233,39 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, setIsGenreOpen, isBo
                   handleSelect={() => {
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
                     dispatch(
-                      setActiveMovieID({
-                        // TODO: make it dynamic
+                      setActiveMovieFunc({
                         id: t.id,
                         position: t.date ? Number(meanYear <= new Date(t.date).getFullYear()) : 0,
                         mediaType: t.media_type
                       })
                     )
+                    dispatch(emptyHoveredFunc())
                   }}
                   handleMouseover={() => {
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
                     const xPos = t.date ? Number(meanYear <= new Date(t.date).getFullYear()) : 0
-                    const castObject = credits.cast.find(d => d.id === t.id)
+                    const castObject = cast.find(d => d.id === t.id)
                     if (castObject) {
                       dispatch(
-                        populateHoveredMovie({
+                        populateHoveredFunc({
                           id: t.id,
                           data: castObject,
-                          yPosition: 0,
+                          yPosition: isBookmarkChart ? 1 : 0,
                           xPosition: xPos
                         })
                       )
                     }
                     if (!castObject) {
-                      // TODO: find out bug
-                      const crewObject = credits.crew.find(d => d.id === t.id)
+                      const crewObject = crew.find(d => d.id === t.id)
                       if (crewObject) {
-                        populateHoveredMovie({
-                          id: t.id,
-                          data: crewObject,
-                          yPosition: 0,
-                          xPosition: xPos
-                        })
+                        dispatch(
+                          populateHoveredFunc({
+                            id: t.id,
+                            data: crewObject,
+                            yPosition: 1,
+                            xPosition: xPos
+                          })
+                        )
                       }
                     }
                   }}

@@ -24,6 +24,7 @@ import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } 
 
 // Constants
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
+import { EXPLORER_EXPLAINER } from '../constants/explainerPages'
 
 const IndexPage = () => {
   const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
@@ -74,7 +75,7 @@ const IndexPage = () => {
           </motion.span>
         )}
       </AnimatePresence>
-      <ExplainerCard />
+      <ExplainerCard pages={EXPLORER_EXPLAINER} />
     </SearchDashboardDesktop>
   )
 }

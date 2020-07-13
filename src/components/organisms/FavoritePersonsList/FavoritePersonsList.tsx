@@ -66,6 +66,7 @@ const FavoritePersonsList = () => {
             <AnimatePresence>
               {favs.length &&
                 [...favs]
+                  .filter((_, i) => i < 20)
                   .sort((a, b) => new Date(b.dateFavorited).getTime() - new Date(a.dateFavorited).getTime())
                   .map(({ name, id }) => (
                     <motion.span key={`${id}-favlist`} animate>

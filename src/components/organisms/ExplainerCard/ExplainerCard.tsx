@@ -10,7 +10,6 @@ import 'slick-carousel/slick/slick-theme.css'
 
 import {
   colors,
-  fontSize,
   space,
   handleSize,
   buttonStyle,
@@ -19,23 +18,24 @@ import {
   zIndex,
   dropShadow,
   buttonNoFocus,
-  buttonFocus
+  buttonFocus,
+  fontSize,
+  fontWeight
 } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
-function ExplainerCard() {
+interface Props {
+  pages: {
+    title: string
+    text: string
+  }[]
+}
+
+function ExplainerCard({ pages }: Props) {
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
   const [isOpen, setIsOpen] = React.useState(false)
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  }
 
   return (
     <>
@@ -90,7 +90,7 @@ function ExplainerCard() {
           height: ${height.explainerTotal}px;
           width: ${width.explainer}px;
           z-index: 5;
-          padding: ${space[1]}px ${space[2]}px ${space[2]}px ${space[2]}px;
+          padding: ${space[1]}px ${space[3]}px ${space[2]}px ${space[3]}px;
 
           display: flex;
 
@@ -109,35 +109,65 @@ function ExplainerCard() {
         <div
           css={css`
             display: grid;
-            grid-template-rows: 1fr ${height.explainerVisible};
+            grid-template-rows: 1fr ${height.explainerVisible}px;
+            grid-template-areas:
+              'placeholder'
+              'content';
           `}
         >
           <div
             css={css`
               position: relative;
-              height: 100px;
-              width: 100px;
+              grid-area: content;
+              place-self: stretch;
+              width: ${width.explainer - space[6]}px;
+              height: ${height.explainerVisible}px;
             `}
           >
-            <Slider adaptiveHeight dots infinite speed={500} slidesToShow={1} slidesToScroll={1}>
-              <div>
-                <h3>1</h3>
-              </div>
-              <div>
-                <h3>2</h3>
-              </div>
-              <div>
-                <h3>3</h3>
-              </div>
-              <div>
-                <h3>4</h3>
-              </div>
-              <div>
-                <h3>5</h3>
-              </div>
-              <div>
-                <h3>6</h3>
-              </div>
+            <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} arrows={false}>
+              {pages.map(page => {
+                return (
+                  <div
+                    css={css`
+                      width: ${width.explainer - space[6]}px;
+                      height: ${height.explainerVisible - 24}px;
+                    `}
+                    key={page.title}
+                  >
+                    <div
+                      css={css`
+                        height: 100%;
+                        display: grid;
+                        grid-template-rows: 25px 1fr;
+                        grid-row-gap: ${space[2]}px;
+                        color: ${colors.textColorSecondary};
+                      `}
+                    >
+                      <span
+                        css={css`
+                          font-size: ${fontSize.md};
+                          align-self: end;
+                          font-weight: ${fontWeight.lg};
+                          letter-spacing: 0.8px;
+                        `}
+                      >
+                        {page.title}
+                      </span>
+                      <p
+                        css={css`
+                          font-size: ${fontSize.sm};
+                          align-self: start;
+                          margin: 0;
+                          padding: 0;
+                          line-height: 1.5;
+                        `}
+                      >
+                        {page.text}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
             </Slider>
           </div>
         </div>

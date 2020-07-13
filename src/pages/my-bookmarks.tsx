@@ -6,7 +6,7 @@ import { isEmpty, uniq, flatten, maxBy, minBy } from 'lodash'
 import { AnimatePresence, motion } from 'framer-motion'
 
 // Components
-import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight } from '../components'
+import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight, ExplainerCard } from '../components'
 import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter } from '../components/molecules'
 import { BookmarkIcon } from '../components/atoms'
 
@@ -25,6 +25,7 @@ import { useFetchActiveMovieDetails } from '../components/organisms/MovieDetailC
 
 // Constants
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
+import { BOOKMARKED_EXPLAINER } from '../constants/explainerPages'
 
 // Styles
 import { colors, space, fontSize } from '../styles/variables'
@@ -32,6 +33,8 @@ import { colors, space, fontSize } from '../styles/variables'
 const MyBookMarksPage = () => {
   const { personReducer, movieReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
   const dispatch = useDispatch()
+
+  // TODO: tidy it up
 
   // Populate store with favorites if start page
   const [didPopulateFavorites, setDidPopulateFavorites] = React.useState(false)
@@ -256,6 +259,7 @@ const MyBookMarksPage = () => {
           </motion.span>
         )}
       </AnimatePresence>
+      <ExplainerCard pages={BOOKMARKED_EXPLAINER} />
     </SearchDashboardDesktop>
   )
 }

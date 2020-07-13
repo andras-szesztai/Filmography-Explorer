@@ -8,6 +8,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
+// Styles
 import {
   colors,
   space,
@@ -182,7 +183,7 @@ function ExplainerCard({ pages }: Props) {
             ${buttonStyle}
             ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
 
-          position: absolute;
+            position: absolute;
             z-index: 1;
             right: 0px;
             bottom: -${handleSize}px;

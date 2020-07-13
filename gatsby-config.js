@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Filmography Explorer',
-    description: '------------------------',
+    description: 'A place to explorer all about the filmography of your favorite writers, directors, actors and more.',
     keywords: 'gatsbyjs, gatsby, javascript, react, d3.js, films, movies, series',
     siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',
     author: {

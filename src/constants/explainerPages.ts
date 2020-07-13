@@ -1,4 +1,9 @@
-export const EXPLORER_EXPLAINER = [
+const sharedPoints = [
+  {
+    title: 'First time here?',
+    text:
+      'Please start a search for a person in the film industry you would like to find out more about. In case you are a veteran filmography explorer, please click on the next dot below this very text!'
+  },
   {
     title: 'Dots and their various sizes',
     text:
@@ -13,7 +18,11 @@ export const EXPLORER_EXPLAINER = [
     title: 'Interacting with the dots',
     text:
       'Hovering over dots will give you more information about the movie/series they represent, while clicking on them will open a card for you with more information about the clicked item.'
-  },
+  }
+]
+
+export const EXPLORER_EXPLAINER = [
+  ...sharedPoints,
   {
     title: 'Quick search and filter',
     text:
@@ -35,3 +44,5 @@ export const EXPLORER_EXPLAINER = [
       'You can bookmark any movie or series you like by clicking on their title or the little bookmark icon in their card. They will be saved and if multiple, you can also compare them on the My Bookmarks page.'
   }
 ]
+
+export const BOOKMARKED_EXPLAINER = [...sharedPoints]

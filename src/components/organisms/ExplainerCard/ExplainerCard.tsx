@@ -139,7 +139,7 @@ function ExplainerCard({ pages }: Props) {
                       css={css`
                         height: 100%;
                         display: grid;
-                        grid-template-rows: 25px 1fr;
+                        grid-template-rows: ${space[6]}px 1fr;
                         grid-row-gap: ${space[2]}px;
                         color: ${colors.textColorSecondary};
                       `}

@@ -1,10 +1,5 @@
 const sharedPoints = [
   {
-    title: 'First time here?',
-    text:
-      'Please start a search for a person in the film industry you would like to find out more about. In case you are a veteran filmography explorer, please click on the next dot below this very text!'
-  },
-  {
     title: 'Dots and their various sizes',
     text:
       'Each dot represents a movie or series associated with the person searched for, while their size depends on the number of votes they have received. The more votes they have the bigger the dots are.'
@@ -22,6 +17,11 @@ const sharedPoints = [
 ]
 
 export const EXPLORER_EXPLAINER = [
+  {
+    title: 'First time here?',
+    text:
+      'Please start a search for a person in the film industry you would like to find out more about. In case you are a veteran filmography explorer, please click on the next dot below this very text!'
+  },
   ...sharedPoints,
   {
     title: 'Quick search and filter',
@@ -45,4 +45,11 @@ export const EXPLORER_EXPLAINER = [
   }
 ]
 
-export const BOOKMARKED_EXPLAINER = [...sharedPoints]
+export const BOOKMARKED_EXPLAINER = [
+  {
+    title: 'First time here?',
+    text:
+      'Please start a search for persons in the film industry you would like to find out more about, then bookmark or more of their movies/series to compare them on this page'
+  },
+  ...sharedPoints
+]

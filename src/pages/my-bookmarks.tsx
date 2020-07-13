@@ -215,7 +215,7 @@ const MyBookMarksPage = () => {
               <span
                 css={css`
                   position: absolute;
-                  top: -2px;
+                  top: -1px;
                   left: 4px;
                 `}
               >

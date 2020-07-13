@@ -104,7 +104,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         <IoIosSearch size={22} color={colors.textColorPrimary} />
       </SearchIconContainer>
       <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
-        <IoIosClose size={22} color={colors.accentPrimary} />
+        <IoIosClose size={22} color={colors.accentSecondary} />
       </SearchIconContainer>
       <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
       <SearchResultsContainer isVisible={isResultVisible || noResult}>

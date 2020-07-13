@@ -6,7 +6,8 @@ import {
   FavoritePersonsList,
   PersonCreditsChart,
   MovieDetailCardContainerRight,
-  MovieDetailCardContainerLeft
+  MovieDetailCardContainerLeft,
+  ExplainerCard
 } from './organisms'
 import { Layout, SearchDashboardDesktop } from './templates'
 
@@ -20,5 +21,6 @@ export {
   FavoritePersonsList,
   PersonCreditsChart,
   MovieDetailCardContainerRight,
-  MovieDetailCardContainerLeft
+  MovieDetailCardContainerLeft,
+  ExplainerCard
 }

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
 import isEmpty from 'lodash/isEmpty'
-import 'what-input'
 
 // Components
 import {

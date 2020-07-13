@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-
-// Components
 import { useLocalStorage } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
+
+// Components
 import {
   SearchDashboardDesktop,
   SearchBar,
@@ -11,22 +11,19 @@ import {
   FavoritePersonsList,
   PersonCreditsChart,
   MovieDetailCardContainerRight,
-  MovieDetailCardContainerLeft
+  MovieDetailCardContainerLeft,
+  ExplainerCard
 } from '../components'
 
 // Types
 import { CombinedState } from '../types/state'
 import { BookmarkedMoviesObject } from '../types/movie'
 
-// Actions
-
 // Hooks
 import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
-import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 
 // Constants
-
-// Helpers
+import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 
 const IndexPage = () => {
   const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
@@ -77,6 +74,7 @@ const IndexPage = () => {
           </motion.span>
         )}
       </AnimatePresence>
+      <ExplainerCard />
     </SearchDashboardDesktop>
   )
 }

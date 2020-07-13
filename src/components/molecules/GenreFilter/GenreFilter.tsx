@@ -5,11 +5,10 @@ import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
-
-// Components
+import { usePrevious } from 'react-use'
 import { uniq, flatten } from 'lodash'
 
-import { usePrevious } from 'react-use'
+// Components
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { ListEndPlaceHolder } from '../../atoms'
 

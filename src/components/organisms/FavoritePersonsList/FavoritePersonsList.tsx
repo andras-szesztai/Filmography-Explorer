@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 
 // Components
 import { FavoriteStar } from '../../atoms'
+import { FavoritePersonsListItem } from '../../molecules'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -15,7 +16,6 @@ import { getObjectValues } from '../../../utils/dataHelpers'
 
 // Styles
 import { space, colors } from '../../../styles/variables'
-import { FavoritePersonsListItem } from '../../molecules'
 import { ScrollableContainerStyle, ContainerStyle } from './style'
 
 const PlaceHolder = () => {

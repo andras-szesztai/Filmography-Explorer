@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useLocalStorage } from 'react-use'
 import { css } from '@emotion/core'
 import { isEmpty, uniq, flatten, maxBy, minBy } from 'lodash'
+import { AnimatePresence, motion } from 'framer-motion'
 
 // Components
-import { AnimatePresence, motion } from 'framer-motion'
 import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight } from '../components'
 import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter } from '../components/molecules'
+import { BookmarkIcon } from '../components/atoms'
 
 // Types
 import { CombinedState } from '../types/state'
@@ -27,11 +28,6 @@ import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 
 // Styles
 import { colors, space, fontSize } from '../styles/variables'
-import { BookmarkIcon } from '../components/atoms'
-
-// Constants
-
-// Helpers
 
 const MyBookMarksPage = () => {
   const { personReducer, movieReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)

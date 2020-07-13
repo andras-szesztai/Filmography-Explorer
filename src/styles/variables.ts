@@ -70,7 +70,9 @@ export const width = {
   searchBar: 400,
   detailsCard: 400,
   movieDetailCardExtra: space[6],
-  tooltipWidth: 320
+  tooltipWidth: 320,
+  explainer: 280,
+  explainerHandle: 160
 }
 
 export const height = {
@@ -83,7 +85,9 @@ export const height = {
   movieCard: 480,
   searchBar: space[10],
   searchResultHeight: space[13],
-  searchResultHoverHeight: space[14]
+  searchResultHoverHeight: space[14],
+  explainerTotal: 200,
+  explainerVisible: 130
 }
 
 export const tooltipOffset = space[3]

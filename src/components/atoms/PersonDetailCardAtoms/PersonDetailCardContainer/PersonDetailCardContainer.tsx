@@ -13,7 +13,6 @@ interface Props {
 }
 
 const PersonDetailCardContainer: React.FC<Props> = props => {
-  const prevProps = usePrevious(props)
   const { isOpen, isPopulated, children } = props
   const [yPos, setYPos] = React.useState(-height.personCardOpen)
 

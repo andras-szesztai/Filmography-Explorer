@@ -4,3 +4,4 @@ export { default as MovieDetailCardContainerLeft } from './MovieDetailCards/Movi
 export { default as SearchBar } from './SearchBar/SearchBar'
 export { default as FavoritePersonsList } from './FavoritePersonsList/FavoritePersonsList'
 export { default as PersonCreditsChart } from './PersonCreditsChart/PersonCreditsChart'
+export { default as ExplainerCard } from './ExplainerCard/ExplainerCard'

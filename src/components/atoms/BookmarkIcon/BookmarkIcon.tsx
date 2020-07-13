@@ -4,7 +4,6 @@ import gsap from 'gsap'
 import { colors } from '../../../styles/variables'
 
 interface Props {
-  // width?: number
   isBookmarked: boolean
   isHovered: boolean
 }

@@ -39,7 +39,7 @@ import { MovieObject } from '../../../../types/movie'
 import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUpdate } from './hooks'
 
 // Styles
-import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space } from '../../../../styles/variables'
+import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space, fontWeight } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
 
 const margin = {
@@ -136,6 +136,12 @@ export default function BubbleChart(props: BubbleChartProps) {
       const gridArea = select(gridAreaRef.current)
       const hoverElementArea = select(hoverElementAreaRef.current)
       const voronoiArea = select(voronoiRef.current)
+      const newFilteredData =
+        genreFilter.length || (personFilter && personFilter.length)
+          ? data
+              .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
+              .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
+          : data
       storedValues.current = {
         isInit: false,
         sizeScale,
@@ -146,12 +152,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         gridArea,
         hoverElementArea,
         voronoiArea,
-        filteredData:
-          genreFilter.length || (personFilter && personFilter.length)
-            ? data
-                .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
-                .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
-            : data
+        filteredData: newFilteredData
       }
       const gridArgs = { storedValues, left: margin.left, width }
       createUpdateGrid(gridArgs)
@@ -169,7 +170,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         activeMovieID,
         addUpdateInteractions
       })
-      setTotalNumber(data.length)
+      setTotalNumber(newFilteredData.length)
       if (activeMovieID) {
         createBubbleChartRefElements({
           data,
@@ -208,6 +209,9 @@ export default function BubbleChart(props: BubbleChartProps) {
         activeMovieID,
         addUpdateInteractions
       })
+      if (newFilteredData.length !== totalNumber) {
+        setTotalNumber(newFilteredData.length)
+      }
     }
   }, [genreFilter, personFilter])
 
@@ -299,8 +303,9 @@ export default function BubbleChart(props: BubbleChartProps) {
             css={css`
               font-size: ${fontSize.xxl};
               line-height: 0.75;
-              font-weight: 500;
+              font-weight: ${fontWeight.lg};
               text-transform: uppercase;
+              letter-spacing: 2px;
               color: ${colors.bgColorSecondary};
               position: absolute;
               top: 8px;
@@ -308,6 +313,22 @@ export default function BubbleChart(props: BubbleChartProps) {
           >
             {totalNumber && totalNumber.toString().padStart(3, '0')}
           </div>
+          {totalNumber > 1 && (
+            <div
+              css={css`
+                font-size: ${fontSize.sm};
+                line-height: 0.75;
+                letter-spacing: 2px;
+                font-weight: ${fontWeight.md};
+                text-transform: uppercase;
+                color: ${colors.bgColorSecondary};
+                position: absolute;
+                top: 36px;
+              `}
+            >
+              Titles
+            </div>
+          )}
         </div>
       </div>
       <svg

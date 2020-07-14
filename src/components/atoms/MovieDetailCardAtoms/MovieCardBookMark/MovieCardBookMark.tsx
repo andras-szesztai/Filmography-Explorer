@@ -22,10 +22,10 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered }: Par
 
   const horPos = isLeft
     ? css`
-        right: 6px;
+        right: 10px;
       `
     : css`
-        left: -458px;
+        left: -454px;
       `
 
   return (

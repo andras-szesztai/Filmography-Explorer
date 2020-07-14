@@ -24,12 +24,14 @@ const movieDetailCardContainer = css`
 
   filter: drop-shadow(${dropShadow.header.ternary});
   z-index: 15;
+
+  border-radius: ${space[1]}px;
 `
 const HandleStyle = css`
   content: '';
   position: absolute;
   z-index: 4;
-  width: ${handleSize}px;
+  width: ${handleSize + space[1]}px;
   background-color: ${colors.bgColorSecondary};
   border-radius: ${space[1]}px 0 0 ${space[1]}px;
 `
@@ -41,7 +43,7 @@ export const movieDetailCardContainerRight = css`
     ${HandleStyle}
     bottom: 0px;
     height: ${handleSize}px;
-    left: -${handleSize}px;
+    left: -${handleSize - space[1]}px;
     border-radius: ${space[1]}px 0 0 ${space[1]}px;
   }
 `
@@ -51,7 +53,7 @@ export const rightTopHandleStyle = css`
     ${HandleStyle}
     top: 0px;
     height: ${handleSize}px;
-    left: -${handleSize}px;
+    left: -${handleSize - space[1]}px;
     border-radius: ${space[1]}px 0 0 ${space[1]}px;
   }
 `
@@ -62,7 +64,7 @@ export const movieDetailCardContainerLeft = css`
   :after {
     ${HandleStyle}
     bottom: 0px;
-    right: ${-handleSize}px;
+    right: ${-handleSize + space[1]}px;
     height: ${handleSize}px;
     border-radius: 0 ${space[1]}px ${space[1]}px 0;
   }
@@ -72,7 +74,7 @@ export const leftTopHandleStyle = css`
   :before {
     ${HandleStyle}
     top: 0px;
-    right: ${-handleSize}px;
+    right: ${-handleSize + space[1]}px;
     height: ${handleSize}px;
     border-radius: 0 ${space[1]}px ${space[1]}px 0;
   }

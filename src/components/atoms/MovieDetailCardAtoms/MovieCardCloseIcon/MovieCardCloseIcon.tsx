@@ -25,10 +25,10 @@ const MovieCardCloseIcon = ({ isLeft, isBookmarkedChart }: Props) => {
 
   const horPos = isLeft
     ? css`
-        right: -${handleSize}px;
+        right: -${handleSize - 4}px;
       `
     : css`
-        left: -${handleSize}px;
+        left: -${handleSize - 4}px;
       `
   return (
     <motion.button

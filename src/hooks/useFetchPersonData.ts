@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { usePrevious } from 'react-use'
 import axios from 'axios'

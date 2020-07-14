@@ -33,7 +33,7 @@ import { delay } from '../../../styles/animation'
 import { contentGridStyle } from './styles'
 
 const PersonDetailCard = () => {
-  const { dataSets: personData, favorites } = useSelector((state: CombinedState) => state.personReducer)
+  const { dataSets: personData, favorites, activeNameID } = useSelector((state: CombinedState) => state.personReducer)
   const loading = useSelector((state: CombinedState) => state.personReducer.loading.personDetails)
 
   const [personCardIsOpen, setPersonCardIsOpen] = useLocalStorage(LOCAL_STORE_ACCESSORS.personCardIsOpen, true)
@@ -41,7 +41,7 @@ const PersonDetailCard = () => {
 
   const [currentInput] = useWhatInput()
 
-  useSetActiveNameIDOnMount({ favoritePersons, isPopulated: !!Object.keys(favorites).length })
+  useSetActiveNameIDOnMount({ favoritePersons, isPopulated: !!Object.keys(favorites).length, activeNameID })
 
   return (
     <>

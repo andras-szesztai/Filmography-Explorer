@@ -11,15 +11,16 @@ import { FavoritePersonsObject } from '../../../../types/person'
 interface Params {
   favoritePersons?: FavoritePersonsObject
   isPopulated: boolean
+  activeNameID: number
 }
 
-function useSetActiveNameIDOnMount({ favoritePersons, isPopulated }: Params) {
+function useSetActiveNameIDOnMount({ favoritePersons, isPopulated, activeNameID }: Params) {
   const dispatch = useDispatch()
   const init = React.useRef(true)
   React.useEffect(() => {
     if (init.current) {
       init.current = false
-      if (favoritePersons && Object.keys(favoritePersons).length) {
+      if (!activeNameID && favoritePersons && Object.keys(favoritePersons).length) {
         const lastID = first(Object.keys(favoritePersons))
         if (lastID) {
           dispatch(setActiveNameID(+lastID))

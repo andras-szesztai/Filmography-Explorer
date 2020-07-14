@@ -14,9 +14,9 @@ export const containerStyle = css`
   background-color: ${colors.bgColorSecondary};
 
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 105px 1fr;
   grid-template-areas: 'photo info';
-  grid-column-gap: ${space[4]}px;
+  grid-column-gap: ${space[2]}px;
   z-index: ${zIndex.chartTooltip};
 `
 

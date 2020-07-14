@@ -7,7 +7,6 @@ import 'd3-transition'
 
 // Types
 import { BubbleChartStoredValues, Margin } from '../../../../../types/chart'
-import { FormattedPersonCreditDataObject } from '../../../../../types/person'
 import { BookmarkedMoviesObject, MovieObject } from '../../../../../types/movie'
 
 // Styles
@@ -75,7 +74,7 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
           .attr('cx', d => xScale(new Date(d.date)))
           .attr('cy', d => yScale(d.vote_average))
           .attr('r', d => (isSizeDynamic ? sizeScale(d.vote_count) : circleRadius))
-          .attr('fill', (d: any) => (currIDs.includes(d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
+          .attr('fill', (d: any) => (currIDs.includes(d.id && d.id.toString()) ? colors.accentSecondary : colors.bgColorSecondary))
           .attr('stroke', colors.bgColorPrimary)
           .attr('opacity', 0)
           .call(e =>

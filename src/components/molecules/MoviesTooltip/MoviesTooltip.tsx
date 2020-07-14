@@ -43,6 +43,8 @@ export default function MoviesTooltip({ activeMovieID, xScale, withRole, isBookm
       <div
         css={css`
           height: ${height.tooltip}px;
+          overflow: hidden;
+          border-radius: ${space[1]}px;
         `}
       >
         <Image url={data.poster_path} alt={`${data.title || data.title}-poster`} />

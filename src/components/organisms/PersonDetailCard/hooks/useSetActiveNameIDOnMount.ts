@@ -21,9 +21,11 @@ function useSetActiveNameIDOnMount({ favoritePersons, isPopulated, activeNameID 
     if (init.current) {
       init.current = false
       if (!activeNameID && favoritePersons && Object.keys(favoritePersons).length) {
-        const lastID = first(Object.keys(favoritePersons))
-        if (lastID) {
-          dispatch(setActiveNameID(+lastID))
+        const lastFavorited = first(
+          Object.values(favoritePersons).sort((a, b) => new Date(b.dateFavorited).getTime() - new Date(a.dateFavorited).getTime())
+        )
+        if (lastFavorited && lastFavorited.id) {
+          dispatch(setActiveNameID(+lastFavorited.id))
           if (!isPopulated) {
             dispatch(updateFavoritePersons(favoritePersons))
           }

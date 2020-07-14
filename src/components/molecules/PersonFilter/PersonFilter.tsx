@@ -55,8 +55,10 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
+        initial={{ background: isPersonOpen ? colors.accentSecondary : colors.bgColorSecondary }}
+        animate={{ background: isPersonOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -99,7 +101,7 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
             ({personFilter.length})
           </motion.span>
         </span>
-      </button>
+      </motion.button>
       {isPersonOpen && (
         <div css={filterDropdownStyle}>
           <div

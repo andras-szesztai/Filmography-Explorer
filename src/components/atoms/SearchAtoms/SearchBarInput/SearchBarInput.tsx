@@ -21,6 +21,7 @@ const inputStyles = css`
   color: ${colors.textColorPrimary};
   font-size: ${fontSize.md};
   font-weight: ${fontWeight.sm};
+  letter-spacing: 1px;
 
   outline: none;
 
@@ -29,8 +30,8 @@ const inputStyles = css`
   &::placeholder {
     color: inherit;
     opacity: 1;
+    letter-spacing: inherit;
     font-size: inherit;
-    letter-spacing: 1px;
     user-select: none;
   }
 `

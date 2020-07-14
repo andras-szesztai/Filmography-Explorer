@@ -68,8 +68,10 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
+        initial={{ background: isGenreOpen ? colors.accentSecondary : colors.bgColorSecondary }}
+        animate={{ background: isGenreOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -83,12 +85,12 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
         }}
         css={css`
           ${buttonPadding}
-          background: ${colors.bgColorSecondary};
           border: none;
           cursor: pointer;
-          letter-spacing:  .8px;
+          letter-spacing: 0.8px;
           display: flex;
           align-items: center;
+          color: ${colors.bgColorPrimary};
 
           margin-left: ${space[3]}px;
           font-weight: ${fontWeight.sm};
@@ -114,7 +116,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
             ({genreFilter.length})
           </motion.span>
         </span>
-      </button>
+      </motion.button>
       {isGenreOpen && (
         <div css={filterDropdownStyle}>
           <div

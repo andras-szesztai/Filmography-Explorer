@@ -130,8 +130,10 @@ const TitleSearch = ({
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
+        initial={{ background: isTitleOpen ? colors.accentSecondary : colors.bgColorSecondary }}
+        animate={{ background: isTitleOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -151,6 +153,7 @@ const TitleSearch = ({
           letter-spacing: 0.8px;
           display: flex;
           align-items: center;
+          color: ${colors.bgColorPrimary};
 
           font-weight: ${fontWeight.sm};
           user-select: none;
@@ -168,7 +171,7 @@ const TitleSearch = ({
         >
           Find a title
         </span>
-      </button>
+      </motion.button>
       {isTitleOpen && (
         <div css={filterDropdownStyle}>
           <div

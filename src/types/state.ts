@@ -1,4 +1,4 @@
-import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject } from './person'
+import { PersonDetails, FormattedPersonCreditDataObject, FavoritePersonsObject, PersonGenresObject, PersonListObject } from './person'
 import { ChartSettings, HoveredMovie } from './personCreditsChart'
 import {
   GenreObject,
@@ -65,6 +65,7 @@ export interface BookmarkedHoveredMovie {
 export interface BookmarkedChartReducer {
   genreList: PersonGenresObject[]
   titleList: MovieObject[]
+  personList: PersonListObject[]
   genreFilter: number[]
   personFilter: number[]
   bookmarkedHoveredMovie: BookmarkedHoveredMovie

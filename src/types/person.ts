@@ -57,6 +57,12 @@ export interface PersonGenresObject {
   count: number
 }
 
+export interface PersonListObject {
+  id: number
+  name: string
+  count: number
+}
+
 export interface PersonCredits {
   cast: FormattedPersonCreditDataObject[]
   crew: FormattedPersonCreditDataObject[]

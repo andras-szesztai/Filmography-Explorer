@@ -38,8 +38,7 @@ interface Props {
 }
 
 const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPersonOpen }: Props) => {
-  const favoritePersons = useSelector((state: CombinedState) => state.personReducer.favorites)
-  const { genreFilter, personFilter } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
+  const { genreFilter, personFilter, personList } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
   const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
 
   const dispatch = useDispatch()
@@ -163,30 +162,28 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
               ${horizontalScrollableStyle}
             `}
           >
-            {favoritePersons &&
-              Object.values(favoritePersons)
-                .filter(favPerson => (filteredPersons.length ? filteredPersons.includes(favPerson.id) : true))
-                .map(favPerson => {
-                  return (
-                    <SelectableListItem
-                      key={favPerson.id}
-                      icon={FaFilter}
-                      iconSize={12}
-                      text={favPerson.name}
-                      handleSelect={() => {
-                        if (personFilter.includes(favPerson.id)) {
-                          dispatch(updatePersonFilter(personFilter.filter(id => id !== favPerson.id)))
-                        } else if (Object.values(favoritePersons).length === personFilter.length + 1) {
-                          dispatch(updatePersonFilter([]))
-                        } else {
-                          dispatch(updatePersonFilter([...personFilter, favPerson.id]))
-                        }
-                        dispatch(emptyMovieDetails())
-                      }}
-                      isActive={personFilter.length ? personFilter.includes(favPerson.id) : true}
-                    />
-                  )
-                })}
+            {personList &&
+              personList.map(favPerson => {
+                return (
+                  <SelectableListItem
+                    key={favPerson.id}
+                    icon={FaFilter}
+                    iconSize={12}
+                    text={`${favPerson.name} (${favPerson.count})`}
+                    handleSelect={() => {
+                      if (personFilter.includes(favPerson.id)) {
+                        dispatch(updatePersonFilter(personFilter.filter(id => id !== favPerson.id)))
+                      } else if (Object.values(personList).length === personFilter.length + 1) {
+                        dispatch(updatePersonFilter([]))
+                      } else {
+                        dispatch(updatePersonFilter([...personFilter, favPerson.id]))
+                      }
+                      dispatch(emptyMovieDetails())
+                    }}
+                    isActive={personFilter.length ? personFilter.includes(favPerson.id) : true}
+                  />
+                )
+              })}
             <ListEndPlaceHolder />
           </div>
         </div>

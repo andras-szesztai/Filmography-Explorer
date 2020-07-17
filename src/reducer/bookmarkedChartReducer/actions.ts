@@ -1,4 +1,4 @@
-import { PersonGenresObject } from '../../types/person'
+import { PersonGenresObject, PersonListObject } from '../../types/person'
 import { MovieObject, ActiveMovieDataObject } from '../../types/movie'
 import { BookmarkedHoveredMovie } from '../../types/state'
 
@@ -13,6 +13,7 @@ export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL = 'FETCH_BOOKMARKED_ACTI
 export const EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS = 'EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS'
 export const UPDATE_PERSON_FILTER = 'UPDATE_PERSON_FILTER'
 export const UPDATE_BOOKMARK_GENRE_LIST = 'UPDATE_BOOKMARK_GENRE_LIST'
+export const UPDATE_BOOKMARK_PERSON_LIST = 'UPDATE_BOOKMARK_PERSON_LIST'
 
 export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
@@ -24,6 +25,7 @@ export function updateBookmarkedGenreFilter(genreArray: number[]) {
 interface PopulateData {
   genreList: PersonGenresObject[]
   titleList: MovieObject[]
+  personList: PersonListObject[]
   scales: {
     xScaleDomain: Date[]
     sizeScaleDomain: number[]
@@ -99,5 +101,12 @@ export function updateBookmarkGenreList(genreList: PersonGenresObject[]) {
   return {
     type: UPDATE_BOOKMARK_GENRE_LIST,
     genreList
+  } as const
+}
+
+export function updateBookmarkedPersonList(personList: PersonListObject[]) {
+  return {
+    type: UPDATE_BOOKMARK_PERSON_LIST,
+    personList
   } as const
 }

@@ -17,7 +17,7 @@ import { FavoritePersonsObject } from '../types/person'
 
 // Actions
 import { updateFavoritePersons } from '../reducer/personReducer/actions'
-import { populateOnMount, updateBookmarkGenreList } from '../reducer/bookmarkedChartReducer/actions'
+import { populateOnMount, updateBookmarkGenreList, updateBookmarkedPersonList } from '../reducer/bookmarkedChartReducer/actions'
 
 // Hooks
 import { useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
@@ -59,7 +59,16 @@ const MyBookMarksPage = () => {
       if (!isEmpty(movieReducer.bookmarks)) {
         const allBookmarks = Object.values(movieReducer.bookmarks)
         const allGenre = flatten(allBookmarks.map(movie => movie.genres))
+        const allPersons = flatten(allBookmarks.map(movie => movie.credits))
         const uniqGenres = uniq(allGenre)
+        const personList = Object.values(personReducer.favorites)
+          .map(fav => ({
+            id: +fav.id,
+            name: fav.name,
+            count: allPersons.filter(p => p === fav.id).length
+          }))
+          .filter(p => !!p.count)
+          .sort((a, b) => b.count - a.count)
         const genreList = uniqGenres.map(id => ({ id: +id, count: allGenre.filter(g => g === id).length }))
         const xScaleMax = maxBy(allBookmarks, d => new Date(d.date)) // TODO: dry with updateChartSettings
         const xScaleMin = minBy(allBookmarks, d => new Date(d.date))
@@ -67,10 +76,7 @@ const MyBookMarksPage = () => {
         const sizeMax = maxBy(allBookmarks, d => d.vote_count)
         const sizeMin = minBy(allBookmarks, d => d.vote_count)
         const sizeScaleDomain = [(sizeMin && sizeMin.vote_count) || 0, (sizeMax && sizeMax.vote_count) || 0]
-        dispatch(populateOnMount({ genreList, titleList: allBookmarks, scales: { xScaleDomain, sizeScaleDomain } }))
-      }
-      if (!isEmpty(personReducer.favorites) && favoritePersons) {
-        dispatch(updateFavoritePersons(favoritePersons))
+        dispatch(populateOnMount({ genreList, personList, titleList: allBookmarks, scales: { xScaleDomain, sizeScaleDomain } }))
       }
     }
   })
@@ -95,6 +101,27 @@ const MyBookMarksPage = () => {
       dispatch(updateBookmarkGenreList(genreList))
     }
   }, [bookmarkedChartReducer.personFilter.length])
+
+  // Update person list upon genre filter
+  React.useEffect(() => {
+    if (bookmarkedChartReducer.personList.length) {
+      // TODO dry it up
+      const allBookmarks = Object.values(movieReducer.bookmarks)
+      const filteredBookMarks = bookmarkedChartReducer.genreFilter.length
+        ? allBookmarks.filter(movie => bookmarkedChartReducer.genreFilter.some(genre => movie.genres.includes(genre)))
+        : allBookmarks
+      const allPersons = flatten(filteredBookMarks.map(movie => movie.credits))
+      const personList = Object.values(personReducer.favorites)
+        .map(fav => ({
+          id: +fav.id,
+          name: fav.name,
+          count: allPersons.filter(p => p === fav.id).length
+        }))
+        .filter(p => !!p.count)
+        .sort((a, b) => b.count - a.count)
+      dispatch(updateBookmarkedPersonList(personList))
+    }
+  }, [bookmarkedChartReducer.genreFilter.length])
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)

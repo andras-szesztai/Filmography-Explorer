@@ -1,5 +1,5 @@
 import { MovieObject, MovieDetails, MovieCastObject, MovieCrewObject } from '../../types/movie'
-import { PersonGenresObject } from '../../types/person'
+import { PersonGenresObject, PersonListObject } from '../../types/person'
 import { BookmarkedChartReducer } from '../../types/state'
 
 import {
@@ -24,11 +24,14 @@ import {
   UPDATE_PERSON_FILTER,
   updatePersonFilter,
   updateBookmarkGenreList,
-  UPDATE_BOOKMARK_GENRE_LIST
+  UPDATE_BOOKMARK_GENRE_LIST,
+  updateBookmarkedPersonList,
+  UPDATE_BOOKMARK_PERSON_LIST
 } from './actions'
 
 const initialState = {
   genreList: [] as PersonGenresObject[],
+  personList: [] as PersonListObject[],
   titleList: [] as MovieObject[],
   genreFilter: [] as number[],
   personFilter: [] as number[],
@@ -66,6 +69,7 @@ type Action = ReturnType<
   | typeof emptyBookmarkedActiveMovieDetails
   | typeof updatePersonFilter
   | typeof updateBookmarkGenreList
+  | typeof updateBookmarkedPersonList
 >
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
@@ -74,6 +78,7 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
       return {
         ...state,
         genreList: action.data.genreList,
+        personList: action.data.personList,
         titleList: action.data.titleList,
         scales: action.data.scales
       }
@@ -159,6 +164,11 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
       return {
         ...state,
         genreList: action.genreList
+      }
+    case UPDATE_BOOKMARK_PERSON_LIST:
+      return {
+        ...state,
+        personList: action.personList
       }
     default:
       return state

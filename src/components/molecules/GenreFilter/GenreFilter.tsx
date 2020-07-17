@@ -37,12 +37,15 @@ import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styl
 interface Props {
   genres: PersonGenresObject[]
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isTitleOpen: boolean
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isSettingOpen: boolean
   isGenreOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
   setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  isPersonOpen?: boolean
 }
 
 const GenreFilter = ({
@@ -53,7 +56,10 @@ const GenreFilter = ({
   isBookmarkChart,
   personsFilter,
   setIsPersonOpen,
-  setIsSettingsOpen
+  setIsSettingsOpen,
+  isTitleOpen,
+  isSettingOpen,
+  isPersonOpen
 }: Props) => {
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
   const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
@@ -88,9 +94,13 @@ const GenreFilter = ({
         onBlur={() => setIsHovered(false)}
         onClick={() => {
           setIsGenreOpen(!isGenreOpen)
-          setIsTitleOpen(false)
-          setIsSettingsOpen(false)
-          if (setIsPersonOpen) {
+          if (isTitleOpen) {
+            setIsTitleOpen(false)
+          }
+          if (isSettingOpen) {
+            setIsSettingsOpen(false)
+          }
+          if (setIsPersonOpen && isPersonOpen) {
             setIsPersonOpen(false)
           }
         }}
@@ -230,7 +240,8 @@ const GenreFilter = ({
 
 GenreFilter.defaultProps = {
   personsFilter: undefined,
-  setIsPersonOpen: undefined
+  setIsPersonOpen: undefined,
+  isPersonOpen: false
 }
 
 export default GenreFilter

@@ -28,11 +28,23 @@ interface Props {
   isSettingsOpen: boolean
   setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isGenreOpen: boolean
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isTitleOpen: boolean
   setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  isPersonOpen?: boolean
 }
 
-const ChartSettings = ({ isSettingsOpen, setIsSettingsOpen, setIsGenreOpen, setIsTitleOpen, setIsPersonOpen }: Props) => {
+const ChartSettings = ({
+  isSettingsOpen,
+  setIsSettingsOpen,
+  setIsGenreOpen,
+  setIsTitleOpen,
+  setIsPersonOpen,
+  isGenreOpen,
+  isTitleOpen,
+  isPersonOpen
+}: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   const dispatch = useDispatch()
@@ -52,9 +64,13 @@ const ChartSettings = ({ isSettingsOpen, setIsSettingsOpen, setIsGenreOpen, setI
         onBlur={() => setIsHovered(false)}
         onClick={() => {
           setIsSettingsOpen(!isSettingsOpen)
-          setIsGenreOpen(false)
-          setIsTitleOpen(false)
-          if (setIsPersonOpen) {
+          if (isGenreOpen) {
+            setIsGenreOpen(false)
+          }
+          if (isTitleOpen) {
+            setIsTitleOpen(false)
+          }
+          if (setIsPersonOpen && isPersonOpen) {
             setIsPersonOpen(false)
           }
         }}
@@ -169,7 +185,8 @@ const ChartSettings = ({ isSettingsOpen, setIsSettingsOpen, setIsGenreOpen, setI
 }
 
 ChartSettings.defaultProps = {
-  setIsPersonOpen: undefined
+  setIsPersonOpen: undefined,
+  isPersonOpen: false
 }
 
 export default ChartSettings

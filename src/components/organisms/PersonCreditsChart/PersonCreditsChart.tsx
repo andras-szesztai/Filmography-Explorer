@@ -71,9 +71,11 @@ const PersonCreditsChart = () => {
               <TitleSearch
                 titles={personDataSets.allTitles}
                 setIsGenreOpen={setIsGenreOpen}
+                isGenreOpen={isGenreOpen}
                 setIsTitleOpen={setIsTitleOpen}
                 isTitleOpen={isTitleOpen}
                 setIsSettingsOpen={setIsSettingsOpen}
+                isSettingsOpen={isSettingsOpen}
                 isBookmarkChart={false}
               />
               <GenreFilter
@@ -83,12 +85,16 @@ const PersonCreditsChart = () => {
                 isGenreOpen={isGenreOpen}
                 setIsSettingsOpen={setIsSettingsOpen}
                 isBookmarkChart={false}
+                isSettingOpen={isSettingsOpen}
+                isTitleOpen={isTitleOpen}
               />
               <ChartSettings
                 isSettingsOpen={isSettingsOpen}
                 setIsSettingsOpen={setIsSettingsOpen}
                 setIsGenreOpen={setIsGenreOpen}
                 setIsTitleOpen={setIsTitleOpen}
+                isGenreOpen={isGenreOpen}
+                isTitleOpen={isTitleOpen}
               />
             </>
           )}

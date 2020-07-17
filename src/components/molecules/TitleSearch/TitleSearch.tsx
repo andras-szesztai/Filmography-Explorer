@@ -40,12 +40,15 @@ import {
 interface Props {
   titles: MovieObject[]
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isGenreOpen: boolean
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isSettingsOpen: boolean
   isTitleOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
   setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  isPersonOpen?: boolean
 }
 
 const TitleSearch = ({
@@ -56,7 +59,10 @@ const TitleSearch = ({
   isBookmarkChart,
   setIsPersonOpen,
   setIsSettingsOpen,
-  personsFilter = []
+  personsFilter = [],
+  isGenreOpen,
+  isSettingsOpen,
+  isPersonOpen
 }: Props) => {
   const personCreditsChartReducer = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
@@ -142,9 +148,13 @@ const TitleSearch = ({
         onBlur={() => setIsHovered(false)}
         onClick={() => {
           setIsTitleOpen(!isTitleOpen)
-          setIsGenreOpen(false)
-          setIsSettingsOpen(false)
-          if (setIsPersonOpen) {
+          if (isGenreOpen) {
+            setIsGenreOpen(false)
+          }
+          if (isSettingsOpen) {
+            setIsSettingsOpen(false)
+          }
+          if (setIsPersonOpen && isPersonOpen) {
             setIsPersonOpen(false)
           }
         }}
@@ -324,6 +334,7 @@ const TitleSearch = ({
 
 TitleSearch.defaultProps = {
   setIsPersonOpen: undefined,
+  isPersonOpen: false,
   personsFilter: []
 }
 

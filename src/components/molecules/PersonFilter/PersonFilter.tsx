@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 
-import { uniq, flatten } from 'lodash'
 import {
   buttonPadding,
   colors,
@@ -34,24 +33,29 @@ interface Props {
   isPersonOpen: boolean
   setIsPersonOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isTitleOpen: boolean
   setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isSettingsOpen: boolean
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isGenreOpen: boolean
 }
 
-const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPersonOpen, setIsSettingsOpen }: Props) => {
-  const { genreFilter, personFilter, personList } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
-  const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
+const PersonFilter = ({
+  setIsGenreOpen,
+  setIsTitleOpen,
+  isPersonOpen,
+  setIsPersonOpen,
+  setIsSettingsOpen,
+  isTitleOpen,
+  isSettingsOpen,
+  isGenreOpen
+}: Props) => {
+  const { personFilter, personList } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
-
-  const [filteredPersons, setFilteredPersons] = React.useState([] as number[])
-  React.useEffect(() => {
-    const filteredBookmarked = Object.values(bookmarked).filter(b => genreFilter.map(gID => b.genres.includes(gID)).includes(true))
-    setFilteredPersons(uniq(flatten(filteredBookmarked.map(fB => fB.credits))))
-  }, [genreFilter.length])
 
   return (
     <>
@@ -65,9 +69,15 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
         onBlur={() => setIsHovered(false)}
         onClick={() => {
           setIsPersonOpen(!isPersonOpen)
-          setIsTitleOpen(false)
-          setIsGenreOpen(false)
-          setIsSettingsOpen(false)
+          if (isTitleOpen) {
+            setIsTitleOpen(false)
+          }
+          if (isGenreOpen) {
+            setIsGenreOpen(false)
+          }
+          if (isSettingsOpen) {
+            setIsSettingsOpen(false)
+          }
         }}
         css={css`
           ${buttonPadding}

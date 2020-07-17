@@ -174,12 +174,15 @@ const MyBookMarksPage = () => {
                 <TitleSearch
                   titles={bookmarkedChartReducer.titleList}
                   setIsGenreOpen={setIsGenreOpen}
+                  isGenreOpen={isGenreOpen}
                   setIsTitleOpen={setIsTitleOpen}
                   isTitleOpen={isTitleOpen}
                   setIsPersonOpen={setIsPersonOpen}
+                  isPersonOpen={isPersonOpen}
                   personsFilter={bookmarkedChartReducer.personFilter}
                   isBookmarkChart
                   setIsSettingsOpen={setIsSettingsOpen}
+                  isSettingsOpen={isSettingsOpen}
                 />
               )}
               {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
@@ -192,15 +195,21 @@ const MyBookMarksPage = () => {
                   setIsPersonOpen={setIsPersonOpen}
                   isBookmarkChart
                   setIsSettingsOpen={setIsSettingsOpen}
+                  isSettingOpen={isSettingsOpen}
+                  isTitleOpen={isTitleOpen}
+                  isPersonOpen={isPersonOpen}
                 />
               )}
               {Object.keys(personReducer.favorites).length > 1 && (
                 <PersonFilter
+                  setIsPersonOpen={setIsPersonOpen}
                   isPersonOpen={isPersonOpen}
                   setIsGenreOpen={setIsGenreOpen}
+                  isGenreOpen={isGenreOpen}
                   setIsTitleOpen={setIsTitleOpen}
-                  setIsPersonOpen={setIsPersonOpen}
+                  isTitleOpen={isTitleOpen}
                   setIsSettingsOpen={setIsSettingsOpen}
+                  isSettingsOpen={isSettingsOpen}
                 />
               )}
               <ChartSettings
@@ -209,6 +218,9 @@ const MyBookMarksPage = () => {
                 setIsGenreOpen={setIsGenreOpen}
                 setIsTitleOpen={setIsTitleOpen}
                 setIsPersonOpen={setIsPersonOpen}
+                isGenreOpen={isGenreOpen}
+                isTitleOpen={isTitleOpen}
+                isPersonOpen={isPersonOpen}
               />
             </div>
             <div

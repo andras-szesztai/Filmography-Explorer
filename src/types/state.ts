@@ -85,9 +85,14 @@ export interface BookmarkedChartReducer {
   }
 }
 
+export interface ChartSettingsReducer {
+  isYAxisSynced: boolean
+}
+
 export interface CombinedState {
   personReducer: PersonState
   personCreditsChartReducer: PersonCreditsChartState
   movieReducer: MovieState
   bookmarkedChartReducer: BookmarkedChartReducer
+  chartSettingsReducer: ChartSettingsReducer
 }

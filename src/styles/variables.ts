@@ -169,13 +169,15 @@ export const filterDropdownStyle = css`
   top: 35px;
   height: 90px;
   padding: ${space[2]}px ${space[3]}px;
+  filter: drop-shadow(${dropShadow.header.ternary});
 
   display: grid;
   grid-template-rows: 30px 1fr;
   grid-row-gap: ${space[1]}px;
 
   background: ${colors.bgColorSecondary};
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   border-radius: ${space[1]}px;
   color: ${colors.textColorSecondary};
   user-select: none;

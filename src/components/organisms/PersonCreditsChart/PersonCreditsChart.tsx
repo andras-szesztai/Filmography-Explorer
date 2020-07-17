@@ -13,6 +13,7 @@ import { useUpdateChartSettings } from './hooks'
 
 // Styles
 import { space, colors, fontSize } from '../../../styles/variables'
+import ChartSettings from '../../molecules/ChartSettings/ChartSettings'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
@@ -26,6 +27,7 @@ const PersonCreditsChart = () => {
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false)
 
   return (
     <div
@@ -71,6 +73,7 @@ const PersonCreditsChart = () => {
                 setIsGenreOpen={setIsGenreOpen}
                 setIsTitleOpen={setIsTitleOpen}
                 isTitleOpen={isTitleOpen}
+                setIsSettingsOpen={setIsSettingsOpen}
                 isBookmarkChart={false}
               />
               <GenreFilter
@@ -78,7 +81,14 @@ const PersonCreditsChart = () => {
                 setIsTitleOpen={setIsTitleOpen}
                 setIsGenreOpen={setIsGenreOpen}
                 isGenreOpen={isGenreOpen}
+                setIsSettingsOpen={setIsSettingsOpen}
                 isBookmarkChart={false}
+              />
+              <ChartSettings
+                isSettingsOpen={isSettingsOpen}
+                setIsSettingsOpen={setIsSettingsOpen}
+                setIsGenreOpen={setIsGenreOpen}
+                setIsTitleOpen={setIsTitleOpen}
               />
             </>
           )}

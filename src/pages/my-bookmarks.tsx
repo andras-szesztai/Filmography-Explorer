@@ -29,6 +29,7 @@ import { BOOKMARKED_EXPLAINER } from '../constants/explainerPages'
 
 // Styles
 import { colors, space, fontSize } from '../styles/variables'
+import ChartSettings from '../components/molecules/ChartSettings/ChartSettings'
 
 const MyBookMarksPage = () => {
   const { personReducer, movieReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
@@ -126,6 +127,7 @@ const MyBookMarksPage = () => {
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)
   const [isPersonOpen, setIsPersonOpen] = React.useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false)
 
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 
@@ -177,6 +179,7 @@ const MyBookMarksPage = () => {
                   setIsPersonOpen={setIsPersonOpen}
                   personsFilter={bookmarkedChartReducer.personFilter}
                   isBookmarkChart
+                  setIsSettingsOpen={setIsSettingsOpen}
                 />
               )}
               {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
@@ -188,6 +191,7 @@ const MyBookMarksPage = () => {
                   personsFilter={bookmarkedChartReducer.personFilter}
                   setIsPersonOpen={setIsPersonOpen}
                   isBookmarkChart
+                  setIsSettingsOpen={setIsSettingsOpen}
                 />
               )}
               {Object.keys(personReducer.favorites).length > 1 && (
@@ -196,8 +200,16 @@ const MyBookMarksPage = () => {
                   setIsGenreOpen={setIsGenreOpen}
                   setIsTitleOpen={setIsTitleOpen}
                   setIsPersonOpen={setIsPersonOpen}
+                  setIsSettingsOpen={setIsSettingsOpen}
                 />
               )}
+              <ChartSettings
+                isSettingsOpen={isSettingsOpen}
+                setIsSettingsOpen={setIsSettingsOpen}
+                setIsGenreOpen={setIsGenreOpen}
+                setIsTitleOpen={setIsTitleOpen}
+                setIsPersonOpen={setIsPersonOpen}
+              />
             </div>
             <div
               css={css`

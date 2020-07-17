@@ -34,10 +34,11 @@ interface Props {
   isPersonOpen: boolean
   setIsPersonOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPersonOpen }: Props) => {
+const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPersonOpen, setIsSettingsOpen }: Props) => {
   const { genreFilter, personFilter, personList } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
   const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
 
@@ -66,6 +67,7 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
           setIsPersonOpen(!isPersonOpen)
           setIsTitleOpen(false)
           setIsGenreOpen(false)
+          setIsSettingsOpen(false)
         }}
         css={css`
           ${buttonPadding}

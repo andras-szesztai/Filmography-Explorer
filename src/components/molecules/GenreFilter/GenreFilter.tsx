@@ -38,13 +38,23 @@ interface Props {
   genres: PersonGenresObject[]
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
   isGenreOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
   setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBookmarkChart, personsFilter, setIsPersonOpen }: Props) => {
+const GenreFilter = ({
+  genres,
+  setIsGenreOpen,
+  isGenreOpen,
+  setIsTitleOpen,
+  isBookmarkChart,
+  personsFilter,
+  setIsPersonOpen,
+  setIsSettingsOpen
+}: Props) => {
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
   const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
   const personGenreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
@@ -79,6 +89,7 @@ const GenreFilter = ({ genres, setIsGenreOpen, isGenreOpen, setIsTitleOpen, isBo
         onClick={() => {
           setIsGenreOpen(!isGenreOpen)
           setIsTitleOpen(false)
+          setIsSettingsOpen(false)
           if (setIsPersonOpen) {
             setIsPersonOpen(false)
           }

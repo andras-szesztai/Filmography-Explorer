@@ -110,7 +110,6 @@ const PersonCreditsChart = () => {
             <BubbleChart
               xScaleDomain={chartState.scales.xScaleDomain}
               sizeScaleDomain={chartState.scales.sizeScaleDomain}
-              isYDomainSynced={chartState.isYDomainSynced}
               isSizeDynamic={chartState.isSizeDynamic}
               data={isCastMain ? chartState.dataSets.cast : chartState.dataSets.crew}
               activeMovieID={activeMovieID}
@@ -139,7 +138,6 @@ const PersonCreditsChart = () => {
               <BubbleChart
                 xScaleDomain={chartState.scales.xScaleDomain}
                 sizeScaleDomain={chartState.scales.sizeScaleDomain}
-                isYDomainSynced={chartState.isYDomainSynced}
                 isSizeDynamic={chartState.isSizeDynamic}
                 data={isCastMain ? chartState.dataSets.crew : chartState.dataSets.cast}
                 title={isCastMain ? 'crew' : 'cast'}

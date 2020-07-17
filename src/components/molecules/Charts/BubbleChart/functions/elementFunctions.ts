@@ -25,15 +25,27 @@ export function createUpdateGrid({ storedValues, left, width }: GridParams) {
   storedValues.current.gridArea
     .selectAll('.grid-line')
     .data(gridData, (d: any) => d)
-    .enter()
-    .append('line')
-    .attr('class', 'grid-line')
-    .attr('x1', -left)
-    .attr('x2', width)
-    .attr('y1', d => storedValues.current.yScale(d))
-    .attr('y2', d => storedValues.current.yScale(d))
-    .attr('stroke', colors.bgColorPrimaryLight)
-    .attr('stroke-width', 0.25)
+    .join(
+      enter =>
+        enter
+          .append('line')
+          .attr('class', 'grid-line')
+          .attr('x1', -left)
+          .attr('x2', width)
+          .attr('y1', d => storedValues.current.yScale(d))
+          .attr('y2', d => storedValues.current.yScale(d))
+          .attr('stroke', colors.bgColorPrimaryLight)
+          .attr('stroke-width', 0.25),
+      update =>
+        update.call(u =>
+          u
+            .transition()
+            .duration(duration.sm)
+            .ease(easeCubicInOut)
+            .attr('y1', d => storedValues.current.yScale(d))
+            .attr('y2', d => storedValues.current.yScale(d))
+        )
+    )
 }
 
 export function createUpdateGridText({ storedValues, left, width }: GridParams) {
@@ -45,7 +57,7 @@ export function createUpdateGridText({ storedValues, left, width }: GridParams) 
     .attr('class', 'grid-text')
     .attr('x', width - left)
     .attr('y', d => storedValues.current.yScale(d))
-    .attr('dy', d => (d < 5 ? -5 : 13))
+    .attr('dy', d => (d < 5 ? -4 : 12))
     .attr('text-anchor', 'end')
     .attr('font-size', fontSize.sm)
     .attr('fill', colors.bgColorPrimaryLight)
@@ -83,7 +95,15 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
               .duration(duration.sm)
               .attr('opacity', 1)
           ),
-      update => update,
+      update =>
+        update.call(u =>
+          u
+            .select('circle')
+            .transition()
+            .duration(duration.sm)
+            .ease(easeCubicInOut)
+            .attr('cy', d => yScale(d.vote_average))
+        ),
       exit =>
         exit.call(e => {
           e.select('.circle')

@@ -43,8 +43,8 @@ import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity,
 import { duration } from '../../../../styles/animation'
 
 const margin = {
-  top: 5,
-  bottom: 5,
+  top: space[6],
+  bottom: space[6],
   ...chartSideMargins
 }
 
@@ -123,12 +123,6 @@ export default function BubbleChart(props: BubbleChartProps) {
       const xScale = scaleTime()
         .domain(props.xScaleDomain)
         .range([0, width - margin.right - margin.left])
-      const yMax = maxBy(props.data, d => d.vote_average)
-      const yMin = minBy(props.data, d => d.vote_average)
-      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
-      const yScale = scaleLinear()
-        .domain(props.isYDomainSynced ? [0, 10] : yScaleDomain)
-        .range([height - margin.bottom - margin.top, 0])
       const sizeScale = scaleSqrt()
         .domain(props.sizeScaleDomain)
         .range(circleSizeRange)
@@ -143,6 +137,12 @@ export default function BubbleChart(props: BubbleChartProps) {
               .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
               .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
           : data
+      const yMax = maxBy(newFilteredData, d => d.vote_average)
+      const yMin = minBy(newFilteredData, d => d.vote_average)
+      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
+      const yScale = scaleLinear()
+        .domain(isYDomainSynced ? [0, 10] : yScaleDomain)
+        .range([height - margin.bottom - margin.top, 0])
       storedValues.current = {
         isInit: false,
         sizeScale,
@@ -187,12 +187,21 @@ export default function BubbleChart(props: BubbleChartProps) {
 
   React.useEffect(() => {
     if (!storedValues.current.isInit) {
+      const { yScale } = storedValues.current
       const newFilteredData =
         genreFilter.length || (personFilter && personFilter.length)
           ? data
               .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
               .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
           : data
+      const yMax = maxBy(newFilteredData, d => d.vote_average)
+      const yMin = minBy(newFilteredData, d => d.vote_average)
+      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
+      yScale.domain(isYDomainSynced ? [0, 10] : yScaleDomain)
+      storedValues.current = {
+        ...storedValues.current,
+        yScale
+      }
       storedValues.current = {
         ...storedValues.current,
         filteredData: newFilteredData
@@ -264,53 +273,45 @@ export default function BubbleChart(props: BubbleChartProps) {
     }
   })
 
-  // useEffect(() => {
-  //   if (
-  //     storedValues.current.isInit &&
-  //     isYDomainSynced !== prevIsYDomainSynced
-  //   ) {
-  //     const {
-  //       yScale,
-  //       chartArea,
-  //       gridArea,
-  //       currSizeScale,
-  //     } = storedValues.current
-  //     yScale.domain(
-  //       isYDomainSynced ? [0, 10] : extent(data, d => d.vote_average)
-  //     )
-  //     const tChart = makeTransition(chartArea, transition.mdNum, "y-update")
-  //     const tGrid = makeTransition(gridArea, transition.mdNum, "y-update")
-  //     const setY = d => yScale(d)
-  //     chartArea
-  //       .selectAll(".main-circle circle")
-  //       .transition(tChart)
-  //       .attr("cy", ({ vote_average }) => yScale(vote_average))
-  //     chartArea
-  //       .select(".selected-line")
-  //       .transition(tChart)
-  //       .attr("y1", d =>
-  //         getSelectedLineYPos({
-  //           data: d,
-  //           scales: { yScale, currSizeScale },
-  //           props: { isSizeDynamic, chart },
-  //         })
-  //       )
-  //     gridArea
-  //       .selectAll(".grid-line")
-  //       .transition(tGrid)
-  //       .attr("y1", setY)
-  //       .attr("y2", setY)
-  //     gridArea
-  //       .selectAll(".grid-text")
-  //       .transition(tGrid)
-  //       .attr("y", setY)
-  //     createUpdateVoronoi()
-  //     storedValues.current = {
-  //       ...storedValues.current,
-  //       yScale,
-  //     }
-  //   }
-  // }, [is])
+  React.useEffect(() => {
+    if (!storedValues.current.isInit) {
+      const { yScale, filteredData } = storedValues.current
+      const yMax = maxBy(filteredData, d => d.vote_average)
+      const yMin = minBy(filteredData, d => d.vote_average)
+      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
+      yScale.domain(isYDomainSynced ? [0, 10] : yScaleDomain)
+      const gridArgs = { storedValues, left: margin.left, width }
+      storedValues.current = {
+        ...storedValues.current,
+        yScale
+      }
+      createUpdateGrid(gridArgs)
+      createUpdateGridText(gridArgs)
+      createUpdateCircles({
+        storedValues,
+        isSizeDynamic,
+        bookmarks
+      })
+      createUpdateVoronoi({
+        storedValues,
+        margin,
+        width,
+        height,
+        activeMovieID,
+        addUpdateInteractions
+      })
+      if (activeMovieID) {
+        createBubbleChartRefElements({
+          data,
+          activeMovieID,
+          storedValues,
+          type,
+          isSizeDynamic: props.isSizeDynamic,
+          height
+        })
+      }
+    }
+  }, [isYDomainSynced])
 
   return (
     <div
@@ -336,7 +337,7 @@ export default function BubbleChart(props: BubbleChartProps) {
             text-transform: uppercase;
             color: ${colors.bgColorPrimaryLight};
             position: absolute;
-            left: -${space[2]}px;
+            left: -${space[1] + 2}px;
             top: -${space[1]}px;
             opacity: ${circleFillOpacity};
           `}

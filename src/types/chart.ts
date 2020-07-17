@@ -59,7 +59,6 @@ export interface DateAxisProps extends ChartProps {
 
 export interface BubbleChartProps extends ChartProps {
   sizeScaleDomain: number[]
-  isYDomainSynced: boolean
   isSizeDynamic: boolean
   data: MovieObject[]
   type: string

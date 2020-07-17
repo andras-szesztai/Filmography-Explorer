@@ -232,7 +232,6 @@ const MyBookMarksPage = () => {
               <BubbleChart
                 xScaleDomain={bookmarkedChartReducer.scales.xScaleDomain}
                 sizeScaleDomain={bookmarkedChartReducer.scales.sizeScaleDomain}
-                isYDomainSynced
                 isSizeDynamic
                 data={bookmarkedChartReducer.titleList}
                 activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}

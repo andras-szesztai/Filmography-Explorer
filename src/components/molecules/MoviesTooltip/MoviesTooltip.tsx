@@ -5,6 +5,7 @@ import numeral from 'numeral'
 import { ScaleTime } from 'd3-scale'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
+import { format } from 'date-fns'
 
 // Components
 import { Image } from '../../atoms'
@@ -13,7 +14,7 @@ import { Image } from '../../atoms'
 import { CombinedState } from '../../../types/state'
 
 // Style
-import { width, space, height, colors, tooltipOffset, fontSize, fontWeight, dropShadow } from '../../../styles/variables'
+import { width, space, height, colors, tooltipOffset, fontSize, fontWeight, dropShadow, longDateFormat } from '../../../styles/variables'
 import { ScrollableContainerStyle } from '../../organisms/FavoritePersonsList/style'
 import { containerStyle, infoSectionStyle } from './styles'
 
@@ -61,7 +62,7 @@ export default function MoviesTooltip({ activeMovieID, xScale, withRole, isBookm
           {data.title || data.title}
         </div>
         <div className="section">
-          Release year: <span>{data.date}</span>
+          Release date: <span>{format(new Date(data.date), longDateFormat)}</span>
         </div>
         <div className="section">
           Media type: <span>{capitalize(data.media_type)}</span>

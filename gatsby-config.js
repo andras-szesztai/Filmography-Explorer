@@ -11,14 +11,12 @@ module.exports = {
     }
   },
   plugins: [
-    // {
-    //   resolve: 'gatsby-source-filesystem',
-    //   options: {
-    //     name: 'content',
-    //     path: `${__dirname}/src/content`
-    //   }
-    // },
-
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        icon: 'src/images/favicon.png'
+      }
+    },
     {
       resolve: `gatsby-plugin-layout`,
       options: {

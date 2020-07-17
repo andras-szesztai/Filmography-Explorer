@@ -180,3 +180,5 @@ export const filterDropdownStyle = css`
   color: ${colors.textColorSecondary};
   user-select: none;
 `
+
+export const longDateFormat = 'MMM dd, yyyy'

@@ -179,7 +179,7 @@ const PersonFilter = ({ setIsGenreOpen, setIsTitleOpen, isPersonOpen, setIsPerso
                         } else if (Object.values(favoritePersons).length === personFilter.length + 1) {
                           dispatch(updatePersonFilter([]))
                         } else {
-                          dispatch(updatePersonFilter([...genreFilter, favPerson.id]))
+                          dispatch(updatePersonFilter([...personFilter, favPerson.id]))
                         }
                         dispatch(emptyMovieDetails())
                       }}

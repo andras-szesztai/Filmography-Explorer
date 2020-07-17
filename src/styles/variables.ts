@@ -8,7 +8,7 @@ export const fontSize = {
   lg: '2.5rem',
   xl: '3rem',
   xxl: '3.5rem',
-  charTitle: '10rem'
+  charTitle: '13rem'
 }
 
 export const fontWeight = {

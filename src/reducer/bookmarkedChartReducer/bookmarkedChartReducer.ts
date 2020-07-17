@@ -22,7 +22,9 @@ import {
   EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS,
   emptyBookmarkedActiveMovieDetails,
   UPDATE_PERSON_FILTER,
-  updatePersonFilter
+  updatePersonFilter,
+  updateBookmarkGenreList,
+  UPDATE_BOOKMARK_GENRE_LIST
 } from './actions'
 
 const initialState = {
@@ -63,6 +65,7 @@ type Action = ReturnType<
   | typeof fetchBookmarkedActiveMovieDetailsSuccess
   | typeof emptyBookmarkedActiveMovieDetails
   | typeof updatePersonFilter
+  | typeof updateBookmarkGenreList
 >
 
 const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, action: Action) => {
@@ -151,6 +154,11 @@ const bookmarkedChartReducer = (state: BookmarkedChartReducer = initialState, ac
       return {
         ...state,
         personFilter: action.personFilterArray
+      }
+    case UPDATE_BOOKMARK_GENRE_LIST:
+      return {
+        ...state,
+        genreList: action.genreList
       }
     default:
       return state

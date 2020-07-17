@@ -17,7 +17,7 @@ import { FavoritePersonsObject } from '../types/person'
 
 // Actions
 import { updateFavoritePersons } from '../reducer/personReducer/actions'
-import { populateOnMount } from '../reducer/bookmarkedChartReducer/actions'
+import { populateOnMount, updateBookmarkGenreList } from '../reducer/bookmarkedChartReducer/actions'
 
 // Hooks
 import { useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
@@ -33,7 +33,6 @@ import { colors, space, fontSize } from '../styles/variables'
 const MyBookMarksPage = () => {
   const { personReducer, movieReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
   const dispatch = useDispatch()
-
   // TODO: tidy it up
 
   // Populate store with favorites if start page
@@ -82,6 +81,20 @@ const MyBookMarksPage = () => {
     mediaType: bookmarkedChartReducer.bookmarkedActiveMovie.mediaType,
     isBookmarkedChart: true
   })
+
+  // Update genre list upon favorite filter
+  React.useEffect(() => {
+    if (bookmarkedChartReducer.genreList.length) {
+      const allBookmarks = Object.values(movieReducer.bookmarks)
+      const filteredBookMarks = bookmarkedChartReducer.personFilter.length
+        ? allBookmarks.filter(movie => bookmarkedChartReducer.personFilter.some(person => movie.credits.includes(person)))
+        : allBookmarks
+      const allGenre = flatten(filteredBookMarks.map(movie => movie.genres))
+      const uniqGenres = uniq(allGenre)
+      const genreList = uniqGenres.map(id => ({ id: +id, count: allGenre.filter(g => g === id).length }))
+      dispatch(updateBookmarkGenreList(genreList))
+    }
+  }, [bookmarkedChartReducer.personFilter.length])
 
   const [isGenreOpen, setIsGenreOpen] = React.useState(false)
   const [isTitleOpen, setIsTitleOpen] = React.useState(false)

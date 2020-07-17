@@ -12,6 +12,7 @@ export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_SUCCESS = 'FETCH_BOOKMARKED_A
 export const FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL = 'FETCH_BOOKMARKED_ACTIVE_MOVIE_DETAILS_FAIL'
 export const EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS = 'EMPTY_BOOKMARKED_ACTIVE_MOVIE_DETAILS'
 export const UPDATE_PERSON_FILTER = 'UPDATE_PERSON_FILTER'
+export const UPDATE_BOOKMARK_GENRE_LIST = 'UPDATE_BOOKMARK_GENRE_LIST'
 
 export function updateBookmarkedGenreFilter(genreArray: number[]) {
   return {
@@ -91,5 +92,12 @@ export function updatePersonFilter(personFilterArray: number[]) {
   return {
     type: UPDATE_PERSON_FILTER,
     personFilterArray
+  } as const
+}
+
+export function updateBookmarkGenreList(genreList: PersonGenresObject[]) {
+  return {
+    type: UPDATE_BOOKMARK_GENRE_LIST,
+    genreList
   } as const
 }

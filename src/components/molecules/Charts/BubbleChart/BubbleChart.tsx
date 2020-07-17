@@ -287,8 +287,8 @@ export default function BubbleChart(props: BubbleChartProps) {
             text-transform: uppercase;
             color: ${colors.bgColorPrimaryLight};
             position: absolute;
-            left: -${space[1]}px;
-            top: -1px;
+            left: -${space[2]}px;
+            top: -${space[1]}px;
             opacity: ${circleFillOpacity};
           `}
         >

@@ -44,7 +44,7 @@ export const handleBookmarkedToggle = ({
           vote_average: details.vote_average,
           vote_count: details.vote_count,
           date: details.first_air_date || details.release_date || '',
-          title: details.original_name || details.original_title || '',
+          title: details.name || details.title || '',
           id: details.id,
           genres: details.genres.map(d => d.id),
           credits: uniq([...castIDs, ...crewIDs]),

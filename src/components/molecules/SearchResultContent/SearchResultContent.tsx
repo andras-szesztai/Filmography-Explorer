@@ -112,7 +112,17 @@ const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex, noRes
           <span css={jobContainerStyle}>Known for:&nbsp;{data.known_for_department}</span>
         </>
       )}
-      {noResult && <span css={nameContainerStyle}>Sorry, there is no result for {inputText}</span>}
+      {noResult && (
+        <span
+          css={css`
+            ${nameContainerStyle}
+            font-weight: ${fontWeight.md};
+            margin-top: 0px;
+          `}
+        >
+          Sorry, there is no result for {inputText}
+        </span>
+      )}
     </motion.div>
   )
 }

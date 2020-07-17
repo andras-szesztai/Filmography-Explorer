@@ -43,7 +43,7 @@ const useUpdateChartSettings = (personDataSets: PersonDataSets) => {
                 genres: d.genre_ids,
 
                 job: d.job,
-                title: d.original_title || d.original_name,
+                title: d.title || d.name,
                 date: d.first_air_date || d.release_date,
                 poster_path: d.poster_path
               })),
@@ -56,7 +56,7 @@ const useUpdateChartSettings = (personDataSets: PersonDataSets) => {
                 genres: d.genre_ids,
 
                 job: d.job,
-                title: d.original_title || d.original_name,
+                title: d.title || d.name,
                 date: d.first_air_date || d.release_date,
                 poster_path: d.poster_path
               }))

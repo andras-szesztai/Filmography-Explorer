@@ -91,11 +91,13 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         activeResult={activeResult}
         resetSearch={resetSearch}
         handleResultSelect={(index: number) => {
-          const newID = nameSearchResults.resultArray[index].id
+          const newID = nameSearchResults.resultArray[index] && nameSearchResults.resultArray[index].id
           if (activeNameID !== newID) {
             if (activeMovieID) {
               dispatch(emptyMovieDetails())
             }
+          }
+          if (newID) {
             dispatch(setActiveNameID(newID))
           }
         }}

@@ -78,7 +78,7 @@ function MovieDetailCardContent({
             }
           }}
         >
-          {details.original_title || details.original_name}
+          {details.title || details.name}
         </button>
         <div css={subtitle}>
           {mediaType === 'movie' ? 'Release date' : 'First air date'}:&nbsp;
@@ -93,7 +93,7 @@ function MovieDetailCardContent({
           border-radius: ${space[1]}px;
         `}
       >
-        <Image url={details.poster_path} alt={`${details.original_title || details.original_name}-poster`} />
+        <Image url={details.poster_path} alt={`${details.title || details.name}-poster`} />
       </div>
       <div
         css={css`

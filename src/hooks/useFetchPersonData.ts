@@ -52,7 +52,7 @@ const useFetchPersonData = ({ activeNameID }: Props) => {
                 allTitles: sortBy(
                   uniqCombined.map(t => ({
                     id: t.id,
-                    title: t.original_name || t.original_title,
+                    title: t.name || t.title,
                     date: t.first_air_date || t.release_date,
                     media_type: t.media_type,
                     vote_average: t.vote_average,

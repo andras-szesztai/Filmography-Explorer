@@ -23,8 +23,8 @@ export interface MovieDetails {
   homepage?: string
   id: number
   imdb_id?: string
-  original_title?: string
-  original_name?: string
+  title?: string
+  name?: string
   overview: string
   popularity: number
   poster_path?: string

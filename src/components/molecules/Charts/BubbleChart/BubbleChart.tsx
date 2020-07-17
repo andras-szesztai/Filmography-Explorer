@@ -52,6 +52,7 @@ export default function BubbleChart(props: BubbleChartProps) {
   const dispatch = useDispatch()
   const bookmarks = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
   const { data, isSizeDynamic, type, activeMovieID, title, hoveredMovieID, genreFilter, personFilter, isBookmarkChart } = props
+  const isYDomainSynced = useSelector((state: CombinedState) => state.chartSettingsReducer.isYAxisSynced)
 
   const storedValues = React.useRef({ isInit: true } as BubbleChartStoredValues)
   const [wrapperRef, { width, height }] = useMeasure<HTMLDivElement>()
@@ -262,6 +263,54 @@ export default function BubbleChart(props: BubbleChartProps) {
       addUpdateInteractions()
     }
   })
+
+  // useEffect(() => {
+  //   if (
+  //     storedValues.current.isInit &&
+  //     isYDomainSynced !== prevIsYDomainSynced
+  //   ) {
+  //     const {
+  //       yScale,
+  //       chartArea,
+  //       gridArea,
+  //       currSizeScale,
+  //     } = storedValues.current
+  //     yScale.domain(
+  //       isYDomainSynced ? [0, 10] : extent(data, d => d.vote_average)
+  //     )
+  //     const tChart = makeTransition(chartArea, transition.mdNum, "y-update")
+  //     const tGrid = makeTransition(gridArea, transition.mdNum, "y-update")
+  //     const setY = d => yScale(d)
+  //     chartArea
+  //       .selectAll(".main-circle circle")
+  //       .transition(tChart)
+  //       .attr("cy", ({ vote_average }) => yScale(vote_average))
+  //     chartArea
+  //       .select(".selected-line")
+  //       .transition(tChart)
+  //       .attr("y1", d =>
+  //         getSelectedLineYPos({
+  //           data: d,
+  //           scales: { yScale, currSizeScale },
+  //           props: { isSizeDynamic, chart },
+  //         })
+  //       )
+  //     gridArea
+  //       .selectAll(".grid-line")
+  //       .transition(tGrid)
+  //       .attr("y1", setY)
+  //       .attr("y2", setY)
+  //     gridArea
+  //       .selectAll(".grid-text")
+  //       .transition(tGrid)
+  //       .attr("y", setY)
+  //     createUpdateVoronoi()
+  //     storedValues.current = {
+  //       ...storedValues.current,
+  //       yScale,
+  //     }
+  //   }
+  // }, [is])
 
   return (
     <div

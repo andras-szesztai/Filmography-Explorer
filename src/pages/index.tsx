@@ -21,7 +21,7 @@ import { CombinedState } from '../types/state'
 import { BookmarkedMoviesObject } from '../types/movie'
 
 // Hooks
-import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
+import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount, useDetectDeviceType } from '../hooks'
 
 // Constants
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
@@ -41,18 +41,10 @@ const IndexPage = () => {
   useSetBookmarkedMoviesOnMount(!!Object.keys(bookmarks).length, bookmarkedMovies)
 
   const { width: windowWidth, height: windowHeight } = useWindowSize()
+  const device = useDetectDeviceType()
 
   return (
     <SearchDashboardDesktop>
-      {windowWidth < 1000 && (
-        <Disclaimer
-          bigText="Sorry, the dashboard has not yet been optimized for smaller screen size."
-          smallText="Please set your browser's width bigger if possible, or open it on a
-        wider screen, thank you!"
-          height={windowHeight}
-          width={windowWidth}
-        />
-      )}
       <ExplainerCard pages={EXPLORER_EXPLAINER} />
       <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
       <PersonDetailCard />
@@ -88,6 +80,23 @@ const IndexPage = () => {
           </motion.span>
         )}
       </AnimatePresence>
+      {windowWidth < 900 && (
+        <Disclaimer
+          bigText="Sorry, the dashboard has not yet been optimized for smaller screen size."
+          smallText="Please set your browser's width bigger if possible, or open it on a
+        wider screen, thank you!"
+          height={windowHeight}
+          width={windowWidth}
+        />
+      )}
+      {(device === 'mobile' || device === 'tablet') && (
+        <Disclaimer
+          bigText={`Sorry, the dashboard has not yet been optimized for ${device === 'mobile' ? 'mobile devices' : 'tablet'}.`}
+          smallText={`Please use it in your desktop browser until ${device === 'mobile' ? 'mobile' : 'tablet'} layout will be added!`}
+          height={windowHeight}
+          width={windowWidth}
+        />
+      )}
     </SearchDashboardDesktop>
   )
 }

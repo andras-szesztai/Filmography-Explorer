@@ -52,6 +52,8 @@ interface Props {
   isPersonOpen?: boolean
 }
 
+// TODO useClickAway
+
 const TitleSearch = ({
   titles,
   setIsTitleOpen,

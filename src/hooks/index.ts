@@ -1,6 +1,6 @@
 export { default as useDebouncedSearch } from './useDebounceSearch'
 export { default as useStateWithPrevious } from './useStateWithPrevious'
-export { default as useLocalStorage } from './useLocalStorage'
 export { default as useFetchPersonData } from './useFetchPersonData'
 export { default as useFetchGenreList } from './useFetchGenreList'
 export { default as useSetBookmarkedMoviesOnMount } from './useSetBookmarkedMoviesOnMount'
+export { default as useDetectDeviceType } from './useDetectDeviceType'

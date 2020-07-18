@@ -139,7 +139,7 @@ const TitleSearch = ({
 
   return (
     <>
-      <motion.button
+      <button
         type="button"
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
@@ -198,7 +198,7 @@ const TitleSearch = ({
         >
           Find a title
         </span>
-      </motion.button>
+      </button>
       {isTitleOpen && (
         <div css={filterDropdownStyle}>
           <div
@@ -221,7 +221,7 @@ const TitleSearch = ({
                     background: ${colors.bgColorPrimary};
 
                     color: ${colors.textColorPrimary};
-                    font-size: ${fontSize.sm};
+                    font-size: ${fontSize.md};
                     font-weight: ${fontWeight.sm};
 
                     padding: ${space[1]}px ${space[2]}px;
@@ -244,6 +244,7 @@ const TitleSearch = ({
                 />
               </span>
             </div>
+            {/* // TODO: make it a component */}
             <motion.button
               type="button"
               css={css`
@@ -254,11 +255,6 @@ const TitleSearch = ({
               initial={{ y: -2, x: 6 }}
               whileHover={{ scale: 1.3 }}
               onClick={() => setIsTitleOpen(!isTitleOpen)}
-              onKeyDown={({ keyCode }) => {
-                if (keyCode === 13) {
-                  setIsTitleOpen(!isTitleOpen)
-                }
-              }}
             >
               <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
             </motion.button>

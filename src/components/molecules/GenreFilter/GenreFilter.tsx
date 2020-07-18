@@ -30,7 +30,8 @@ import {
   buttonNoFocus,
   buttonFocus,
   buttonStyle,
-  filterDropdownStyle
+  filterDropdownStyle,
+  dentedStyleDark
 } from '../../../styles/variables'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 
@@ -84,10 +85,8 @@ const GenreFilter = ({
 
   return (
     <>
-      <motion.button
+      <button
         type="button"
-        initial={{ background: isGenreOpen ? colors.accentSecondary : colors.bgColorSecondary }}
-        animate={{ background: isGenreOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -106,38 +105,47 @@ const GenreFilter = ({
         }}
         css={css`
           ${buttonPadding}
+          background: ${colors.bgColorPrimaryLight};
           border: none;
           cursor: pointer;
           letter-spacing: 0.8px;
           display: flex;
           align-items: center;
-          color: ${colors.bgColorPrimary};
+          color: ${colors.textColorPrimary};
 
           margin-left: ${space[3]}px;
           font-weight: ${fontWeight.sm};
           user-select: none;
           border-radius: ${space[1]}px;
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+          position: relative;
         `}
       >
-        <motion.span animate={{ scale: isHovered ? 1.3 : 1 }}>
-          <FaFilter color={colors.bgColorPrimary} size={12} />
+        {isGenreOpen && (
+          // TODO: make component
+          <span
+            css={css`
+              position: absolute;
+              background: ${colors.bgColorPrimaryLight};
+              width: ${space[8]}px;
+              height: ${space[2]}px;
+              bottom: -${space[2]}px;
+              left: calc(50% - ${space[4]}px);
+              z-index: 1;
+            `}
+          />
+        )}
+        <motion.span animate={{ scale: isHovered ? 1.3 : 1, color: genreFilter.length ? colors.accentSecondary : colors.textColorPrimary }}>
+          <FaFilter size={12} />
         </motion.span>
         <span
           css={css`
             margin-left: ${space[2]}px;
           `}
         >
-          Filter for genres&nbsp;
-          <motion.span
-            animate={{
-              color: !genreFilter.length ? colors.textColorSecondary : colors.accentPrimary
-            }}
-          >
-            ({genreFilter.length})
-          </motion.span>
+          Filter for genres ({genreFilter.length})
         </span>
-      </motion.button>
+      </button>
       {isGenreOpen && (
         <div css={filterDropdownStyle}>
           <div
@@ -187,22 +195,20 @@ const GenreFilter = ({
                 display: flex;
                 ${buttonStyle}
                 ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                      padding: 0;
               `}
-              whileHover={{ originY: 0.1, scale: 1.3 }}
+              initial={{ y: -2, x: 6 }}
+              whileHover={{ scale: 1.3 }}
               onClick={() => setIsGenreOpen(!isGenreOpen)}
-              onKeyDown={({ keyCode }) => {
-                if (keyCode === 13) {
-                  setIsGenreOpen(!isGenreOpen)
-                }
-              }}
             >
-              <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
+              <IoIosCloseCircle color={colors.bgColorSecondary} size={24} />
             </motion.button>
           </div>
           <div
             css={css`
-              ${horizontalScrollableStyle}
+              ${horizontalScrollableStyle} ::-webkit-scrollbar-track {
+                background: ${colors.bgColorSecondary};
+              }
+              ${dentedStyleDark}
             `}
           >
             {genres

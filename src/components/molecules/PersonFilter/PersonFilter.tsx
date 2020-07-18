@@ -14,7 +14,8 @@ import {
   buttonNoFocus,
   buttonFocus,
   buttonStyle,
-  filterDropdownStyle
+  filterDropdownStyle,
+  dentedStyleDark
 } from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 import { ListEndPlaceHolder } from '../../atoms'
@@ -59,10 +60,8 @@ const PersonFilter = ({
 
   return (
     <>
-      <motion.button
+      <button
         type="button"
-        initial={{ background: isPersonOpen ? colors.accentSecondary : colors.bgColorSecondary }}
-        animate={{ background: isPersonOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -81,38 +80,50 @@ const PersonFilter = ({
         }}
         css={css`
           ${buttonPadding}
-          background: ${colors.bgColorSecondary};
           border: none;
           cursor: pointer;
-          letter-spacing:  .8px;
+          letter-spacing: 0.8px;
           display: flex;
           align-items: center;
+
+          background: ${colors.bgColorPrimaryLight};
+          color: ${colors.textColorPrimary};
 
           margin-left: ${space[3]}px;
           font-weight: ${fontWeight.sm};
           user-select: none;
           border-radius: ${space[1]}px;
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+
+          position: relative;
         `}
       >
-        <motion.span animate={{ scale: isHovered ? 1.3 : 1 }}>
-          <FaFilter color={colors.bgColorPrimary} size={12} />
+        {isPersonOpen && (
+          <span
+            css={css`
+              position: absolute;
+              background: ${colors.bgColorPrimaryLight};
+              width: ${space[8]}px;
+              height: ${space[2]}px;
+              bottom: -${space[2]}px;
+              left: calc(50% - ${space[4]}px);
+              z-index: 1;
+            `}
+          />
+        )}
+        <motion.span
+          animate={{ scale: isHovered ? 1.3 : 1, color: personFilter.length ? colors.accentSecondary : colors.textColorPrimary }}
+        >
+          <FaFilter size={12} />
         </motion.span>
         <span
           css={css`
             margin-left: ${space[2]}px;
           `}
         >
-          Filter for favorites&nbsp;
-          <motion.span
-            animate={{
-              color: !personFilter.length ? colors.textColorSecondary : colors.accentPrimary
-            }}
-          >
-            ({personFilter.length})
-          </motion.span>
+          Filter for favorites ({personFilter.length})
         </span>
-      </motion.button>
+      </button>
       {isPersonOpen && (
         <div css={filterDropdownStyle}>
           <div
@@ -162,17 +173,20 @@ const PersonFilter = ({
                 display: flex;
                 ${buttonStyle}
                 ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                      padding: 0;
               `}
-              whileHover={{ originY: 0.1, scale: 1.3 }}
+              initial={{ y: -2, x: 6 }}
+              whileHover={{ scale: 1.3 }}
               onClick={() => setIsPersonOpen(!isPersonOpen)}
             >
-              <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
+              <IoIosCloseCircle color={colors.bgColorSecondary} size={24} />
             </motion.button>
           </div>
           <div
             css={css`
-              ${horizontalScrollableStyle}
+              ${horizontalScrollableStyle} ::-webkit-scrollbar-track {
+                background: ${colors.bgColorSecondary};
+              }
+              ${dentedStyleDark}
             `}
           >
             {personList &&

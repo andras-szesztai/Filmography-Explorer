@@ -21,7 +21,8 @@ import {
   buttonNoFocus,
   buttonFocus,
   filterDropdownStyle,
-  buttonStyle
+  buttonStyle,
+  fontSize
 } from '../../../styles/variables'
 
 interface Props {
@@ -54,10 +55,8 @@ const ChartSettings = ({
 
   return (
     <>
-      <motion.button
+      <button
         type="button"
-        initial={{ background: isSettingsOpen ? colors.accentSecondary : colors.bgColorSecondary }}
-        animate={{ background: isSettingsOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -76,22 +75,38 @@ const ChartSettings = ({
         }}
         css={css`
           ${buttonPadding}
+          background: ${colors.bgColorPrimaryLight};
           border: none;
           cursor: pointer;
           letter-spacing: 0.8px;
           display: flex;
           align-items: center;
-          color: ${colors.bgColorPrimary};
+          color: ${colors.textColorPrimary};
 
           margin-left: ${space[3]}px;
           font-weight: ${fontWeight.sm};
           user-select: none;
           border-radius: ${space[1]}px;
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+
+          position: relative;
         `}
       >
+        {isSettingsOpen && (
+          <span
+            css={css`
+              position: absolute;
+              background: ${colors.bgColorPrimaryLight};
+              width: ${space[8]}px;
+              height: ${space[2]}px;
+              bottom: -${space[2]}px;
+              left: calc(50% - ${space[4]}px);
+              z-index: 1;
+            `}
+          />
+        )}
         <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
-          <IoMdSettings color={colors.bgColorPrimary} size={15} />
+          <IoMdSettings color={colors.textColorPrimary} size={15} />
         </motion.span>
         <span
           css={css`
@@ -100,7 +115,7 @@ const ChartSettings = ({
         >
           Update chart settings
         </span>
-      </motion.button>
+      </button>
       {isSettingsOpen && (
         <div css={filterDropdownStyle}>
           <div
@@ -128,17 +143,12 @@ const ChartSettings = ({
                 display: flex;
                 ${buttonStyle}
                 ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                padding: 0;
               `}
-              whileHover={{ originY: 0.1, scale: 1.3 }}
+              initial={{ y: -2, x: 6 }}
+              whileHover={{ scale: 1.3 }}
               onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-              onKeyDown={({ keyCode }) => {
-                if (keyCode === 13) {
-                  setIsSettingsOpen(!isSettingsOpen)
-                }
-              }}
             >
-              <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
+              <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
             </motion.button>
           </div>
           <div
@@ -172,6 +182,7 @@ const ChartSettings = ({
               <span
                 css={css`
                   margin-left: ${space[2]}px;
+                  font-size: ${fontSize.sm};
                 `}
               >
                 Vertical axis for user score axis is from 0 to 10

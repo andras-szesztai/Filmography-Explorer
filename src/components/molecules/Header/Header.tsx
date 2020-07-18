@@ -46,7 +46,7 @@ const Header: React.FC = () => {
           <NavItem text="Explore" activeItem={activeItem} itemNumber={0} setActiveItem={setActiveItem} />
         </Link>
         <Link to="/my-bookmarks">
-          <NavItem text="My Bookmarks" activeItem={activeItem} itemNumber={1} withMargin setActiveItem={setActiveItem} />
+          <NavItem text="My Watchlist" activeItem={activeItem} itemNumber={1} withMargin setActiveItem={setActiveItem} />
         </Link>
         <Link to="/about">
           <NavItem text="About" activeItem={activeItem} itemNumber={2} withMargin setActiveItem={setActiveItem} />

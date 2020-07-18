@@ -183,11 +183,11 @@ export const styledSelection = css`
 export const filterDropdownStyle = css`
   position: absolute;
   top: 35px;
-  height: 88px;
+  height: 90px;
   padding: ${space[2]}px ${space[3]}px;
 
   display: grid;
-  grid-template-rows: 24px 1fr;
+  grid-template-rows: 30px 1fr;
   grid-row-gap: ${space[1]}px;
 
   background: ${colors.bgColorPrimaryLight};

@@ -45,7 +45,7 @@ const SelectableListItem = ({
       }}
       animate={{
         background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight,
-        paddingLeft: isHovered ? paddingSpace : space[3]
+        paddingLeft: isHovered && additionalHoverCondition ? paddingSpace : space[3]
       }}
       onMouseOver={() => {
         setIsHovered(true)

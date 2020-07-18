@@ -48,9 +48,10 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
           dispatch(setActiveNameID(id))
         }
       }}
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, paddingLeft: space[4] }}
       animate={{
-        opacity: 1
+        opacity: 1,
+        paddingLeft: isHovered && !isActive ? space[9] : space[4]
       }}
       exit={{ y: 50, opacity: 0 }}
       css={css`
@@ -75,14 +76,13 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
     >
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered && !isActive ? 1 : 0 }}
+        animate={{ opacity: isHovered && !isActive ? 1 : 0, transition: { duration: isHovered ? 0.3 : 0 } }}
         css={css`
           display: flex;
           align-items: center;
           justify-content: flex-start;
           padding: ${space[1]}px ${space[2]}px;
           position: absolute;
-          width: 100%;
           height: 100%;
           top: 0;
           left: 0;

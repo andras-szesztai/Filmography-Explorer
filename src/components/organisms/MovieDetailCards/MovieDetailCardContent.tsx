@@ -153,6 +153,7 @@ function MovieDetailCardContent({
                   text={`${crewMember.job}: ${crewMember.name} `}
                   handleSelect={() => dispatch(setActiveNameID(crewMember.id))}
                   additionalHoverCondition={!isActive && !isBookmarkedChart}
+                  paddingSpace={space[8]}
                 />
               )
             })}
@@ -182,6 +183,7 @@ function MovieDetailCardContent({
                   text={`${castMember.name} as ${castMember.character}`}
                   handleSelect={() => !isActive && !isBookmarkedChart && dispatch(setActiveNameID(castMember.id))}
                   additionalHoverCondition={!isActive && !isBookmarkedChart}
+                  paddingSpace={space[8]}
                 />
               )
             })}

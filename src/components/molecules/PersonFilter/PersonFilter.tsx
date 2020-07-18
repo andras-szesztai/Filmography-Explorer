@@ -149,6 +149,7 @@ const PersonFilter = ({
                       handleSelect={() => dispatch(updatePersonFilter([]))}
                       icon={IoIosCloseCircle}
                       iconSize={18}
+                      paddingSpace={space[8]}
                       text="Reset selection"
                     />
                   </motion.span>

@@ -270,6 +270,7 @@ const TitleSearch = ({
                   key={t.id}
                   icon={IoIosSearch}
                   iconSize={16}
+                  paddingSpace={space[8]}
                   text={t.title || 'Missing title'}
                   handleSelect={() => {
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
@@ -285,13 +286,15 @@ const TitleSearch = ({
                   handleMouseover={() => {
                     const meanYear = mean(xScaleDomain.map(y => new Date(y).getFullYear()))
                     const xPos = t.date ? Number(meanYear <= new Date(t.date).getFullYear()) : 0
+                    const isSingle = !cast.length || !crew.length
+                    const isCast = cast.length >= crew.length
                     const castObject = cast.find(d => d.id === t.id)
                     if (castObject) {
                       dispatch(
                         populateHoveredFunc({
                           id: t.id,
                           data: castObject,
-                          yPosition: isBookmarkChart ? 1 : 0,
+                          yPosition: isBookmarkChart || isSingle || !isCast ? 1 : 0,
                           xPosition: xPos
                         })
                       )
@@ -303,7 +306,7 @@ const TitleSearch = ({
                           populateHoveredFunc({
                             id: t.id,
                             data: crewObject,
-                            yPosition: 0,
+                            yPosition: isBookmarkChart || isSingle || isCast ? 1 : 0,
                             xPosition: xPos
                           })
                         )

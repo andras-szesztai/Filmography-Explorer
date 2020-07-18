@@ -52,16 +52,27 @@ export function createUpdateGridText({ storedValues, left, width }: GridParams) 
   storedValues.current.gridArea
     .selectAll('.grid-text')
     .data(gridData, (d: any) => d)
-    .enter()
-    .append('text')
-    .attr('class', 'grid-text')
-    .attr('x', width - left)
-    .attr('y', d => storedValues.current.yScale(d))
-    .attr('dy', d => (d < 5 ? -4 : 12))
-    .attr('text-anchor', 'end')
-    .attr('font-size', fontSize.sm)
-    .attr('fill', colors.bgColorPrimaryLight)
-    .text(d => d)
+    .join(
+      enter =>
+        enter
+          .append('text')
+          .attr('class', 'grid-text')
+          .attr('x', width - left)
+          .attr('y', d => storedValues.current.yScale(d))
+          .attr('dy', d => (d < 5 ? -4 : 12))
+          .attr('text-anchor', 'end')
+          .attr('font-size', fontSize.sm)
+          .attr('fill', colors.bgColorPrimaryLight)
+          .text(d => d),
+      update =>
+        update.call(u =>
+          u
+            .transition()
+            .duration(duration.sm)
+            .ease(easeCubicInOut)
+            .attr('y', d => storedValues.current.yScale(d))
+        )
+    )
 }
 
 interface CircleParams {
@@ -98,11 +109,11 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
       update =>
         update.call(u =>
           u
-            .select('circle')
+            .select('.circle')
             .transition()
             .duration(duration.sm)
             .ease(easeCubicInOut)
-            .attr('cy', d => yScale(d.vote_average))
+            .attr('cy', (d: any) => yScale(d.vote_average))
         ),
       exit =>
         exit.call(e => {
@@ -235,5 +246,42 @@ export function createBubbleChartRefElements({ activeMovieID, storedValues, data
   }
   if (!selectedData) {
     voronoiArea.selectAll('.voronoi-path').attr('cursor', 'pointer')
+  }
+}
+
+export interface UpdateSelectedYPosParams {
+  storedValues: {
+    current: BubbleChartStoredValues
+  }
+  activeMovieID: number
+  type: string
+  isSizeDynamic: boolean
+  height: number
+}
+
+export function updateSelectedYPos({ isSizeDynamic, type, storedValues, height, activeMovieID }: UpdateSelectedYPosParams) {
+  const { yScale, chartArea, sizeScale } = storedValues.current
+  if (activeMovieID) {
+    chartArea
+      .select('.selected-line')
+      .transition()
+      .duration(duration.sm)
+      .ease(easeCubicInOut)
+      .attr('y1', d =>
+        getSelectedLineYPos({
+          data: d,
+          yScale,
+          sizeScale,
+          isSizeDynamic,
+          type
+        })
+      )
+      .attr('y2', type === 'main' ? height : -height)
+    chartArea
+      .select('.selected-circle')
+      .transition()
+      .duration(duration.sm)
+      .ease(easeCubicInOut)
+      .attr('cy', d => yScale(d.vote_average))
   }
 }

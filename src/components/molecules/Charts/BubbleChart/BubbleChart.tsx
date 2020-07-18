@@ -2,11 +2,10 @@
 import React from 'react'
 import { scaleLinear, scaleTime, scaleSqrt } from 'd3-scale'
 import { select } from 'd3-selection'
-import { useMeasure, usePrevious } from 'react-use'
 import 'd3-transition'
 import { css } from '@emotion/core'
+import { useMeasure, usePrevious } from 'react-use'
 import { useDispatch, useSelector } from 'react-redux'
-import { maxBy, minBy } from 'lodash'
 
 // Components
 import { LabelContainer } from '../../../atoms'
@@ -17,7 +16,8 @@ import {
   createUpdateGridText,
   createUpdateCircles,
   createUpdateVoronoi,
-  createBubbleChartRefElements
+  createBubbleChartRefElements,
+  updateSelectedYPos
 } from './functions/elementFunctions'
 import { getXPosition } from '../../../../utils/chartHelpers'
 
@@ -41,6 +41,7 @@ import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUp
 // Styles
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space, fontWeight } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
+import { makeYScaleDomain } from './functions/utills'
 
 const margin = {
   top: space[6],
@@ -137,17 +138,13 @@ export default function BubbleChart(props: BubbleChartProps) {
               .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
               .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
           : data
-      const yMax = maxBy(newFilteredData, d => d.vote_average)
-      const yMin = minBy(newFilteredData, d => d.vote_average)
-      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
-      const yScale = scaleLinear()
-        .domain(isYDomainSynced ? [0, 10] : yScaleDomain)
-        .range([height - margin.bottom - margin.top, 0])
+      const yScale = scaleLinear().range([height - margin.bottom - margin.top, 0])
+      const newYScale = makeYScaleDomain({ data: newFilteredData, yScale, isYDomainSynced })
       storedValues.current = {
         isInit: false,
         sizeScale,
         xScale,
-        yScale,
+        yScale: newYScale,
         chartArea,
         svgArea,
         gridArea,
@@ -194,18 +191,15 @@ export default function BubbleChart(props: BubbleChartProps) {
               .filter(d => (genreFilter.length ? d.genres.some(id => genreFilter.includes(id)) : true))
               .filter(d => (personFilter && personFilter.length ? d.credits && d.credits.some(id => personFilter.includes(id)) : true))
           : data
-      const yMax = maxBy(newFilteredData, d => d.vote_average)
-      const yMin = minBy(newFilteredData, d => d.vote_average)
-      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
-      yScale.domain(isYDomainSynced ? [0, 10] : yScaleDomain)
+      const newYScale = makeYScaleDomain({ data: newFilteredData, yScale, isYDomainSynced })
       storedValues.current = {
         ...storedValues.current,
-        yScale
-      }
-      storedValues.current = {
-        ...storedValues.current,
+        yScale: newYScale,
         filteredData: newFilteredData
       }
+      const gridArgs = { storedValues, left: margin.left, width }
+      createUpdateGrid(gridArgs)
+      createUpdateGridText(gridArgs)
       createUpdateCircles({
         storedValues,
         isSizeDynamic,
@@ -222,6 +216,7 @@ export default function BubbleChart(props: BubbleChartProps) {
       if (newFilteredData.length !== totalNumber) {
         setTotalNumber(newFilteredData.length)
       }
+      updateSelectedYPos({ isSizeDynamic, type, storedValues, height, activeMovieID })
     }
   }, [genreFilter, personFilter])
 
@@ -273,18 +268,16 @@ export default function BubbleChart(props: BubbleChartProps) {
     }
   })
 
+  // y domain toggle update
   React.useEffect(() => {
     if (!storedValues.current.isInit) {
       const { yScale, filteredData } = storedValues.current
-      const yMax = maxBy(filteredData, d => d.vote_average)
-      const yMin = minBy(filteredData, d => d.vote_average)
-      const yScaleDomain = [(yMin && yMin.vote_average) || 0, (yMax && yMax.vote_average) || 0]
-      yScale.domain(isYDomainSynced ? [0, 10] : yScaleDomain)
-      const gridArgs = { storedValues, left: margin.left, width }
+      const newYScale = makeYScaleDomain({ data: filteredData, yScale, isYDomainSynced })
       storedValues.current = {
         ...storedValues.current,
-        yScale
+        yScale: newYScale
       }
+      const gridArgs = { storedValues, left: margin.left, width }
       createUpdateGrid(gridArgs)
       createUpdateGridText(gridArgs)
       createUpdateCircles({
@@ -300,16 +293,7 @@ export default function BubbleChart(props: BubbleChartProps) {
         activeMovieID,
         addUpdateInteractions
       })
-      if (activeMovieID) {
-        createBubbleChartRefElements({
-          data,
-          activeMovieID,
-          storedValues,
-          type,
-          isSizeDynamic: props.isSizeDynamic,
-          height
-        })
-      }
+      updateSelectedYPos({ isSizeDynamic, type, storedValues, height, activeMovieID })
     }
   }, [isYDomainSynced])
 
@@ -361,7 +345,7 @@ export default function BubbleChart(props: BubbleChartProps) {
               top: 8px;
             `}
           >
-            {totalNumber && totalNumber.toString().padStart(3, '0')}
+            {totalNumber ? totalNumber.toString().padStart(3, '0') : '000'}
           </div>
           {totalNumber > 1 && (
             <div

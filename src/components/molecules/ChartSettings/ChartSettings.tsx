@@ -176,8 +176,8 @@ const ChartSettings = ({
                 height={20}
                 handleDiameter={16}
                 onColor={colors.bgColorPrimary}
-                offHandleColor={colors.bgColorPrimary}
-                offColor={colors.bgColorSecondary}
+                offHandleColor={colors.bgColorSecondary}
+                offColor={colors.bgColorPrimaryLight}
               />
               <span
                 css={css`

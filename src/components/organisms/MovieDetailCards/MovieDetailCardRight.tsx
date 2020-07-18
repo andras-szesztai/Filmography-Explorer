@@ -57,7 +57,7 @@ const MovieDetailCardRight = ({
       transition={transition.primary}
       css={css`
         ${movieDetailCardContainerRight}
-        ${!isBookmarkedChart && rightTopHandleStyle}
+        ${rightTopHandleStyle}
       `}
     >
       <div
@@ -70,9 +70,13 @@ const MovieDetailCardRight = ({
           grid-template-areas: 'content placeholder';
         `}
       >
-        {!isBookmarkedChart && (
-          <MovieCardBookmark isLeft={false} handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />
-        )}
+        <MovieCardBookmark
+          activeMovieID={activeMovieID}
+          isLeft={false}
+          handleClick={handleClick}
+          setIsHovered={setIsHovered}
+          isHovered={isHovered}
+        />
         <MovieCardCloseIcon isLeft={false} isBookmarkedChart={isBookmarkedChart} />
         <MovieDetailCardContent
           isOpen={isOpen}

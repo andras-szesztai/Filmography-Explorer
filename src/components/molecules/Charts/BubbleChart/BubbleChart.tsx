@@ -92,7 +92,7 @@ export default function BubbleChart(props: BubbleChartProps) {
           timeOut.current = setTimeout(() => {
             props.setIsFirstEntered(false)
             dispatch(populateHoveredFunc(hovered))
-          }, duration.sm)
+          }, duration.md)
         }
       })
       .on('mouseout', () => {
@@ -115,6 +115,8 @@ export default function BubbleChart(props: BubbleChartProps) {
               mediaType: d.media_type
             })
           )
+          clearTimeout(timeOut.current)
+          props.setIsFirstEntered(true)
         }
       })
   }

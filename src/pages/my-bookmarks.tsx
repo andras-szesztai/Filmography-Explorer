@@ -38,7 +38,7 @@ const MyBookMarksPage = () => {
 
   // Populate store with favorites if start page
   const [didPopulateFavorites, setDidPopulateFavorites] = React.useState(false)
-  const [bookmarkedMovies] = useLocalStorage<BookmarkedMoviesObject>(LOCAL_STORE_ACCESSORS.bookmarkedMovies)
+  const [bookmarkedMovies, setBookmarkedMovies] = useLocalStorage<BookmarkedMoviesObject>(LOCAL_STORE_ACCESSORS.bookmarkedMovies)
   const [favoritePersons] = useLocalStorage<FavoritePersonsObject>(LOCAL_STORE_ACCESSORS.favoritePersons)
   useSetBookmarkedMoviesOnMount(!!Object.keys(movieReducer.bookmarks).length, bookmarkedMovies)
   React.useEffect(() => {
@@ -301,6 +301,8 @@ const MyBookMarksPage = () => {
               }}
               loading={bookmarkedChartReducer.bookmarkedActiveMovie.loading}
               isBookmarkedChart
+              bookmarkedMovies={bookmarkedMovies}
+              setBookmarkedMovies={setBookmarkedMovies}
             />
           </motion.span>
         )}
@@ -318,6 +320,8 @@ const MyBookMarksPage = () => {
               }}
               loading={bookmarkedChartReducer.bookmarkedActiveMovie.loading}
               isBookmarkedChart
+              bookmarkedMovies={bookmarkedMovies}
+              setBookmarkedMovies={setBookmarkedMovies}
             />
           </motion.span>
         )}

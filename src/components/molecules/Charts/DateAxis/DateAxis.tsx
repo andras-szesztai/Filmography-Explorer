@@ -83,7 +83,7 @@ export default function DateAxis(props: DateAxisProps) {
           timeOut.current = setTimeout(() => {
             props.setIsFirstEntered(false)
             dispatch(populateHoveredFunc(hovered))
-          }, duration.sm)
+          }, duration.md)
         }
       })
       .on('mouseout', () => {
@@ -106,6 +106,8 @@ export default function DateAxis(props: DateAxisProps) {
               mediaType: d.media_type
             })
           )
+          clearTimeout(timeOut.current)
+          props.setIsFirstEntered(true)
         }
       })
   }

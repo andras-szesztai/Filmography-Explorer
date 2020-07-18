@@ -14,10 +14,11 @@ interface Params {
   handleClick: () => void
   setIsHovered: React.Dispatch<React.SetStateAction<boolean>>
   isHovered: boolean
+  activeMovieID: number
 }
 
-const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered }: Params) => {
-  const { bookmarks, activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
+const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered, activeMovieID }: Params) => {
+  const { bookmarks } = useSelector((state: CombinedState) => state.movieReducer)
   const [currentInput] = useWhatInput()
 
   const horPos = isLeft
@@ -35,12 +36,7 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered }: Par
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onBlur={() => setIsHovered(false)}
-      onClick={() => currentInput === 'mouse' && handleClick()}
-      onKeyDown={({ keyCode }) => {
-        if (keyCode === 13) {
-          handleClick()
-        }
-      }}
+      onClick={() => handleClick()}
       css={css`
         ${buttonStyle}
         position: absolute;

@@ -125,10 +125,6 @@ export const dentedStyleDark = css`
       ${chroma(colors.bgColorPrimary)
         .alpha(0.2)
         .hex()},
-    inset 0 2px 4px
-      ${chroma(colors.bgColorPrimary)
-        .alpha(0.35)
-        .hex()},
     inset 0 1px 2px
       ${chroma(colors.bgColorPrimary)
         .alpha(0.5)
@@ -195,6 +191,12 @@ export const filterDropdownStyle = css`
   border-radius: ${space[1]}px;
   color: ${colors.textColorPrimary};
   user-select: none;
+  filter: drop-shadow(
+    0 3px 6px
+      ${chroma(colors.bgColorPrimary)
+        .alpha(0.35)
+        .hex()}
+  );
 `
 
 export const longDateFormat = 'MMM dd, yyyy'

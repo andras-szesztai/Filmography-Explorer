@@ -94,7 +94,7 @@ const SelectableListItem = ({
       `}
     >
       <ButtonHoverOverlay isHovered={isHovered && additionalHoverCondition}>
-        <Icon size={iconSize} color={colors.textColorPrimary} />
+        <Icon size={iconSize} />
       </ButtonHoverOverlay>
       {text}
     </motion.button>

@@ -40,7 +40,7 @@ const MovieDetailCardLeft = ({
   const [isHovered, setIsHovered] = React.useState(false)
   const isOpen = !!activeMovieID && position === 1
 
-  const handleClick = () =>
+  const handleClick = () => {
     handleBookmarkedToggle({
       bookmarkedMovies,
       activeMovieID,
@@ -51,6 +51,7 @@ const MovieDetailCardLeft = ({
       dispatch,
       mediaType
     })
+  }
 
   return (
     <motion.div
@@ -58,7 +59,7 @@ const MovieDetailCardLeft = ({
       transition={transition.primary}
       css={css`
         ${movieDetailCardContainerLeft}
-        ${!isBookmarkedChart && leftTopHandleStyle}
+        ${leftTopHandleStyle}
       `}
     >
       <div
@@ -72,7 +73,13 @@ const MovieDetailCardLeft = ({
         `}
       >
         <MovieCardCloseIcon isLeft isBookmarkedChart={isBookmarkedChart} />
-        {!isBookmarkedChart && <MovieCardBookmark isLeft handleClick={handleClick} setIsHovered={setIsHovered} isHovered={isHovered} />}
+        <MovieCardBookmark
+          isLeft
+          handleClick={handleClick}
+          setIsHovered={setIsHovered}
+          isHovered={isHovered}
+          activeMovieID={activeMovieID}
+        />
         <MovieDetailCardContent
           isOpen={isOpen}
           justifyLink="flex-start"

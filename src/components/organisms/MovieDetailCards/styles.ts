@@ -146,6 +146,7 @@ export const rowTitleStyle = css`
   font-weight: ${fontWeight.lg};
 `
 
+// TODO: move it to more shared place
 export const horizontalScrollableStyle = css`
   ${dentedStyle}
   border-radius: ${space[1]}px;
@@ -159,10 +160,12 @@ export const horizontalScrollableStyle = css`
 
   ::-webkit-scrollbar {
     height: ${space[1]}px;
+    border-radius: ${space[1]}px;
   }
 
   ::-webkit-scrollbar-track {
     background: ${colors.bgColorSecondaryDark};
+    border-radius: ${space[1]}px;
   }
 
   ::-webkit-scrollbar-thumb {

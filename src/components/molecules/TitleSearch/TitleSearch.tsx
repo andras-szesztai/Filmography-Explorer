@@ -34,7 +34,8 @@ import {
   buttonStyle,
   fontSize,
   space,
-  filterDropdownStyle
+  filterDropdownStyle,
+  dentedStyleDark
 } from '../../../styles/variables'
 
 interface Props {
@@ -140,8 +141,6 @@ const TitleSearch = ({
     <>
       <motion.button
         type="button"
-        initial={{ background: isTitleOpen ? colors.accentSecondary : colors.bgColorSecondary }}
-        animate={{ background: isTitleOpen ? colors.accentSecondary : colors.bgColorSecondary }}
         onMouseOver={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -160,13 +159,15 @@ const TitleSearch = ({
         }}
         css={css`
           padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[3]}px;
-          background: ${colors.bgColorSecondary};
+          background: ${colors.bgColorPrimaryLight};
           border: none;
           cursor: pointer;
           letter-spacing: 0.8px;
           display: flex;
           align-items: center;
-          color: ${colors.bgColorPrimary};
+          color: ${colors.textColorPrimary};
+
+          position: relative;
 
           font-weight: ${fontWeight.sm};
           user-select: none;
@@ -174,8 +175,21 @@ const TitleSearch = ({
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
         `}
       >
+        {isTitleOpen && (
+          <span
+            css={css`
+              position: absolute;
+              background: ${colors.bgColorPrimaryLight};
+              width: ${space[8]}px;
+              height: ${space[2]}px;
+              bottom: -${space[2]}px;
+              left: calc(50% - ${space[4]}px);
+              z-index: 1;
+            `}
+          />
+        )}
         <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
-          <IoIosSearch color={colors.bgColorPrimary} size={16} />
+          <IoIosSearch color={colors.textColorPrimary} size={16} />
         </motion.span>
         <span
           css={css`
@@ -199,24 +213,14 @@ const TitleSearch = ({
                 display: flex;
               `}
             >
-              <span
-                css={css`
-                  transform: translateY(2px);
-                `}
-              >
-                Titles
-              </span>
-              <span
-                css={css`
-                  margin-left: ${space[3]}px;
-                `}
-              >
+              <span>
                 <input
                   css={css`
                     border-radius: ${space[1]}px;
-                    border: 1px solid ${colors.textColorSecondary};
+                    border: none;
+                    background: ${colors.bgColorPrimary};
 
-                    color: ${colors.textColorSecondary};
+                    color: ${colors.textColorPrimary};
                     font-size: ${fontSize.sm};
                     font-weight: ${fontWeight.sm};
 
@@ -246,9 +250,9 @@ const TitleSearch = ({
                 display: flex;
                 ${buttonStyle}
                 ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-                      padding: 0;
               `}
-              whileHover={{ originY: 0.1, scale: 1.3 }}
+              initial={{ y: -2, x: 6 }}
+              whileHover={{ scale: 1.3 }}
               onClick={() => setIsTitleOpen(!isTitleOpen)}
               onKeyDown={({ keyCode }) => {
                 if (keyCode === 13) {
@@ -256,12 +260,15 @@ const TitleSearch = ({
                 }
               }}
             >
-              <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
+              <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
             </motion.button>
           </div>
           <div
             css={css`
-              ${horizontalScrollableStyle}
+              ${horizontalScrollableStyle} ::-webkit-scrollbar-track {
+                background: ${colors.bgColorSecondary};
+              }
+              ${dentedStyleDark}
             `}
           >
             {filteredTitles.length ? (

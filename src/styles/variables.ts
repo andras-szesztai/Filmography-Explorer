@@ -120,6 +120,22 @@ export const dentedStyle = css`
     ${boxShadow.inset.bottom.ternary};
 `
 
+export const dentedStyleDark = css`
+  box-shadow: inset 0 3px 6px
+      ${chroma(colors.bgColorPrimary)
+        .alpha(0.2)
+        .hex()},
+    inset 0 2px 4px
+      ${chroma(colors.bgColorPrimary)
+        .alpha(0.35)
+        .hex()},
+    inset 0 1px 2px
+      ${chroma(colors.bgColorPrimary)
+        .alpha(0.5)
+        .hex()},
+    ${boxShadow.inset.bottom.ternary};
+`
+
 export const buttonStyle = css`
   background: transparent;
   border: none;
@@ -167,19 +183,17 @@ export const styledSelection = css`
 export const filterDropdownStyle = css`
   position: absolute;
   top: 35px;
-  height: 90px;
+  height: 88px;
   padding: ${space[2]}px ${space[3]}px;
-  filter: drop-shadow(${dropShadow.header.ternary});
 
   display: grid;
-  grid-template-rows: 30px 1fr;
+  grid-template-rows: 24px 1fr;
   grid-row-gap: ${space[1]}px;
 
-  background: ${colors.bgColorSecondary};
-  width: auto;
-  max-width: 100%;
+  background: ${colors.bgColorPrimaryLight};
+  width: 100%;
   border-radius: ${space[1]}px;
-  color: ${colors.textColorSecondary};
+  color: ${colors.textColorPrimary};
   user-select: none;
 `
 

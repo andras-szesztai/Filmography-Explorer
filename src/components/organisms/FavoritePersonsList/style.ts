@@ -1,8 +1,7 @@
 import { css } from '@emotion/core'
-import chroma from 'chroma-js'
 
 // Styles
-import { space, colors, height, fontSize, zIndex, dropShadow, boxShadow, width } from '../../../styles/variables'
+import { space, colors, height, fontSize, zIndex, dropShadow, width, dentedStyleDark } from '../../../styles/variables'
 
 export const ContainerStyle = css`
   position: fixed;
@@ -28,15 +27,7 @@ export const ContainerStyle = css`
 
 export const ScrollableContainerStyle = css`
   position: absolute;
-  box-shadow: inset 0 3px 6px
-      ${chroma(colors.bgColorPrimary)
-        .alpha(0.2)
-        .hex()},
-    inset 0 1px 2px
-      ${chroma(colors.bgColorPrimary)
-        .alpha(0.5)
-        .hex()},
-    ${boxShadow.inset.bottom.primary}, ${boxShadow.inset.bottom.ternary};
+  ${dentedStyleDark}
   border-radius: ${space[1]}px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -50,10 +41,12 @@ export const ScrollableContainerStyle = css`
 
   ::-webkit-scrollbar {
     height: ${space[1]}px;
+    border-radius: ${space[1]}px;
   }
 
   ::-webkit-scrollbar-track {
-    background: ${colors.bgColorPrimaryLight};
+    background: ${colors.bgColorSecondary};
+    border-radius: ${space[1]}px;
   }
 
   ::-webkit-scrollbar-thumb {

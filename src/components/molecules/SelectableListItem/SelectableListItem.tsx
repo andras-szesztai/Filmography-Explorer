@@ -87,6 +87,7 @@ const SelectableListItem = ({
 
         ${buttonStyle}
         color: ${colors.textColorPrimary};
+        border: 1px solid ${colors.bgColorPrimary};
 
         cursor: ${isHovered && additionalHoverCondition ? 'pointer' : 'default'};
         ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}

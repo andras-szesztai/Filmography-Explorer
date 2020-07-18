@@ -2,7 +2,7 @@ import React from 'react'
 import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFilter } from 'react-icons/fa'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 import { usePrevious } from 'react-use'
@@ -199,39 +199,42 @@ const GenreFilter = ({
               <IoIosCloseCircle color={colors.bgColorPrimary} size={24} />
             </motion.button>
           </div>
-          <div
-            css={css`
-              ${horizontalScrollableStyle}
-            `}
-          >
-            {genres
-              .sort((a, b) => b.count - a.count)
-              .filter(genre => (filteredGenres.length ? filteredGenres.includes(genre.id) : true))
-              .map(genre => {
-                const genreObj = genreList.find(g => g.id === genre.id)
-                const text = genreObj && genreObj.name
-                return (
-                  <SelectableListItem
-                    key={genre.id}
-                    icon={FaFilter}
-                    iconSize={12}
-                    text={`${text} (${genre.count})`}
-                    handleSelect={() => {
-                      if (genreFilter.includes(genre.id)) {
-                        dispatch(updateFunction(genreFilter.filter(id => id !== genre.id)))
-                      } else if (genres.length === genreFilter.length + 1) {
-                        dispatch(updateFunction([]))
-                      } else {
-                        dispatch(updateFunction([...genreFilter, genre.id]))
-                      }
-                      dispatch(emptyMovieDetails())
-                    }}
-                    isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
-                  />
-                )
-              })}
-            <ListEndPlaceHolder />
-          </div>
+          <AnimateSharedLayout>
+            <div
+              css={css`
+                ${horizontalScrollableStyle}
+              `}
+            >
+              {genres
+                .sort((a, b) => b.count - a.count)
+                .filter(genre => (filteredGenres.length ? filteredGenres.includes(genre.id) : true))
+                .map(genre => {
+                  const genreObj = genreList.find(g => g.id === genre.id)
+                  const text = genreObj && genreObj.name
+                  return (
+                    <motion.span key={`${genre.id}-genre-filter`}>
+                      <SelectableListItem
+                        icon={FaFilter}
+                        iconSize={12}
+                        text={`${text} (${genre.count})`}
+                        handleSelect={() => {
+                          if (genreFilter.includes(genre.id)) {
+                            dispatch(updateFunction(genreFilter.filter(id => id !== genre.id)))
+                          } else if (genres.length === genreFilter.length + 1) {
+                            dispatch(updateFunction([]))
+                          } else {
+                            dispatch(updateFunction([...genreFilter, genre.id]))
+                          }
+                          dispatch(emptyMovieDetails())
+                        }}
+                        isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                      />
+                    </motion.span>
+                  )
+                })}
+              <ListEndPlaceHolder />
+            </div>
+          </AnimateSharedLayout>
         </div>
       )}
     </>

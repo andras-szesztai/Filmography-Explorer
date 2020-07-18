@@ -43,6 +43,7 @@ const IndexPage = () => {
 
   return (
     <SearchDashboardDesktop>
+      <ExplainerCard pages={EXPLORER_EXPLAINER} />
       <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
       <PersonDetailCard />
       <FavoritePersonsList />
@@ -77,7 +78,6 @@ const IndexPage = () => {
           </motion.span>
         )}
       </AnimatePresence>
-      <ExplainerCard pages={EXPLORER_EXPLAINER} />
     </SearchDashboardDesktop>
   )
 }

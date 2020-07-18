@@ -2,13 +2,13 @@ import { css } from '@emotion/core'
 import chroma from 'chroma-js'
 
 // Styles
-import { space, colors, height, fontSize, zIndex, dropShadow, boxShadow } from '../../../styles/variables'
+import { space, colors, height, fontSize, zIndex, dropShadow, boxShadow, width } from '../../../styles/variables'
 
 export const ContainerStyle = css`
   position: fixed;
   left: ${space[8]}px;
   bottom: 0px;
-  width: calc(75vw - ${space[4]}px);
+  width: calc(100vw - ${space[17]}px - ${width.explainer}px);
   height: ${height.personCardClosed}px;
 
   filter: drop-shadow(${dropShadow.header.ternary});

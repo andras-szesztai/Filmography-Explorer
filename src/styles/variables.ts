@@ -87,7 +87,7 @@ export const height = {
   searchResultHeight: space[13],
   searchResultHoverHeight: space[14],
   explainerTotal: 200,
-  explainerVisible: 130
+  explainerVisible: 135
 }
 
 export const tooltipOffset = space[3]

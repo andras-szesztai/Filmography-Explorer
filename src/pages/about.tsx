@@ -169,8 +169,9 @@ const IndexPage = () => {
               </a>
               :
               <p>
-                Ideas and suggestions on design and layout, usability improvements, as well as features like bookmarking and the adding of
-                the customizable "My Bookmarks" dashboard. Recommendations on code structure and best practices.
+                Ideas and suggestions on general design, colors, themes and layout, usability improvements, as well as features like
+                bookmarking and the adding of the customizable "My Bookmarks" dashboard. Recommendations on code structure and best
+                practices.
               </p>
             </div>
             <div>

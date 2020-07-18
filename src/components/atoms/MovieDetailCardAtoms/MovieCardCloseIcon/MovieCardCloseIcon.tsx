@@ -33,7 +33,7 @@ const MovieCardCloseIcon = ({ isLeft, isBookmarkedChart }: Props) => {
   return (
     <motion.button
       type="button"
-      animate={{ scale: isHovered ? 1.25 : 1 }}
+      animate={{ scale: isHovered ? 1.15 : 1 }}
       onMouseOver={() => setIsHovered(true)}
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -49,7 +49,7 @@ const MovieCardCloseIcon = ({ isLeft, isBookmarkedChart }: Props) => {
         ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
       `}
     >
-      <IoIosCloseCircle size={28} color={colors.textColorSecondary} />
+      <IoIosCloseCircle size={26} color={colors.textColorSecondary} />
     </motion.button>
   )
 }

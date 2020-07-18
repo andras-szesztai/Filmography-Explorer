@@ -17,7 +17,7 @@ import { handleBookmarkedToggle } from './utils/util'
 
 // Styles
 import { movieDetailCardContainerRight, rightTopHandleStyle } from './styles'
-import { width, handleSize } from '../../../styles/variables'
+import { width, handleSize, space } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
 const MovieDetailCardRight = ({
@@ -53,7 +53,7 @@ const MovieDetailCardRight = ({
 
   return (
     <motion.div
-      animate={{ x: isOpen ? -width.detailsCard : 0 }}
+      animate={{ x: isOpen ? -width.detailsCard - space[2] : 0 }}
       transition={transition.primary}
       css={css`
         ${movieDetailCardContainerRight}

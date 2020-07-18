@@ -17,7 +17,7 @@ import { CombinedState } from '../../../types/state'
 
 // Styles
 import { movieDetailCardContainerLeft, leftTopHandleStyle } from './styles'
-import { width, handleSize } from '../../../styles/variables'
+import { width, handleSize, space } from '../../../styles/variables'
 import { transition } from '../../../styles/animation'
 
 const MovieDetailCardLeft = ({
@@ -55,7 +55,7 @@ const MovieDetailCardLeft = ({
 
   return (
     <motion.div
-      animate={{ x: isOpen ? width.detailsCard : 0 }}
+      animate={{ x: isOpen ? width.detailsCard + space[2] : 0 }}
       transition={transition.primary}
       css={css`
         ${movieDetailCardContainerLeft}

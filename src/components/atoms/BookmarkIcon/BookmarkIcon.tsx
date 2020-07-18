@@ -82,7 +82,7 @@ export default function BookmarkIcon({ isHovered, isBookmarked }: Props) {
   }, [isHovered])
 
   return (
-    <svg height="32px" viewBox="0 0 227.3 330.2">
+    <svg height="28px" viewBox="0 0 227.3 330.2">
       <g>
         <path
           fill={colors.bgColorPrimary}

@@ -23,7 +23,7 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered, activ
 
   const horPos = isLeft
     ? css`
-        right: 10px;
+        right: 12px;
       `
     : css`
         left: -454px;
@@ -52,11 +52,11 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered, activ
     >
       <motion.span
         initial={{ originX: 0.5 }}
-        animate={{ scale: isHovered ? 1.2 : 1 }}
+        animate={{ scale: isHovered ? 1.15 : 1 }}
         css={css`
           position: absolute;
           ${horPos}
-          top: 2px;
+          top: 4px;
         `}
       >
         <BookmarkIcon isHovered={isHovered} isBookmarked={!!bookmarks[activeMovieID]} />

@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
-import uniq from 'lodash/uniq'
 import omit from 'lodash/omit'
 import { useDispatch } from 'react-redux'
 
@@ -82,16 +81,15 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
     >
       <span>{personData.details && personData.details.name}</span>
       <motion.span
-        initial={{ originX: 0.5 }}
-        animate={{ scale: isNameHovered ? 1.3 : 1 }}
+        animate={{ scale: isNameHovered ? 1.15 : 1 }}
         css={css`
           position: absolute;
-          right: 4px;
-          top: 1px;
+          right: 6px;
+          top: 4px;
         `}
       >
         {favoritePersons && personData.details && (
-          <FavoriteStar isFavorited={!!favoritePersons[personData.details.id]} isHovered={isNameHovered} />
+          <FavoriteStar width={30} isFavorited={!!favoritePersons[personData.details.id]} isHovered={isNameHovered} />
         )}
       </motion.span>
     </div>

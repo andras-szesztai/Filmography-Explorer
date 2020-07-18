@@ -53,7 +53,7 @@ const MovieDetailCardRight = ({
 
   return (
     <motion.div
-      animate={{ x: isOpen ? -width.detailsCard - space[2] : 0 }}
+      animate={{ x: isOpen ? -width.detailsCard - space[4] : 0 }}
       transition={transition.primary}
       css={css`
         ${movieDetailCardContainerRight}

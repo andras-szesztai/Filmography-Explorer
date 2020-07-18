@@ -26,7 +26,7 @@ const MovieCardBookmark = ({ isLeft, handleClick, setIsHovered, isHovered, activ
         right: 12px;
       `
     : css`
-        left: -454px;
+        left: -460px;
       `
 
   return (

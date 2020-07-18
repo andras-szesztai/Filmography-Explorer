@@ -69,7 +69,7 @@ export const zIndex = {
 export const width = {
   searchBar: 400,
   detailsCard: 400,
-  movieDetailCardExtra: space[6],
+  movieDetailCardExtra: space[8],
   tooltipWidth: 320,
   explainer: 280,
   explainerHandle: 160

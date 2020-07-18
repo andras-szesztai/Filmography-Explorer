@@ -14,6 +14,7 @@ import {
   MovieDetailCardContainerLeft,
   ExplainerCard
 } from '../components'
+import { Disclaimer } from '../components/atoms'
 
 // Types
 import { CombinedState } from '../types/state'
@@ -39,10 +40,19 @@ const IndexPage = () => {
   useFetchPersonData({ activeNameID })
   useSetBookmarkedMoviesOnMount(!!Object.keys(bookmarks).length, bookmarkedMovies)
 
-  const { width: windowWidth } = useWindowSize()
+  const { width: windowWidth, height: windowHeight } = useWindowSize()
 
   return (
     <SearchDashboardDesktop>
+      {windowWidth < 1000 && (
+        <Disclaimer
+          bigText="Sorry, the dashboard has not yet been optimized for smaller screen size."
+          smallText="Please set your browser's width bigger if possible, or open it on a
+        wider screen, thank you!"
+          height={windowHeight}
+          width={windowWidth}
+        />
+      )}
       <ExplainerCard pages={EXPLORER_EXPLAINER} />
       <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
       <PersonDetailCard />

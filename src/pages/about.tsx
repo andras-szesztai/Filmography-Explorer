@@ -5,7 +5,7 @@ import { useTimeoutFn } from 'react-use'
 
 // Components
 import { SearchDashboardDesktop } from '../components'
-import FavoriteHearth from '../components/atoms/FavoriteHeart/FavoriteHeart'
+import { FavoriteHeart } from '../components/atoms'
 
 // Styles
 import { colors, space, fontSize, circleFillOpacity } from '../styles/variables'
@@ -235,7 +235,7 @@ const IndexPage = () => {
                     left: 20px;
                   `}
                 >
-                  <FavoriteHearth isFavorited={isFavorited} isHovered={isHeartHovered} />
+                  <FavoriteHeart isFavorited={isFavorited} isHovered={isHeartHovered} />
                 </span>
               </span>{' '}
               by ‎‏‏‎ ‎ ‎ ‎ ‎ ‎

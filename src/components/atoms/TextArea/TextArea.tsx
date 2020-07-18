@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import { motion } from 'framer-motion'
 import { space, dentedStyle, fontSize, colors } from '../../../styles/variables'
 
 interface Props {
@@ -9,7 +10,9 @@ interface Props {
 
 const TextArea = ({ text, gridArea }: Props) => {
   return (
-    <div
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 1 }}
       css={css`
         grid-area: ${gridArea};
         place-self: stretch;
@@ -52,7 +55,7 @@ const TextArea = ({ text, gridArea }: Props) => {
       `}
     >
       <p>{text}</p>
-    </div>
+    </motion.div>
   )
 }
 

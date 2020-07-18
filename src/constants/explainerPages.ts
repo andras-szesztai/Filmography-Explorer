@@ -41,7 +41,7 @@ export const EXPLORER_EXPLAINER = [
   {
     title: 'Bookmarked movies',
     text:
-      'You can bookmark any movie or series you like by clicking on their title or the little bookmark icon in their card. They will be saved and if multiple, you can also compare them on the My Bookmarks page.'
+      'You can bookmark any movie or series you like by clicking on their title or the little bookmark icon in their card. They will be saved and if multiple, you can also compare them on the My Watchlist page.'
   }
 ]
 

@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { SearchDashboardDesktop } from '../components'
 
 // Styles
-import { colors, space, fontSize } from '../styles/variables'
+import { colors, space, fontSize, circleFillOpacity } from '../styles/variables'
 
 const IndexPage = () => {
   const [isLinkHovered, setIsLinkHovered] = React.useState(false)
@@ -20,15 +20,32 @@ const IndexPage = () => {
           display: flex;
           align-items: center;
           justify-content: center;
+          position: relative;
         `}
       >
         <div
           css={css`
-            height: 100%;
-            background: ${colors.bgColorPrimary};
+            position: absolute;
+            pointer-events: none;
+            font-size: 16rem;
+            line-height: 0.9;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: ${colors.bgColorPrimaryLight};
+            position: absolute;
+            left: ${space[4]}px;
+            top: ${space[4]}px;
+            opacity: ${circleFillOpacity};
+          `}
+        >
+          Thank you
+        </div>
+        <div
+          css={css`
+            height: 90%;
             color: ${colors.textColorPrimary};
             padding: 0 ${space[8]}px;
-            width: 900px;
+            width: 950px;
             transform: translateY(${space[7]}px);
             border-radius: ${space[1]}px;
             font-size: ${fontSize.lg};
@@ -139,6 +156,7 @@ const IndexPage = () => {
               <a
                 css={css`
                   color: ${colors.accentSecondary};
+                  text-decoration: none;
                 `}
                 href="https://www.themoviedb.org"
                 target="_blank"
@@ -151,20 +169,6 @@ const IndexPage = () => {
           </div>
           <div>
             <p>
-              This is being built with --- favheart--- by{' '}
-              <a
-                css={css`
-                  color: ${colors.accentSecondary};
-                `}
-                href="https://www.linkedin.com/in/andr%C3%A1s-szesztai-351a4379/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                András Szesztai
-              </a>
-              .
-            </p>
-            <p>
               And of course this project has been helped with many great ideas from a few amazing people. Thank you so much!{' '}
               <span role="img" aria-label="clapping hands emoji">
                 👏
@@ -174,6 +178,7 @@ const IndexPage = () => {
               <a
                 css={css`
                   color: ${colors.accentSecondary};
+                  text-decoration: none;
                 `}
                 href="https://www.linkedin.com/in/alicedemauro/"
                 target="_blank"
@@ -192,6 +197,7 @@ const IndexPage = () => {
               <a
                 css={css`
                   color: ${colors.accentSecondary};
+                  text-decoration: none;
                 `}
                 href="https://twitter.com/ZaksViz"
                 target="_blank"
@@ -201,6 +207,21 @@ const IndexPage = () => {
               </a>
               :<p>The idea of genre filtering options with items in movie details cards and the main filter bar.</p>
             </div>
+            <p>
+              This tool is being built with --- by{' '}
+              <a
+                css={css`
+                  color: ${colors.accentSecondary};
+                  text-decoration: none;
+                `}
+                href="https://www.linkedin.com/in/andr%C3%A1s-szesztai-351a4379/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                András Szesztai
+              </a>
+              .
+            </p>
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ const PersonDetailContentLoader = ({ loading }: Props) => {
           >
             <rect x="12" y="14" rx="4" ry="4" width="255" height="165" />
             <rect x="280" y="14" rx="4" ry="4" width="110" height="165" />
-            <rect x="12" y="190" rx="4" ry="4" width="320" height="40" />
+            <rect x="12" y="188" rx="4" ry="4" width="320" height="41" />
           </ContentLoader>
         </motion.div>
       )}

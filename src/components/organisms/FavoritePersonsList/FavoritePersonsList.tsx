@@ -84,7 +84,7 @@ const FavoritePersonsList = () => {
             <motion.div
               css={css`
                 padding-left: ${space[4]}px;
-                color: ${colors.textColorSecondary};
+                color: ${colors.textColorPrimary};
               `}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

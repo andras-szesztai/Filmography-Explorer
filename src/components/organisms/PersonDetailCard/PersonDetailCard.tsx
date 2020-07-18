@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import useWhatInput from 'react-use-what-input'
 import { useLocalStorage } from 'react-use'
@@ -60,8 +60,14 @@ const PersonDetailCard = () => {
             setFavoritePersons={setFavoritePersons}
             personData={personData}
           />
-          <TextArea gridArea="bio" text={personData.details.biography} />
-          <Image url={personData.details.profile_path} alt={personData.details.name} borderRadius={space[1]} />
+          <AnimatePresence>
+            {personCardIsOpen && (
+              <>
+                <TextArea gridArea="bio" text={personData.details.biography} />
+                <Image url={personData.details.profile_path} alt={personData.details.name} borderRadius={space[1]} />
+              </>
+            )}
+          </AnimatePresence>
         </motion.div>
       </PersonDetailCardContainer>
     </>

@@ -1,15 +1,24 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTimeoutFn } from 'react-use'
 
 // Components
 import { SearchDashboardDesktop } from '../components'
+import FavoriteHearth from '../components/atoms/FavoriteHeart/FavoriteHeart'
 
 // Styles
 import { colors, space, fontSize, circleFillOpacity } from '../styles/variables'
+import { duration } from '../styles/animation'
 
 const IndexPage = () => {
   const [isLinkHovered, setIsLinkHovered] = React.useState(false)
+  const [isHeartHovered, setIsHeartHovered] = React.useState(false)
+  const [isFavorited, setIsFavorited] = React.useState(false)
+  useTimeoutFn(() => {
+    setIsFavorited(true)
+    setIsHeartHovered(true)
+  }, duration.md)
 
   return (
     <SearchDashboardDesktop>
@@ -207,8 +216,29 @@ const IndexPage = () => {
               </a>
               :<p>The idea of genre filtering options with items in movie details cards and the main filter bar.</p>
             </div>
-            <p>
-              This tool is being built with --- by{' '}
+            <p
+              onMouseOver={() => setIsHeartHovered(true)}
+              onMouseOut={() => setIsHeartHovered(false)}
+              onFocus={() => setIsHeartHovered(true)}
+              onBlur={() => setIsHeartHovered(false)}
+            >
+              This tool is being built with{' '}
+              <span
+                css={css`
+                  position: relative;
+                `}
+              >
+                <span
+                  css={css`
+                    position: absolute;
+                    top: -8px;
+                    left: 20px;
+                  `}
+                >
+                  <FavoriteHearth isFavorited={isFavorited} isHovered={isHeartHovered} />
+                </span>
+              </span>{' '}
+              by ‎‏‏‎ ‎ ‎ ‎ ‎ ‎
               <a
                 css={css`
                   color: ${colors.accentSecondary};

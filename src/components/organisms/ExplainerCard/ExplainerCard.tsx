@@ -81,7 +81,7 @@ function ExplainerCard({ pages }: Props) {
         }}
         css={css`
           position: fixed;
-          top: -130px;
+          top: -145px;
           left: 40%;
 
           background-color: ${colors.bgColorSecondary};

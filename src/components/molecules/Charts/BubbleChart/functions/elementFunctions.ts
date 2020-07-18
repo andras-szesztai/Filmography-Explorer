@@ -21,6 +21,8 @@ interface GridParams {
   width: number
 }
 
+const animDuration = duration.md
+
 export function createUpdateGrid({ storedValues, left, width }: GridParams) {
   storedValues.current.gridArea
     .selectAll('.grid-line')
@@ -40,7 +42,7 @@ export function createUpdateGrid({ storedValues, left, width }: GridParams) {
         update.call(u =>
           u
             .transition()
-            .duration(duration.sm)
+            .duration(animDuration)
             .ease(easeCubicInOut)
             .attr('y1', d => storedValues.current.yScale(d))
             .attr('y2', d => storedValues.current.yScale(d))
@@ -68,7 +70,7 @@ export function createUpdateGridText({ storedValues, left, width }: GridParams) 
         update.call(u =>
           u
             .transition()
-            .duration(duration.sm)
+            .duration(animDuration)
             .ease(easeCubicInOut)
             .attr('y', d => storedValues.current.yScale(d))
         )
@@ -103,7 +105,7 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
           .call(e =>
             e
               .transition()
-              .duration(duration.sm)
+              .duration(animDuration)
               .attr('opacity', 1)
           ),
       update =>
@@ -111,7 +113,7 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
           u
             .select('.circle')
             .transition()
-            .duration(duration.sm)
+            .duration(animDuration)
             .ease(easeCubicInOut)
             .attr('cy', (d: any) => yScale(d.vote_average))
         ),
@@ -119,12 +121,12 @@ export function createUpdateCircles({ storedValues, isSizeDynamic, bookmarks }: 
         exit.call(e => {
           e.select('.circle')
             .transition()
-            .duration(duration.sm)
+            .duration(animDuration)
             .ease(easeCubicInOut)
             .attr('r', 0)
           e.transition()
             .duration(0)
-            .delay(duration.sm)
+            .delay(animDuration)
             .ease(easeCubicInOut)
             .remove()
         })
@@ -265,7 +267,7 @@ export function updateSelectedYPos({ isSizeDynamic, type, storedValues, height, 
     chartArea
       .select('.selected-line')
       .transition()
-      .duration(duration.sm)
+      .duration(animDuration)
       .ease(easeCubicInOut)
       .attr('y1', d =>
         getSelectedLineYPos({
@@ -280,7 +282,7 @@ export function updateSelectedYPos({ isSizeDynamic, type, storedValues, height, 
     chartArea
       .select('.selected-circle')
       .transition()
-      .duration(duration.sm)
+      .duration(animDuration)
       .ease(easeCubicInOut)
       .attr('cy', d => yScale(d.vote_average))
   }

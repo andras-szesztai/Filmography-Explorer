@@ -25,7 +25,7 @@ const colorLight = '#FEFEFE'
 export const colors = {
   bgColorPrimary: colorDark,
   bgColorPrimaryLight: chroma(colorDark)
-    .brighten(2)
+    .brighten(1.3)
     .hex(),
   bgColorSecondary: colorLight,
   textColorPrimary: colorLight,
@@ -33,7 +33,7 @@ export const colors = {
   bgColorSecondaryDark: '#E0E0E0',
   bgColorPrimaryShadow: '#2D204A',
   accentPrimary: '#FF4E47',
-  accentSecondary: '#FEC33F'
+  accentSecondary: '#FF9900'
 }
 
 export const space = {

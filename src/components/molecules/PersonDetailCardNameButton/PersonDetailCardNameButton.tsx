@@ -83,7 +83,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
       <span>{personData.details && personData.details.name}</span>
       <motion.span
         initial={{ originX: 0.5 }}
-        animate={{ scale: isNameHovered ? 1.2 : 1 }}
+        animate={{ scale: isNameHovered ? 1.3 : 1 }}
         css={css`
           position: absolute;
           right: 4px;

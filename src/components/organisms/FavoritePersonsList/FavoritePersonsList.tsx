@@ -15,7 +15,7 @@ import { CombinedState } from '../../../types/state'
 import { getObjectValues } from '../../../utils/dataHelpers'
 
 // Styles
-import { space, colors } from '../../../styles/variables'
+import { space, colors, fontWeight } from '../../../styles/variables'
 import { ScrollableContainerStyle, ContainerStyle } from './style'
 
 const PlaceHolder = () => {
@@ -42,7 +42,8 @@ const FavoritePersonsList = () => {
         css={css`
           display: flex;
           align-items: center;
-          color: ${colors.textColorSecondary};
+          color: ${colors.textColorPrimary};
+          font-weight: ${fontWeight.sm};
         `}
       >
         My recent favorites

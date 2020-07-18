@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useLocalStorage } from 'react-use'
+import { useLocalStorage, useWindowSize } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Components
@@ -38,6 +38,8 @@ const IndexPage = () => {
   useFetchGenreList()
   useFetchPersonData({ activeNameID })
   useSetBookmarkedMoviesOnMount(!!Object.keys(bookmarks).length, bookmarkedMovies)
+
+  const { width: windowWidth } = useWindowSize()
 
   return (
     <SearchDashboardDesktop>

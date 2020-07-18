@@ -27,6 +27,7 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
   const isActive = activeID === id
   return (
     <motion.button
+      layout
       type="button"
       onMouseOver={() => setIsHovered(true)}
       onFocus={() => setIsHovered(true)}

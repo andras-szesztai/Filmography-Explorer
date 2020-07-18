@@ -15,8 +15,7 @@ const MovieDetailCardContantLoader = ({ loading, loaderLeftPos }: Props) => {
     <AnimatePresence>
       {loading && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           css={css`
             position: absolute;

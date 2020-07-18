@@ -62,6 +62,7 @@ const FavoritePersonsList = () => {
               width: ${width}px;
               ${ScrollableContainerStyle}
             `}
+            layout
           >
             <AnimatePresence>
               {favs.length &&
@@ -69,7 +70,7 @@ const FavoritePersonsList = () => {
                   .filter((_, i) => i < 20)
                   .sort((a, b) => new Date(b.dateFavorited).getTime() - new Date(a.dateFavorited).getTime())
                   .map(({ name, id }) => (
-                    <motion.span key={`${id}-favlist`} animate>
+                    <motion.span key={`${id}-favlist`} layout>
                       <FavoritePersonsListItem text={name} id={id} activeID={personReducer.activeNameID} />
                     </motion.span>
                   ))}

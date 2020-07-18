@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import chroma from 'chroma-js'
 
 // Components
 import { SearchDashboardDesktop } from '../components'
@@ -25,20 +24,47 @@ const IndexPage = () => {
       >
         <div
           css={css`
-            height: 80%;
+            height: 100%;
             background: ${colors.bgColorPrimary};
             color: ${colors.textColorPrimary};
-            width: 800px;
+            padding: 0 ${space[8]}px;
+            width: 900px;
             transform: translateY(${space[7]}px);
             border-radius: ${space[1]}px;
-            display: grid;
-            grid-template-columns: repeat(3, 50%);
-            grid-column-gap: ${space[14]}px;
             font-size: ${fontSize.lg};
             color: ${colors.textColorPrimary};
             letter-spacing: 0.8px;
             line-height: 1.4;
             user-select: none;
+
+            overflow-y: auto;
+
+            scrollbar-width: thin;
+            scrollbar-color: rebeccapurple green;
+
+            ::-webkit-scrollbar {
+              width: ${space[1]}px;
+            }
+
+            ::-webkit-scrollbar-track {
+              background: ${colors.bgColorPrimaryLight};
+              border-radius: ${space[1]}px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+              background: ${colors.accentSecondary};
+              border-radius: ${space[1]}px;
+            }
+
+            display: grid;
+            grid-template-rows: repeat(3, auto);
+            grid-template-columns: 1fr;
+            grid-column-gap: 0px;
+
+            @media (min-width: 1000px) {
+              grid-template-columns: repeat(2, auto);
+              grid-column-gap: ${space[14]}px;
+            }
           `}
         >
           <div>
@@ -52,7 +78,7 @@ const IndexPage = () => {
                   position: relative;
                 `}
               >
-                <motion.div
+                <motion.span
                   css={css`
                     padding: 0px ${space[2]}px 3px ${space[2]}px;
                     position: absolute;
@@ -104,7 +130,7 @@ const IndexPage = () => {
                       </motion.span>
                     )}
                   </AnimatePresence>
-                </motion.div>
+                </motion.span>
               </span>
             </p>
             <p>
@@ -124,7 +150,42 @@ const IndexPage = () => {
             </p>
           </div>
           <div>
-            <p>And of course this project has been helped with many great ideas from a few amazing people: </p>
+            <p>
+              And of course this project has been helped with many great ideas from a few amazing people. Thank you so much!{' '}
+              <span role="img" aria-label="clapping hands emoji">
+                👏
+              </span>
+            </p>
+            <div>
+              <a
+                css={css`
+                  color: ${colors.accentSecondary};
+                `}
+                href="https://www.linkedin.com/in/alicedemauro/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Alice De Mauro
+              </a>
+              :
+              <p>
+                Ideas and suggestions on design and layout, usability improvements, as well as features like bookmarking and the adding of
+                the customizable "My Bookmarks" dashboard. Recommendations on code structure and best practices.
+              </p>
+            </div>
+            <div>
+              <a
+                css={css`
+                  color: ${colors.accentSecondary};
+                `}
+                href="https://twitter.com/ZaksViz"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Zak Geis
+              </a>
+              :<p>The idea of genre filtering options with items in movie details cards and the main filter bar.</p>
+            </div>
           </div>
         </div>
       </div>

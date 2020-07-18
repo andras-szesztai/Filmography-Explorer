@@ -236,7 +236,7 @@ const MyBookMarksPage = () => {
                 data={bookmarkedChartReducer.titleList}
                 activeMovieID={bookmarkedChartReducer.bookmarkedActiveMovie.id}
                 type="main"
-                title="Bookmarked"
+                title="Watchlist"
                 isFirstEntered={isFirstEntered}
                 setIsFirstEntered={setIsFirstEntered}
                 tooltipYPosition={1}

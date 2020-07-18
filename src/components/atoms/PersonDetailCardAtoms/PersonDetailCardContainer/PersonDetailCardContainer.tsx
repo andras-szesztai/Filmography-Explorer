@@ -1,7 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { css } from '@emotion/core'
-import { usePrevious } from 'react-use'
 
 // Styles
 import { space, colors, width, height, zIndex, dropShadow } from '../../../../styles/variables'
@@ -18,10 +17,10 @@ const PersonDetailCardContainer: React.FC<Props> = props => {
 
   React.useEffect(() => {
     if (isPopulated && isOpen) {
-      setYPos(-height.personCardExtra)
+      setYPos(-height.personCardExtra + space[1])
     }
     if (isPopulated && !isOpen) {
-      setYPos(-height.personCardOpen + height.personCardClosed)
+      setYPos(-height.personCardOpen + space[1] + height.personCardClosed)
     }
   }, [isOpen, isPopulated])
 

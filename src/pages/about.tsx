@@ -83,9 +83,9 @@ const IndexPage = () => {
                     padding: 0px ${space[2]}px 3px ${space[2]}px;
                     position: absolute;
                     overflow: hidden;
-                    background-color: #1da1f2;
+                    background-color: ${colors.accentSecondary};
                     border-radius: 2px;
-                    color: #fff;
+                    color: ${colors.textColorSecondary};
                     display: flex;
                     justify-content: space-between;
                     left: 8px;
@@ -98,7 +98,7 @@ const IndexPage = () => {
                   <a
                     css={css`
                       text-decoration: none;
-                      color: #fff;
+                      color: ${colors.textColorSecondary};
                     `}
                     href="https://twitter.com/AndSzesztai"
                     target="_blank"
@@ -150,6 +150,20 @@ const IndexPage = () => {
             </p>
           </div>
           <div>
+            <p>
+              This is being built with --- favheart--- by{' '}
+              <a
+                css={css`
+                  color: ${colors.accentSecondary};
+                `}
+                href="https://www.linkedin.com/in/andr%C3%A1s-szesztai-351a4379/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                András Szesztai
+              </a>
+              .
+            </p>
             <p>
               And of course this project has been helped with many great ideas from a few amazing people. Thank you so much!{' '}
               <span role="img" aria-label="clapping hands emoji">

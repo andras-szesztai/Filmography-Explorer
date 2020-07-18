@@ -59,7 +59,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
 
         place-self: end start;
 
-        padding: ${space[1]}px ${space[10]}px ${space[1] + 2}px ${space[3]}px;
+        padding: ${space[1] + 1}px ${space[10]}px ${space[1] + 3}px ${space[3]}px;
 
         cursor: pointer;
         user-select: none;

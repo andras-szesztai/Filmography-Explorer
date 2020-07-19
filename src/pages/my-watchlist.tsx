@@ -173,8 +173,6 @@ const MyBookMarksPage = () => {
               {bookmarkedChartReducer.titleList.length > 1 && (
                 <TitleSearch
                   titles={bookmarkedChartReducer.titleList}
-                  setIsTitleOpen={setIsTitleOpen}
-                  isTitleOpen={isTitleOpen}
                   personsFilter={bookmarkedChartReducer.personFilter}
                   isBookmarkChart
                 />
@@ -182,34 +180,12 @@ const MyBookMarksPage = () => {
               {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
                 <GenreFilter
                   genres={bookmarkedChartReducer.genreList}
-                  setIsGenreOpen={setIsGenreOpen}
-                  isGenreOpen={isGenreOpen}
                   personsFilter={bookmarkedChartReducer.personFilter}
                   isBookmarkChart
                 />
               )}
-              {Object.keys(personReducer.favorites).length > 1 && (
-                <PersonFilter
-                  setIsPersonOpen={setIsPersonOpen}
-                  isPersonOpen={isPersonOpen}
-                  setIsGenreOpen={setIsGenreOpen}
-                  isGenreOpen={isGenreOpen}
-                  setIsTitleOpen={setIsTitleOpen}
-                  isTitleOpen={isTitleOpen}
-                  setIsSettingsOpen={setIsSettingsOpen}
-                  isSettingsOpen={isSettingsOpen}
-                />
-              )}
-              <ChartSettings
-                isSettingsOpen={isSettingsOpen}
-                setIsSettingsOpen={setIsSettingsOpen}
-                setIsGenreOpen={setIsGenreOpen}
-                setIsTitleOpen={setIsTitleOpen}
-                setIsPersonOpen={setIsPersonOpen}
-                isGenreOpen={isGenreOpen}
-                isTitleOpen={isTitleOpen}
-                isPersonOpen={isPersonOpen}
-              />
+              {Object.keys(personReducer.favorites).length > 1 && <PersonFilter />}
+              <ChartSettings />
             </div>
             <div
               css={css`

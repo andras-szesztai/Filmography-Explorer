@@ -7,6 +7,7 @@ import Switch from 'react-switch'
 import { useSelector, useDispatch } from 'react-redux'
 
 // Actions
+import { useClickAway } from 'react-use'
 import { toggleIsYAxisSynced } from '../../../reducer/chartSettingsReducer/actions'
 
 // Types
@@ -25,36 +26,22 @@ import {
   fontSize
 } from '../../../styles/variables'
 
-interface Props {
-  isSettingsOpen: boolean
-  setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isGenreOpen: boolean
-  setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isTitleOpen: boolean
-  setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
-  isPersonOpen?: boolean
-}
-
-const ChartSettings = ({
-  isSettingsOpen,
-  setIsSettingsOpen,
-  setIsGenreOpen,
-  setIsTitleOpen,
-  setIsPersonOpen,
-  isGenreOpen,
-  isTitleOpen,
-  isPersonOpen
-}: Props) => {
+const ChartSettings = () => {
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
 
   const dispatch = useDispatch()
   const isYDomainSynced = useSelector((state: CombinedState) => state.chartSettingsReducer.isYAxisSynced)
 
   const [currentInput] = useWhatInput()
 
+  const ref = React.useRef<HTMLDivElement>(null)
+  useClickAway(ref, () => {
+    setIsOpen(false)
+  })
+
   return (
-    <>
+    <div ref={ref}>
       <button
         type="button"
         onMouseOver={() => setIsHovered(true)}
@@ -62,16 +49,7 @@ const ChartSettings = ({
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
         onClick={() => {
-          setIsSettingsOpen(!isSettingsOpen)
-          if (isGenreOpen) {
-            setIsGenreOpen(false)
-          }
-          if (isTitleOpen) {
-            setIsTitleOpen(false)
-          }
-          if (setIsPersonOpen && isPersonOpen) {
-            setIsPersonOpen(false)
-          }
+          setIsOpen(!isOpen)
         }}
         css={css`
           ${buttonPadding}
@@ -92,7 +70,7 @@ const ChartSettings = ({
           position: relative;
         `}
       >
-        {isSettingsOpen && (
+        {isOpen && (
           <span
             css={css`
               position: absolute;
@@ -116,7 +94,7 @@ const ChartSettings = ({
           Update chart settings
         </span>
       </button>
-      {isSettingsOpen && (
+      {isOpen && (
         <div css={filterDropdownStyle}>
           <div
             css={css`
@@ -146,7 +124,7 @@ const ChartSettings = ({
               `}
               initial={{ y: -2, x: 6 }}
               whileHover={{ scale: 1.3 }}
-              onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+              onClick={() => setIsOpen(!isOpen)}
             >
               <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
             </motion.button>
@@ -191,7 +169,7 @@ const ChartSettings = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

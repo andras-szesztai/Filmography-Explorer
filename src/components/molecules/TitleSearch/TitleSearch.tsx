@@ -40,13 +40,11 @@ import {
 
 interface Props {
   titles: MovieObject[]
-  setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isTitleOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
 }
 
-const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, personsFilter = [] }: Props) => {
+const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => {
   const personCreditsChartReducer = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
   const movieReducer = useSelector((state: CombinedState) => state.movieReducer)
@@ -65,6 +63,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
   const [inputText, setInputText] = React.useState('')
   const [searchText, setSearchText] = React.useState('')
   const prevSearchText = usePrevious(searchText)
@@ -78,10 +77,10 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
   )
 
   React.useEffect(() => {
-    if (!isTitleOpen && searchText) {
+    if (!isOpen && searchText) {
       setInputText('')
     }
-  }, [isTitleOpen])
+  }, [isOpen])
 
   const prevPersonsFilter = usePrevious(personsFilter)
   const isInit = React.useRef(true)
@@ -121,7 +120,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
 
   const ref = React.useRef<HTMLDivElement>(null)
   useClickAway(ref, () => {
-    setIsTitleOpen(false)
+    setIsOpen(false)
   })
 
   return (
@@ -133,7 +132,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
         onClick={() => {
-          setIsTitleOpen(!isTitleOpen)
+          setIsOpen(!isOpen)
         }}
         css={css`
           padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[3]}px;
@@ -153,7 +152,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
         `}
       >
-        {isTitleOpen && (
+        {isOpen && (
           <span
             css={css`
               position: absolute;
@@ -177,7 +176,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
           Find a title
         </span>
       </button>
-      {isTitleOpen && (
+      {isOpen && (
         <div css={filterDropdownStyle}>
           <div
             css={css`
@@ -232,7 +231,7 @@ const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, per
               `}
               initial={{ y: -2, x: 6 }}
               whileHover={{ scale: 1.3 }}
-              onClick={() => setIsTitleOpen(!isTitleOpen)}
+              onClick={() => setIsOpen(!isOpen)}
             >
               <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
             </motion.button>

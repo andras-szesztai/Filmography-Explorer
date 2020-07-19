@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 
+import { useClickAway } from 'react-use'
 import {
   buttonPadding,
   colors,
@@ -30,36 +31,22 @@ import { CombinedState } from '../../../types/state'
 // Styles
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 
-interface Props {
-  isPersonOpen: boolean
-  setIsPersonOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isTitleOpen: boolean
-  setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isSettingsOpen: boolean
-  setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isGenreOpen: boolean
-}
-
-const PersonFilter = ({
-  setIsGenreOpen,
-  setIsTitleOpen,
-  isPersonOpen,
-  setIsPersonOpen,
-  setIsSettingsOpen,
-  isTitleOpen,
-  isSettingsOpen,
-  isGenreOpen
-}: Props) => {
+const PersonFilter = () => {
   const { personFilter, personList } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
 
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  const ref = React.useRef<HTMLDivElement>(null)
+  useClickAway(ref, () => {
+    setIsOpen(false)
+  })
 
   return (
-    <>
+    <div ref={ref}>
       <button
         type="button"
         onMouseOver={() => setIsHovered(true)}
@@ -67,16 +54,7 @@ const PersonFilter = ({
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
         onClick={() => {
-          setIsPersonOpen(!isPersonOpen)
-          if (isTitleOpen) {
-            setIsTitleOpen(false)
-          }
-          if (isGenreOpen) {
-            setIsGenreOpen(false)
-          }
-          if (isSettingsOpen) {
-            setIsSettingsOpen(false)
-          }
+          setIsOpen(!isOpen)
         }}
         css={css`
           ${buttonPadding}
@@ -98,7 +76,7 @@ const PersonFilter = ({
           position: relative;
         `}
       >
-        {isPersonOpen && (
+        {isOpen && (
           <span
             css={css`
               position: absolute;
@@ -124,7 +102,7 @@ const PersonFilter = ({
           Filter for favorites ({personFilter.length})
         </span>
       </button>
-      {isPersonOpen && (
+      {isOpen && (
         <div css={filterDropdownStyle}>
           <div
             css={css`
@@ -176,7 +154,7 @@ const PersonFilter = ({
               `}
               initial={{ y: -2, x: 6 }}
               whileHover={{ scale: 1.3 }}
-              onClick={() => setIsPersonOpen(!isPersonOpen)}
+              onClick={() => setIsOpen(!isOpen)}
             >
               <IoIosCloseCircle color={colors.bgColorSecondary} size={24} />
             </motion.button>
@@ -215,7 +193,7 @@ const PersonFilter = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

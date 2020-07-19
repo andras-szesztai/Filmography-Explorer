@@ -37,13 +37,11 @@ import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styl
 
 interface Props {
   genres: PersonGenresObject[]
-  setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isGenreOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
 }
 
-const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, personsFilter }: Props) => {
+const GenreFilter = ({ genres, isBookmarkChart, personsFilter }: Props) => {
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
   const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
   const personGenreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
@@ -64,10 +62,11 @@ const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, per
   const [currentInput] = useWhatInput()
 
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
 
   const ref = React.useRef<HTMLDivElement>(null)
   useClickAway(ref, () => {
-    setIsGenreOpen(false)
+    setIsOpen(false)
   })
 
   return (
@@ -79,7 +78,7 @@ const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, per
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
         onClick={() => {
-          setIsGenreOpen(!isGenreOpen)
+          setIsOpen(!isOpen)
         }}
         css={css`
           ${buttonPadding}
@@ -99,7 +98,7 @@ const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, per
           position: relative;
         `}
       >
-        {isGenreOpen && (
+        {isOpen && (
           // TODO: make component
           <span
             css={css`
@@ -124,7 +123,7 @@ const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, per
           Filter for genres ({genreFilter.length})
         </span>
       </button>
-      {isGenreOpen && (
+      {isOpen && (
         <div css={filterDropdownStyle}>
           <div
             css={css`
@@ -176,7 +175,7 @@ const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, per
               `}
               initial={{ y: -2, x: 6 }}
               whileHover={{ scale: 1.3 }}
-              onClick={() => setIsGenreOpen(!isGenreOpen)}
+              onClick={() => setIsOpen(!isOpen)}
             >
               <IoIosCloseCircle color={colors.bgColorSecondary} size={24} />
             </motion.button>

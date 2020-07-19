@@ -25,10 +25,6 @@ const PersonCreditsChart = () => {
 
   const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
 
-  const [isGenreOpen, setIsGenreOpen] = React.useState(false)
-  const [isTitleOpen, setIsTitleOpen] = React.useState(false)
-  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false)
-
   return (
     <div
       css={css`
@@ -68,26 +64,9 @@ const PersonCreditsChart = () => {
         >
           {!!chartState.nameId && (
             <>
-              <TitleSearch
-                titles={personDataSets.allTitles}
-                setIsTitleOpen={setIsTitleOpen}
-                isTitleOpen={isTitleOpen}
-                isBookmarkChart={false}
-              />
-              <GenreFilter
-                genres={personDataSets.genres}
-                setIsGenreOpen={setIsGenreOpen}
-                isGenreOpen={isGenreOpen}
-                isBookmarkChart={false}
-              />
-              <ChartSettings
-                isSettingsOpen={isSettingsOpen}
-                setIsSettingsOpen={setIsSettingsOpen}
-                setIsGenreOpen={setIsGenreOpen}
-                setIsTitleOpen={setIsTitleOpen}
-                isGenreOpen={isGenreOpen}
-                isTitleOpen={isTitleOpen}
-              />
+              <TitleSearch titles={personDataSets.allTitles} isBookmarkChart={false} />
+              <GenreFilter genres={personDataSets.genres} isBookmarkChart={false} />
+              <ChartSettings />
             </>
           )}
         </div>

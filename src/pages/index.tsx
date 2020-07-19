@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useLocalStorage, useWindowSize } from 'react-use'
+import { useLocalStorage } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Components
@@ -12,16 +12,16 @@ import {
   PersonCreditsChart,
   MovieDetailCardContainerRight,
   MovieDetailCardContainerLeft,
-  ExplainerCard
+  ExplainerCard,
+  DisclaimerGroup
 } from '../components'
-import { Disclaimer } from '../components/atoms'
 
 // Types
 import { CombinedState } from '../types/state'
 import { BookmarkedMoviesObject } from '../types/movie'
 
 // Hooks
-import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount, useDetectDeviceType } from '../hooks'
+import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } from '../hooks'
 
 // Constants
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
@@ -39,9 +39,6 @@ const IndexPage = () => {
   useFetchGenreList()
   useFetchPersonData({ activeNameID })
   useSetBookmarkedMoviesOnMount(!!Object.keys(bookmarks).length, bookmarkedMovies)
-
-  const { width: windowWidth, height: windowHeight } = useWindowSize()
-  const device = useDetectDeviceType()
 
   return (
     <SearchDashboardDesktop>
@@ -80,27 +77,9 @@ const IndexPage = () => {
           </motion.span>
         )}
       </AnimatePresence>
-      {windowWidth < 900 && (
-        <Disclaimer
-          bigText="Sorry, the dashboard has not yet been optimized for smaller screen size."
-          smallText="Please set your browser's width bigger if possible, or open it on a
-        wider screen, thank you!"
-          height={windowHeight}
-          width={windowWidth}
-        />
-      )}
-      {(device === 'mobile' || device === 'tablet') && (
-        <Disclaimer
-          bigText={`Sorry, the dashboard has not yet been optimized for ${device === 'mobile' ? 'mobile devices' : 'tablet'}.`}
-          smallText={`Please use it in your desktop browser until ${device === 'mobile' ? 'mobile' : 'tablet'} layout will be added!`}
-          height={windowHeight}
-          width={windowWidth}
-        />
-      )}
+      <DisclaimerGroup breakpoint={900} />
     </SearchDashboardDesktop>
   )
 }
-
-// TODO make the Disclaimers components
 
 export default IndexPage

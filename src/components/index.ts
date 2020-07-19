@@ -1,5 +1,5 @@
 import { NavItem } from './atoms'
-import { Header } from './molecules'
+import { Header, DisclaimerGroup } from './molecules'
 import {
   PersonDetailCard,
   SearchBar,
@@ -22,5 +22,6 @@ export {
   PersonCreditsChart,
   MovieDetailCardContainerRight,
   MovieDetailCardContainerLeft,
-  ExplainerCard
+  ExplainerCard,
+  DisclaimerGroup
 }

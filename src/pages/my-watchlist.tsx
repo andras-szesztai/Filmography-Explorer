@@ -6,9 +6,15 @@ import { isEmpty, uniq, flatten, maxBy, minBy } from 'lodash'
 import { AnimatePresence, motion } from 'framer-motion'
 
 // Components
-import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight, ExplainerCard } from '../components'
-import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter, ChartSettings } from '../components/molecules'
 import { BookmarkIcon } from '../components/atoms'
+import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter, ChartSettings } from '../components/molecules'
+import {
+  SearchDashboardDesktop,
+  MovieDetailCardContainerLeft,
+  MovieDetailCardContainerRight,
+  ExplainerCard,
+  DisclaimerGroup
+} from '../components'
 
 // Types
 import { CombinedState } from '../types/state'
@@ -33,7 +39,6 @@ import { colors, space, fontSize } from '../styles/variables'
 const MyBookMarksPage = () => {
   const { personReducer, movieReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
   const dispatch = useDispatch()
-  // TODO: tidy it up
 
   // Populate store with favorites if start page
   const [didPopulateFavorites, setDidPopulateFavorites] = React.useState(false)
@@ -285,6 +290,7 @@ const MyBookMarksPage = () => {
         )}
       </AnimatePresence>
       <ExplainerCard pages={BOOKMARKED_EXPLAINER} />
+      <DisclaimerGroup breakpoint={700} />
     </SearchDashboardDesktop>
   )
 }

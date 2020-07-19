@@ -9,5 +9,6 @@ export { default as TitleSearch } from './TitleSearch/TitleSearch'
 export { default as GenreFilter } from './GenreFilter/GenreFilter'
 export { default as PersonFilter } from './PersonFilter/PersonFilter'
 export { default as ChartSettings } from './ChartSettings/ChartSettings'
+export { default as DisclaimerGroup } from './DisclaimerGroup/DisclaimerGroup'
 
 export { DateAxis, BubbleChart }

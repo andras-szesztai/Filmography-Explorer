@@ -1,5 +1,5 @@
 import React from 'react'
-import { IoIosSearch, IoIosClose } from 'react-icons/io'
+import { IoIosSearch, IoIosCloseCircle } from 'react-icons/io'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -9,6 +9,8 @@ import { SearchResultContent } from '../../molecules'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
+
+// Actions
 import { setActiveNameID } from '../../../reducer/personReducer/actions'
 
 // Hooks
@@ -106,7 +108,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         <IoIosSearch size={22} color={colors.textColorPrimary} />
       </SearchIconContainer>
       <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
-        <IoIosClose size={22} color={colors.accentSecondary} />
+        <IoIosCloseCircle size={22} color={colors.accentSecondary} />
       </SearchIconContainer>
       <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
       <SearchResultsContainer isVisible={isResultVisible || noResult}>

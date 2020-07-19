@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector } from 'react-redux'
@@ -47,7 +46,7 @@ const PersonDetailCard = () => {
     <>
       {!isEmpty(personData.details) && <PersonDetailCardShadow />}
       <PersonDetailCardContainer isPopulated={!isEmpty(personData.details)} isOpen={personCardIsOpen}>
-        <PersonDetailContentLoader loading={loading} />
+        <PersonDetailContentLoader loading={loading} isOpen={personCardIsOpen || true} />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: !isEmpty(personData.details) ? 1 : 0, transition: { delay: delay.md } }}

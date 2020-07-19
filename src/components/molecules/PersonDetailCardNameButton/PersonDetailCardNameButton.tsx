@@ -85,7 +85,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
         css={css`
           position: absolute;
           right: 6px;
-          top: 4px;
+          top: 5px;
         `}
       >
         {favoritePersons && personData.details && (

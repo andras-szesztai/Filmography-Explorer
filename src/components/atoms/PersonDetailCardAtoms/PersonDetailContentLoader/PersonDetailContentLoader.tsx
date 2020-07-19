@@ -8,9 +8,10 @@ import { height, width, colors } from '../../../../styles/variables'
 
 interface Props {
   loading: boolean
+  isOpen: boolean
 }
 
-const PersonDetailContentLoader = ({ loading }: Props) => {
+const PersonDetailContentLoader = ({ loading, isOpen }: Props) => {
   return (
     <AnimatePresence>
       {loading && (
@@ -32,8 +33,12 @@ const PersonDetailContentLoader = ({ loading }: Props) => {
             backgroundColor={colors.bgColorSecondaryDark}
             foregroundColor={colors.bgColorPrimary}
           >
-            <rect x="12" y="14" rx="4" ry="4" width="255" height="165" />
-            <rect x="280" y="14" rx="4" ry="4" width="110" height="165" />
+            {isOpen && (
+              <>
+                <rect x="12" y="14" rx="4" ry="4" width="255" height="165" />
+                <rect x="280" y="14" rx="4" ry="4" width="110" height="165" />
+              </>
+            )}
             <rect x="12" y="188" rx="4" ry="4" width="320" height="41" />
           </ContentLoader>
         </motion.div>

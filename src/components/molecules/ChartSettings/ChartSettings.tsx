@@ -131,7 +131,7 @@ const ChartSettings = () => {
                 checkedIcon={false}
                 width={40}
                 height={20}
-                handleDiameter={16}
+                handleDiameter={14}
                 onColor={colors.bgColorPrimary}
                 offHandleColor={colors.bgColorSecondary}
                 offColor={colors.bgColorPrimaryLight}

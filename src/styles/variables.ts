@@ -25,7 +25,7 @@ const colorLight = '#FEFEFE'
 export const colors = {
   bgColorPrimary: colorDark,
   bgColorPrimaryLight: chroma(colorDark)
-    .brighten(1.3)
+    .brighten(1.8)
     .hex(),
   bgColorSecondary: colorLight,
   textColorPrimary: colorLight,

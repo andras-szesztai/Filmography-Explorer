@@ -8,5 +8,6 @@ export { default as SelectableListItem } from './SelectableListItem/SelectableLi
 export { default as TitleSearch } from './TitleSearch/TitleSearch'
 export { default as GenreFilter } from './GenreFilter/GenreFilter'
 export { default as PersonFilter } from './PersonFilter/PersonFilter'
+export { default as ChartSettings } from './ChartSettings/ChartSettings'
 
 export { DateAxis, BubbleChart }

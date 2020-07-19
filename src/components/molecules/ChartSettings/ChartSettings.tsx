@@ -25,6 +25,7 @@ import {
   buttonStyle,
   fontSize
 } from '../../../styles/variables'
+import { FilterBridge } from '../../atoms'
 
 const ChartSettings = () => {
   const [isHovered, setIsHovered] = React.useState(false)
@@ -70,19 +71,7 @@ const ChartSettings = () => {
           position: relative;
         `}
       >
-        {isOpen && (
-          <span
-            css={css`
-              position: absolute;
-              background: ${colors.bgColorPrimaryLight};
-              width: ${space[8]}px;
-              height: ${space[2]}px;
-              bottom: -${space[2]}px;
-              left: calc(50% - ${space[4]}px);
-              z-index: 1;
-            `}
-          />
-        )}
+        <FilterBridge isOpen={isOpen} />
         <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
           <IoMdSettings color={colors.textColorPrimary} size={15} />
         </motion.span>

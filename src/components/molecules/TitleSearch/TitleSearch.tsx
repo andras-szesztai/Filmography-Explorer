@@ -8,7 +8,7 @@ import { useDebounce, usePrevious, useClickAway } from 'react-use'
 import { mean } from 'lodash'
 
 // Components
-import { ListEndPlaceHolder } from '../../atoms'
+import { ListEndPlaceHolder, FilterBridge } from '../../atoms'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 
@@ -152,19 +152,7 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
         `}
       >
-        {isOpen && (
-          <span
-            css={css`
-              position: absolute;
-              background: ${colors.bgColorPrimaryLight};
-              width: ${space[8]}px;
-              height: ${space[2]}px;
-              bottom: -${space[2]}px;
-              left: calc(50% - ${space[4]}px);
-              z-index: 1;
-            `}
-          />
-        )}
+        <FilterBridge isOpen={isOpen} />
         <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
           <IoIosSearch color={colors.textColorPrimary} size={16} />
         </motion.span>

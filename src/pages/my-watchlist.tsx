@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 // Components
 import { SearchDashboardDesktop, MovieDetailCardContainerLeft, MovieDetailCardContainerRight, ExplainerCard } from '../components'
-import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter } from '../components/molecules'
+import { GenreFilter, TitleSearch, BubbleChart, DateAxis, PersonFilter, ChartSettings } from '../components/molecules'
 import { BookmarkIcon } from '../components/atoms'
 
 // Types
@@ -29,7 +29,6 @@ import { BOOKMARKED_EXPLAINER } from '../constants/explainerPages'
 
 // Styles
 import { colors, space, fontSize } from '../styles/variables'
-import ChartSettings from '../components/molecules/ChartSettings/ChartSettings'
 
 const MyBookMarksPage = () => {
   const { personReducer, movieReducer, bookmarkedChartReducer } = useSelector((state: CombinedState) => state)
@@ -123,11 +122,6 @@ const MyBookMarksPage = () => {
       dispatch(updateBookmarkedPersonList(personList))
     }
   }, [bookmarkedChartReducer.genreFilter.length])
-
-  const [isGenreOpen, setIsGenreOpen] = React.useState(false)
-  const [isTitleOpen, setIsTitleOpen] = React.useState(false)
-  const [isPersonOpen, setIsPersonOpen] = React.useState(false)
-  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false)
 
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
 

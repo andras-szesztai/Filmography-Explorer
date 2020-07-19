@@ -10,7 +10,7 @@ import { uniq, flatten } from 'lodash'
 
 // Components
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
-import { ListEndPlaceHolder } from '../../atoms'
+import { ListEndPlaceHolder, FilterBridge } from '../../atoms'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -98,20 +98,7 @@ const GenreFilter = ({ genres, isBookmarkChart, personsFilter }: Props) => {
           position: relative;
         `}
       >
-        {isOpen && (
-          // TODO: make component
-          <span
-            css={css`
-              position: absolute;
-              background: ${colors.bgColorPrimaryLight};
-              width: ${space[8]}px;
-              height: ${space[2]}px;
-              bottom: -${space[2]}px;
-              left: calc(50% - ${space[4]}px);
-              z-index: 1;
-            `}
-          />
-        )}
+        <FilterBridge isOpen={isOpen} />
         <motion.span animate={{ scale: isHovered ? 1.3 : 1, color: genreFilter.length ? colors.accentSecondary : colors.textColorPrimary }}>
           <FaFilter size={12} />
         </motion.span>

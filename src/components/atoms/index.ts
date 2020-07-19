@@ -10,6 +10,7 @@ export { default as FavoriteStar } from './FavoriteStar/FavoriteStar'
 export { default as BookmarkIcon } from './BookmarkIcon/BookmarkIcon'
 export { default as ListEndPlaceHolder } from './ListEndPlaceHolder/ListEndPlaceHolder'
 export { default as FavoriteHeart } from './FavoriteHeart/FavoriteHeart'
+export { default as FilterBridge } from './FilterBridge/FilterBridge'
 export { default as Disclaimer } from './Disclaimer/Disclaimer'
 export {
   SearchBarContainer,

@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 import { useSelector } from 'react-redux'
 
 // Components
-import { DateAxis, BubbleChart, TitleSearch, GenreFilter } from '../../molecules'
+import { DateAxis, BubbleChart, TitleSearch, GenreFilter, ChartSettings } from '../../molecules'
 
 // Types
 import { CombinedState } from '../../../types/state'
@@ -13,7 +13,6 @@ import { useUpdateChartSettings } from './hooks'
 
 // Styles
 import { space, colors, fontSize } from '../../../styles/variables'
-import ChartSettings from '../../molecules/ChartSettings/ChartSettings'
 
 const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)

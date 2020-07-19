@@ -2,13 +2,13 @@ import React from 'react'
 import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
-import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
+import { IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
 import { useDebounce, usePrevious, useClickAway } from 'react-use'
 import { mean } from 'lodash'
 
 // Components
-import { ListEndPlaceHolder, FilterBridge } from '../../atoms'
+import { ListEndPlaceHolder, FilterBridge, CloseIconButton } from '../../atoms'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
 
@@ -31,7 +31,6 @@ import {
   fontWeight,
   buttonNoFocus,
   buttonFocus,
-  buttonStyle,
   fontSize,
   space,
   filterDropdownStyle,
@@ -86,6 +85,7 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
   const isInit = React.useRef(true)
   const [genreFilteredTitles, setGenreFilteredTitles] = React.useState([] as MovieObject[])
   const [filteredTitles, setFilteredTitles] = React.useState([] as MovieObject[])
+  // TODO: make it a hook
   React.useEffect(() => {
     if (!searchText && !genreFilter.length && !genreFilteredTitles.length && !!titles.length && !personsFilter.length) {
       setGenreFilteredTitles(titles)
@@ -209,20 +209,7 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
                 />
               </span>
             </div>
-            {/* // TODO: make it a component */}
-            <motion.button
-              type="button"
-              css={css`
-                display: flex;
-                ${buttonStyle}
-                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-              `}
-              initial={{ y: -2, x: 6 }}
-              whileHover={{ scale: 1.3 }}
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
-            </motion.button>
+            <CloseIconButton currentInput={currentInput} setIsOpen={setIsOpen} isOpen={isOpen} />
           </div>
           <div
             css={css`

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { IoMdSettings, IoIosCloseCircle } from 'react-icons/io'
+import { IoMdSettings } from 'react-icons/io'
 import { css } from '@emotion/core'
 import useWhatInput from 'react-use-what-input'
 import Switch from 'react-switch'
@@ -8,6 +8,10 @@ import { useSelector, useDispatch } from 'react-redux'
 
 // Actions
 import { useClickAway } from 'react-use'
+
+// Components
+import { FilterBridge, CloseIconButton } from '../../atoms'
+
 import { toggleIsYAxisSynced } from '../../../reducer/chartSettingsReducer/actions'
 
 // Types
@@ -22,10 +26,8 @@ import {
   buttonNoFocus,
   buttonFocus,
   filterDropdownStyle,
-  buttonStyle,
   fontSize
 } from '../../../styles/variables'
-import { FilterBridge } from '../../atoms'
 
 const ChartSettings = () => {
   const [isHovered, setIsHovered] = React.useState(false)
@@ -104,19 +106,7 @@ const ChartSettings = () => {
                 Chart settings
               </span>
             </div>
-            <motion.button
-              type="button"
-              css={css`
-                display: flex;
-                ${buttonStyle}
-                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-              `}
-              initial={{ y: -2, x: 6 }}
-              whileHover={{ scale: 1.3 }}
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <IoIosCloseCircle color={colors.textColorPrimary} size={24} />
-            </motion.button>
+            <CloseIconButton currentInput={currentInput} setIsOpen={setIsOpen} isOpen={isOpen} />
           </div>
           <div
             css={css`

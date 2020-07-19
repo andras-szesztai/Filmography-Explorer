@@ -12,6 +12,7 @@ export { default as ListEndPlaceHolder } from './ListEndPlaceHolder/ListEndPlace
 export { default as FavoriteHeart } from './FavoriteHeart/FavoriteHeart'
 export { default as FilterBridge } from './FilterBridge/FilterBridge'
 export { default as Disclaimer } from './Disclaimer/Disclaimer'
+export { default as CloseIconButton } from './CloseButton/CloseButton'
 export {
   SearchBarContainer,
   SearchBarInput,

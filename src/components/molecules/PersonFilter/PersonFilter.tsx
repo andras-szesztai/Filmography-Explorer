@@ -14,12 +14,11 @@ import {
   space,
   buttonNoFocus,
   buttonFocus,
-  buttonStyle,
   filterDropdownStyle,
   dentedStyleDark
 } from '../../../styles/variables'
 import SelectableListItem from '../SelectableListItem/SelectableListItem'
-import { ListEndPlaceHolder, FilterBridge } from '../../atoms'
+import { ListEndPlaceHolder, FilterBridge, CloseIconButton } from '../../atoms'
 
 // Actions
 import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
@@ -133,19 +132,7 @@ const PersonFilter = () => {
                 )}
               </AnimatePresence>
             </div>
-            <motion.button
-              type="button"
-              css={css`
-                display: flex;
-                ${buttonStyle}
-                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
-              `}
-              initial={{ y: -2, x: 6 }}
-              whileHover={{ scale: 1.3 }}
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <IoIosCloseCircle color={colors.bgColorSecondary} size={24} />
-            </motion.button>
+            <CloseIconButton currentInput={currentInput} setIsOpen={setIsOpen} isOpen={isOpen} />
           </div>
           <div
             css={css`

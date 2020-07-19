@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
-import { useDebounce, usePrevious, useClickAway } from 'react-use'
+import { useDebounce, useClickAway } from 'react-use'
 import { mean } from 'lodash'
 
 // Components
@@ -36,6 +36,7 @@ import {
   filterDropdownStyle,
   dentedStyleDark
 } from '../../../styles/variables'
+import { useUpdateFilteredTitles } from './hooks'
 
 interface Props {
   titles: MovieObject[]
@@ -48,16 +49,13 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
   const movieReducer = useSelector((state: CombinedState) => state.movieReducer)
 
-  const genreFilter = isBookmarkChart ? bookmarkedChartReducer.genreFilter : personCreditsChartReducer.genreFilter
   const xScaleDomain = isBookmarkChart ? bookmarkedChartReducer.scales.xScaleDomain : personCreditsChartReducer.scales.xScaleDomain
-  const prevGenreFilter = usePrevious(genreFilter)
   const cast = isBookmarkChart ? Object.values(movieReducer.bookmarks) : personCreditsChartReducer.dataSets.cast
   const crew = isBookmarkChart ? Object.values(movieReducer.bookmarks) : personCreditsChartReducer.dataSets.crew
   const populateHoveredFunc = isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
   const setActiveMovieFunc = isBookmarkChart ? setBookmarkedActiveMovieID : setActiveMovieID
   const emptyHoveredFunc = isBookmarkChart ? emptyBookmarkedHoveredMovie : emptyHoveredMovie
 
-  const prevActiveNameID = usePrevious(personCreditsChartReducer.nameId)
   const dispatch = useDispatch()
   const [currentInput] = useWhatInput()
 
@@ -65,7 +63,8 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
   const [isOpen, setIsOpen] = React.useState(false)
   const [inputText, setInputText] = React.useState('')
   const [searchText, setSearchText] = React.useState('')
-  const prevSearchText = usePrevious(searchText)
+
+  const filteredTitles = useUpdateFilteredTitles({ searchText, isBookmarkChart, titles, personsFilter })
 
   useDebounce(
     () => {
@@ -80,43 +79,6 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
       setInputText('')
     }
   }, [isOpen])
-
-  const prevPersonsFilter = usePrevious(personsFilter)
-  const isInit = React.useRef(true)
-  const [genreFilteredTitles, setGenreFilteredTitles] = React.useState([] as MovieObject[])
-  const [filteredTitles, setFilteredTitles] = React.useState([] as MovieObject[])
-  // TODO: make it a hook
-  React.useEffect(() => {
-    if (!searchText && !genreFilter.length && !genreFilteredTitles.length && !!titles.length && !personsFilter.length) {
-      setGenreFilteredTitles(titles)
-      setFilteredTitles(titles)
-    }
-    if (
-      (prevGenreFilter && genreFilter.length !== prevGenreFilter.length) ||
-      (isInit.current && genreFilter.length) ||
-      (prevPersonsFilter && personsFilter.length !== prevPersonsFilter.length)
-    ) {
-      if (isInit.current) {
-        isInit.current = false
-      }
-      const newArray = titles
-        .filter(t => (genreFilter.length && t.genres ? t.genres.map(id => genreFilter.includes(id)).includes(true) : true))
-        .filter(d => (personsFilter.length ? d.credits && d.credits.some(id => personsFilter.includes(id)) : true))
-      setGenreFilteredTitles(newArray)
-      setFilteredTitles(newArray)
-    }
-    if (typeof prevSearchText === 'string' && prevSearchText !== searchText) {
-      setFilteredTitles(genreFilteredTitles.filter(t => t.title && t.title.toLowerCase().includes(searchText.toLowerCase())))
-    }
-    if (prevActiveNameID && personCreditsChartReducer.nameId && personCreditsChartReducer.nameId !== prevActiveNameID) {
-      setGenreFilteredTitles([])
-      setFilteredTitles([])
-    }
-    if (!genreFilter.length && !personsFilter.length && titles.length !== genreFilteredTitles.length) {
-      setGenreFilteredTitles(titles)
-      setFilteredTitles(titles)
-    }
-  }, [searchText, genreFilter.length, titles.length, personsFilter.length])
 
   const ref = React.useRef<HTMLDivElement>(null)
   useClickAway(ref, () => {

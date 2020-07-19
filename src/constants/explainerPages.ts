@@ -1,18 +1,18 @@
 const sharedPoints = [
   {
-    title: 'Dots and their various sizes',
+    title: 'Circles and their various sizes',
     text:
-      'Each dot represents a movie or series associated with the person searched for, while their size depends on the number of votes they have received. The more votes they have the bigger the dots are.'
+      'Each dot represents a movie or series associated with the person searched for, while their size depends on the number of votes they have received. The more votes they have the bigger the circles are.'
   },
   {
-    title: 'The position of the dots',
+    title: 'The position of the circles',
     text:
       'The horizontal position of the dot shows the date the movie/series was released or first aired, the vertical is the average user score it has received. The better rated moves are higher up on the horizontal scale.'
   },
   {
-    title: 'Interacting with the dots',
+    title: 'Interacting with the circles',
     text:
-      'Hovering over dots will give you more information about the movie/series they represent, while clicking on them will open a card for you with more information about the clicked item.'
+      'Hovering over circles will give you more information about the movie/series they represent, while clicking on them will open a card for you with more information about the clicked item.'
   }
 ]
 
@@ -29,9 +29,9 @@ export const EXPLORER_EXPLAINER = [
       'After you clicked a dot and a movie/series card is opened, you can use the genres, as well as the lead cast and crew members listed as quick search or quick filters by simply clicking on them.'
   },
   {
-    title: 'Quick search favorited persons',
+    title: 'Quick search favorite persons',
     text:
-      'At the bottom of this page, the list of your recently favorited persons will be displayed, which by clicking on them can help you do a quick search for your favorites. '
+      'At the bottom of this page, the list persons you recently marked as your favorites will be displayed, which by clicking on them can help you do a quick search for your favorites. '
   },
   {
     title: 'Favoriting persons',

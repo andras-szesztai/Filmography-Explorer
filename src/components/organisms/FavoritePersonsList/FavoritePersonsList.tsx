@@ -17,6 +17,7 @@ import { getObjectValues } from '../../../utils/dataHelpers'
 // Styles
 import { space, colors, fontWeight } from '../../../styles/variables'
 import { ScrollableContainerStyle, ContainerStyle } from './style'
+import { delay } from '../../../styles/animation'
 
 const PlaceHolder = () => {
   return (
@@ -57,7 +58,7 @@ const FavoritePersonsList = () => {
           align-items: center;
         `}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { delay: 1 } }}
+        animate={{ opacity: 1, transition: { delay: delay.xs } }}
       >
         <AnimateSharedLayout>
           <motion.div
@@ -87,6 +88,7 @@ const FavoritePersonsList = () => {
               css={css`
                 padding-left: ${space[4]}px;
                 color: ${colors.textColorPrimary};
+                display: flex;
               `}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

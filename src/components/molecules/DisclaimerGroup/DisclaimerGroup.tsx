@@ -1,8 +1,11 @@
 import React from 'react'
 import { useWindowSize } from 'react-use'
 
-import { useDetectDeviceType } from '../../../hooks'
+// Components
 import { Disclaimer } from '../../atoms'
+
+// Hooks
+import { useDetectDeviceType } from '../../../hooks'
 
 function DisclaimerGroup({ breakpoint }: { breakpoint: number }) {
   const { width: windowWidth, height: windowHeight } = useWindowSize()

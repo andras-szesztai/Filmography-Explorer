@@ -41,14 +41,6 @@ const FavoritePersonsListItem = ({ text, id, activeID }: Props) => {
           dispatch(setActiveNameID(id))
         }
       }}
-      onKeyDown={({ keyCode }) => {
-        if (keyCode === 13 && id) {
-          if (activeMovieID) {
-            dispatch(emptyMovieDetails())
-          }
-          dispatch(setActiveNameID(id))
-        }
-      }}
       initial={{ opacity: 0, paddingLeft: space[4] }}
       animate={{
         opacity: 1,

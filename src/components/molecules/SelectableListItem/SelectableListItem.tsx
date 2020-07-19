@@ -20,6 +20,8 @@ interface Props {
   additionalHoverCondition?: boolean
   isActive?: boolean
   paddingSpace?: number
+  backgroundInactive?: string
+  colorInactive?: string
 }
 
 const SelectableListItem = ({
@@ -31,20 +33,24 @@ const SelectableListItem = ({
   isActive = true,
   handleMouseover,
   handleMouseout,
-  paddingSpace
+  paddingSpace,
+  backgroundInactive,
+  colorInactive
 }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false)
-
   const [currentInput] = useWhatInput()
+
   return (
     <motion.button
       type="button"
       initial={{
-        background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight,
+        background: isActive ? colors.bgColorPrimary : backgroundInactive,
+        color: isActive ? colors.textColorPrimary : colorInactive,
         paddingLeft: space[3]
       }}
       animate={{
-        background: isActive ? colors.bgColorPrimary : colors.bgColorPrimaryLight,
+        background: isActive ? colors.bgColorPrimary : backgroundInactive,
+        color: isActive ? colors.textColorPrimary : colorInactive,
         paddingLeft: isHovered && additionalHoverCondition ? paddingSpace : space[3]
       }}
       onMouseOver={() => {
@@ -107,7 +113,9 @@ SelectableListItem.defaultProps = {
   handleMouseout: () => null,
   additionalHoverCondition: true,
   isActive: true,
-  paddingSpace: space[7]
+  paddingSpace: space[7],
+  backgroundInactive: colors.bgColorPrimaryLight,
+  colorInactive: colors.textColorPrimary
 }
 
 export default SelectableListItem

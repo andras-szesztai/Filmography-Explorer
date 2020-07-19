@@ -33,7 +33,7 @@ import {
   horizontalScrollableStyle,
   linkContainerStyle
 } from './styles'
-import { space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
+import { space, buttonNoFocus, buttonFocus, colors } from '../../../styles/variables'
 
 function MovieDetailCardContent({
   isOpen,
@@ -72,11 +72,6 @@ function MovieDetailCardContent({
           onMouseLeave={() => setIsHovered(false)}
           onBlur={() => setIsHovered(false)}
           onClick={() => currentInput === 'mouse' && handleClick()}
-          onKeyDown={({ keyCode }) => {
-            if (keyCode === 13) {
-              handleClick()
-            }
-          }}
         >
           {details.title || details.name}
         </button>
@@ -115,6 +110,9 @@ function MovieDetailCardContent({
                 text={genre.name}
                 icon={FaFilter}
                 iconSize={12}
+                isActive={genreFilter.length ? genreFilter.includes(genre.id) : true}
+                backgroundInactive={colors.bgColorSecondary}
+                colorInactive={colors.textColorSecondary}
                 handleSelect={() => {
                   if (genreFilter.includes(genre.id)) {
                     dispatch(updateGenreFilterFunc(genreFilter.filter(id => id !== genre.id)))

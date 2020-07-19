@@ -11,7 +11,7 @@ import { space, colors, fontSize, zIndex } from '../../../styles/variables'
 
 const navItemNumbers: { [path: string]: number } = {
   '/': 0,
-  '/my-bookmarks': 1,
+  '/my-watchlist': 1,
   '/about': 2
 }
 

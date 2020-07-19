@@ -163,7 +163,7 @@ export const buttonPadding = css`
   padding: ${space[1] + 1}px ${space[3]}px ${space[1] + 2}px ${space[3]}px;
 `
 
-export const circleSizeRange = [space[1], space[6]]
+export const circleSizeRange = [space[1], space[7]]
 export const circleRadius = space[2]
 export const circleAdjust = space[1]
 export const handleSize = space[10]

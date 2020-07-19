@@ -109,7 +109,7 @@ const MyBookMarksPage = () => {
 
   // Update person list upon genre filter
   React.useEffect(() => {
-    if (bookmarkedChartReducer.personList.length) {
+    if (Object.keys(personReducer.favorites).length) {
       // TODO dry it up
       const allBookmarks = Object.values(movieReducer.bookmarks)
       const filteredBookMarks = bookmarkedChartReducer.genreFilter.length
@@ -183,7 +183,7 @@ const MyBookMarksPage = () => {
                   isBookmarkChart
                 />
               )}
-              {Object.keys(personReducer.favorites).length > 1 && <PersonFilter />}
+              {!!Object.keys(personReducer.favorites).length && <PersonFilter />}
               <ChartSettings />
             </div>
             <div
@@ -230,6 +230,7 @@ const MyBookMarksPage = () => {
               color: ${colors.textColorPrimary};
               letter-spacing: 0.8px;
               user-select: none;
+              display: flex;
             `}
           >
             Please start by bookmarking movies or series on the Explore page!{' '}

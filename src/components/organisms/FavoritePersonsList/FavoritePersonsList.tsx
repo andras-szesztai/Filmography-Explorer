@@ -48,7 +48,7 @@ const FavoritePersonsList = () => {
       >
         My recent favorites
       </div>
-      <div
+      <motion.div
         ref={ref}
         css={css`
           width: 100%;
@@ -56,6 +56,8 @@ const FavoritePersonsList = () => {
           display: flex;
           align-items: center;
         `}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { delay: 1 } }}
       >
         <AnimateSharedLayout>
           <motion.div
@@ -108,7 +110,7 @@ const FavoritePersonsList = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   )
 }

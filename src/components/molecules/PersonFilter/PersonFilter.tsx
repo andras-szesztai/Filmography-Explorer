@@ -5,8 +5,9 @@ import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
-
 import { useClickAway } from 'react-use'
+
+// Components
 import {
   buttonPadding,
   colors,
@@ -142,7 +143,7 @@ const PersonFilter = () => {
               ${dentedStyleDark}
             `}
           >
-            {personList &&
+            {personList.length ? (
               personList.map(favPerson => {
                 return (
                   <SelectableListItem
@@ -153,7 +154,7 @@ const PersonFilter = () => {
                     handleSelect={() => {
                       if (personFilter.includes(favPerson.id)) {
                         dispatch(updatePersonFilter(personFilter.filter(id => id !== favPerson.id)))
-                      } else if (Object.values(personList).length === personFilter.length + 1) {
+                      } else if (!!personFilter.length && Object.values(personList).length === personFilter.length + 1) {
                         dispatch(updatePersonFilter([]))
                       } else {
                         dispatch(updatePersonFilter([...personFilter, favPerson.id]))
@@ -163,7 +164,16 @@ const PersonFilter = () => {
                     isActive={personFilter.length ? personFilter.includes(favPerson.id) : true}
                   />
                 )
-              })}
+              })
+            ) : (
+              <span
+                css={css`
+                  margin-left: ${space[1]}px;
+                `}
+              >
+                Sorry, none of your favorites is credit with any of your bookmarked movies
+              </span>
+            )}
             <ListEndPlaceHolder />
           </div>
         </div>

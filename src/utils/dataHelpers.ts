@@ -27,6 +27,7 @@ export const makeFilteredData = ({ data, type }: Params) => {
   const accessor = type === 'cast' ? 'character' : 'job'
   const ceremonies = [
     'The Academy Awards',
+    'Golden Globe Awards',
     'Tony Awards',
     'Saturday Night Live',
     'MTV Video Music Awards',

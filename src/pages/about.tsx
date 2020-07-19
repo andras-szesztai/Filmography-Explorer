@@ -18,7 +18,7 @@ const IndexPage = () => {
   useTimeoutFn(() => {
     setIsFavorited(true)
     setIsHeartHovered(true)
-  }, duration.md)
+  }, duration.lg)
 
   return (
     <SearchDashboardDesktop>

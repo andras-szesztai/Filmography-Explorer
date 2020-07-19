@@ -70,23 +70,15 @@ const PersonCreditsChart = () => {
             <>
               <TitleSearch
                 titles={personDataSets.allTitles}
-                setIsGenreOpen={setIsGenreOpen}
-                isGenreOpen={isGenreOpen}
                 setIsTitleOpen={setIsTitleOpen}
                 isTitleOpen={isTitleOpen}
-                setIsSettingsOpen={setIsSettingsOpen}
-                isSettingsOpen={isSettingsOpen}
                 isBookmarkChart={false}
               />
               <GenreFilter
                 genres={personDataSets.genres}
-                setIsTitleOpen={setIsTitleOpen}
                 setIsGenreOpen={setIsGenreOpen}
                 isGenreOpen={isGenreOpen}
-                setIsSettingsOpen={setIsSettingsOpen}
                 isBookmarkChart={false}
-                isSettingOpen={isSettingsOpen}
-                isTitleOpen={isTitleOpen}
               />
               <ChartSettings
                 isSettingsOpen={isSettingsOpen}

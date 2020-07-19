@@ -101,4 +101,6 @@ const IndexPage = () => {
   )
 }
 
+// TODO make the Disclaimers components
+
 export default IndexPage

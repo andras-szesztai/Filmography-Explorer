@@ -54,7 +54,7 @@ const IndexPage = () => {
             height: 90%;
             color: ${colors.textColorPrimary};
             padding: 0 ${space[8]}px;
-            width: 950px;
+            width: 960px;
             transform: translateY(${space[7]}px);
             border-radius: ${space[1]}px;
             font-size: ${fontSize.lg};
@@ -222,7 +222,7 @@ const IndexPage = () => {
               onFocus={() => setIsHeartHovered(true)}
               onBlur={() => setIsHeartHovered(false)}
             >
-              This tool is being built with{' '}
+              This tool is being built with ‎‏‏‎ ‎ ‎ ‎ ‎
               <span
                 css={css`
                   position: relative;
@@ -232,13 +232,13 @@ const IndexPage = () => {
                   css={css`
                     position: absolute;
                     top: -8px;
-                    left: 20px;
+                    left: -30px;
                   `}
                 >
                   <FavoriteHeart isFavorited={isFavorited} isHovered={isHeartHovered} />
                 </span>
               </span>{' '}
-              by ‎‏‏‎ ‎ ‎ ‎ ‎ ‎
+              by{' '}
               <a
                 css={css`
                   color: ${colors.accentSecondary};

@@ -173,31 +173,19 @@ const MyBookMarksPage = () => {
               {bookmarkedChartReducer.titleList.length > 1 && (
                 <TitleSearch
                   titles={bookmarkedChartReducer.titleList}
-                  setIsGenreOpen={setIsGenreOpen}
-                  isGenreOpen={isGenreOpen}
                   setIsTitleOpen={setIsTitleOpen}
                   isTitleOpen={isTitleOpen}
-                  setIsPersonOpen={setIsPersonOpen}
-                  isPersonOpen={isPersonOpen}
                   personsFilter={bookmarkedChartReducer.personFilter}
                   isBookmarkChart
-                  setIsSettingsOpen={setIsSettingsOpen}
-                  isSettingsOpen={isSettingsOpen}
                 />
               )}
               {bookmarkedChartReducer.titleList.length > 1 && bookmarkedChartReducer.genreList.length > 1 && (
                 <GenreFilter
                   genres={bookmarkedChartReducer.genreList}
-                  setIsTitleOpen={setIsTitleOpen}
                   setIsGenreOpen={setIsGenreOpen}
                   isGenreOpen={isGenreOpen}
                   personsFilter={bookmarkedChartReducer.personFilter}
-                  setIsPersonOpen={setIsPersonOpen}
                   isBookmarkChart
-                  setIsSettingsOpen={setIsSettingsOpen}
-                  isSettingOpen={isSettingsOpen}
-                  isTitleOpen={isTitleOpen}
-                  isPersonOpen={isPersonOpen}
                 />
               )}
               {Object.keys(personReducer.favorites).length > 1 && (

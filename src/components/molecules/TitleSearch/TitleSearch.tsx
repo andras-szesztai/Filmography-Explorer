@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { IoIosCloseCircle, IoIosSearch } from 'react-icons/io'
 import { css } from '@emotion/core'
-import { useDebounce, usePrevious } from 'react-use'
+import { useDebounce, usePrevious, useClickAway } from 'react-use'
 import { mean } from 'lodash'
 
 // Components
@@ -40,33 +40,13 @@ import {
 
 interface Props {
   titles: MovieObject[]
-  setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isGenreOpen: boolean
   setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isSettingsOpen: boolean
   isTitleOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
-  setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
-  isPersonOpen?: boolean
 }
 
-// TODO useClickAway
-
-const TitleSearch = ({
-  titles,
-  setIsTitleOpen,
-  isTitleOpen,
-  setIsGenreOpen,
-  isBookmarkChart,
-  setIsPersonOpen,
-  setIsSettingsOpen,
-  personsFilter = [],
-  isGenreOpen,
-  isSettingsOpen,
-  isPersonOpen
-}: Props) => {
+const TitleSearch = ({ titles, setIsTitleOpen, isTitleOpen, isBookmarkChart, personsFilter = [] }: Props) => {
   const personCreditsChartReducer = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const bookmarkedChartReducer = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
   const movieReducer = useSelector((state: CombinedState) => state.movieReducer)
@@ -139,8 +119,13 @@ const TitleSearch = ({
     }
   }, [searchText, genreFilter.length, titles.length, personsFilter.length])
 
+  const ref = React.useRef<HTMLDivElement>(null)
+  useClickAway(ref, () => {
+    setIsTitleOpen(false)
+  })
+
   return (
-    <>
+    <div ref={ref}>
       <button
         type="button"
         onMouseOver={() => setIsHovered(true)}
@@ -149,15 +134,6 @@ const TitleSearch = ({
         onBlur={() => setIsHovered(false)}
         onClick={() => {
           setIsTitleOpen(!isTitleOpen)
-          if (isGenreOpen) {
-            setIsGenreOpen(false)
-          }
-          if (isSettingsOpen) {
-            setIsSettingsOpen(false)
-          }
-          if (setIsPersonOpen && isPersonOpen) {
-            setIsPersonOpen(false)
-          }
         }}
         css={css`
           padding: ${space[1] + 1}px ${space[4]}px ${space[1] + 2}px ${space[3]}px;
@@ -336,13 +312,11 @@ const TitleSearch = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 
 TitleSearch.defaultProps = {
-  setIsPersonOpen: undefined,
-  isPersonOpen: false,
   personsFilter: []
 }
 

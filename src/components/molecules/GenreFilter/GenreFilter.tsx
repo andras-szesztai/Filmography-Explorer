@@ -5,7 +5,7 @@ import { FaFilter } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
-import { usePrevious } from 'react-use'
+import { usePrevious, useClickAway } from 'react-use'
 import { uniq, flatten } from 'lodash'
 
 // Components
@@ -37,31 +37,13 @@ import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styl
 
 interface Props {
   genres: PersonGenresObject[]
-  setIsTitleOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isTitleOpen: boolean
   setIsGenreOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isSettingOpen: boolean
   isGenreOpen: boolean
   isBookmarkChart: boolean
   personsFilter?: number[]
-  setIsPersonOpen?: React.Dispatch<React.SetStateAction<boolean>>
-  isPersonOpen?: boolean
 }
 
-const GenreFilter = ({
-  genres,
-  setIsGenreOpen,
-  isGenreOpen,
-  setIsTitleOpen,
-  isBookmarkChart,
-  personsFilter,
-  setIsPersonOpen,
-  setIsSettingsOpen,
-  isTitleOpen,
-  isSettingOpen,
-  isPersonOpen
-}: Props) => {
+const GenreFilter = ({ genres, isGenreOpen, setIsGenreOpen, isBookmarkChart, personsFilter }: Props) => {
   const genreList = useSelector((state: CombinedState) => state.movieReducer.genres.data)
   const bookmarked = useSelector((state: CombinedState) => state.movieReducer.bookmarks)
   const personGenreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
@@ -83,8 +65,13 @@ const GenreFilter = ({
 
   const [isHovered, setIsHovered] = React.useState(false)
 
+  const ref = React.useRef<HTMLDivElement>(null)
+  useClickAway(ref, () => {
+    setIsGenreOpen(false)
+  })
+
   return (
-    <>
+    <div ref={ref}>
       <button
         type="button"
         onMouseOver={() => setIsHovered(true)}
@@ -93,15 +80,6 @@ const GenreFilter = ({
         onBlur={() => setIsHovered(false)}
         onClick={() => {
           setIsGenreOpen(!isGenreOpen)
-          if (isTitleOpen) {
-            setIsTitleOpen(false)
-          }
-          if (isSettingOpen) {
-            setIsSettingsOpen(false)
-          }
-          if (setIsPersonOpen && isPersonOpen) {
-            setIsPersonOpen(false)
-          }
         }}
         css={css`
           ${buttonPadding}
@@ -241,14 +219,12 @@ const GenreFilter = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 
 GenreFilter.defaultProps = {
-  personsFilter: undefined,
-  setIsPersonOpen: undefined,
-  isPersonOpen: false
+  personsFilter: []
 }
 
 export default GenreFilter

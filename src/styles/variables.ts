@@ -178,6 +178,7 @@ export const styledSelection = css`
 
 export const filterDropdownStyle = css`
   position: absolute;
+  left: 0px;
   top: 35px;
   height: 90px;
   padding: ${space[2]}px ${space[3]}px;

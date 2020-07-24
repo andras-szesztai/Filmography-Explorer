@@ -40,6 +40,8 @@ const IndexPage = () => {
   useFetchPersonData({ activeNameID })
   useSetBookmarkedMoviesOnMount(!!Object.keys(bookmarks).length, bookmarkedMovies)
 
+  const [isPersonSearch, setIsPersonSearch] = React.useState(true)
+
   return (
     <SearchDashboardDesktop>
       <ExplainerCard pages={EXPLORER_EXPLAINER} />

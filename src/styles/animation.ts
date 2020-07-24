@@ -8,6 +8,11 @@ export const transition = {
     type: 'spring',
     damping: 12,
     stiffness: 200
+  },
+  secondary: {
+    type: 'spring',
+    stiffness: 500,
+    damping: 30
   }
 }
 

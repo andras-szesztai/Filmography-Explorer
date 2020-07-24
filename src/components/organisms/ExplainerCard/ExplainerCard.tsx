@@ -165,9 +165,8 @@ function ExplainerCard({ pages }: Props) {
           color: ${colors.textColorSecondary};
           font-size: ${fontSize.md};
         `}
-        animate={{ scale: isHovered ? 1.25 : 1 }}
       >
-        <motion.span>
+        <motion.span animate={{ scale: isHovered ? 1.25 : 1, transition: transition.whileHover }}>
           <IoMdInformationCircle color={colors.textColorSecondary} size={26} />
         </motion.span>
       </motion.button>

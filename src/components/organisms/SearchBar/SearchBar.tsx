@@ -1,7 +1,10 @@
 import React from 'react'
-import { IoIosSearch, IoIosCloseCircle } from 'react-icons/io'
+import { IoIosSearch, IoIosCloseCircle, IoIosFilm, IoMdPerson } from 'react-icons/io'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
+import { css } from '@emotion/core'
+import useWhatInput from 'react-use-what-input'
+import { AnimateSharedLayout, motion } from 'framer-motion'
 
 // Components
 import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
@@ -12,18 +15,18 @@ import { API_ROOT } from '../../../constants/url'
 
 // Actions
 import { setActiveNameID } from '../../../reducer/personReducer/actions'
+import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 
 // Hooks
 import { useDebouncedSearch } from '../../../hooks'
 
 // Types
 import { PersonDetails } from '../../../types/person'
+import { CombinedState } from '../../../types/state'
 
 // Styles
-import { colors } from '../../../styles/variables'
+import { colors, width, height, space, buttonStyle, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 import { duration } from '../../../styles/animation'
-import { CombinedState } from '../../../types/state'
-import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
 
 export interface ResultArray {
   resultArray: PersonDetails[]
@@ -43,6 +46,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
   const activeMovieID = useSelector((state: CombinedState) => state.movieReducer.activeMovieID)
 
   const inputRef = React.useRef<HTMLInputElement>(null)
+  const [currentInput] = useWhatInput()
 
   const fetchNames = (text: string) => {
     if (text) {
@@ -75,9 +79,109 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
     }
   }
 
+  const [isPersonSearch, setIsPersonSearch] = React.useState(true)
+
   const isResultVisible = !!nameSearchResults.resultArray.length
   return (
     <SearchBarContainer>
+      <div
+        css={css`
+          position: absolute;
+          left: ${width.searchBar + space[4]}px;
+          height: ${height.searchBar}px;
+          width: ${space[17]}px;
+          color: ${colors.bgColorSecondary};
+          border: 1px solid ${colors.textColorPrimary};
+          border-radius: ${space[1]}px;
+
+          cursor: default;
+
+          display: flex;
+
+          align-items: center;
+
+          overflow: hidden;
+        `}
+      >
+        <AnimateSharedLayout>
+          <button
+            type="button"
+            onClick={() => setIsPersonSearch(false)}
+            css={css`
+              ${buttonStyle}
+              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+              color: ${colors.textColorPrimary};
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              height: 100%;
+              width: 50%;
+            `}
+          >
+            <motion.span
+              css={css`
+                z-index: 2;
+              `}
+            >
+              <IoIosFilm size={24} />
+            </motion.span>
+            {!isPersonSearch && (
+              <motion.div
+                layoutId="outline"
+                css={css`
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background: red;
+                  border-radius: ${space[1]}px;
+                  top: 0px;
+                  left: 0px;
+                  z-index: 1;
+                `}
+              />
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsPersonSearch(true)}
+            css={css`
+              ${buttonStyle}
+              ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+              color: ${colors.textColorPrimary};
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              height: 100%;
+                        width: 50%;
+            `}
+          >
+            <span
+              css={css`
+                z-index: 2;
+              `}
+            >
+              <IoMdPerson size={22} />
+            </span>
+            {isPersonSearch && (
+              <motion.div
+                layoutId="outline"
+                css={css`
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background: red;
+                  border-radius: ${space[1]}px;
+                  top: 0px;
+                  left: 0px;
+                  z-index: 1;
+                `}
+              />
+            )}
+          </button>
+        </AnimateSharedLayout>
+      </div>
       <SearchBarInput
         inputRef={inputRef}
         placeholder={placeholder}

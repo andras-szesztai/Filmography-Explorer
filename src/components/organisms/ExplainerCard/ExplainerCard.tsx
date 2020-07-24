@@ -149,7 +149,7 @@ function ExplainerCard({ pages }: Props) {
           ${buttonStyle}
           ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
 
-            position: absolute;
+          position: absolute;
           z-index: 1;
           right: 0px;
           top: -${handleSize - space[1]}px;
@@ -167,7 +167,9 @@ function ExplainerCard({ pages }: Props) {
         `}
         animate={{ scale: isHovered ? 1.25 : 1 }}
       >
-        <IoMdInformationCircle color={colors.textColorSecondary} size={26} />
+        <motion.span>
+          <IoMdInformationCircle color={colors.textColorSecondary} size={26} />
+        </motion.span>
       </motion.button>
     </motion.div>
   )

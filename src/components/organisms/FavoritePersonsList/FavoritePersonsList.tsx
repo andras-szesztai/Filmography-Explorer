@@ -103,7 +103,7 @@ const FavoritePersonsList = () => {
                 <span
                   css={css`
                     position: absolute;
-                    top: -6px;
+                    top: -8px;
                   `}
                 >
                   <FavoriteStar isFavorited isHovered={false} />

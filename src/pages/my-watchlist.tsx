@@ -243,7 +243,7 @@ const MyBookMarksPage = () => {
                 css={css`
                   position: absolute;
                   top: -1px;
-                  left: 4px;
+                  left: ${space[2]}px;
                 `}
               >
                 <BookmarkIcon isBookmarked isHovered={false} />

@@ -71,8 +71,7 @@ export const width = {
   detailsCard: 400,
   movieDetailCardExtra: space[8],
   tooltipWidth: 320,
-  explainer: 280,
-  explainerHandle: 160
+  explainer: 280
 }
 
 export const height = {

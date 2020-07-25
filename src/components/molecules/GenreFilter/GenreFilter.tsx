@@ -2,7 +2,7 @@ import React from 'react'
 import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFilter } from 'react-icons/fa'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useAnimation } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 import { usePrevious, useClickAway } from 'react-use'
@@ -33,6 +33,7 @@ import {
   dentedStyleDark
 } from '../../../styles/variables'
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
+import { transition } from '../../../styles/animation'
 
 interface Props {
   genres: PersonGenresObject[]
@@ -68,6 +69,16 @@ const GenreFilter = ({ genres, isBookmarkChart, personsFilter }: Props) => {
     setIsOpen(false)
   })
 
+  const controls = useAnimation()
+  React.useEffect(() => {
+    if (genreFilter.length) {
+      controls.start({
+        scale: 1,
+        transition: transition.filterText
+      })
+    }
+  }, [genreFilter.length])
+
   return (
     <div ref={ref}>
       <button
@@ -76,9 +87,7 @@ const GenreFilter = ({ genres, isBookmarkChart, personsFilter }: Props) => {
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onBlur={() => setIsHovered(false)}
-        onClick={() => {
-          setIsOpen(!isOpen)
-        }}
+        onClick={() => setIsOpen(!isOpen)}
         css={css`
           ${buttonPadding}
           background: ${colors.bgColorPrimaryLight};
@@ -98,16 +107,17 @@ const GenreFilter = ({ genres, isBookmarkChart, personsFilter }: Props) => {
         `}
       >
         <FilterBridge isOpen={isOpen} />
-        <motion.span animate={{ scale: isHovered ? 1.3 : 1, color: genreFilter.length ? colors.accentSecondary : colors.textColorPrimary }}>
+        <motion.span
+          initial={{ marginRight: space[2] }}
+          animate={{
+            scale: isHovered ? 1.3 : 1,
+            color: genreFilter.length ? colors.accentSecondary : colors.textColorPrimary,
+            transition: transition.whileHover
+          }}
+        >
           <FaFilter size={12} />
         </motion.span>
-        <span
-          css={css`
-            margin-left: ${space[2]}px;
-          `}
-        >
-          Filter for genres ({genreFilter.length})
-        </span>
+        Filter for genres (<motion.span animate={controls}>{genreFilter.length}</motion.span>)
       </button>
       {isOpen && (
         <div css={filterDropdownStyle}>

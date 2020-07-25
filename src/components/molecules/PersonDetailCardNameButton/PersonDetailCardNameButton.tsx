@@ -13,6 +13,7 @@ import { FavoritePersonsObject, PersonDataSets } from '../../../types/person'
 // Styles
 import { fontWeight, fontSize, colors, space, buttonNoFocus, buttonFocus } from '../../../styles/variables'
 import { updateFavoritePersons } from '../../../reducer/personReducer/actions'
+import { transition } from '../../../styles/animation'
 
 interface Props {
   currentInput: string
@@ -81,7 +82,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
     >
       <span>{personData.details && personData.details.name}</span>
       <motion.span
-        animate={{ scale: isNameHovered ? 1.15 : 1 }}
+        animate={{ scale: isNameHovered ? 1.25 : 1, transition: transition.whileHover }}
         css={css`
           position: absolute;
           right: 6px;

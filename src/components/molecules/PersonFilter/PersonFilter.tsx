@@ -2,7 +2,7 @@ import React from 'react'
 import useWhatInput from 'react-use-what-input'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFilter } from 'react-icons/fa'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useAnimation } from 'framer-motion'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { css } from '@emotion/core'
 import { useClickAway } from 'react-use'
@@ -30,6 +30,7 @@ import { CombinedState } from '../../../types/state'
 
 // Styles
 import { horizontalScrollableStyle } from '../../organisms/MovieDetailCards/styles'
+import { transition } from '../../../styles/animation'
 
 const PersonFilter = () => {
   const { personFilter, personList } = useSelector((state: CombinedState) => state.bookmarkedChartReducer)
@@ -44,6 +45,16 @@ const PersonFilter = () => {
   useClickAway(ref, () => {
     setIsOpen(false)
   })
+
+  const controls = useAnimation()
+  React.useEffect(() => {
+    if (personFilter.length) {
+      controls.start({
+        scale: 1,
+        transition: transition.filterText
+      })
+    }
+  }, [personFilter.length])
 
   return (
     <div ref={ref}>
@@ -78,17 +89,16 @@ const PersonFilter = () => {
       >
         <FilterBridge isOpen={isOpen} />
         <motion.span
-          animate={{ scale: isHovered ? 1.3 : 1, color: personFilter.length ? colors.accentSecondary : colors.textColorPrimary }}
+          initial={{ marginRight: space[2] }}
+          animate={{
+            scale: isHovered ? 1.3 : 1,
+            color: personFilter.length ? colors.accentSecondary : colors.textColorPrimary,
+            transition: transition.whileHover
+          }}
         >
           <FaFilter size={12} />
         </motion.span>
-        <span
-          css={css`
-            margin-left: ${space[2]}px;
-          `}
-        >
-          Filter for favorites ({personFilter.length})
-        </span>
+        Filter for favorites (<motion.span animate={controls}>{personFilter.length}</motion.span>)
       </button>
       {isOpen && (
         <div css={filterDropdownStyle}>

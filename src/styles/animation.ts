@@ -13,6 +13,12 @@ export const transition = {
     type: 'spring',
     stiffness: 500,
     damping: 30
+  },
+  filterText: {
+    type: 'spring',
+    velocity: 50,
+    stiffness: 700,
+    damping: 80
   }
 }
 

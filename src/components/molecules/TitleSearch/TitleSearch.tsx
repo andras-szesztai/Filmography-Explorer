@@ -37,6 +37,7 @@ import {
   dentedStyleDark
 } from '../../../styles/variables'
 import { useUpdateFilteredTitles } from './hooks'
+import { transition } from '../../../styles/animation'
 
 interface Props {
   titles: MovieObject[]
@@ -115,7 +116,7 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
         `}
       >
         <FilterBridge isOpen={isOpen} />
-        <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
+        <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1, transition: transition.whileHover }}>
           <IoIosSearch color={colors.textColorPrimary} size={16} />
         </motion.span>
         <span

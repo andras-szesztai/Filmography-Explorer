@@ -28,6 +28,7 @@ import {
   filterDropdownStyle,
   fontSize
 } from '../../../styles/variables'
+import { transition } from '../../../styles/animation'
 
 const ChartSettings = () => {
   const [isHovered, setIsHovered] = React.useState(false)
@@ -74,7 +75,7 @@ const ChartSettings = () => {
         `}
       >
         <FilterBridge isOpen={isOpen} />
-        <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1 }}>
+        <motion.span initial={{ y: 2 }} animate={{ scale: isHovered ? 1.3 : 1, transition: transition.whileHover }}>
           <IoMdSettings color={colors.textColorPrimary} size={15} />
         </motion.span>
         <span

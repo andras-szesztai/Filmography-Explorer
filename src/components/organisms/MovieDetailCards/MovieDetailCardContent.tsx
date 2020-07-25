@@ -63,7 +63,7 @@ function MovieDetailCardContent({
 
   return (
     <div css={mainGridStyle}>
-      <MovieDetailCardContantLoader loading loaderLeftPos={loaderLeftPos} />
+      <MovieDetailCardContantLoader loading={loading} loaderLeftPos={loaderLeftPos} />
       <div css={infoGrid}>
         <button
           type="button"
@@ -175,6 +175,9 @@ function MovieDetailCardContent({
                   handleSelect={() => dispatch(setActiveNameID(crewMember.id))}
                   additionalHoverCondition={!isActive && !isBookmarkedChart}
                   paddingSpace={space[8]}
+                  isActive={!isActive}
+                  backgroundInactive={colors.bgColorSecondary}
+                  colorInactive={colors.textColorSecondary}
                 />
               )
             })}
@@ -225,6 +228,9 @@ function MovieDetailCardContent({
                   handleSelect={() => !isActive && !isBookmarkedChart && dispatch(setActiveNameID(castMember.id))}
                   additionalHoverCondition={!isActive && !isBookmarkedChart}
                   paddingSpace={space[8]}
+                  isActive={!isActive}
+                  backgroundInactive={colors.bgColorSecondary}
+                  colorInactive={colors.textColorSecondary}
                 />
               )
             })}

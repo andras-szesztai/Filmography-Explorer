@@ -83,7 +83,7 @@ const SelectableListItem = ({
         list-style-type: none;
         position: relative;
 
-        font-weight: ${fontWeight.sm};
+        font-weight: ${fontWeight.md};
         font-size: ${fontSize.sm};
 
         padding: ${space[1] + 1}px ${space[3]}px ${space[1] + 2}px ${space[3]}px;

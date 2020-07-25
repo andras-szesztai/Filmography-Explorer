@@ -198,18 +198,17 @@ export const searchInputStyle = css`
   border: 1px solid ${colors.textColorSecondary};
   background: ${colors.bgColorSecondary};
 
-  margin-top: ${space[1]}px;
+  margin-top: 2px;
 
   color: ${colors.textColorSecondary};
   font-size: ${fontSize.sm};
   font-weight: ${fontWeight.md};
 
-  padding: 2px 4px;
-  opacity: 1;
+  padding: 3px ${space[2]}px ${space[1]}px ${space[2]}px;
 
   &::placeholder {
     color: inherit;
-    opacity: 1;
+
     font-size: inherit;
     letter-spacing: 0.8px;
     user-select: none;

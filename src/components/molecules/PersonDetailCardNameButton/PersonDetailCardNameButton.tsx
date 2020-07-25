@@ -48,7 +48,7 @@ function PersonDetailCardNameButton({ currentInput, favoritePersons, setFavorite
         grid-area: name;
         position: relative;
 
-        font-weight: ${fontWeight.xs};
+        font-weight: ${fontWeight.sm};
         font-size: ${fontSize.xl};
         color: ${colors.textColorPrimary};
 

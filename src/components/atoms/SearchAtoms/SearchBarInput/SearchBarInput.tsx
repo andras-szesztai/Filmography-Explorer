@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import chroma from 'chroma-js'
 
 // Types
-import { ResultArray } from '../../../organisms/SearchBar/SearchBar'
+import { ResultArray } from '../../../organisms/PersonSearchBar/PersonSearchBar'
 
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../../styles/variables'
@@ -42,7 +42,7 @@ interface Props {
   placeholder: string
   inputValue: string
   setInputText: (text: string) => void
-  setResults: (obj: ResultArray) => void
+  setResults: (obj: { resultArray: [] }) => void
   setActiveResult: (index: number) => void
   setNoResult: (set: boolean) => void
   noResult: boolean

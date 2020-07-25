@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // Components
 import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
-import { SearchResultContent } from '../../molecules'
+import { PersonSearchResultContent, NoResultContent } from '../../molecules'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
@@ -114,7 +114,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
       <SearchResultsContainer isVisible={isResultVisible || noResult}>
         {!noResult &&
           nameSearchResults.resultArray.map((res: PersonDetails, i: number) => (
-            <SearchResultContent
+            <PersonSearchResultContent
               key={res.id}
               zIndex={Math.abs(i - 4)}
               data={res}
@@ -132,7 +132,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
               }}
             />
           ))}
-        {noResult && <SearchResultContent noResult inputText={inputText} />}
+        {noResult && <NoResultContent inputText={inputText} />}
       </SearchResultsContainer>
     </>
   )

@@ -7,7 +7,7 @@ import slice from 'lodash/slice'
 
 // Components
 import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
-import { SearchResultContent } from '../../molecules'
+import { NoResultContent } from '../../molecules'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
@@ -109,9 +109,15 @@ const SearchBar = ({ placeholder }: Props) => {
         activeResult={activeResult}
         resetSearch={resetSearch}
         handleResultSelect={(index: number) => {
-          const movieID = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index].id
-          if (activeMovieID !== movieID) {
-            console.log(movieID)
+          const movie = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index]
+          if (activeMovieID !== movie.id) {
+            dispatch(
+              setActiveMovieID({
+                id: movie.id,
+                position: 0,
+                mediaType: 'movie'
+              })
+            )
           }
         }}
       />
@@ -143,7 +149,7 @@ const SearchBar = ({ placeholder }: Props) => {
               }}
             />
           ))} */}
-        {noResult && <SearchResultContent noResult inputText={inputText} />}
+        {noResult && <NoResultContent inputText={inputText} />}
       </SearchResultsContainer>
     </>
   )

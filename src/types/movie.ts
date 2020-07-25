@@ -3,6 +3,14 @@ export interface GenreObject {
   name: string
 }
 
+export interface MovieSearchResultObject {
+  id: number
+  popularity: number
+  poster_path: string
+  date: string
+  title: string
+}
+
 export interface ActiveMovieDataObject {
   id: number
   details: MovieDetails

@@ -13,32 +13,26 @@ import { SearchResultContent } from '../../molecules'
 import { API_ROOT } from '../../../constants/url'
 
 // Actions
-import { setActiveNameID } from '../../../reducer/personReducer/actions'
-import { emptyMovieDetails } from '../../../reducer/movieReducer/actions'
+import { setActiveMovieID } from '../../../reducer/movieReducer/actions'
 
 // Hooks
 import { useDebouncedSearch } from '../../../hooks'
 
 // Types
-import { PersonDetails } from '../../../types/person'
 import { CombinedState } from '../../../types/state'
 
 // Styles
 import { colors } from '../../../styles/variables'
 import { duration } from '../../../styles/animation'
-
-export interface ResultArray {
-  resultArray: PersonDetails[]
-}
+import { MovieSearchResultObject } from '../../../types/movie'
 
 interface Props {
   placeholder: string
-  activeNameID: number
 }
 
-const SearchBar = ({ placeholder, activeNameID }: Props) => {
+const SearchBar = ({ placeholder }: Props) => {
   const dispatch = useDispatch()
-  const [movieSearchResults, setMovieSearchResults] = React.useState<ResultArray>({ resultArray: [] })
+  const [movieSearchResults, setMovieSearchResults] = React.useState({ resultArray: [] as MovieSearchResultObject[] })
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult] = React.useState(0)
   const [noResult, setNoResult] = React.useState(false)
@@ -63,11 +57,18 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
               5
             )
             if (mostRelevant.length) {
-              setMovieSearchResults({ resultArray: mostRelevant })
+              setMovieSearchResults({
+                resultArray: mostRelevant.map(d => ({
+                  id: d.id as number,
+                  popularity: d.popularity as number,
+                  poster_path: d.poster_path as string,
+                  date: (d.first_air_date || d.release_date) as string,
+                  title: (d.title || d.name) as string
+                }))
+              })
             } else {
               setNoResult(true)
             }
-            console.log('fetchNames -> mostRelevant', mostRelevant)
           })
         )
         .catch(error => console.log(error))
@@ -108,14 +109,9 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         activeResult={activeResult}
         resetSearch={resetSearch}
         handleResultSelect={(index: number) => {
-          const newID = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index].id
-          if (activeNameID !== newID) {
-            if (activeMovieID) {
-              dispatch(emptyMovieDetails())
-            }
-          }
-          if (newID) {
-            dispatch(setActiveNameID(newID))
+          const movieID = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index].id
+          if (activeMovieID !== movieID) {
+            console.log(movieID)
           }
         }}
       />
@@ -127,7 +123,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
       </SearchIconContainer>
       <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
       <SearchResultsContainer isVisible={isResultVisible || noResult}>
-        {!noResult &&
+        {/* {!noResult &&
           movieSearchResults.resultArray.map((res: PersonDetails, i: number) => (
             <SearchResultContent
               key={res.id}
@@ -146,7 +142,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
                 setActiveResult(i)
               }}
             />
-          ))}
+          ))} */}
         {noResult && <SearchResultContent noResult inputText={inputText} />}
       </SearchResultsContainer>
     </>

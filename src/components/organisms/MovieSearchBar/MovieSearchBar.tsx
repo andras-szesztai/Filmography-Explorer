@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 
 // Components
-import { SearchBarContainer, SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
+import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
 import { SearchResultContent } from '../../molecules'
 
 // Constants
@@ -77,7 +77,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
 
   const isResultVisible = !!nameSearchResults.resultArray.length
   return (
-    <SearchBarContainer>
+    <>
       <SearchBarInput
         inputRef={inputRef}
         placeholder={placeholder}
@@ -134,7 +134,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
           ))}
         {noResult && <SearchResultContent noResult inputText={inputText} />}
       </SearchResultsContainer>
-    </SearchBarContainer>
+    </>
   )
 }
 

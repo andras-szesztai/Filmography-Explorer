@@ -6,14 +6,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 // Components
 import {
   SearchDashboardDesktop,
-  SearchBar,
+  PersonSearchBar,
   PersonDetailCard,
   FavoritePersonsList,
   PersonCreditsChart,
   MovieDetailCardContainerRight,
   MovieDetailCardContainerLeft,
   ExplainerCard,
-  DisclaimerGroup
+  DisclaimerGroup,
+  MovieSearchBar
 } from '../components'
 
 // Types
@@ -26,6 +27,8 @@ import { useFetchPersonData, useFetchGenreList, useSetBookmarkedMoviesOnMount } 
 // Constants
 import { LOCAL_STORE_ACCESSORS } from '../constants/accessors'
 import { EXPLORER_EXPLAINER } from '../constants/explainerPages'
+import { SearchBarContainer } from '../components/atoms'
+import SearchBarSwitcher from '../components/organisms/SearchBarSwitcher/SearchBarSwitcher'
 
 const IndexPage = () => {
   const { activeNameID } = useSelector((state: CombinedState) => state.personReducer)
@@ -45,7 +48,11 @@ const IndexPage = () => {
   return (
     <SearchDashboardDesktop>
       <ExplainerCard pages={EXPLORER_EXPLAINER} />
-      <SearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
+      <SearchBarContainer>
+        <SearchBarSwitcher isPersonSearch={isPersonSearch} setIsPersonSearch={setIsPersonSearch} />
+        {isPersonSearch && <PersonSearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />}
+        {!isPersonSearch && <MovieSearchBar placeholder="Search for a movie or series. . . " activeNameID={activeNameID} />}
+      </SearchBarContainer>
       <PersonDetailCard />
       <FavoritePersonsList />
       <PersonCreditsChart />

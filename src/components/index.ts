@@ -2,12 +2,13 @@ import { NavItem } from './atoms'
 import { Header, DisclaimerGroup } from './molecules'
 import {
   PersonDetailCard,
-  SearchBar,
+  PersonSearchBar,
   FavoritePersonsList,
   PersonCreditsChart,
   MovieDetailCardContainerRight,
   MovieDetailCardContainerLeft,
-  ExplainerCard
+  ExplainerCard,
+  MovieSearchBar
 } from './organisms'
 import { Layout, SearchDashboardDesktop } from './templates'
 
@@ -16,12 +17,13 @@ export {
   Header,
   NavItem,
   SearchDashboardDesktop,
-  SearchBar,
+  PersonSearchBar,
   PersonDetailCard,
   FavoritePersonsList,
   PersonCreditsChart,
   MovieDetailCardContainerRight,
   MovieDetailCardContainerLeft,
   ExplainerCard,
-  DisclaimerGroup
+  DisclaimerGroup,
+  MovieSearchBar
 }

@@ -3,7 +3,7 @@ import { space, width, height, colors } from '../../../styles/variables'
 
 export const containerStyle = css`
   position: absolute;
-  left: ${width.searchBar + space[4]}px;
+  left: ${width.searchBar + space[2]}px;
   height: ${height.searchBar}px;
   width: ${space[17]}px;
   color: ${colors.bgColorSecondary};

@@ -7,7 +7,7 @@ import slice from 'lodash/slice'
 
 // Components
 import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
-import { NoResultContent } from '../../molecules'
+import { NoResultContent, MovieSearchResultContent } from '../../molecules'
 
 // Constants
 import { API_ROOT } from '../../../constants/url'
@@ -20,11 +20,11 @@ import { useDebouncedSearch } from '../../../hooks'
 
 // Types
 import { CombinedState } from '../../../types/state'
+import { MovieSearchResultObject } from '../../../types/movie'
 
 // Styles
 import { colors } from '../../../styles/variables'
 import { duration } from '../../../styles/animation'
-import { MovieSearchResultObject } from '../../../types/movie'
 
 interface Props {
   placeholder: string
@@ -63,7 +63,8 @@ const SearchBar = ({ placeholder }: Props) => {
                   popularity: d.popularity as number,
                   poster_path: d.poster_path as string,
                   date: (d.first_air_date || d.release_date) as string,
-                  title: (d.title || d.name) as string
+                  title: (d.title || d.name) as string,
+                  media_type: d.title ? 'Movie' : 'Tv'
                 }))
               })
             } else {
@@ -129,18 +130,23 @@ const SearchBar = ({ placeholder }: Props) => {
       </SearchIconContainer>
       <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
       <SearchResultsContainer isVisible={isResultVisible || noResult}>
-        {/* {!noResult &&
-          movieSearchResults.resultArray.map((res: PersonDetails, i: number) => (
-            <SearchResultContent
-              key={res.id}
+        {!noResult &&
+          movieSearchResults.resultArray.map((d, i: number) => (
+            <MovieSearchResultContent
+              key={d.id}
               zIndex={Math.abs(i - 4)}
-              data={res}
+              data={d}
               handleClick={() => {
-                if (res.id !== activeNameID) {
-                  if (activeMovieID) {
-                    dispatch(emptyMovieDetails())
+                if (d.id !== activeMovieID) {
+                  if (activeMovieID !== d.id) {
+                    dispatch(
+                      setActiveMovieID({
+                        id: d.id,
+                        position: 0,
+                        mediaType: 'movie'
+                      })
+                    )
                   }
-                  dispatch(setActiveNameID(res.id))
                 }
                 resetSearch()
               }}
@@ -148,7 +154,7 @@ const SearchBar = ({ placeholder }: Props) => {
                 setActiveResult(i)
               }}
             />
-          ))} */}
+          ))}
         {noResult && <NoResultContent inputText={inputText} />}
       </SearchResultsContainer>
     </>

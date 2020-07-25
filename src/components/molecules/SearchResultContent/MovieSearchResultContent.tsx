@@ -7,14 +7,14 @@ import isEmpty from 'lodash/isEmpty'
 import { Image } from '../../atoms'
 
 // Types
-import { PersonDetails } from '../../../types/person'
 import { containerStyle, gridContainerStyle, variants, nameContainerStyle, jobContainerStyle } from './styles'
+import { MovieSearchResultObject } from '../../../types/movie'
 
 interface Props {
   handleClick: () => void
   handleMouseover: () => void
   zIndex: number
-  data: PersonDetails
+  data: MovieSearchResultObject
 }
 
 const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex }: Props) => {
@@ -31,9 +31,9 @@ const SearchResultContent = ({ data, handleClick, handleMouseover, zIndex }: Pro
     >
       {data && !isEmpty(data) && (
         <>
-          <Image url={data.profile_path} alt={data.name} />
-          <span css={nameContainerStyle}>{data.name}</span>
-          <span css={jobContainerStyle}>Known for:&nbsp;{data.known_for_department}</span>
+          <Image url={data.poster_path} alt={data.title} />
+          <span css={nameContainerStyle}>{data.title}</span>
+          <span css={jobContainerStyle}>Media:&nbsp;{data.media_type}</span>
         </>
       )}
     </motion.div>

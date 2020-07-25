@@ -9,6 +9,7 @@ export interface MovieSearchResultObject {
   poster_path: string
   date: string
   title: string
+  media_type: string
 }
 
 export interface ActiveMovieDataObject {

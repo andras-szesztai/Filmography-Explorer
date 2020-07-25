@@ -2,6 +2,8 @@ import React from 'react'
 import { IoIosSearch, IoIosCloseCircle } from 'react-icons/io'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
+import sortBy from 'lodash/sortBy'
+import slice from 'lodash/slice'
 
 // Components
 import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
@@ -36,7 +38,7 @@ interface Props {
 
 const SearchBar = ({ placeholder, activeNameID }: Props) => {
   const dispatch = useDispatch()
-  const [nameSearchResults, setNameSearchResults] = React.useState<ResultArray>({ resultArray: [] })
+  const [movieSearchResults, setMovieSearchResults] = React.useState<ResultArray>({ resultArray: [] })
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
   const [activeResult, setActiveResult] = React.useState(0)
   const [noResult, setNoResult] = React.useState(false)
@@ -47,23 +49,36 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
   const fetchNames = (text: string) => {
     if (text) {
       axios
-        .get(`${API_ROOT}/search/person?api_key=${process.env.MDB_API_KEY}&language=en-US&query=${text}&page=1&include_adult=false`)
-        .then(response => {
-          if (response.data.total_results) {
-            setNameSearchResults({ resultArray: response.data.results.filter((_: {}, i: number) => i < 5) })
-          } else {
-            setNoResult(true)
-          }
-        })
+        .all([
+          axios.get(`${API_ROOT}/search/tv?api_key=${process.env.MDB_API_KEY}&language=en-US&query=${text}&page=1&include_adult=false`),
+          axios.get(`${API_ROOT}/search/movie?api_key=${process.env.MDB_API_KEY}&language=en-US&query=${text}&page=1&include_adult=false`)
+        ])
+        .then(
+          axios.spread((tv, movie) => {
+            const tvResults = tv.data.results
+            const movieResults = movie.data.results
+            const mostRelevant = slice(
+              sortBy([...movieResults, ...tvResults], d => -d.popularity),
+              0,
+              5
+            )
+            if (mostRelevant.length) {
+              setMovieSearchResults({ resultArray: mostRelevant })
+            } else {
+              setNoResult(true)
+            }
+            console.log('fetchNames -> mostRelevant', mostRelevant)
+          })
+        )
         .catch(error => console.log(error))
     } else {
-      setNameSearchResults({ resultArray: [] })
+      setMovieSearchResults({ resultArray: [] })
     }
   }
   const { inputText, setInputText } = useDebouncedSearch(fetchNames, duration.md)
 
   const resetSearch = () => {
-    setNameSearchResults({ resultArray: [] })
+    setMovieSearchResults({ resultArray: [] })
     setInputText('')
     setSearchIsFocused(false)
     setActiveResult(0)
@@ -75,7 +90,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
     }
   }
 
-  const isResultVisible = !!nameSearchResults.resultArray.length
+  const isResultVisible = !!movieSearchResults.resultArray.length
   return (
     <>
       <SearchBarInput
@@ -87,13 +102,13 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
         noResult={noResult}
         inputValue={inputText}
         setInputText={setInputText}
-        resultsLength={nameSearchResults.resultArray.length}
-        setResults={setNameSearchResults}
+        resultsLength={movieSearchResults.resultArray.length}
+        setResults={setMovieSearchResults}
         setActiveResult={setActiveResult}
         activeResult={activeResult}
         resetSearch={resetSearch}
         handleResultSelect={(index: number) => {
-          const newID = nameSearchResults.resultArray[index] && nameSearchResults.resultArray[index].id
+          const newID = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index].id
           if (activeNameID !== newID) {
             if (activeMovieID) {
               dispatch(emptyMovieDetails())
@@ -113,7 +128,7 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
       <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
       <SearchResultsContainer isVisible={isResultVisible || noResult}>
         {!noResult &&
-          nameSearchResults.resultArray.map((res: PersonDetails, i: number) => (
+          movieSearchResults.resultArray.map((res: PersonDetails, i: number) => (
             <SearchResultContent
               key={res.id}
               zIndex={Math.abs(i - 4)}

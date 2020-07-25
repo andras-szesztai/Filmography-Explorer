@@ -114,7 +114,7 @@ const SearchBar = ({ placeholder }: Props) => {
               setActiveMovieID({
                 id: movie.id,
                 position: 1,
-                mediaType: 'movie'
+                mediaType: movie.media_type.toLowerCase()
               })
             )
           }
@@ -129,19 +129,19 @@ const SearchBar = ({ placeholder }: Props) => {
       <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
       <SearchResultsContainer isVisible={isResultVisible || noResult}>
         {!noResult &&
-          movieSearchResults.resultArray.map((d, i: number) => (
+          movieSearchResults.resultArray.map((movie, i: number) => (
             <MovieSearchResultContent
-              key={d.id}
+              key={movie.id}
               zIndex={Math.abs(i - 4)}
-              data={d}
+              data={movie}
               handleClick={() => {
-                if (d.id !== activeMovieID) {
-                  if (activeMovieID !== d.id) {
+                if (movie.id !== activeMovieID) {
+                  if (activeMovieID !== movie.id) {
                     dispatch(
                       setActiveMovieID({
-                        id: d.id,
+                        id: movie.id,
                         position: 1,
-                        mediaType: 'movie'
+                        mediaType: movie.media_type.toLowerCase()
                       })
                     )
                   }

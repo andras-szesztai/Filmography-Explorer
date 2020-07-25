@@ -4,8 +4,7 @@ import { css } from '@emotion/core'
 
 // Styles
 import { fontWeight } from '../../../styles/variables'
-import { containerStyle } from '../MoviesTooltip/styles'
-import { flexContainerStyle, variants, nameContainerStyle } from './styles'
+import { flexContainerStyle, variants, nameContainerStyle, containerStyle } from './styles'
 
 interface Props {
   inputText: string

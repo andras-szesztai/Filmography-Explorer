@@ -46,7 +46,7 @@ export interface VoronoiParams {
 export function createUpdateVoronoi({ addUpdateInteractions, storedValues, left, height, width, activeMovieID }: VoronoiParams) {
   const { xScale, voronoiArea, mainData } = storedValues.current
   if (mainData) {
-    const setXPos = (d: MovieObject) => xScale(new Date(d.date)) + left
+    const setXPos = (d: MovieObject) => d && xScale(new Date(d.date)) + left
     const delaunay = Delaunay.from(mainData, setXPos, () => height / 2).voronoi([0, 0, width, height])
     voronoiArea
       .selectAll('.voronoi-path')
@@ -141,28 +141,28 @@ interface ShowRefElements {
 
 export function showRefElements({ storedValues, activeMovieID, height }: ShowRefElements) {
   const { xScale, hoverElementArea, voronoiArea, uniqData, mainData, subData } = storedValues.current
-  const setX = (d: any) => xScale(new Date(d.date))
-  const selectedCircleData = uniqData.find(d => d.id === activeMovieID)
+  const setX = (d: any) => d && xScale(new Date(d.date))
+  const selectedCircleData = uniqData && uniqData.find(d => d.id === activeMovieID)
 
   hoverElementArea
     .selectAll('.selected-circle')
     .datum(selectedCircleData)
     .attr('cx', setX)
     .attr('opacity', 1)
-  const topLineData = mainData.filter(d => d.id === activeMovieID)
-  const bottomLineData = subData.filter(d => d.id === activeMovieID)
+  const topLineData = mainData && mainData.filter(d => d.id === activeMovieID)
+  const bottomLineData = subData && subData.filter(d => d.id === activeMovieID)
   hoverElementArea
     .selectAll('.selected-line')
     .datum(selectedCircleData)
     .attr('x1', setX)
     .attr('x2', setX)
     .attr('opacity', 1)
-  if (topLineData.length) {
+  if (topLineData && topLineData.length) {
     hoverElementArea.selectAll('.selected-top-line').attr('y2', -height / 2)
   } else {
     hoverElementArea.selectAll('.selected-top-line').attr('y2', -circleSizeRange[0] - circleAdjust)
   }
-  if (bottomLineData.length) {
+  if (bottomLineData && bottomLineData.length) {
     hoverElementArea.selectAll('.selected-bottom-line').attr('y2', height / 2)
   } else {
     hoverElementArea.selectAll('.selected-bottom-line').attr('y2', circleSizeRange[0] + circleAdjust)

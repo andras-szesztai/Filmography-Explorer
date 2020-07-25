@@ -8,8 +8,6 @@ import { IoIosSearch } from 'react-icons/io'
 import useWhatInput from 'react-use-what-input'
 
 // Components
-import { useDebounce } from 'react-use'
-
 import { Image, TextArea, MovieDetailCardContantLoader, ListEndPlaceHolder } from '../../atoms'
 import { SelectableListItem } from '../../molecules'
 
@@ -65,7 +63,7 @@ function MovieDetailCardContent({
 
   return (
     <div css={mainGridStyle}>
-      <MovieDetailCardContantLoader loading={loading} loaderLeftPos={loaderLeftPos} />
+      <MovieDetailCardContantLoader loading loaderLeftPos={loaderLeftPos} />
       <div css={infoGrid}>
         <button
           type="button"
@@ -145,7 +143,7 @@ function MovieDetailCardContent({
             justify-content: space-between;
           `}
         >
-          <div css={rowTitleStyle}>Lead crew</div>
+          <div css={rowTitleStyle}>Crew</div>
           <span>
             <input
               css={css`
@@ -195,7 +193,7 @@ function MovieDetailCardContent({
             justify-content: space-between;
           `}
         >
-          <div css={rowTitleStyle}>Lead cast</div>
+          <div css={rowTitleStyle}>Cast</div>
           <span>
             <input
               css={css`

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { select } from 'd3-selection'
 import { ScalePower, ScaleLinear } from 'd3-scale'
 import { Delaunay } from 'd3-delaunay'

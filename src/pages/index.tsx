@@ -45,14 +45,13 @@ const IndexPage = () => {
 
   const [isPersonSearch, setIsPersonSearch] = React.useState(true)
 
-  // TODO try to animate out
   return (
     <SearchDashboardDesktop>
       <ExplainerCard pages={EXPLORER_EXPLAINER} />
       <SearchBarContainer>
         <SearchBarSwitcher isPersonSearch={isPersonSearch} setIsPersonSearch={setIsPersonSearch} />
         <PersonSearchBar isVisible={isPersonSearch} placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
-        <MovieSearchBar isVisible={!isPersonSearch} placeholder="Search for a movie or series. . . " />
+        <MovieSearchBar isVisible={!isPersonSearch} placeholder="Search for a movie or series . . . " />
       </SearchBarContainer>
       <PersonDetailCard />
       <FavoritePersonsList />

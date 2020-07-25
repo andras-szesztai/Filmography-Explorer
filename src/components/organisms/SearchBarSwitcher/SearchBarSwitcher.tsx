@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { css } from '@emotion/core'
 import { AnimateSharedLayout, motion } from 'framer-motion'
 import useWhatInput from 'react-use-what-input'
@@ -46,7 +46,9 @@ function SearchBarSwitcher({ isPersonSearch, setIsPersonSearch }: Props) {
             animate={{
               color: isPersonSearch ? colors.textColorSecondary : colors.textColorPrimary,
               scale: isPersonHovered ? 1.25 : 1,
-              transition: transition.whileHover
+              transition: {
+                scale: transition.whileHover
+              }
             }}
             css={css`
               z-index: 2;
@@ -81,7 +83,9 @@ function SearchBarSwitcher({ isPersonSearch, setIsPersonSearch }: Props) {
             animate={{
               color: !isPersonSearch ? colors.textColorSecondary : colors.textColorPrimary,
               scale: isMovieHovered ? 1.25 : 1,
-              transition: transition.whileHover
+              transition: {
+                scale: transition.whileHover
+              }
             }}
             css={css`
               z-index: 2;

@@ -1,14 +1,16 @@
 import { css } from '@emotion/core'
-import { space, width, height, colors } from '../../../styles/variables'
+import { space, width, height, colors, handleSize } from '../../../styles/variables'
 
 export const containerStyle = css`
   position: absolute;
-  left: ${width.searchBar + space[2]}px;
+  left: ${width.searchBar}px;
   height: ${height.searchBar}px;
-  width: ${space[17]}px;
+  width: ${handleSize * 2}px;
   color: ${colors.bgColorSecondary};
+
+  border-radius: 0 ${space[1]}px ${space[1]}px 0;
   border: 1px solid ${colors.textColorPrimary};
-  border-radius: ${space[1]}px;
+  border-left: none;
 
   display: flex;
   align-items: center;

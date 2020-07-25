@@ -3,9 +3,6 @@ import { css } from '@emotion/core'
 import { motion } from 'framer-motion'
 import chroma from 'chroma-js'
 
-// Types
-import { ResultArray } from '../../../organisms/PersonSearchBar/PersonSearchBar'
-
 // Styles
 import { height, width, space, colors, fontSize, fontWeight } from '../../../../styles/variables'
 import { transition } from '../../../../styles/animation'
@@ -14,9 +11,11 @@ const inputStyles = css`
   width: ${width.searchBar}px;
   height: ${height.searchBar}px;
 
-  border-radius: ${space[1]}px;
   background: ${chroma(colors.bgColorPrimary).hex()};
+
+  border-radius: ${space[1]}px 0 0 ${space[1]}px;
   border: 1px solid ${colors.textColorPrimary};
+  border-right: none;
 
   color: ${colors.textColorPrimary};
   font-size: ${fontSize.md};

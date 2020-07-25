@@ -41,7 +41,7 @@ import { useChartResize, useHoveredUpdate, useActiveMovieIDUpdate, useBookmarkUp
 // Styles
 import { chartSideMargins, circleSizeRange, fontSize, colors, circleFillOpacity, space, fontWeight } from '../../../../styles/variables'
 import { duration } from '../../../../styles/animation'
-import { makeYScaleDomain } from './functions/utills'
+import { makeYScaleDomain } from './functions/utils'
 
 const margin = {
   top: space[6],

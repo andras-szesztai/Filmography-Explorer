@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import sortBy from 'lodash/sortBy'
 import slice from 'lodash/slice'
+import { css } from '@emotion/core'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // Components
 import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
@@ -28,9 +30,10 @@ import { duration } from '../../../styles/animation'
 
 interface Props {
   placeholder: string
+  isVisible: boolean
 }
 
-const SearchBar = ({ placeholder }: Props) => {
+const SearchBar = ({ placeholder, isVisible }: Props) => {
   const dispatch = useDispatch()
   const [movieSearchResults, setMovieSearchResults] = React.useState({ resultArray: [] as MovieSearchResultObject[] })
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
@@ -92,70 +95,81 @@ const SearchBar = ({ placeholder }: Props) => {
 
   const isResultVisible = !!movieSearchResults.resultArray.length
   return (
-    <>
-      <SearchBarInput
-        inputRef={inputRef}
-        placeholder={placeholder}
-        searchIsFocused={searchIsFocused}
-        setSearchIsFocused={setSearchIsFocused}
-        setNoResult={setNoResult}
-        noResult={noResult}
-        inputValue={inputText}
-        setInputText={setInputText}
-        resultsLength={movieSearchResults.resultArray.length}
-        setResults={setMovieSearchResults}
-        setActiveResult={setActiveResult}
-        activeResult={activeResult}
-        resetSearch={resetSearch}
-        handleResultSelect={(index: number) => {
-          const movie = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index]
-          if (activeMovieID !== movie.id) {
-            dispatch(
-              setActiveMovieID({
-                id: movie.id,
-                position: 1,
-                mediaType: movie.media_type.toLowerCase()
-              })
-            )
-          }
-        }}
-      />
-      <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
-        <IoIosSearch size={22} color={colors.textColorPrimary} />
-      </SearchIconContainer>
-      <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
-        <IoIosCloseCircle size={22} color={colors.accentSecondary} />
-      </SearchIconContainer>
-      <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
-      <SearchResultsContainer isVisible={isResultVisible || noResult}>
-        {!noResult &&
-          movieSearchResults.resultArray.map((movie, i: number) => (
-            <MovieSearchResultContent
-              key={movie.id}
-              zIndex={Math.abs(i - 4)}
-              data={movie}
-              handleClick={() => {
-                if (movie.id !== activeMovieID) {
-                  if (activeMovieID !== movie.id) {
-                    dispatch(
-                      setActiveMovieID({
-                        id: movie.id,
-                        position: 1,
-                        mediaType: movie.media_type.toLowerCase()
-                      })
-                    )
-                  }
-                }
-                resetSearch()
-              }}
-              handleMouseover={() => {
-                setActiveResult(i)
-              }}
-            />
-          ))}
-        {noResult && <NoResultContent inputText={inputText} />}
-      </SearchResultsContainer>
-    </>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          css={css`
+            position: absolute;
+          `}
+        >
+          <SearchBarInput
+            inputRef={inputRef}
+            placeholder={placeholder}
+            searchIsFocused={searchIsFocused}
+            setSearchIsFocused={setSearchIsFocused}
+            setNoResult={setNoResult}
+            noResult={noResult}
+            inputValue={inputText}
+            setInputText={setInputText}
+            resultsLength={movieSearchResults.resultArray.length}
+            setResults={setMovieSearchResults}
+            setActiveResult={setActiveResult}
+            activeResult={activeResult}
+            resetSearch={resetSearch}
+            handleResultSelect={(index: number) => {
+              const movie = movieSearchResults.resultArray[index] && movieSearchResults.resultArray[index]
+              if (activeMovieID !== movie.id) {
+                dispatch(
+                  setActiveMovieID({
+                    id: movie.id,
+                    position: 1,
+                    mediaType: movie.media_type.toLowerCase()
+                  })
+                )
+              }
+            }}
+          />
+          <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
+            <IoIosSearch size={22} color={colors.textColorPrimary} />
+          </SearchIconContainer>
+          <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
+            <IoIosCloseCircle size={22} color={colors.accentSecondary} />
+          </SearchIconContainer>
+          <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
+          <SearchResultsContainer isVisible={isResultVisible || noResult}>
+            {!noResult &&
+              movieSearchResults.resultArray.map((movie, i: number) => (
+                <MovieSearchResultContent
+                  key={movie.id}
+                  zIndex={Math.abs(i - 4)}
+                  data={movie}
+                  handleClick={() => {
+                    if (movie.id !== activeMovieID) {
+                      if (activeMovieID !== movie.id) {
+                        dispatch(
+                          setActiveMovieID({
+                            id: movie.id,
+                            position: 1,
+                            mediaType: movie.media_type.toLowerCase()
+                          })
+                        )
+                      }
+                    }
+                    resetSearch()
+                  }}
+                  handleMouseover={() => {
+                    setActiveResult(i)
+                  }}
+                />
+              ))}
+            {noResult && <NoResultContent inputText={inputText} />}
+          </SearchResultsContainer>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 

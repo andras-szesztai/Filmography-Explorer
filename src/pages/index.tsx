@@ -51,8 +51,8 @@ const IndexPage = () => {
       <ExplainerCard pages={EXPLORER_EXPLAINER} />
       <SearchBarContainer>
         <SearchBarSwitcher isPersonSearch={isPersonSearch} setIsPersonSearch={setIsPersonSearch} />
-        {isPersonSearch && <PersonSearchBar placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />}
-        {!isPersonSearch && <MovieSearchBar placeholder="Search for a movie or series. . . " />}
+        <PersonSearchBar isVisible={isPersonSearch} placeholder="Search for a director, actor, writer . . . " activeNameID={activeNameID} />
+        <MovieSearchBar isVisible={!isPersonSearch} placeholder="Search for a movie or series. . . " />
       </SearchBarContainer>
       <PersonDetailCard />
       <FavoritePersonsList />

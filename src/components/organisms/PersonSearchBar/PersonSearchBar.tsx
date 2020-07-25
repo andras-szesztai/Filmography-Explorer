@@ -2,6 +2,8 @@ import React from 'react'
 import { IoIosSearch, IoIosCloseCircle } from 'react-icons/io'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
+import { css } from '@emotion/core'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // Components
 import { SearchBarInput, SearchIconContainer, SearchResultsContainer, ActiveSearchResultIndicator } from '../../atoms'
@@ -32,9 +34,10 @@ export interface ResultArray {
 interface Props {
   placeholder: string
   activeNameID: number
+  isVisible: boolean
 }
 
-const SearchBar = ({ placeholder, activeNameID }: Props) => {
+const SearchBar = ({ placeholder, activeNameID, isVisible }: Props) => {
   const dispatch = useDispatch()
   const [nameSearchResults, setNameSearchResults] = React.useState<ResultArray>({ resultArray: [] })
   const [searchIsFocused, setSearchIsFocused] = React.useState(false)
@@ -77,64 +80,75 @@ const SearchBar = ({ placeholder, activeNameID }: Props) => {
 
   const isResultVisible = !!nameSearchResults.resultArray.length
   return (
-    <>
-      <SearchBarInput
-        inputRef={inputRef}
-        placeholder={placeholder}
-        searchIsFocused={searchIsFocused}
-        setSearchIsFocused={setSearchIsFocused}
-        setNoResult={setNoResult}
-        noResult={noResult}
-        inputValue={inputText}
-        setInputText={setInputText}
-        resultsLength={nameSearchResults.resultArray.length}
-        setResults={setNameSearchResults}
-        setActiveResult={setActiveResult}
-        activeResult={activeResult}
-        resetSearch={resetSearch}
-        handleResultSelect={(index: number) => {
-          const newID = nameSearchResults.resultArray[index] && nameSearchResults.resultArray[index].id
-          if (activeNameID !== newID) {
-            if (activeMovieID) {
-              dispatch(emptyMovieDetails())
-            }
-          }
-          if (newID) {
-            dispatch(setActiveNameID(newID))
-          }
-        }}
-      />
-      <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
-        <IoIosSearch size={22} color={colors.textColorPrimary} />
-      </SearchIconContainer>
-      <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
-        <IoIosCloseCircle size={22} color={colors.accentSecondary} />
-      </SearchIconContainer>
-      <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
-      <SearchResultsContainer isVisible={isResultVisible || noResult}>
-        {!noResult &&
-          nameSearchResults.resultArray.map((res: PersonDetails, i: number) => (
-            <PersonSearchResultContent
-              key={res.id}
-              zIndex={Math.abs(i - 4)}
-              data={res}
-              handleClick={() => {
-                if (res.id !== activeNameID) {
-                  if (activeMovieID) {
-                    dispatch(emptyMovieDetails())
-                  }
-                  dispatch(setActiveNameID(res.id))
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          css={css`
+            position: absolute;
+          `}
+        >
+          <SearchBarInput
+            inputRef={inputRef}
+            placeholder={placeholder}
+            searchIsFocused={searchIsFocused}
+            setSearchIsFocused={setSearchIsFocused}
+            setNoResult={setNoResult}
+            noResult={noResult}
+            inputValue={inputText}
+            setInputText={setInputText}
+            resultsLength={nameSearchResults.resultArray.length}
+            setResults={setNameSearchResults}
+            setActiveResult={setActiveResult}
+            activeResult={activeResult}
+            resetSearch={resetSearch}
+            handleResultSelect={(index: number) => {
+              const newID = nameSearchResults.resultArray[index] && nameSearchResults.resultArray[index].id
+              if (activeNameID !== newID) {
+                if (activeMovieID) {
+                  dispatch(emptyMovieDetails())
                 }
-                resetSearch()
-              }}
-              handleMouseover={() => {
-                setActiveResult(i)
-              }}
-            />
-          ))}
-        {noResult && <NoResultContent inputText={inputText} />}
-      </SearchResultsContainer>
-    </>
+              }
+              if (newID) {
+                dispatch(setActiveNameID(newID))
+              }
+            }}
+          />
+          <SearchIconContainer isVisible={!searchIsFocused} isLeft animateProps={{ x: -10, rotateY: -75 }}>
+            <IoIosSearch size={22} color={colors.textColorPrimary} />
+          </SearchIconContainer>
+          <SearchIconContainer isVisible={searchIsFocused} animateProps={{ x: 10, rotateY: 75 }} onClick={resetSearch}>
+            <IoIosCloseCircle size={22} color={colors.accentSecondary} />
+          </SearchIconContainer>
+          <ActiveSearchResultIndicator isVisible={isResultVisible} activeResult={activeResult} />
+          <SearchResultsContainer isVisible={isResultVisible || noResult}>
+            {!noResult &&
+              nameSearchResults.resultArray.map((res: PersonDetails, i: number) => (
+                <PersonSearchResultContent
+                  key={res.id}
+                  zIndex={Math.abs(i - 4)}
+                  data={res}
+                  handleClick={() => {
+                    if (res.id !== activeNameID) {
+                      if (activeMovieID) {
+                        dispatch(emptyMovieDetails())
+                      }
+                      dispatch(setActiveNameID(res.id))
+                    }
+                    resetSearch()
+                  }}
+                  handleMouseover={() => {
+                    setActiveResult(i)
+                  }}
+                />
+              ))}
+            {noResult && <NoResultContent inputText={inputText} />}
+          </SearchResultsContainer>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 

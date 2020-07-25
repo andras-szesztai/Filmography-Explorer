@@ -34,10 +34,6 @@ export interface PersonCreditsChartState extends ChartSettings {
   isSizeDynamic: boolean
   hoveredMovie: HoveredMovie
   genreFilter: number[]
-  dataSets: {
-    crew: MovieObject[]
-    cast: MovieObject[]
-  }
 }
 
 export interface MovieState {

@@ -18,21 +18,13 @@ import { MovieObject } from '../../types/movie'
 const initialState = {
   nameId: 0,
   movieSearchData: [] as FormattedPersonCreditDataObject[],
-  isBoth: false,
-  scales: {
-    xScaleDomain: [] as Date[],
-    sizeScaleDomain: [] as number[]
-  },
-  dataSets: {
-    crew: [] as MovieObject[],
-    cast: [] as MovieObject[]
-  },
+  xScaleDomain: [] as Date[],
+  data: [] as MovieObject[],
   isYDomainSynced: true,
   isSizeDynamic: true,
   hoveredMovie: {
     id: 0,
     data: {} as MovieObject,
-    yPosition: 0,
     xPosition: 0
   },
   genreFilter: [] as number[]
@@ -47,9 +39,8 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
         ...state,
         nameId: action.settings.nameId,
         movieSearchData: action.settings.movieSearchData,
-        isBoth: action.settings.isBoth,
-        scales: action.settings.scales,
-        dataSets: action.settings.dataSets,
+        xScaleDomain: action.settings.xScaleDomain,
+        data: action.settings.data,
         genreFilter: []
       }
     case POPULATE_HOVERED_MOVIE:
@@ -63,7 +54,6 @@ const personCreditsChartReducer = (state: PersonCreditsChartState = initialState
         hoveredMovie: {
           id: 0,
           data: {} as MovieObject,
-          yPosition: 0,
           xPosition: 0
         }
       }

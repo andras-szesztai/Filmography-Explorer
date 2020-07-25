@@ -42,17 +42,13 @@ interface ChartProps {
   setIsFirstEntered: (bool: boolean) => void
   activeMovieID: number
   genreFilter: number[]
-  personFilter?: number[]
+
   isBookmarkChart: boolean
+  personFilter?: number[]
 }
 
 export interface DateAxisProps extends ChartProps {
-  dataSets:
-    | {
-        cast: MovieObject[]
-        crew: MovieObject[]
-      }
-    | MovieObject[]
+  dataSets: MovieObject[]
   isBoth: boolean
   tooltipWithRole: boolean
 }
@@ -61,7 +57,4 @@ export interface BubbleChartProps extends ChartProps {
   sizeScaleDomain: number[]
   isSizeDynamic: boolean
   data: MovieObject[]
-  type: string
-  tooltipYPosition: number
-  title: string
 }

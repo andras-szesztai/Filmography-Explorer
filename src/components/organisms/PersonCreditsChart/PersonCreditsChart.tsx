@@ -18,12 +18,11 @@ const PersonCreditsChart = () => {
   const chartState = useSelector((state: CombinedState) => state.personCreditsChartReducer)
   const personDataSets = useSelector((state: CombinedState) => state.personReducer.dataSets)
   const { activeMovieID } = useSelector((state: CombinedState) => state.movieReducer)
-  useUpdateChartSettings(personDataSets)
+  // useUpdateChartSettings(personDataSets)
   const [isFirstEntered, setIsFirstEntered] = React.useState(true)
   const genreFilter = useSelector((state: CombinedState) => state.personCreditsChartReducer.genreFilter)
 
-  const isCastMain = personDataSets.credits.cast.length >= personDataSets.credits.crew.length
-
+  // TODO finish up simplifying bubble chart and date axis
   return (
     <div
       css={css`
@@ -37,7 +36,7 @@ const PersonCreditsChart = () => {
       <div
         onMouseLeave={() => setIsFirstEntered(true)}
         css={css`
-          height: 80%;
+          height: 75%;
           background: ${colors.bgColorPrimary};
           width: calc(100% - ${space[13]}px);
           transform: translateY(${space[7]}px);
@@ -69,32 +68,28 @@ const PersonCreditsChart = () => {
             </>
           )}
         </div>
-        {!!chartState.nameId && (
+        {/* {!!chartState.nameId && (
           <div
-            key={chartState.nameId}
             css={css`
               display: grid;
-              grid-template-rows: ${chartState.isBoth ? '1fr 35px 1fr' : '1fr 35px'};
+              grid-template-rows: 1fr 35px;
             `}
           >
             <BubbleChart
               xScaleDomain={chartState.scales.xScaleDomain}
               sizeScaleDomain={chartState.scales.sizeScaleDomain}
               isSizeDynamic={chartState.isSizeDynamic}
-              data={isCastMain ? chartState.dataSets.cast : chartState.dataSets.crew}
+              data={chartState.dataSets.cast}
               activeMovieID={activeMovieID}
-              type="main" // Can be isMain
-              title={isCastMain ? 'cast' : 'crew'}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
-              tooltipYPosition={chartState.isBoth ? 0 : 1}
               hoveredMovieID={chartState.hoveredMovie.id}
               genreFilter={genreFilter}
               isBookmarkChart={false}
             />
             <DateAxis
               xScaleDomain={chartState.scales.xScaleDomain}
-              dataSets={chartState.dataSets}
+              dataSets={chartState.dataSets.cast}
               isBoth={chartState.isBoth}
               isFirstEntered={isFirstEntered}
               setIsFirstEntered={setIsFirstEntered}
@@ -104,25 +99,8 @@ const PersonCreditsChart = () => {
               tooltipWithRole
               isBookmarkChart={false}
             />
-            {chartState.isBoth && (
-              <BubbleChart
-                xScaleDomain={chartState.scales.xScaleDomain}
-                sizeScaleDomain={chartState.scales.sizeScaleDomain}
-                isSizeDynamic={chartState.isSizeDynamic}
-                data={isCastMain ? chartState.dataSets.crew : chartState.dataSets.cast}
-                title={isCastMain ? 'crew' : 'cast'}
-                activeMovieID={activeMovieID}
-                type="sub"
-                isFirstEntered={isFirstEntered}
-                setIsFirstEntered={setIsFirstEntered}
-                tooltipYPosition={1}
-                hoveredMovieID={chartState.hoveredMovie.id}
-                genreFilter={genreFilter}
-                isBookmarkChart={false}
-              />
-            )}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )

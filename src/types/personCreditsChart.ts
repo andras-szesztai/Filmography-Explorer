@@ -4,20 +4,12 @@ import { MovieObject } from './movie'
 export interface ChartSettings {
   nameId: number
   movieSearchData: FormattedPersonCreditDataObject[]
-  isBoth: boolean
-  scales: {
-    xScaleDomain: Date[]
-    sizeScaleDomain: number[]
-  }
-  dataSets: {
-    crew: MovieObject[]
-    cast: MovieObject[]
-  }
+  xScaleDomain: Date[]
+  data: MovieObject[]
 }
 
 export interface HoveredMovie {
   id: number
   data: MovieObject
-  yPosition: number
   xPosition: number
 }

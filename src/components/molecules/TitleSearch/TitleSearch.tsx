@@ -164,7 +164,7 @@ const TitleSearch = ({ titles, isBookmarkChart, personsFilter = [] }: Props) => 
                       user-select: none;
                     }
                   `}
-                  placeholder="Search . . . "
+                  placeholder="Search"
                   type="text"
                   value={inputText}
                   onChange={(e: React.FormEvent<HTMLInputElement>) => setInputText(e.currentTarget.value)}

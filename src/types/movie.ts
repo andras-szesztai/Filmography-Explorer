@@ -5,9 +5,7 @@ export interface GenreObject {
 
 export interface MovieSearchResultObject {
   id: number
-  popularity: number
   poster_path: string
-  date: string
   title: string
   media_type: string
 }

@@ -8,6 +8,8 @@ import { IoIosSearch } from 'react-icons/io'
 import useWhatInput from 'react-use-what-input'
 
 // Components
+import { useDebounce } from 'react-use'
+
 import { Image, TextArea, MovieDetailCardContantLoader, ListEndPlaceHolder } from '../../atoms'
 import { SelectableListItem } from '../../molecules'
 
@@ -17,7 +19,7 @@ import { updateGenreFilter } from '../../../reducer/personCreditsChartReducer/ac
 import { updateBookmarkedGenreFilter } from '../../../reducer/bookmarkedChartReducer/actions'
 
 // Hooks
-import { useFetchActiveMovieDetails } from './hooks'
+import { useFetchActiveMovieDetails, useFilteredCastList, useFilteredCrewList } from './hooks'
 
 // Types
 import { ContentProps } from './types'
@@ -31,7 +33,8 @@ import {
   rowStyle,
   rowTitleStyle,
   horizontalScrollableStyle,
-  linkContainerStyle
+  linkContainerStyle,
+  searchInputStyle
 } from './styles'
 import { space, buttonNoFocus, buttonFocus, colors } from '../../../styles/variables'
 
@@ -56,6 +59,9 @@ function MovieDetailCardContent({
   useFetchActiveMovieDetails({ isOpen, activeMovieID, mediaType })
 
   const [currentInput] = useWhatInput()
+
+  const { setCastInputText, castInputText, filteredCast } = useFilteredCastList({ cast })
+  const { crewInputText, setCrewInputText, filteredCrew } = useFilteredCrewList({ crew })
 
   return (
     <div css={mainGridStyle}>
@@ -133,15 +139,34 @@ function MovieDetailCardContent({
           grid-area: crew;
         `}
       >
-        <div css={rowTitleStyle}>Lead crew</div>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <div css={rowTitleStyle}>Lead crew</div>
+          <span>
+            <input
+              css={css`
+                ${searchInputStyle}
+                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+                width: 160px;
+              `}
+              placeholder="Search for a name or job"
+              type="text"
+              value={crewInputText}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => setCrewInputText(e.currentTarget.value)}
+            />
+          </span>
+        </div>
         <div
           css={css`
             ${horizontalScrollableStyle}
           `}
         >
-          {crew &&
-            !!crew.length &&
-            crew.slice(0, 10).map(crewMember => {
+          {!!filteredCrew.length &&
+            filteredCrew.slice(0, 25).map(crewMember => {
               const isActive = crewMember.id === activeNameID
               return (
                 <SelectableListItem
@@ -164,14 +189,34 @@ function MovieDetailCardContent({
           grid-area: cast;
         `}
       >
-        <div css={rowTitleStyle}>Lead cast</div>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <div css={rowTitleStyle}>Lead cast</div>
+          <span>
+            <input
+              css={css`
+                ${searchInputStyle}
+                ${currentInput === 'mouse' ? buttonNoFocus : buttonFocus}
+                width: 195px;
+              `}
+              placeholder="Search for a name or character"
+              type="text"
+              value={castInputText}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => setCastInputText(e.currentTarget.value)}
+            />
+          </span>
+        </div>
         <div
           css={css`
             ${horizontalScrollableStyle}
           `}
         >
-          {!!cast.length &&
-            cast.slice(0, 10).map(castMember => {
+          {!!filteredCast.length &&
+            filteredCast.slice(0, 25).map(castMember => {
               const isActive = castMember.id === activeNameID
               return (
                 <SelectableListItem

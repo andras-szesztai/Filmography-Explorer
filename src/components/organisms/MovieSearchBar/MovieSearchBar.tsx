@@ -60,9 +60,7 @@ const SearchBar = ({ placeholder }: Props) => {
               setMovieSearchResults({
                 resultArray: mostRelevant.map(d => ({
                   id: d.id as number,
-                  popularity: d.popularity as number,
                   poster_path: d.poster_path as string,
-                  date: (d.first_air_date || d.release_date) as string,
                   title: (d.title || d.name) as string,
                   media_type: d.title ? 'Movie' : 'Tv'
                 }))
@@ -115,7 +113,7 @@ const SearchBar = ({ placeholder }: Props) => {
             dispatch(
               setActiveMovieID({
                 id: movie.id,
-                position: 0,
+                position: 1,
                 mediaType: 'movie'
               })
             )
@@ -142,7 +140,7 @@ const SearchBar = ({ placeholder }: Props) => {
                     dispatch(
                       setActiveMovieID({
                         id: d.id,
-                        position: 0,
+                        position: 1,
                         mediaType: 'movie'
                       })
                     )

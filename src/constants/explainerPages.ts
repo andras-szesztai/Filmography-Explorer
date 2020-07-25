@@ -20,7 +20,7 @@ export const EXPLORER_EXPLAINER = [
   {
     title: 'First time here?',
     text:
-      'Please start a search for a person in the film industry you would like to find out more about. In case you are a veteran filmography explorer, please click on the next dot below this very text!'
+      'Please start a search for a person in the film industry, a movie or a series you would like to find out more about. In case you are a veteran filmography explorer, please click on the next dot below this very text!'
   },
   ...sharedPoints,
   {

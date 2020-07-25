@@ -87,8 +87,8 @@ export const mainGridStyle = css`
   grid-area: content;
   grid-template-columns: 1fr 120px;
   grid-column-gap: ${space[3]}px;
-  grid-template-rows: 185px repeat(3, 70px) 1fr;
-  grid-row-gap: ${space[2]}px;
+  grid-template-rows: 170px repeat(3, 70px) 1fr;
+  grid-row-gap: ${space[3]}px;
   grid-template-areas:
     'info photo'
     'genre genre'
@@ -190,5 +190,28 @@ export const linkContainerStyle = css`
     span {
       font-weight: ${fontWeight.lg};
     }
+  }
+`
+
+export const searchInputStyle = css`
+  border-radius: 2px;
+  border: 1px solid ${colors.textColorSecondary};
+  background: ${colors.bgColorSecondary};
+
+  margin-top: ${space[1]}px;
+
+  color: ${colors.textColorSecondary};
+  font-size: ${fontSize.sm};
+  font-weight: ${fontWeight.md};
+
+  padding: 2px 4px;
+  opacity: 1;
+
+  &::placeholder {
+    color: inherit;
+    opacity: 1;
+    font-size: inherit;
+    letter-spacing: 0.8px;
+    user-select: none;
   }
 `
